@@ -31,7 +31,7 @@
         </ul>
       {%- endif -%}
 
-      <input type="hidden" name="contact[tags]" value="Back In Stock, {{ product.title | escape }}, {{ product.selected_or_first_available_variant.title | escape }}">
+      <input type="hidden" name="contact[tags]" value="notify-restock, notify-restock-{{ product.id }}, notify-restock-{{ product.selected_or_first_available_variant.id }}" id="BackInStockTags-{{ section.id }}">
       <input type="hidden" name="contact[product_handle]" value="{{ product.handle }}">
       <input type="hidden" name="contact[variant_id]" value="{{ product.selected_or_first_available_variant.id }}" id="BackInStockVariantId-{{ section.id }}">
 
