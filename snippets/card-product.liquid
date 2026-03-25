@@ -41,6 +41,26 @@
       --product-card-media-aspect-ratio: {{ settings.product_card_media_aspect_ratio }};
       --product-card-media-object-fit: {{ settings.product_card_media_object_fit }};
     }
+    .product-card__actions {
+      position: relative;
+    }
+    .badge.instant-ship {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 3;
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: #2563eb;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 0.4rem;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
   </style>
 
   {% comment %} Render | Product Media {% endcomment %}
@@ -428,12 +448,6 @@
           <span>{{ product_ref.title | default: product_title_placeholder }}</span>
         </a>
         {% render 'product-badges', product: product_ref %}
-        {%- comment -%} ✅ New Instant Ship badge {%- endcomment -%}
-{% if product_ref.metafields.custom.instant_ship == true %}
-  <span class="badge instant-ship">Instant Ship</span>
-{% endif %}
-
- {% render 'product-badges', product: product_ref %}
   
       </h3>
       <span class="product-card__price">
