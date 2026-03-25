@@ -342,7 +342,9 @@
                         endif
                       endfor
 
-                      assign option_disabled = true
+                      # Force option_disabled to false so variants remain clickable
+                      assign option_disabled = false
+                      comment
                       for option1_name in variants_option_first_arr
                         case opts
                           when 1
@@ -359,6 +361,7 @@
                             endif
                         endcase
                       endfor
+                      endcomment
 
                       # product swatch check
                       assign opt_swatch = false

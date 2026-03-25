@@ -35,10 +35,11 @@
       endif
     endif
 
-    assign option_disabled = true
-    if value.available or block.settings.enable_back_in_stock
-      assign option_disabled = false
-    endif
+    # Force option_disabled to false so out-of-stock variants remain clickable for "Notify Me"
+    assign option_disabled = false
+    # if value.available or block.settings.enable_back_in_stock
+    #   assign option_disabled = false
+    # endif
   -%}
 
   {%- capture input_id -%}
