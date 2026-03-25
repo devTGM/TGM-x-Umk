@@ -37,7 +37,7 @@
   -%}
 
   <product-form
-    class="product-form"
+    class="product-form{% if current_variant.available == false %} hidden{% endif %}"
     data-hide-errors="{{ gift_card_recipient_feature_active }}"
     data-section-id="{{ section.id }}"
     {% unless current_selling_plan_allocation == null %}
