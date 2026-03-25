@@ -2,7 +2,8 @@
     Snippet for Back In Stock subscription form
 {%- endcomment -%}
 
-<div id="BackInStockForm-{{ section.id }}" class="back-in-stock-form hidden" data-section="{{ section.id }}">
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+<div id="BackInStockForm-{{ section.id }}" class="back-in-stock-form{% if current_variant.available %} hidden{% endif %}" data-section="{{ section.id }}">
   <div class="back-in-stock-form__inner">
     <h3 class="back-in-stock-form__title h4">{{ 'products.product.back_in_stock_title' | t | default: 'Notify me when available' }}</h3>
     <p class="back-in-stock-form__text">{{ 'products.product.back_in_stock_text' | t | default: 'We will send you a one-time email when this product is back in stock.' }}</p>
