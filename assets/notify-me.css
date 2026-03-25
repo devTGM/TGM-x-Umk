@@ -35,6 +35,14 @@
 
 .back-in-stock-form .button {
   margin-top: 1rem;
+  background-color: #000 !important;
+  color: #fff !important;
+  border: none;
+  transition: opacity 0.3s ease;
+}
+
+.back-in-stock-form .button:hover {
+  opacity: 0.8;
 }
 
 /* Variant Option Indicator */
