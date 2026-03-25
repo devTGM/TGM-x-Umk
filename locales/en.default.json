@@ -164,6 +164,14 @@
       "sold_out": "Sold out"
     }
   },
+  "products": {
+    "product": {
+      "back_in_stock_title": "Notify me when available",
+      "back_in_stock_text": "We will send you a one-time email when this product is back in stock.",
+      "back_in_stock_success": "We'll notify you when it's back in stock!",
+      "back_in_stock_submit": "Notify Me"
+    }
+  },
   "collection": {
     "label": "Collection",
     "filters": "Filters",
@@ -380,6 +388,14 @@
     "results_count_for_terms": {
       "one": "{{count}} result found for “{{terms}}”",
       "other": "{{count}} results found for “{{terms}}”"
+    }
+  },
+  "templates": {
+    "contact": {
+      "form": {
+        "email": "Email",
+        "error_heading": "Please adjust the following fields"
+      }
     }
   },
   "gift_card": {
