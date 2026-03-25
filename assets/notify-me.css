@@ -1,0 +1,67 @@
+/* Notify Me Feature Styling */
+
+.back-in-stock-form {
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: rgb(var(--color-background-secondary));
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(var(--color-foreground), 0.1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.back-in-stock-form.hidden {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.back-in-stock-form__title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.back-in-stock-form__text {
+  margin-bottom: 2rem;
+  font-size: 1.4rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.back-in-stock-form .field {
+  margin-bottom: 1.5rem;
+}
+
+.back-in-stock-form .button {
+  margin-top: 1rem;
+}
+
+/* Variant Option Indicator */
+.product-option__notify-bell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+  color: rgba(var(--color-foreground), 0.5);
+  transition: color 0.3s ease;
+}
+
+label:hover .product-option__notify-bell {
+  color: rgb(var(--color-foreground));
+}
+
+.product-option__notify-bell svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+/* Success Message */
+.back-in-stock-form .form__message {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: rgb(var(--color-success));
+  margin-bottom: 0;
+}

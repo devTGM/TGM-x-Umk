@@ -2,6 +2,7 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 
 <script src="{{ 'product-variants.js' | asset_url }}" defer="defer"></script>
+{{ 'notify-me.css' | asset_url | stylesheet_tag }}
 
 <section
   id="ProductInfo-{{ section.id }}"
@@ -367,6 +368,7 @@
             section_id: section.id,
             show_pickup_availability: false
           -%}
+          {% render 'back-in-stock-form', product: product, section: section %}
         </div>
       {%- when 'inventory_notice' -%}
         {%- if is_gift_card -%}

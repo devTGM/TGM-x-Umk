@@ -1,0 +1,58 @@
+{%- comment -%}
+    Snippet for Back In Stock subscription form
+{%- endcomment -%}
+
+<div id="BackInStockForm-{{ section.id }}" class="back-in-stock-form hidden" data-section="{{ section.id }}">
+  <div class="back-in-stock-form__inner">
+    <h3 class="back-in-stock-form__title h4">{{ 'products.product.back_in_stock_title' | t | default: 'Notify me when available' }}</h3>
+    <p class="back-in-stock-form__text">{{ 'products.product.back_in_stock_text' | t | default: 'We will send you a one-time email when this product is back in stock.' }}</p>
+
+    {%- form 'contact', id: 'BackInStockContactForm' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="form-status form-status-list form__message" tabindex="-1" autofocus>
+          {% render 'icon', icon_name: 'theme-check' %}
+          {{ 'products.product.back_in_stock_success' | t | default: "We'll notify you when it's back in stock!" }}
+        </p>
+      {%- elsif form.errors -%}
+        <div class="form__message">
+          <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
+            {% render 'icon', icon_name: 'theme-error' %}
+            {{ 'templates.contact.form.error_heading' | t }}
+          </h2>
+        </div>
+        <ul class="form-status-list caption-large" role="list">
+          <li>
+            <a href="#ContactForm-email" class="link">
+              {{ form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email }}
+            </a>
+          </li>
+        </ul>
+      {%- endif -%}
+
+      <input type="hidden" name="contact[tags]" value="Back In Stock, {{ product.title | escape }}, {{ product.selected_or_first_available_variant.title | escape }}">
+      <input type="hidden" name="contact[product_handle]" value="{{ product.handle }}">
+      <input type="hidden" name="contact[variant_id]" value="{{ product.selected_or_first_available_variant.id }}" id="BackInStockVariantId-{{ section.id }}">
+
+      <div class="field">
+        <input
+          type="email"
+          name="contact[email]"
+          id="BackInStockForm-email-{{ section.id }}"
+          class="field__input"
+          value="{{ form.email }}"
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="email"
+          placeholder="{{ 'templates.contact.form.email' | t }}"
+          required
+        >
+        <label class="field__label" for="BackInStockForm-email-{{ section.id }}">{{ 'templates.contact.form.email' | t }}</label>
+      </div>
+
+      <button type="submit" class="button button--primary full-width">
+        {{ 'products.product.back_in_stock_submit' | t | default: 'Notify Me' }}
+      </button>
+    {%- endform -%}
+  </div>
+</div>

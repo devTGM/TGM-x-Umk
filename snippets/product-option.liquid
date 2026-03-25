@@ -149,6 +149,12 @@
 
     <span class="{% if label_hidden %}visually-hidden{% endif %}">{{ value }}</span>
 
+    {%- if value.available == false -%}
+      <span class="product-option__notify-bell" title="{{ 'products.product.notify_me' | t | default: 'Notify Me' }}">
+        {% render 'icon', icon_name: 'theme-bell' %}
+      </span>
+    {%- endif -%}
+
     {% if label_unavailable %}
       {{ label_unavailable }}
     {% endif %}
