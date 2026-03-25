@@ -76,20 +76,15 @@
                 {{- 'product.price_from' | t -}}
                 <span class="visually-hidden">{{- 'product.price_min' | t -}}</span>
                 <span {{ rtl_attr }}>{{- money_price_min -}}</span>
-                <span aria-hidden="true">-</span>
-                <span class="visually-hidden">{{- 'product.price_max' | t -}}</span>
-                <span {{ rtl_attr }}>{{- money_price_max -}}</span>
               </ins>
             </div>
           </div>
 
         {% else %}
           <div class="price__regular">
+            {{- 'product.price_from' | t -}}
             <span class="visually-hidden">{{- 'product.price_min' | t -}}</span>
             <span {{ rtl_attr }}>{{- money_price_min -}}</span>
-            <span aria-hidden="true">-</span>
-            <span class="visually-hidden">{{- 'product.price_max' | t -}}</span>
-            <span {{ rtl_attr }}>{{- money_price_max -}}</span>
           </div>
         {%- endif -%}
 
@@ -119,11 +114,6 @@
                   {%- endif -%}
                   <span class="visually-hidden">{{- 'product.price_min' | t -}}</span>
                   <span {{ rtl_attr }}>{{- money_price_min -}}</span>
-                  {%- if price_min != price_max -%}
-                    <span aria-hidden="true">-</span>
-                    <span class="visually-hidden">{{- 'product.price_max' | t -}}</span>
-                    <span {{ rtl_attr }}>{{- money_price_max -}}</span>
-                  {%- endif -%}
                 </ins>
               </div>
             </div>
