@@ -614,6 +614,15 @@
     "marquees_nr6YjM": {
       "type": "marquees",
       "blocks": {
+        "item_ztWrF3": {
+          "type": "item",
+          "settings": {
+            "icon": "theme-box",
+            "custom_icon": "shopify://shop_images/images_8d6046b6-419f-4e08-b90d-53199380b879.png",
+            "title": "",
+            "link": "shopify://collections/new-balance"
+          }
+        },
         "item_8eqQcR": {
           "type": "item",
           "settings": {
@@ -787,6 +796,7 @@
         }
       },
       "block_order": [
+        "item_ztWrF3",
         "item_8eqQcR",
         "item_dixVmN",
         "item_cLDT4W",
