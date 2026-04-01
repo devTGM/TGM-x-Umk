@@ -296,6 +296,7 @@
         },
         "slide_agKmCn": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "banner_layout": "hero-banner--full",
             "color_scheme": "scheme-1",
