@@ -614,6 +614,15 @@
     "marquees_nr6YjM": {
       "type": "marquees",
       "blocks": {
+        "item_y3fCiz": {
+          "type": "item",
+          "settings": {
+            "icon": "theme-box",
+            "custom_icon": "shopify://shop_images/d73a6e239695707.Y3JvcCwzMTcwLDI0ODAsMTY0LDA.jpg",
+            "title": "",
+            "link": "shopify://collections/represent"
+          }
+        },
         "item_ztWrF3": {
           "type": "item",
           "settings": {
@@ -796,6 +805,7 @@
         }
       },
       "block_order": [
+        "item_y3fCiz",
         "item_ztWrF3",
         "item_8eqQcR",
         "item_dixVmN",
