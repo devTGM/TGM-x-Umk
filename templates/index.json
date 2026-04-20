@@ -941,11 +941,11 @@
       "name": "t:sections.featured-products.name",
       "settings": {
         "layout": "layout-1",
-        "heading": "Gymshark",
+        "heading": "Young <em>LA</em>",
         "heading_size": "h4",
         "subheading": "",
         "button_label": "View all",
-        "button_link": "shopify://collections/gymshark",
+        "button_link": "shopify://collections/young-la",
         "button_style": "button--text",
         "max_products": 8,
         "enable_slideshow_overflow": false,
