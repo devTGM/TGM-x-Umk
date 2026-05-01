@@ -700,6 +700,15 @@
             "link": "shopify://collections/lululemon-men"
           }
         },
+        "item_tDW7iG": {
+          "type": "item",
+          "settings": {
+            "icon": "theme-box",
+            "custom_icon": "shopify://shop_images/56916861-F0DC-449B-BA91-1B95CFCD21B7.webp",
+            "title": "",
+            "link": "shopify://collections/breathedivinity"
+          }
+        },
         "item_FwhBrp": {
           "type": "item",
           "settings": {
@@ -843,6 +852,7 @@
         "item_dixVmN",
         "item_cLDT4W",
         "item_HDaHmk",
+        "item_tDW7iG",
         "item_FwhBrp",
         "item_QhtQNg",
         "item_a6aeEJ",
