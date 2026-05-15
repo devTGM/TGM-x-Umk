@@ -1404,8 +1404,8 @@
         "collection_yX3e6N": {
           "type": "collection",
           "settings": {
-            "title": "Cactus  Jack",
-            "collection": "travis-soctt",
+            "title": "Breathedivinty",
+            "collection": "breathedivinity",
             "products": [],
             "vendor": "",
             "collection_of_products": "",
@@ -1425,11 +1425,11 @@
       "name": "t:sections.featured-products.name",
       "settings": {
         "layout": "layout-1",
-        "heading": "Cactus <em>Jack</em>",
+        "heading": "Breathedivinity",
         "heading_size": "h4",
         "subheading": "",
         "button_label": "View all",
-        "button_link": "shopify://collections/travis-soctt",
+        "button_link": "shopify://collections/breathedivinity",
         "button_style": "button--text",
         "max_products": 8,
         "enable_slideshow_overflow": false,
