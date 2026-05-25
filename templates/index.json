@@ -745,6 +745,15 @@
     "marquees_nr6YjM": {
       "type": "marquees",
       "blocks": {
+        "item_f6LDNR": {
+          "type": "item",
+          "settings": {
+            "icon": "theme-box",
+            "custom_icon": "shopify://shop_images/images_37c97572-177f-4753-af1b-3d8fd6a89f9f.jpg",
+            "title": "",
+            "link": "shopify://collections/ghost"
+          }
+        },
         "item_z4jLCT": {
           "type": "item",
           "settings": {
@@ -954,6 +963,7 @@
         }
       },
       "block_order": [
+        "item_f6LDNR",
         "item_z4jLCT",
         "item_y3fCiz",
         "item_ztWrF3",
