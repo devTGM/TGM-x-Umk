@@ -745,6 +745,23 @@
     "marquees_nr6YjM": {
       "type": "marquees",
       "blocks": {
+        "item_TFLTdX": {
+          "type": "item",
+          "settings": {
+            "icon": "theme-box",
+            "title": "",
+            "link": ""
+          }
+        },
+        "item_xQY7DW": {
+          "type": "item",
+          "settings": {
+            "icon": "theme-box",
+            "custom_icon": "shopify://shop_images/alphalete-logo-png_seeklogo-406317.png",
+            "title": "",
+            "link": "shopify://collections/alphalete"
+          }
+        },
         "item_f6LDNR": {
           "type": "item",
           "settings": {
@@ -963,6 +980,8 @@
         }
       },
       "block_order": [
+        "item_TFLTdX",
+        "item_xQY7DW",
         "item_f6LDNR",
         "item_z4jLCT",
         "item_y3fCiz",
