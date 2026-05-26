@@ -777,6 +777,15 @@
     "marquees_nr6YjM": {
       "type": "marquees",
       "blocks": {
+        "item_NpeQX9": {
+          "type": "item",
+          "settings": {
+            "icon": "theme-box",
+            "custom_icon": "shopify://shop_images/Fitbit-Logo.png",
+            "title": "",
+            "link": "shopify://collections/google-fit"
+          }
+        },
         "item_xQY7DW": {
           "type": "item",
           "settings": {
@@ -1004,6 +1013,7 @@
         }
       },
       "block_order": [
+        "item_NpeQX9",
         "item_xQY7DW",
         "item_f6LDNR",
         "item_z4jLCT",
