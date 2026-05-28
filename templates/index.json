@@ -1343,7 +1343,7 @@
           "type": "collection",
           "settings": {
             "title": "Sneakers",
-            "collection": "jordans",
+            "collection": "on-cloud",
             "products": [],
             "vendor": "",
             "collection_of_products": "",
@@ -1376,8 +1376,8 @@
         "collection_ddzA8N": {
           "type": "collection",
           "settings": {
-            "title": "Accessories",
-            "collection": "coach",
+            "title": "Supplements",
+            "collection": "ghost",
             "products": [],
             "vendor": "",
             "collection_of_products": "",
