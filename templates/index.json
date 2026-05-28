@@ -831,22 +831,13 @@
             "link": "shopify://collections/new-balance"
           }
         },
-        "item_8eqQcR": {
+        "item_aUciQL": {
           "type": "item",
           "settings": {
             "icon": "theme-box",
-            "custom_icon": "shopify://shop_images/lg-67c55c722ba53-Juicy-Couture.webp",
+            "custom_icon": "shopify://shop_images/palm-angels-logo-png_seeklogo-550473.png",
             "title": "",
-            "link": "shopify://collections/juicy-couture"
-          }
-        },
-        "item_dixVmN": {
-          "type": "item",
-          "settings": {
-            "icon": "theme-box",
-            "custom_icon": "shopify://shop_images/DSA-BLACK_4e25571e-cd40-40a2-87ca-15a901a6f08f.png",
-            "title": "",
-            "link": "shopify://collections/darc-sport"
+            "link": "shopify://collections/palm-angeles"
           }
         },
         "item_cLDT4W": {
@@ -1019,8 +1010,7 @@
         "item_z4jLCT",
         "item_y3fCiz",
         "item_ztWrF3",
-        "item_8eqQcR",
-        "item_dixVmN",
+        "item_aUciQL",
         "item_cLDT4W",
         "item_HDaHmk",
         "item_tDW7iG",
