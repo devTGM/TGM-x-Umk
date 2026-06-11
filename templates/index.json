@@ -857,6 +857,7 @@
         },
         "item_rhY3gQ": {
           "type": "item",
+          "disabled": true,
           "settings": {
             "icon": "theme-box",
             "custom_icon": "shopify://shop_images/off-white-logo-png_seeklogo-361774.png",
