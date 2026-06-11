@@ -855,6 +855,15 @@
             "link": "shopify://collections/represent"
           }
         },
+        "item_rhY3gQ": {
+          "type": "item",
+          "settings": {
+            "icon": "theme-box",
+            "custom_icon": "shopify://shop_images/off-white-logo-png_seeklogo-361774.png",
+            "title": "",
+            "link": ""
+          }
+        },
         "item_ztWrF3": {
           "type": "item",
           "settings": {
@@ -1042,6 +1051,7 @@
         "item_f6LDNR",
         "item_z4jLCT",
         "item_y3fCiz",
+        "item_rhY3gQ",
         "item_ztWrF3",
         "item_aUciQL",
         "item_cLDT4W",
