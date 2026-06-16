@@ -105,6 +105,37 @@
             "enable_media_overlay_mobile": true
           }
         },
+        "slide_AQYrNY": {
+          "type": "slide",
+          "settings": {
+            "banner_layout": "hero-banner--full",
+            "color_scheme": "scheme-1",
+            "header_menu_text_color": "#ffffff",
+            "heading": "",
+            "subheading": "",
+            "subheading_link": "",
+            "text": "",
+            "button_link_1": "/",
+            "button_link_1_type": "button",
+            "button_label_1": "View more",
+            "button_style_1": "button--filled",
+            "button_link_2": "/",
+            "button_label_2": "View more",
+            "button_style_2": "button--outlined",
+            "content_position": "end",
+            "content_alignment": "center",
+            "image": "shopify://shop_images/YOUNGLA_WEBSITE_BANNER.jpg",
+            "video_external": "",
+            "show_controls_on_video": false,
+            "enable_media_overlay_desktop": true,
+            "content_position_mobile": "center",
+            "content_alignment_mobile": "center",
+            "image_mobile": "shopify://shop_images/YOUNGLA_website_mobile.jpg",
+            "video_external_mobile": "",
+            "show_controls_on_video_mobile": false,
+            "enable_media_overlay_mobile": true
+          }
+        },
         "slide_mmYjCa": {
           "type": "slide",
           "settings": {
@@ -545,37 +576,6 @@
             "enable_media_overlay_mobile": true
           }
         },
-        "slide_AQYrNY": {
-          "type": "slide",
-          "settings": {
-            "banner_layout": "hero-banner--full",
-            "color_scheme": "scheme-1",
-            "header_menu_text_color": "#ffffff",
-            "heading": "",
-            "subheading": "",
-            "subheading_link": "",
-            "text": "",
-            "button_link_1": "/",
-            "button_link_1_type": "button",
-            "button_label_1": "View more",
-            "button_style_1": "button--filled",
-            "button_link_2": "/",
-            "button_label_2": "View more",
-            "button_style_2": "button--outlined",
-            "content_position": "end",
-            "content_alignment": "center",
-            "image": "shopify://shop_images/YOUNGLA_WEBSITE_BANNER.jpg",
-            "video_external": "",
-            "show_controls_on_video": false,
-            "enable_media_overlay_desktop": true,
-            "content_position_mobile": "center",
-            "content_alignment_mobile": "center",
-            "image_mobile": "shopify://shop_images/YOUNGLA_website_mobile.jpg",
-            "video_external_mobile": "",
-            "show_controls_on_video_mobile": false,
-            "enable_media_overlay_mobile": true
-          }
-        },
         "slide_9jjetk": {
           "type": "slide",
           "disabled": true,
@@ -804,6 +804,7 @@
         "slide_B3J4qa",
         "slide_TLR3VR",
         "slide_9FPzqt",
+        "slide_AQYrNY",
         "slide_mmYjCa",
         "slide_ewTmmw",
         "8d591e0b-d408-44f1-8bd2-9b71f529aa90",
@@ -818,7 +819,6 @@
         "slide_gCKBq4",
         "slide_agKmCn",
         "slide_L6HYrH",
-        "slide_AQYrNY",
         "slide_9jjetk",
         "slide_axjbeY",
         "slide_L39PEc",
