@@ -16,6 +16,7 @@
       "blocks": {
         "info_bar_dQhnDN": {
           "type": "info-bar",
+          "disabled": true,
           "settings": {
             "icon": "theme-box",
             "title": "Information title goes here"
@@ -25,7 +26,6 @@
       "block_order": [
         "info_bar_dQhnDN"
       ],
-      "disabled": true,
       "settings": {
         "card_media_aspect_ratio": "3/4",
         "button_url": "shopify://collections"
