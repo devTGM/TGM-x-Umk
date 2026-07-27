@@ -146,7 +146,7 @@
             "subheading": "",
             "subheading_link": "",
             "text": "",
-            "button_link_1": "shopify://collections/ghost",
+            "button_link_1": "shopify://collections/ghost-supplements-india",
             "button_link_1_type": "card",
             "button_label_1": "Shop now",
             "button_style_1": "button--text",
@@ -963,7 +963,7 @@
             "icon": "theme-box",
             "custom_icon": "shopify://shop_images/images_37c97572-177f-4753-af1b-3d8fd6a89f9f.jpg",
             "title": "",
-            "link": "shopify://collections/ghost"
+            "link": "shopify://collections/ghost-supplements-india"
           }
         },
         "item_z4jLCT": {
@@ -1550,7 +1550,7 @@
           "type": "collection",
           "settings": {
             "title": "Supplements",
-            "collection": "ghost",
+            "collection": "ghost-supplements-india",
             "products": [],
             "vendor": "",
             "collection_of_products": "",
