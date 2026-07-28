@@ -639,36 +639,6 @@
             "enable_media_overlay_mobile": true
           }
         },
-        "slide_agKmCn": {
-          "type": "slide",
-          "disabled": true,
-          "settings": {
-            "banner_layout": "hero-banner--full",
-            "color_scheme": "scheme-1",
-            "header_menu_text_color": "#ffffff",
-            "heading": "<p>Highlight your promotion</p>",
-            "subheading": "Highlight your promotion",
-            "subheading_link": "",
-            "text": "<p>Highlight your promotion</p>",
-            "button_link_1": "/",
-            "button_link_1_type": "button",
-            "button_label_1": "View more",
-            "button_style_1": "button--filled",
-            "button_link_2": "/",
-            "button_label_2": "View more",
-            "button_style_2": "button--outlined",
-            "content_position": "end",
-            "content_alignment": "center",
-            "video_external": "",
-            "show_controls_on_video": false,
-            "enable_media_overlay_desktop": true,
-            "content_position_mobile": "center",
-            "content_alignment_mobile": "center",
-            "video_external_mobile": "",
-            "show_controls_on_video_mobile": false,
-            "enable_media_overlay_mobile": true
-          }
-        },
         "slide_L6HYrH": {
           "type": "slide",
           "disabled": true,
@@ -946,7 +916,6 @@
         "slide_t3T7hk",
         "slide_xb6hhz",
         "slide_gCKBq4",
-        "slide_agKmCn",
         "slide_L6HYrH",
         "slide_9jjetk",
         "slide_axjbeY",
