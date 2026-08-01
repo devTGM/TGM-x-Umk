@@ -92,15 +92,7 @@
       "6815396902151389245": {
         "type": "shopify://apps/wava-carts/blocks/whatsapp-chat-button/29b7d300-2d1f-4108-a090-92806a9e2817",
         "disabled": false,
-        "settings": {
-          "vertical_position": "bottom",
-          "horizontal_position": "right",
-          "vertical_distance": 20,
-          "horizontal_distance": 20,
-          "button_size": 60,
-          "icon_color": "#25D366",
-          "icon_secondary_color": "#FFFFFF"
-        }
+        "settings": {}
       },
       "8274281842509089576": {
         "type": "shopify://apps/avada-seo-suite/blocks/avada-seo/15507c6e-1aa3-45d3-b698-7e175e033440",
@@ -161,18 +153,13 @@
         "disabled": true,
         "settings": {}
       },
-      "17844675666580048712": {
-        "type": "shopify://apps/razorpay-cod-magic-checkout/blocks/sso-script/c13c688d-5c45-4054-b95f-1edd63faa705",
+      "2567389343055140935": {
+        "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
         "disabled": false,
         "settings": {}
       },
-      "3557650678667880288": {
-        "type": "shopify://apps/razorpay-cod-magic-checkout/blocks/magicx-script/c13c688d-5c45-4054-b95f-1edd63faa705",
-        "disabled": true,
-        "settings": {}
-      },
-      "2567389343055140935": {
-        "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+      "2200952712151285029": {
+        "type": "shopify://apps/microsoft-clarity/blocks/brandAgents_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
         "disabled": false,
         "settings": {}
       }
