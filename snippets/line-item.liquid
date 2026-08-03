@@ -203,6 +203,7 @@
     <div class="cart-item__details">
       <div class="cart-item__content">
         {{ product_title }}
+        <div class="cart-item__price" {{ rtl_attr }}>{{ price_display }}</div>
         {{ discounts_list }}
         {{ product_options }}
         {{ product_properties }}
@@ -215,7 +216,6 @@
 
       <div class="cart-item__actions">
         <div class="cart-item__actions--top">{{ quantity_controls }}</div>
-        <div class="cart-item__actions--price">{{ line_price_display }}</div>
       </div>
     </div>
 
@@ -228,6 +228,7 @@
 
         <div class="cart-item__info">
           <div class="cart-item__price-content desktop-hide">
+            <div class="cart-item__price" {{ rtl_attr }}>{{ price_display }}</div>
             {{ discounts_list }}
           </div>
           {{ product_options }}
