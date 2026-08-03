@@ -105,6 +105,7 @@ const Wishlist = {
       const style = document.createElement('style');
       style.id = 'wishlist-css';
       style.innerHTML = `
+        .wishlist-btn svg, .wishlist-btn svg path { fill: none !important; stroke: currentColor !important; }
         .wishlist-btn.is-active svg, .wishlist-btn.is-active svg path { fill: #000 !important; stroke: #000 !important; }
         .wishlist-btn:hover { transform: scale(1.1); }
       `;
