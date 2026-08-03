@@ -1354,7 +1354,6 @@
         "collection_CMggLY",
         "collection_adTbdR"
       ],
-      "disabled": true,
       "name": "Custom Collection Grid",
       "settings": {
         "title": "",
@@ -1362,7 +1361,7 @@
         "image_ratio": "2/3",
         "columns_desktop": 5,
         "columns_mobile": "2",
-        "section_width": "max-w-page",
+        "section_width": "max-w-fluid",
         "color_scheme": "",
         "spacing_top": "2",
         "spacing_bottom": "2"
@@ -2221,91 +2220,6 @@
         "spacing_top": "2",
         "spacing_bottom": "2"
       }
-    },
-    "seo_content_DPxXjA": {
-      "type": "seo-content",
-      "disabled": true,
-      "name": "t:sections.seo-content.name",
-      "settings": {
-        "section_layout": "normal",
-        "heading": "",
-        "heading_size": "h3",
-        "text": "<h2><strong>Gymshark in India – Engineered for Performance, Built for Style</strong></h2><p>Train harder, look better.<br/><br/>At Unmatched Kicks, you can now shop <strong>Gymshark in India</strong> — featuring their globally loved <strong>gym shirts, leggings, tanks, and hoodies</strong> designed for high-performance workouts.</p><p>From seamless fits to breathable fabrics, our Gymshark collection is curated for those who live and breathe fitness.<br/><br/>No customs, no long waits — just authentic <strong>Gymshark activewear</strong> delivered to your doorstep.</p>",
-        "content_alignment": "start",
-        "section_width": "max-w-fluid",
-        "color_scheme": "",
-        "spacing_inner": "2",
-        "spacing_top": "2",
-        "spacing_bottom": "2"
-      }
-    },
-    "seo_content_9D3MTU": {
-      "type": "seo-content",
-      "disabled": true,
-      "name": "t:sections.seo-content.name",
-      "settings": {
-        "section_layout": "normal",
-        "heading": "<strong>Young LA & Young LA in India – Where Gym Meets Lifestyle</strong>",
-        "heading_size": "h3",
-        "text": "<p>Flex your grind with <strong>Young LA’s</strong> bold gym-to-streetwear aesthetic.<br/><br/>Now available <strong>in India exclusively at Unmatched Kicks</strong>, <strong>Young LA</strong> is the go-to brand for bodybuilders, lifters, and lifestyle athletes who demand more from their fits.</p><p>Explore <strong>oversized tees, gym shorts, stringers, and pump covers</strong> that combine West Coast style with Indian comfort.<br/><br/>For those who lift heavy and live louder — <strong>Young LA in India</strong> is finally here.</p>",
-        "content_alignment": "start",
-        "section_width": "max-w-fluid",
-        "color_scheme": "",
-        "spacing_inner": "2",
-        "spacing_top": "2",
-        "spacing_bottom": "2"
-      }
-    },
-    "seo_content_7CRnBz": {
-      "type": "seo-content",
-      "disabled": true,
-      "name": "t:sections.seo-content.name",
-      "settings": {
-        "section_layout": "normal",
-        "heading": "<strong>Alo in India – Live Your Everyday Movement</strong>",
-        "heading_size": "h3",
-        "text": "<p>Bring LA luxury to your everyday workouts.<br/><br/><strong>Alo Yoga</strong> is now available <strong>in India</strong> with our curated selection of leggings, sports bras, and athleisure fits designed for yoga, pilates, and daily comfort.</p><p>Experience <strong>Alo in India</strong> — where mindfulness meets movement, and every outfit makes a statement.</p>",
-        "content_alignment": "start",
-        "section_width": "max-w-fluid",
-        "color_scheme": "",
-        "spacing_inner": "2",
-        "spacing_top": "2",
-        "spacing_bottom": "2"
-      }
-    },
-    "seo_content_pgrb6W": {
-      "type": "seo-content",
-      "disabled": true,
-      "name": "t:sections.seo-content.name",
-      "settings": {
-        "section_layout": "normal",
-        "heading": "",
-        "heading_size": "h3",
-        "text": "<h2><strong>Shop Nike Air Jordans – The Sneaker Icons</strong></h2><p>Step into legend status with our handpicked collection of <strong>Nike Air Jordans</strong>.<br/><br/>Whether you’re chasing retro vibes or the latest drops, Unmatched Kicks is your go-to destination to <strong>shop authentic Jordans in India</strong>.</p><p>Every pair tells a story — from hardwood heritage to street-style domination.</p>",
-        "content_alignment": "start",
-        "section_width": "max-w-fluid",
-        "color_scheme": "",
-        "spacing_inner": "2",
-        "spacing_top": "2",
-        "spacing_bottom": "2"
-      }
-    },
-    "seo_content_aUG7eb": {
-      "type": "seo-content",
-      "disabled": true,
-      "name": "t:sections.seo-content.name",
-      "settings": {
-        "section_layout": "normal",
-        "heading": "",
-        "heading_size": "h3",
-        "text": "<h2><strong>Fear of God Essentials India – Minimalism. Luxury. Comfort.</strong></h2><p>Timeless neutrals, relaxed fits, and effortless silhouettes — <strong>Fear of God Essentials</strong> is redefining comfort wear.<br/><br/>Shop <strong>Essentials Fear of God in India</strong> and discover why simplicity never goes out of style.</p><p>From cozy hoodies to signature sweatpants, every piece blends comfort with luxury — the <strong>ultimate fit for your off-duty days</strong>.</p><h2><strong>Gymshark in India – Engineered for Performance, Built for Style</strong></h2><p>Train harder, look better.<br/><br/>At Unmatched Kicks, you can now shop <strong>Gymshark in India</strong> — featuring their globally loved <strong>gym shirts, leggings, tanks, and hoodies</strong> designed for high-performance workouts.</p><p>From seamless fits to breathable fabrics, our Gymshark collection is curated for those who live and breathe fitness.<br/><br/>No customs, no long waits — just authentic <strong>Gymshark activewear</strong> delivered to your doorstep.</p>",
-        "content_alignment": "start",
-        "section_width": "max-w-fluid",
-        "color_scheme": "",
-        "spacing_inner": "2",
-        "spacing_top": "2",
-        "spacing_bottom": "2"
-      }
     }
   },
   "order": [
@@ -2328,11 +2242,6 @@
     "full_width_banner_epa8ah",
     "trust_indicators_M4Bkh9",
     "social_media_highlights_fVaa73",
-    "seo_content_KWr8aE",
-    "seo_content_DPxXjA",
-    "seo_content_9D3MTU",
-    "seo_content_7CRnBz",
-    "seo_content_pgrb6W",
-    "seo_content_aUG7eb"
+    "seo_content_KWr8aE"
   ]
 }
