@@ -52,15 +52,14 @@ footer,
   left: 0 !important;
   z-index: 3;
   display: inline-block;
-  background: red;
-  color: white;
+  background-color: red !important;
+  color: white !important;
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   line-height: 1.2;
   white-space: nowrap;
-  animation: blink 1.2s ease-in-out infinite;
 }
 
 @media screen and (max-width: 749px) {
