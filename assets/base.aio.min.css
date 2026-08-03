@@ -2,6 +2,9 @@
 .header__nav-links-item.has-dropdown {
   position: relative !important;
 }
+.header__nav-item.dropdown .header__nav-dropdown-inner {
+  overflow: visible !important;
+}
 .header__nav-item.dropdown .header__nav-sublinks {
   inset-block-start: -1.5rem !important;
 }
