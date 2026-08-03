@@ -8,3 +8,7 @@
 .header__nav-item.dropdown .header__nav-sublinks {
   inset-block-start: -1.5rem !important;
 }
+#whatsapp-chat-button {
+  width: 48px !important;
+  height: 48px !important;
+}
