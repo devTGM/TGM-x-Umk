@@ -43,6 +43,21 @@
 
     {%- render 'settings' -%}
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --font-heading-family: 'Oswald', sans-serif !important;
+        --font-body-family: 'Oswald', sans-serif !important;
+        --font-button-family: 'Oswald', sans-serif !important;
+        --font-italic-family: 'Oswald', sans-serif !important;
+      }
+      body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, p, a, span, button, input, select, textarea {
+        font-family: 'Oswald', sans-serif !important;
+      }
+    </style>
+
     {{ 'base.aio.min.css' | asset_url | stylesheet_tag }}
     {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
     {% render 'css', css: 'component-drawer.aio.min.css' %}
