@@ -1354,6 +1354,7 @@
         "collection_CMggLY",
         "collection_adTbdR"
       ],
+      "disabled": true,
       "name": "Custom Collection Grid",
       "settings": {
         "title": "",
