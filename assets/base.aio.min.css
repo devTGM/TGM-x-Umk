@@ -12,3 +12,9 @@
   width: 48px !important;
   height: 48px !important;
 }
+.wishlist-btn.is-active svg {
+  fill: currentColor;
+}
+.wishlist-btn:hover {
+  transform: scale(1.1);
+}

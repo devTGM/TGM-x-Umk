@@ -1,0 +1,21 @@
+<div class="container section-padding">
+  <div class="wishlist-header text-center" style="margin-bottom: 3.2rem;">
+    <h1 class="h2">{{ page.title }}</h1>
+  </div>
+  
+  <div class="wishlist-empty text-center" style="display: none; padding: 6.4rem 0;">
+    <p>Your wishlist is currently empty.</p>
+    <a href="{{ routes.all_products_collection_url }}" class="button" style="margin-top: 1.6rem;">Continue Shopping</a>
+  </div>
+
+  <div class="wishlist-grid collection__grid" data-cols="4" style="display: none;">
+    <!-- Items dynamically injected by wishlist.js -->
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wishlist",
+  "settings": []
+}
+{% endschema %}
