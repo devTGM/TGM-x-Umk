@@ -1310,35 +1310,39 @@
         "collection_eMaRPX": {
           "type": "collection",
           "settings": {
-            "collection": "gymshark-onyx",
-            "title": ""
+            "collection": "google-fit",
+            "image": "shopify://shop_images/5_2026_05_10_T091047_988_db0feb920a_1.webp",
+            "title": "Fitbit"
           }
         },
         "collection_pqfeDy": {
           "type": "collection",
           "settings": {
-            "collection": "accessories",
+            "collection": "gymshark-onyx",
             "title": ""
           }
         },
         "collection_npw4NR": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "young-la",
+            "image": "shopify://shop_images/young-la-475-supervillain-compression-tees-charcoal-3853253.jpg",
             "title": ""
           }
         },
         "collection_CMggLY": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "jordans",
+            "image": "shopify://shop_images/travis-scott-x-air-jordan-1-retro-low-og-sp-velvet-brown-3199757.png",
             "title": ""
           }
         },
         "collection_adTbdR": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "alo",
+            "image": "shopify://shop_images/alo-softsculpt-precision-long-sleeve-bra-black-3383490.jpg",
             "title": ""
           }
         }
@@ -1350,11 +1354,11 @@
         "collection_CMggLY",
         "collection_adTbdR"
       ],
-      "disabled": true,
       "name": "Custom Collection Grid",
       "settings": {
         "title": "",
         "heading_alignment": "center",
+        "image_ratio": "2/3",
         "columns_desktop": 5,
         "columns_mobile": "2",
         "section_width": "max-w-page",
