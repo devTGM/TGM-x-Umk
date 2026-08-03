@@ -48,13 +48,12 @@ footer,
 /* Instant Ship */
 .badge.instant-ship {
   position: absolute;
-  top: 1.6rem;
-  left: 1rem;
+  top: 0 !important;
+  left: 0 !important;
   z-index: 3;
   display: inline-block;
-  padding: 0;
-  background: transparent;
-  color: red;
+  background: red;
+  color: white;
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -67,10 +66,9 @@ footer,
 @media screen and (max-width: 749px) {
   .badge.instant-ship {
     font-size: 5.5px;
-    top: 1rem;
-    left: 0.5rem;
+    top: 0 !important;
+    left: 0 !important;
     letter-spacing: 0.04em;
-    padding: 0;
   }
 }
 
@@ -81,7 +79,7 @@ footer,
 }
 
 /* Custom Badge Shape */
-.badge:not(.instant-ship),
+.badge,
 .product-card__badge,
 .card__badge .badge,
 .product__info-container .badge {
