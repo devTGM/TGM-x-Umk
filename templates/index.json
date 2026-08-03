@@ -926,7 +926,7 @@
         "slide_xzb4Uz"
       ],
       "settings": {
-        "enable_transparent_header": true,
+        "enable_transparent_header": false,
         "slider_height_auto": false,
         "slider_height": 100,
         "slideshow_autoplay_interval": 6,
