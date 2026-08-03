@@ -100,7 +100,19 @@ const Wishlist = {
       grid.innerHTML = '<p>There was an error loading your wishlist.</p>';
     }
   },
+  injectCSS() {
+    if (!document.getElementById('wishlist-css')) {
+      const style = document.createElement('style');
+      style.id = 'wishlist-css';
+      style.innerHTML = `
+        .wishlist-btn.is-active svg, .wishlist-btn.is-active svg path { fill: #000 !important; stroke: #000 !important; }
+        .wishlist-btn:hover { transform: scale(1.1); }
+      `;
+      document.head.appendChild(style);
+    }
+  },
   init() {
+    this.injectCSS();
     this.updateUI();
     document.addEventListener('click', (e) => {
       const btn = e.target.closest('.wishlist-btn');
