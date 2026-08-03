@@ -79,3 +79,20 @@ footer,
   background: #e10600;
   color: #fff;
 }
+
+/* Custom Badge Shape */
+.badge:not(.instant-ship),
+.product-card__badge,
+.card__badge .badge,
+.product__info-container .badge {
+  clip-path: polygon(0 0, 100% 0, calc(100% - 1rem) 100%, 0 100%) !important;
+  padding-right: 1.8rem !important;
+  padding-left: 1.2rem !important;
+  border-radius: 0 !important;
+}
+
+.product-card .product-card__badges {
+  inset-block-start: 0 !important;
+  inset-inline-start: 0 !important;
+  inset-inline-end: auto !important;
+}
