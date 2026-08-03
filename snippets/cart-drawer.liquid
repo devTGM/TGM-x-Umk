@@ -13,6 +13,13 @@
 {% endif %}
 <script src="{{- 'cart-info-bar-slider.js' | asset_url -}}" defer="defer"></script>
 
+<style>
+  /* Forcibly hide the duplicated price element on the right side of the cart drawer */
+  .cart-drawer .cart-item__actions--price {
+    display: none !important;
+  }
+</style>
+
 {%- style -%}
   cart-drawer .cart-item .media {
     aspect-ratio: {{ section.settings.card_media_aspect_ratio }};

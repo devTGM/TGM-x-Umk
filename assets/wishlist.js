@@ -47,11 +47,11 @@ const Wishlist = {
   updateUI() {
     const items = this.getItems();
     // Update badge count
-    const badge = document.querySelector('.wishlist-count-badge');
-    if (badge) {
+    const badges = document.querySelectorAll('.wishlist-count-badge');
+    badges.forEach(badge => {
       badge.textContent = items.length;
       badge.style.display = items.length > 0 ? 'inline-flex' : 'none';
-    }
+    });
     // Update all wishlist buttons
     document.querySelectorAll('.wishlist-btn').forEach(btn => {
       const handle = btn.dataset.productHandle;
@@ -124,6 +124,7 @@ const Wishlist = {
         .wishlist-btn svg, .wishlist-btn svg path { fill: none !important; stroke: currentColor !important; }
         .wishlist-btn.is-active svg, .wishlist-btn.is-active svg path { fill: #000 !important; stroke: #000 !important; }
         .wishlist-btn:hover { transform: scale(1.1); }
+        #wishlist-drawer { background-color: #ffffff !important; opacity: 1 !important; }
       `;
       document.head.appendChild(style);
     }
@@ -145,7 +146,13 @@ const Wishlist = {
       // Drawer trigger
       const trigger = e.target.closest('.wishlist-drawer-trigger');
       if (trigger) {
-        this.openDrawer(e);
+        e.preventDefault();
+        const drawer = document.getElementById('wishlist-drawer');
+        if (drawer && (drawer.style.transform === 'translateX(0px)' || drawer.style.transform === 'translateX(0)')) {
+          this.closeDrawer();
+        } else {
+          this.openDrawer();
+        }
       }
       
       // Close drawer

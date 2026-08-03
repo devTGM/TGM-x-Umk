@@ -46,11 +46,11 @@
   {%- if line_item_original_price > line_item_final_price -%}
     <div class="cart-item__discounted-prices">
       <span class="visually-hidden">{{- 'product.price_sale' | t -}}</span>
-      <ins class="color-red" {{ rtl_attr }}>
+      <ins class="color-red" {{ rtl_attr }} style="white-space: nowrap;">
         {{- line_item_final_price | money -}}
       </ins>
       <span class="visually-hidden">{{- 'product.price_regular' | t -}}</span>
-      <del {{ rtl_attr }}>
+      <del {{ rtl_attr }} style="white-space: nowrap;">
         {{- line_item_original_price | money -}}
       </del>
     </div>
@@ -129,11 +129,11 @@
   {%- if line_item_original_price > line_item_final_price -%}
     <div class="cart-item__discounted-prices cart-item__price">
       <span class="visually-hidden">{{- 'product.price_sale' | t -}}</span>
-      <ins class="color-red" {{ rtl_attr }}>
+      <ins class="color-red" {{ rtl_attr }} style="white-space: nowrap;">
         {{- line_item_final_price | times: line_item.quantity | money -}}
       </ins>
       <span class="visually-hidden">{{- 'product.price_regular' | t -}}</span>
-      <del {{ rtl_attr }}>
+      <del {{ rtl_attr }} style="white-space: nowrap;">
         {{- line_item_original_price | times: line_item.quantity | money -}}
       </del>
     </div>
@@ -203,7 +203,6 @@
     <div class="cart-item__details">
       <div class="cart-item__content">
         {{ product_title }}
-        <div class="cart-item__price" {{ rtl_attr }}>{{ price_display }}</div>
         {{ discounts_list }}
         {{ product_options }}
         {{ product_properties }}
@@ -229,7 +228,6 @@
 
         <div class="cart-item__info">
           <div class="cart-item__price-content desktop-hide">
-            <div class="cart-item__price" {{ rtl_attr }}>{{ price_display }}</div>
             {{ discounts_list }}
           </div>
           {{ product_options }}
