@@ -1304,6 +1304,64 @@
         "spacing_bottom": "2"
       }
     },
+    "custom_collection_list_geT7MU": {
+      "type": "custom-collection-list",
+      "blocks": {
+        "collection_eMaRPX": {
+          "type": "collection",
+          "settings": {
+            "collection": "gymshark-onyx",
+            "title": ""
+          }
+        },
+        "collection_pqfeDy": {
+          "type": "collection",
+          "settings": {
+            "collection": "accessories",
+            "title": ""
+          }
+        },
+        "collection_npw4NR": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": ""
+          }
+        },
+        "collection_CMggLY": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": ""
+          }
+        },
+        "collection_adTbdR": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_eMaRPX",
+        "collection_pqfeDy",
+        "collection_npw4NR",
+        "collection_CMggLY",
+        "collection_adTbdR"
+      ],
+      "name": "Custom Collection Grid",
+      "settings": {
+        "title": "",
+        "heading_alignment": "center",
+        "columns_desktop": 5,
+        "columns_mobile": "2",
+        "section_width": "max-w-page",
+        "color_scheme": "",
+        "spacing_top": "2",
+        "spacing_bottom": "2"
+      }
+    },
     "dual_tiles_x3RjxT": {
       "type": "dual-tiles",
       "blocks": {
@@ -1376,6 +1434,7 @@
         "tile_qKYmYe",
         "tile_4rRmed"
       ],
+      "disabled": true,
       "settings": {
         "section_layout": "stacked",
         "block_size": "half",
@@ -1772,122 +1831,6 @@
         "color_scheme": "",
         "spacing_top": "2",
         "spacing_bottom": "2"
-      }
-    },
-    "16e24524-2040-41a4-b5ca-3a425d62879b": {
-      "type": "featured-collections",
-      "blocks": {
-        "collection_slide_zKG7HM": {
-          "type": "collection-slide",
-          "settings": {
-            "collection": "young-la",
-            "image": "shopify://shop_images/YoungLA_Logo.avif",
-            "heading": "Young LA",
-            "heading_size": "h6",
-            "subheading": ""
-          }
-        },
-        "collection_slide_RnfaVr": {
-          "type": "collection-slide",
-          "settings": {
-            "collection": "eric-emanuel",
-            "heading": "",
-            "heading_size": "h6",
-            "subheading": ""
-          }
-        },
-        "collection_slide_t4ydXM": {
-          "type": "collection-slide",
-          "settings": {
-            "collection": "stussy",
-            "heading": "Stussy",
-            "heading_size": "h6",
-            "subheading": ""
-          }
-        },
-        "collection_slide_QyRTDj": {
-          "type": "collection-slide",
-          "settings": {
-            "collection": "essentials",
-            "heading": "Essentials",
-            "heading_size": "h6",
-            "subheading": ""
-          }
-        },
-        "collection_slide_7wWwUY": {
-          "type": "collection-slide",
-          "settings": {
-            "collection": "gymshark",
-            "heading": "Gymshark",
-            "heading_size": "h6",
-            "subheading": ""
-          }
-        },
-        "collection_slide_tUpciE": {
-          "type": "collection-slide",
-          "settings": {
-            "collection": "new-era-caps",
-            "heading": "",
-            "heading_size": "h6",
-            "subheading": ""
-          }
-        },
-        "collection_slide_QpgGgb": {
-          "type": "collection-slide",
-          "settings": {
-            "collection": "vlone",
-            "heading": "Vlone",
-            "heading_size": "h6",
-            "subheading": ""
-          }
-        },
-        "collection_slide_xfzMYc": {
-          "type": "collection-slide",
-          "settings": {
-            "collection": "travis-soctt",
-            "heading": "Cactus Jack",
-            "heading_size": "h6",
-            "subheading": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_slide_zKG7HM",
-        "collection_slide_RnfaVr",
-        "collection_slide_t4ydXM",
-        "collection_slide_QyRTDj",
-        "collection_slide_7wWwUY",
-        "collection_slide_tUpciE",
-        "collection_slide_QpgGgb",
-        "collection_slide_xfzMYc"
-      ],
-      "disabled": true,
-      "settings": {
-        "layout": "layout-1",
-        "heading": "Our <em>Collection</em>",
-        "heading_size": "h2",
-        "subheading": "",
-        "content_padding": "0",
-        "button_label": "Explore all",
-        "button_link": "shopify://collections",
-        "button_style": "button--text",
-        "card_layout": "collection",
-        "card_style": "compact",
-        "image_aspect_ratio": "1/1",
-        "card_content_alignment": "center",
-        "card_title_style": "card-single-text",
-        "collection_product_count": "hide",
-        "slides_per_view": 4,
-        "slides_per_view_mobile": 2,
-        "show_carousel_arrows": true,
-        "slideshow_alignment_center": true,
-        "enable_slideshow_overflow": true,
-        "slideshow_border": "none",
-        "section_width": "max-w-fluid",
-        "color_scheme": "scheme-5",
-        "color_scheme_for_cards": "scheme-5",
-        "spacing_top": "4",
-        "spacing_bottom": "4"
       }
     },
     "dual_tiles_7mcP4J": {
@@ -2364,6 +2307,7 @@
     "marquees_nr6YjM",
     "featured_products_63bUaC",
     "featured_products_7cqLF9",
+    "custom_collection_list_geT7MU",
     "dual_tiles_x3RjxT",
     "featured_products_7JWX6q",
     "full_width_banner_JMAceU",
@@ -2373,7 +2317,6 @@
     "featured_products_TBkMJ9",
     "featured_products_JttTqX",
     "featured_products_PQbTet",
-    "16e24524-2040-41a4-b5ca-3a425d62879b",
     "dual_tiles_7mcP4J",
     "highlighted_product_6R9Nc6",
     "full_width_banner_epa8ah",
