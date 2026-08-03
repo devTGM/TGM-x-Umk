@@ -74,8 +74,8 @@ footer,
 
 /* Pre-Order */
 .badge--preorder {
-  background: #e10600;
-  color: #fff;
+  background: #111827; /* Premium deep charcoal/navy */
+  color: #D4AF37; /* Metallic gold */
 }
 
 /* Custom Badge Shape */
