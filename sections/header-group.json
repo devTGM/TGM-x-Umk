@@ -89,7 +89,7 @@
     "header": {
       "type": "header",
       "settings": {
-        "layout": "header--logo-nav-aligned-start",
+        "layout": "header--nav-centered",
         "sticky": true,
         "nav_items_border": false,
         "drawer_layer": false,
