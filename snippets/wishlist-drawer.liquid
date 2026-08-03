@@ -1,0 +1,18 @@
+<div id="wishlist-drawer" class="wishlist-drawer color-{{ settings.color_scheme_for_drawers | default: 'background-1' }} gradient" aria-modal="true" role="dialog" style="position: fixed; top: 0; right: 0; width: 420px; max-width: 90vw; height: 100vh; background: var(--color-background); z-index: 9999; transform: translateX(100%); transition: transform 0.3s ease; box-shadow: -5px 0 15px rgba(0,0,0,0.1); display: flex; flex-direction: column;">
+  <div class="wishlist-drawer__header" style="padding: 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.1);">
+    <h2 class="h3" style="margin: 0; font-size: 2rem; text-transform: uppercase;">Wishlist</h2>
+    <button type="button" class="wishlist-drawer__close" style="background: none; border: none; cursor: pointer; padding: 0.5rem; display: flex;" aria-label="Close wishlist">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+  <div class="wishlist-drawer__body" style="padding: 2rem; overflow-y: auto; flex: 1;">
+    <div class="wishlist-empty text-center" style="display: none; padding: 4rem 0;">
+      <p style="margin-bottom: 2rem;">Your wishlist is currently empty.</p>
+      <button class="button wishlist-drawer__close button--filled">Continue Shopping</button>
+    </div>
+    <div class="wishlist-drawer-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+      <!-- Wishlist items will be injected here -->
+    </div>
+  </div>
+</div>
+<div id="wishlist-drawer-overlay" style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;"></div>

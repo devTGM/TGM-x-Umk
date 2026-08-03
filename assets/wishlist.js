@@ -16,8 +16,8 @@ const Wishlist = {
     localStorage.setItem('wishlist', JSON.stringify(newItems));
     this.updateUI();
     
-    // If we're on the wishlist page, we might want to remove the card visually immediately
-    const card = document.querySelector(`.wishlist-item[data-product-handle="${handle}"]`);
+    // Remove visually from drawer
+    const card = document.querySelector(`.wishlist-drawer-grid .wishlist-item[data-product-handle="${handle}"]`);
     if (card) {
       card.remove();
       this.checkEmptyState();
@@ -32,14 +32,14 @@ const Wishlist = {
   },
   checkEmptyState() {
     const items = this.getItems();
-    const grid = document.querySelector('.wishlist-grid');
+    const grid = document.querySelector('.wishlist-drawer-grid');
     const emptyState = document.querySelector('.wishlist-empty');
     if (grid && emptyState) {
       if (items.length === 0) {
         grid.style.display = 'none';
         emptyState.style.display = 'block';
       } else {
-        grid.style.display = 'grid'; // or whatever display you use
+        grid.style.display = 'grid';
         emptyState.style.display = 'none';
       }
     }
@@ -64,23 +64,17 @@ const Wishlist = {
       }
     });
   },
-  async loadWishlistPage() {
+  async loadWishlistDrawer() {
     const items = this.getItems();
-    const grid = document.querySelector('.wishlist-grid');
+    const grid = document.querySelector('.wishlist-drawer-grid');
     if (!grid) return;
     
     this.checkEmptyState();
     if (items.length === 0) return;
     
-    grid.innerHTML = '<p>Loading your wishlist...</p>';
+    grid.innerHTML = '<p style="grid-column: 1/-1;">Loading your wishlist...</p>';
     
     try {
-      // Fetch product cards via Section Rendering API using a dummy collection or search
-      // Actually, since we only have handles, it's easiest to fetch each product page and extract the card
-      // A more robust way is querying products by handle but Shopify doesn't have an endpoint for multiple handles.
-      // So we fetch them individually or use a custom search endpoint if possible.
-      // For lightweight custom: fetch individually.
-      
       let html = '';
       const fetchPromises = items.map(handle => 
         fetch(`/products/${handle}?view=card`)
@@ -97,7 +91,29 @@ const Wishlist = {
       
     } catch (error) {
       console.error('Error loading wishlist:', error);
-      grid.innerHTML = '<p>There was an error loading your wishlist.</p>';
+      grid.innerHTML = '<p style="grid-column: 1/-1;">There was an error loading your wishlist.</p>';
+    }
+  },
+  openDrawer(e) {
+    if(e) e.preventDefault();
+    const drawer = document.getElementById('wishlist-drawer');
+    const overlay = document.getElementById('wishlist-drawer-overlay');
+    if(drawer && overlay) {
+      drawer.style.transform = 'translateX(0)';
+      overlay.style.opacity = '1';
+      overlay.style.pointerEvents = 'auto';
+      document.body.style.overflow = 'hidden';
+      this.loadWishlistDrawer();
+    }
+  },
+  closeDrawer() {
+    const drawer = document.getElementById('wishlist-drawer');
+    const overlay = document.getElementById('wishlist-drawer-overlay');
+    if(drawer && overlay) {
+      drawer.style.transform = 'translateX(100%)';
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+      document.body.style.overflow = '';
     }
   },
   injectCSS() {
@@ -116,6 +132,7 @@ const Wishlist = {
     this.injectCSS();
     this.updateUI();
     document.addEventListener('click', (e) => {
+      // Toggle button
       const btn = e.target.closest('.wishlist-btn');
       if (btn) {
         e.preventDefault();
@@ -124,11 +141,19 @@ const Wishlist = {
           this.toggleItem(handle);
         }
       }
+      
+      // Drawer trigger
+      const trigger = e.target.closest('.wishlist-drawer-trigger');
+      if (trigger) {
+        this.openDrawer(e);
+      }
+      
+      // Close drawer
+      if (e.target.closest('.wishlist-drawer__close') || e.target.id === 'wishlist-drawer-overlay') {
+        e.preventDefault();
+        this.closeDrawer();
+      }
     });
-    
-    if (document.querySelector('.wishlist-grid')) {
-      this.loadWishlistPage();
-    }
   }
 };
 document.addEventListener('DOMContentLoaded', () => Wishlist.init());
