@@ -91,6 +91,48 @@
           "default": "View all coupons ›"
         }
       ]
+    },
+    {
+      "type": "upsell",
+      "name": "1st Upsell (Sneaker Wipes)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "GET SNEAKER WIPES & CLAIM YOUR FREE SHIPPING!"
+        }
+      ]
+    },
+    {
+      "type": "cross_sell",
+      "name": "2nd Cross-sell (Bundle)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "BUNDLE & SAVE"
+        },
+        {
+          "type": "text",
+          "id": "desc_prefix",
+          "label": "Description Prefix",
+          "default": "Get 5 Socks for"
+        }
+      ]
     }
   ]
 }

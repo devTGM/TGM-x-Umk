@@ -120,6 +120,35 @@
 
                   <div class="custom-cart-blocks">
                     {%- for block in section.blocks -%}
+                      {%- if block.type == 'upsell' and block.settings.product != blank -%}
+                        {%- assign recommendation = block.settings.product -%}
+                        <div class="custom-cart-block sneaker-wipes-block" {{ block.shopify_attributes }}>
+                          {%- assign title_parts = block.settings.title | split: '&' -%}
+                          <p class="block-title">
+                            {{ title_parts[0] }}
+                            {%- if title_parts.size > 1 -%}
+                              <span class="green-text">& {{ title_parts[1] }}</span>
+                            {%- endif -%}
+                          </p>
+                          <div class="block-content">
+                            {%- if recommendation.featured_image -%}
+                              {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt | escape, width: 60, height: 60 -%}
+                            {%- endif -%}
+                            <div class="block-details">
+                              <p class="product-title"><a href="{{ recommendation.url }}" style="text-decoration: none; color: inherit;">{{ recommendation.title }}</a></p>
+                              <p class="product-price">
+                                <strong>{{ recommendation.price_min | money }}</strong> 
+                                {%- if recommendation.compare_at_price_min > recommendation.price_min -%}
+                                  <s>{{ recommendation.compare_at_price_min | money }}</s> 
+                                  <span class="discount-badge">SAVE {{ recommendation.compare_at_price_min | minus: recommendation.price_min | money }}</span>
+                                {%- endif -%}
+                              </p>
+                            </div>
+                            <button type="button" class="button button--solid black-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" onclick="preventDefault(event)">ADD</button>
+                          </div>
+                        </div>
+                      {%- endif -%}
+
                       {%- if block.type == 'coupon' -%}
                         <div class="custom-cart-block coupons-block" {{ block.shopify_attributes }}>
                           <div class="coupon-available">
@@ -132,6 +161,22 @@
                             <span>{{ block.settings.more_offers_text }}</span>
                             <span class="view-all">{{ block.settings.view_all_text }}</span>
                           </div>
+                        </div>
+                      {%- endif -%}
+
+                      {%- if block.type == 'cross_sell' and block.settings.product != blank -%}
+                        {%- assign recommendation = block.settings.product -%}
+                        <div class="custom-cart-block bundle-save-block" {{ block.shopify_attributes }}>
+                          <div class="bundle-content">
+                            <p class="bundle-title">{{ block.settings.title }}</p>
+                            <p class="bundle-desc"><a href="{{ recommendation.url }}" style="text-decoration: none; color: inherit;">{{ block.settings.desc_prefix }} </a>
+                              {%- if recommendation.compare_at_price_min > recommendation.price_min -%}
+                                <s>{{ recommendation.compare_at_price_min | money }}</s>
+                              {%- endif -%}
+                              <strong>{{ recommendation.price_min | money }}</strong>
+                            </p>
+                          </div>
+                          <button type="button" class="button button--solid black-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" onclick="preventDefault(event)">ADD</button>
                         </div>
                       {%- endif -%}
                     {%- endfor -%}
