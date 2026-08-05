@@ -21,9 +21,9 @@
   }
   @media screen and (min-width: 750px) {
     .custom-collection-list__grid {
-      {% if section.settings.columns_desktop > 5 %}
+      {% if section.blocks.size > section.settings.columns_desktop %}
       grid-auto-flow: column;
-      grid-auto-columns: calc(100% / 5.5 - 1.5rem); /* show 5.5 items to indicate scrolling */
+      grid-auto-columns: calc(100% / {{ section.settings.columns_desktop | plus: 0.5 }} - 1.5rem); /* show partial item to indicate scrolling */
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       {% else %}
