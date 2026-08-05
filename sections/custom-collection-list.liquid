@@ -21,9 +21,16 @@
   }
   @media screen and (min-width: 750px) {
     .custom-collection-list__grid {
+      {% if section.settings.columns_desktop > 5 %}
+      grid-auto-flow: column;
+      grid-auto-columns: calc(100% / 5.5 - 1.5rem); /* show 5.5 items to indicate scrolling */
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      {% else %}
       grid-auto-flow: row;
       grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
       overflow-x: visible;
+      {% endif %}
       padding-block-end: 0;
       gap: 2rem;
     }
@@ -99,7 +106,7 @@
       {%- for block in section.blocks -%}
         {%- liquid
           assign collection_detail = block.settings.collection
-          assign collection_title = block.settings.title | default: collection_detail.title
+          assign collection_title = block.settings.title
           assign collection_image = block.settings.image | default: collection_detail.featured_image
         -%}
         <a href="{{ collection_detail.url | default: '#' }}" class="custom-collection-card" {{ block.shopify_attributes }}>
@@ -109,7 +116,9 @@
             {{ 'collection-1' | placeholder_svg_tag: 'custom-collection-card__image placeholder-svg' }}
           {%- endif -%}
           <div class="custom-collection-card__overlay"></div>
-          <h3 class="custom-collection-card__title">{{ collection_title | default: 'Collection' }}</h3>
+          {%- if collection_title != blank -%}
+            <h3 class="custom-collection-card__title">{{ collection_title }}</h3>
+          {%- endif -%}
         </a>
       {%- endfor -%}
     </div>
