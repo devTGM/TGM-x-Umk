@@ -120,7 +120,7 @@
 
                   <div class="custom-cart-blocks">
                     {%- for block in section.blocks -%}
-                      {%- if block.type == 'upsell' and block.settings.product != blank -%}
+                      {%- if block.type == 'custom_upsell' and block.settings.product != blank -%}
                         {%- assign recommendation = block.settings.product -%}
                         <div class="custom-cart-block sneaker-wipes-block" {{ block.shopify_attributes }}>
                           {%- assign title_parts = block.settings.title | split: '&' -%}
@@ -164,7 +164,7 @@
                         </div>
                       {%- endif -%}
 
-                      {%- if block.type == 'cross_sell' and block.settings.product != blank -%}
+                      {%- if block.type == 'custom_cross_sell' and block.settings.product != blank -%}
                         {%- assign recommendation = block.settings.product -%}
                         <div class="custom-cart-block bundle-save-block" {{ block.shopify_attributes }}>
                           <div class="bundle-content">
