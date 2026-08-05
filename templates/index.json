@@ -1311,7 +1311,6 @@
           "type": "collection",
           "settings": {
             "collection": "google-fit",
-            "image": "shopify://shop_images/5_2026_05_10_T091047_988_db0feb920a_1.webp",
             "title": "Fitbit"
           }
         },
@@ -1791,19 +1790,12 @@
     "featured_products_PQbTet": {
       "type": "featured-products",
       "blocks": {
-        "collection_Ezf3Bn": {
+        "collection_3HHYeQ": {
           "type": "collection",
           "settings": {
             "title": "",
-            "collection": "sp5der",
-            "products": [
-              "accolade-crew-neck-pullover-black",
-              "4138-foundation-cropped-tees-black-wash",
-              "2033-heritage-cargo-sweats-dark-tree-camo",
-              "accolade-1-4-zip-pullover-black",
-              "4185-chaos-tees-white",
-              "2133-tree-camo-baggy-sweats-dark-tree-camo-copy"
-            ],
+            "collection": "panda-supplements",
+            "products": [],
             "vendor": "",
             "collection_of_products": "",
             "show_unavailable_products": false,
@@ -1817,16 +1809,16 @@
         }
       },
       "block_order": [
-        "collection_Ezf3Bn"
+        "collection_3HHYeQ"
       ],
       "name": "t:sections.featured-products.name",
       "settings": {
         "layout": "layout-1",
-        "heading": "SP5DER",
+        "heading": "Panda <em>Supplements</em>",
         "heading_size": "h4",
         "subheading": "",
         "button_label": "View all",
-        "button_link": "shopify://collections/sp5der",
+        "button_link": "shopify://collections/panda-supplements",
         "button_style": "button--text",
         "max_products": 8,
         "enable_slideshow_overflow": false,
