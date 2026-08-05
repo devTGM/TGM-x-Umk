@@ -14,14 +14,6 @@
     "cart-drawer": {
       "type": "cart-drawer",
       "blocks": {
-        "coupon_jQnwYi": {
-          "type": "coupon",
-          "settings": {
-            "title": "1 coupon available",
-            "more_offers_text": "More offers",
-            "view_all_text": "View all coupons ›"
-          }
-        },
         "info_bar_dQhnDN": {
           "type": "info-bar",
           "disabled": true,
@@ -32,7 +24,6 @@
         }
       },
       "block_order": [
-        "coupon_jQnwYi",
         "info_bar_dQhnDN"
       ],
       "settings": {
