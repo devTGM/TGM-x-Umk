@@ -16,21 +16,10 @@
     -webkit-overflow-scrolling: touch;
   }
   .custom-collection-list__grid {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    scrollbar-width: none;
   }
   .custom-collection-list__grid::-webkit-scrollbar {
-    height: 6px;
-  }
-  .custom-collection-list__grid::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .custom-collection-list__grid::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-  }
-  .custom-collection-list__grid::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
   }
   @media screen and (max-width: 749px) {
     .custom-collection-list__grid {
@@ -44,7 +33,7 @@
     .custom-collection-list__grid {
       {% if section.blocks.size > section.settings.columns_desktop %}
       grid-auto-flow: column;
-      grid-auto-columns: calc(100% / {{ section.settings.columns_desktop | plus: 0.5 }} - 1.5rem); /* show partial item to indicate scrolling */
+      grid-auto-columns: calc(100% / {{ section.settings.columns_desktop }} - 1.5rem);
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       {% else %}
@@ -54,6 +43,56 @@
       {% endif %}
       padding-block-end: 0;
       gap: 2rem;
+    }
+  }
+  .custom-collection-list-wrapper {
+    position: relative;
+  }
+  .custom-collection-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: rgb(var(--color-background));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
+    color: rgb(var(--color-foreground));
+  }
+  .custom-collection-nav:hover {
+    transform: translateY(-50%) scale(1.05);
+  }
+  .custom-collection-nav.nav-prev {
+    left: -22px;
+  }
+  .custom-collection-nav.nav-next {
+    right: -22px;
+  }
+  .custom-collection-nav svg {
+    width: 20px;
+    height: 20px;
+  }
+  .custom-collection-list-wrapper:hover .custom-collection-nav:not([disabled]) {
+    opacity: 1;
+    visibility: visible;
+  }
+  .custom-collection-nav[disabled] {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  @media screen and (max-width: 749px) {
+    .custom-collection-nav {
+      display: none;
     }
   }
   .custom-collection-card {
@@ -123,29 +162,79 @@
       <h2 class="h2 section__heading {{ section.settings.heading_alignment }}">{{ section.settings.title | escape }}</h2>
     {%- endif -%}
     
-    <div class="custom-collection-list__grid">
-      {%- for block in section.blocks -%}
-        {%- liquid
-          assign collection_detail = block.settings.collection
-          assign collection_title = block.settings.title
-          assign collection_image = block.settings.image | default: collection_detail.featured_image
-        -%}
-        <a href="{{ collection_detail.url | default: '#' }}" class="custom-collection-card" {{ block.shopify_attributes }}>
-          {%- if collection_image != blank -%}
-            {%- render 'image', image: collection_image, class: 'custom-collection-card__image' -%}
-          {%- else -%}
-            {{ 'collection-1' | placeholder_svg_tag: 'custom-collection-card__image placeholder-svg' }}
-          {%- endif -%}
-          <div class="custom-collection-card__overlay"></div>
-          {%- if collection_title != blank -%}
-            <h3 class="custom-collection-card__title">{{ collection_title }}</h3>
-          {%- endif -%}
-        </a>
-      {%- endfor -%}
+    <div class="custom-collection-list-wrapper">
+      <div class="custom-collection-list__grid">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign collection_detail = block.settings.collection
+            assign collection_title = block.settings.title
+            assign collection_image = block.settings.image | default: collection_detail.featured_image
+          -%}
+          <a href="{{ collection_detail.url | default: '#' }}" class="custom-collection-card" {{ block.shopify_attributes }}>
+            {%- if collection_image != blank -%}
+              {%- render 'image', image: collection_image, class: 'custom-collection-card__image' -%}
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag: 'custom-collection-card__image placeholder-svg' }}
+            {%- endif -%}
+            <div class="custom-collection-card__overlay"></div>
+            {%- if collection_title != blank -%}
+              <h3 class="custom-collection-card__title">{{ collection_title }}</h3>
+            {%- endif -%}
+          </a>
+        {%- endfor -%}
+      </div>
+      {%- if section.blocks.size > section.settings.columns_desktop -%}
+      <button class="custom-collection-nav nav-prev" type="button" aria-label="Previous" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button class="custom-collection-nav nav-next" type="button" aria-label="Next">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+      {%- endif -%}
     </div>
   </div>
 </div>
 {%- endif -%}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.querySelector('#shopify-section-{{ section.id }} .custom-collection-list-wrapper');
+    if (!wrapper) return;
+    const grid = wrapper.querySelector('.custom-collection-list__grid');
+    const prevBtn = wrapper.querySelector('.nav-prev');
+    const nextBtn = wrapper.querySelector('.nav-next');
+    
+    if (!grid || !prevBtn || !nextBtn) return;
+
+    const updateButtons = () => {
+      if (grid.scrollLeft <= 10) {
+        prevBtn.setAttribute('disabled', 'true');
+      } else {
+        prevBtn.removeAttribute('disabled');
+      }
+      
+      if (Math.ceil(grid.scrollLeft + grid.clientWidth) >= grid.scrollWidth - 10) {
+        nextBtn.setAttribute('disabled', 'true');
+      } else {
+        nextBtn.removeAttribute('disabled');
+      }
+    };
+
+    grid.addEventListener('scroll', updateButtons);
+    window.addEventListener('resize', updateButtons);
+    updateButtons();
+
+    prevBtn.addEventListener('click', () => {
+      const scrollAmount = grid.clientWidth * 0.8;
+      grid.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      const scrollAmount = grid.clientWidth * 0.8;
+      grid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+  });
+</script>
 
 {% schema %}
 {
