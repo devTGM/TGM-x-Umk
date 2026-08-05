@@ -119,33 +119,6 @@
                   </div>
 
                   <div class="custom-cart-blocks">
-                    {%- assign cart_product = cart.items.first.product -%}
-                    {%- assign upsell_1 = cart_product.metafields.custom.upsell_1.value -%}
-                    {%- assign upsell_2 = cart_product.metafields.custom.upsell_2.value -%}
-
-                    {%- if upsell_1 != blank -%}
-                      <div class="custom-cart-block sneaker-wipes-block">
-                        <p class="block-title">
-                          GET {{ upsell_1.title | upcase }} <span class="green-text">& CLAIM YOUR FREE SHIPPING!</span>
-                        </p>
-                        <div class="block-content">
-                          {%- if upsell_1.featured_image -%}
-                            {%- render 'image', image: upsell_1.featured_image, alt: upsell_1.featured_image.alt | escape, width: 60, height: 60 -%}
-                          {%- endif -%}
-                          <div class="block-details">
-                            <p class="product-title"><a href="{{ upsell_1.url }}" style="text-decoration: none; color: inherit;">{{ upsell_1.title }}</a></p>
-                            <p class="product-price">
-                              <strong>{{ upsell_1.price_min | money }}</strong> 
-                              {%- if upsell_1.compare_at_price_min > upsell_1.price_min -%}
-                                <s>{{ upsell_1.compare_at_price_min | money }}</s> 
-                                <span class="discount-badge">SAVE {{ upsell_1.compare_at_price_min | minus: upsell_1.price_min | money }}</span>
-                              {%- endif -%}
-                            </p>
-                          </div>
-                          <button type="button" class="button button--solid black-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- upsell_1.handle | prepend: '/products/'  -}}" onclick="preventDefault(event)">ADD</button>
-                        </div>
-                      </div>
-                    {%- endif -%}
 
                     {%- for block in section.blocks -%}
                       {%- if block.type == 'coupon' -%}
@@ -163,26 +136,11 @@
                         </div>
                       {%- endif -%}
                     {%- endfor -%}
-
-                    {%- if upsell_2 != blank -%}
-                      <div class="custom-cart-block bundle-save-block">
-                        <div class="bundle-content">
-                          <p class="bundle-title">BUNDLE & SAVE</p>
-                          <p class="bundle-desc"><a href="{{ upsell_2.url }}" style="text-decoration: none; color: inherit;">Get 5 {{ upsell_2.title }} for </a>
-                            {%- if upsell_2.compare_at_price_min > upsell_2.price_min -%}
-                              <s>{{ upsell_2.compare_at_price_min | money }}</s>
-                            {%- endif -%}
-                            <strong>{{ upsell_2.price_min | money }}</strong>
-                          </p>
-                        </div>
-                        <button type="button" class="button button--solid black-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- upsell_2.handle | prepend: '/products/'  -}}" onclick="preventDefault(event)">ADD</button>
-                      </div>
-                    {%- endif -%}
                   </div>
                 </form>
               </cart-drawer-items>
               {%- if settings.enable_cart_upsell -%}
-                {%- render 'product-recommendations', area: 'cart-drawer', class: 'cart-drawer__recommendations', product_id: cart.items[0].product_id -%}
+                {%- render 'product-recommendations', area: 'cart-drawer', class: 'cart-drawer__recommendations', product_id: cart.items[0].product_id, intent: 'related' -%}
               {%- endif -%}
             </div>
 
