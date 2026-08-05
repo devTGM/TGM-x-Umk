@@ -227,6 +227,7 @@
 .block-add-btn {
   padding: 0 16px !important;
   min-width: 80px;
+  flex-shrink: 0;
 }
 .carousel-add-btn {
   width: 100%;
@@ -570,5 +571,6 @@
   .block-add-btn {
     padding: 0 12px !important;
     min-width: 60px;
+    flex-shrink: 0;
   }
 }

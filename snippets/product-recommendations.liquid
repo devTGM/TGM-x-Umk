@@ -32,9 +32,6 @@
             {%- assign rec_count = rec_count | plus: 1 -%}
             {%- if rec_count == 1 -%}
               <div class="custom-cart-block sneaker-wipes-block">
-                <p class="block-title">
-                  COMPLETE THE SET
-                </p>
                 <div class="block-content">
                   {%- if recommendation.featured_image -%}
                     {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt | escape, width: 60, height: 60 -%}
