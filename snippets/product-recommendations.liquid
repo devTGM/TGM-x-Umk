@@ -27,7 +27,7 @@
       {%- if recommendations.performed and recommendations.products_count > 0 -%}
         {%- if area == 'cart-drawer' -%}
           {%- assign rec_count = 0 -%}
-          {%- for recommendation in recommendations.products limit: 4 -%}
+          {%- for recommendation in recommendations.products limit: 5 -%}
             {%- if recommendation.id == product_id or recommendation.handle == product_id -%}{%- continue -%}{%- endif -%}
             {%- assign rec_count = rec_count | plus: 1 -%}
             {%- if rec_count == 1 -%}
@@ -65,8 +65,29 @@
                 </div>
                 <button type="button" class="button button--solid black-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" onclick="preventDefault(event)">ADD</button>
               </div>
+            {%- elsif rec_count == 3 -%}
+              <div class="custom-cart-block sneaker-wipes-block bestseller-block">
+                <p class="block-title">
+                  ⭐ BESTSELLER
+                </p>
+                <div class="block-content">
+                  {%- if recommendation.featured_image -%}
+                    {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt | escape, width: 60, height: 60 -%}
+                  {%- endif -%}
+                  <div class="block-details">
+                    <p class="product-title"><a href="{{ recommendation.url }}" style="text-decoration: none; color: inherit;">{{ recommendation.title }}</a></p>
+                    <p class="product-price">
+                      <strong>{{ recommendation.price_min | money }}</strong> 
+                      {%- if recommendation.compare_at_price_min > recommendation.price_min -%}
+                        <s>{{ recommendation.compare_at_price_min | money }}</s> 
+                      {%- endif -%}
+                    </p>
+                  </div>
+                  <button type="button" class="button button--solid black-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" onclick="preventDefault(event)">ADD</button>
+                </div>
+              </div>
             {%- endif -%}
-            {%- if rec_count >= 2 -%}{%- break -%}{%- endif -%}
+            {%- if rec_count >= 3 -%}{%- break -%}{%- endif -%}
           {%- endfor -%}
         {%- else -%}
           {%- for recommendation in recommendations.products limit: product_recommendations_limit -%}
