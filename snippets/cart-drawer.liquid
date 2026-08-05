@@ -119,38 +119,22 @@
                   </div>
 
                   <div class="custom-cart-blocks">
-                    <div class="custom-cart-block sneaker-wipes-block">
-                      <p class="block-title">Get Sneaker Wipes <span class="green-text">& Claim your Free Shipping!</span></p>
-                      <div class="block-content">
-                        <img src="https://cdn.shopify.com/s/images/themes/product-1.png" alt="Sneaker Wipes" width="60" height="60" style="object-fit: contain;">
-                        <div class="block-details">
-                          <p class="product-title">Sneaker Wipes- pack of 12 (6...</p>
-                          <p class="product-price"><strong>₹650</strong> <s>₹700</s> <span class="discount-badge">7% OFF</span></p>
+                    {%- for block in section.blocks -%}
+                      {%- if block.type == 'coupon' -%}
+                        <div class="custom-cart-block coupons-block" {{ block.shopify_attributes }}>
+                          <div class="coupon-available">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#228b22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                            <span>{{ block.settings.title }}</span>
+                            <span class="chevron-right">›</span>
+                          </div>
+                          <div class="coupon-more">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#228b22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                            <span>{{ block.settings.more_offers_text }}</span>
+                            <span class="view-all">{{ block.settings.view_all_text }}</span>
+                          </div>
                         </div>
-                        <button type="button" class="button button--solid black-btn">Add</button>
-                      </div>
-                    </div>
-
-                    <div class="custom-cart-block coupons-block">
-                      <div class="coupon-available">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#228b22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
-                        <span>1 coupon available</span>
-                        <span class="chevron-right">›</span>
-                      </div>
-                      <div class="coupon-more">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#228b22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
-                        <span>More offers</span>
-                        <span class="view-all">View all coupons ›</span>
-                      </div>
-                    </div>
-
-                    <div class="custom-cart-block bundle-save-block">
-                      <div class="bundle-content">
-                        <p class="bundle-title">Bundle & Save</p>
-                        <p class="bundle-desc">Get 5 Socks for <s>₹2,495</s><strong>₹1,999</strong></p>
-                      </div>
-                      <button type="button" class="button button--solid black-btn">Add</button>
-                    </div>
+                      {%- endif -%}
+                    {%- endfor -%}
                   </div>
                 </form>
               </cart-drawer-items>
