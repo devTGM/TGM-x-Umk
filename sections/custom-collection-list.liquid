@@ -16,10 +16,29 @@
     -webkit-overflow-scrolling: touch;
   }
   .custom-collection-list__grid {
-    scrollbar-width: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
   }
   .custom-collection-list__grid::-webkit-scrollbar {
-    display: none;
+    height: 6px;
+  }
+  .custom-collection-list__grid::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-collection-list__grid::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+  .custom-collection-list__grid::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  @media screen and (max-width: 749px) {
+    .custom-collection-list__grid {
+      scrollbar-width: none;
+    }
+    .custom-collection-list__grid::-webkit-scrollbar {
+      display: none;
+    }
   }
   @media screen and (min-width: 750px) {
     .custom-collection-list__grid {
@@ -127,39 +146,6 @@
   </div>
 </div>
 {%- endif -%}
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const slider = document.querySelector('#shopify-section-{{ section.id }} .custom-collection-list__grid');
-    if (!slider) return;
-    
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    slider.addEventListener('mousedown', (e) => {
-      isDown = true;
-      slider.style.cursor = 'grabbing';
-      startX = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
-    });
-    slider.addEventListener('mouseleave', () => {
-      isDown = false;
-      slider.style.cursor = 'grab';
-    });
-    slider.addEventListener('mouseup', () => {
-      isDown = false;
-      slider.style.cursor = 'grab';
-    });
-    slider.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 2; // scroll-fast
-      slider.scrollLeft = scrollLeft - walk;
-    });
-  });
-</script>
 
 {% schema %}
 {
