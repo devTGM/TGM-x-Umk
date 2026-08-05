@@ -13,7 +13,7 @@
   data-url="{{- routes.product_recommendations_url -}}?section_id={{- section.id -}}&product_id={{- product_id -}}&limit={{- product_recommendations_limit -}}&intent={{ intent | default: 'complementary' }}"
   data-recommendation-area="{{- area -}}"
 >
-  {%- if product_recommendations_title != blank -%}
+  {%- if product_recommendations_title != blank and area != 'cart-drawer' -%}
     <h5 class="product-recommendations__title{% if template.name == 'cart' %} heading-static{% endif %}">
       {%- if icon -%}
         {% render 'icon', icon_name: product_recommendations_icon %}
@@ -32,6 +32,9 @@
             {%- assign rec_count = rec_count | plus: 1 -%}
             {%- if rec_count == 1 -%}
               <div class="custom-cart-block sneaker-wipes-block">
+                <p class="block-title">
+                  COMPLETE THE SET
+                </p>
                 <div class="block-content">
                   {%- if recommendation.featured_image -%}
                     {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt | escape, width: 60, height: 60 -%}
