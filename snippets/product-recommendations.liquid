@@ -26,11 +26,14 @@
     <div class="product-recommendations__items {% if area != 'cart-drawer' %}swiper-wrapper{% else %}custom-cart-blocks{% endif %}" data-recommendations>
       {%- if recommendations.performed and recommendations.products_count > 0 -%}
         {%- if area == 'cart-drawer' -%}
-          {%- for recommendation in recommendations.products limit: 2 -%}
-            {%- if forloop.index == 1 -%}
+          {%- assign rec_count = 0 -%}
+          {%- for recommendation in recommendations.products limit: 4 -%}
+            {%- if recommendation.id == product_id or recommendation.handle == product_id -%}{%- continue -%}{%- endif -%}
+            {%- assign rec_count = rec_count | plus: 1 -%}
+            {%- if rec_count == 1 -%}
               <div class="custom-cart-block sneaker-wipes-block">
                 <p class="block-title">
-                  GET {{ recommendation.title | upcase }} <span class="green-text">& CLAIM YOUR FREE SHIPPING!</span>
+                  GET {{ recommendation.title | upcase }}
                 </p>
                 <div class="block-content">
                   {%- if recommendation.featured_image -%}
@@ -49,11 +52,11 @@
                   <button type="button" class="button button--solid black-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" onclick="preventDefault(event)">ADD</button>
                 </div>
               </div>
-            {%- else -%}
+            {%- elsif rec_count == 2 -%}
               <div class="custom-cart-block bundle-save-block">
                 <div class="bundle-content">
                   <p class="bundle-title">BUNDLE & SAVE</p>
-                  <p class="bundle-desc"><a href="{{ recommendation.url }}" style="text-decoration: none; color: inherit;">Get 5 {{ recommendation.title }} for </a>
+                  <p class="bundle-desc"><a href="{{ recommendation.url }}" style="text-decoration: none; color: inherit;">{{ recommendation.title }} for </a>
                     {%- if recommendation.compare_at_price_min > recommendation.price_min -%}
                       <s>{{ recommendation.compare_at_price_min | money }}</s>
                     {%- endif -%}
@@ -63,6 +66,7 @@
                 <button type="button" class="button button--solid black-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" onclick="preventDefault(event)">ADD</button>
               </div>
             {%- endif -%}
+            {%- if rec_count >= 2 -%}{%- break -%}{%- endif -%}
           {%- endfor -%}
         {%- else -%}
           {%- for recommendation in recommendations.products limit: product_recommendations_limit -%}
