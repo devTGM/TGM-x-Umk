@@ -14,6 +14,20 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
+        "text_slide_NTdmqK": {
+          "type": "text-slide",
+          "settings": {
+            "content": "<p>Global Supplements Now Available</p>",
+            "icon": "theme-box"
+          }
+        },
+        "text_slide_PDKjQi": {
+          "type": "text-slide",
+          "settings": {
+            "content": "<p>🏁 <strong>Hype Moves Fast. So Should You.</strong></p>",
+            "icon": "theme-box"
+          }
+        },
         "localization_FXcM4j": {
           "type": "localization",
           "settings": {
@@ -32,14 +46,14 @@
         "cee0c4f6-5546-43a3-bfc3-2f3afa36d9d5": {
           "type": "text-slide",
           "settings": {
-            "content": "<p><a href=\"/collections/gymshark-onyx\" title=\"Gymshark onyx\">GYMSHARK ONYX IS LIVE NOW</a></p>",
+            "content": "<ul><li><a href=\"/collections/gymshark-onyx\" title=\"Gymshark onyx\">GYMSHARK ONYX IS LIVE NOW</a></li></ul>",
             "icon": "theme-box"
           }
         },
         "5e0cad2e-d931-416e-ac29-51a4a683ade2": {
           "type": "text-slide",
           "settings": {
-            "content": "<p>Young LA is Available Now</p>",
+            "content": "<ul><li><a href=\"/collections/young-la\" title=\"YOUNG LA\">Young LA is Available Now</a></li></ul>",
             "icon": "theme-box"
           }
         },
@@ -71,6 +85,8 @@
         }
       },
       "block_order": [
+        "text_slide_NTdmqK",
+        "text_slide_PDKjQi",
         "localization_FXcM4j",
         "link_pEAxig",
         "cee0c4f6-5546-43a3-bfc3-2f3afa36d9d5",
