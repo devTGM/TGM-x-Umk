@@ -1311,13 +1311,15 @@
           "type": "collection",
           "settings": {
             "collection": "google-fit",
-            "title": "Fitbit"
+            "image": "shopify://shop_images/GOOGLE_FITBIT_1__jpg.jpg",
+            "title": ""
           }
         },
         "collection_pqfeDy": {
           "type": "collection",
           "settings": {
             "collection": "gymshark-onyx",
+            "image": "shopify://shop_images/GYMSHARK_1__jpg.jpg",
             "title": ""
           }
         },
@@ -1325,15 +1327,15 @@
           "type": "collection",
           "settings": {
             "collection": "young-la",
-            "image": "shopify://shop_images/young-la-475-supervillain-compression-tees-charcoal-3853253.jpg",
+            "image": "shopify://shop_images/YOUNGLA_1__jpg.jpg",
             "title": ""
           }
         },
         "collection_CMggLY": {
           "type": "collection",
           "settings": {
-            "collection": "jordans",
-            "image": "shopify://shop_images/travis-scott-x-air-jordan-1-retro-low-og-sp-velvet-brown-3199757.png",
+            "collection": "whoop",
+            "image": "shopify://shop_images/WHOOP_1__jpg.jpg",
             "title": ""
           }
         },
@@ -1341,7 +1343,39 @@
           "type": "collection",
           "settings": {
             "collection": "alo",
-            "image": "shopify://shop_images/alo-softsculpt-precision-long-sleeve-bra-black-3383490.jpg",
+            "image": "shopify://shop_images/ALO_1__jpg.jpg",
+            "title": ""
+          }
+        },
+        "collection_med6e8": {
+          "type": "collection",
+          "settings": {
+            "collection": "david",
+            "image": "shopify://shop_images/DAVID_1__jpg.jpg",
+            "title": ""
+          }
+        },
+        "collection_CiKw8h": {
+          "type": "collection",
+          "settings": {
+            "collection": "breathedivinity",
+            "image": "shopify://shop_images/BREATHEDIVINITY_1__jpg_699e5cf0-5657-440f-a24a-aea45c98b096.jpg",
+            "title": ""
+          }
+        },
+        "collection_tBf6pe": {
+          "type": "collection",
+          "settings": {
+            "collection": "ghost-supplements-india",
+            "image": "shopify://shop_images/GHSOT_jpg.jpg",
+            "title": ""
+          }
+        },
+        "collection_qJgxUr": {
+          "type": "collection",
+          "settings": {
+            "collection": "polo-ralph-lauren",
+            "image": "shopify://shop_images/RALPH_LAUREN_jpg.jpg",
             "title": ""
           }
         }
@@ -1351,9 +1385,12 @@
         "collection_pqfeDy",
         "collection_npw4NR",
         "collection_CMggLY",
-        "collection_adTbdR"
+        "collection_adTbdR",
+        "collection_med6e8",
+        "collection_CiKw8h",
+        "collection_tBf6pe",
+        "collection_qJgxUr"
       ],
-      "disabled": true,
       "name": "Custom Collection Grid",
       "settings": {
         "title": "",
