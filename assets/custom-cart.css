@@ -197,17 +197,39 @@
   font-weight: bold;
   white-space: nowrap;
 }
-.black-btn {
-  background: #000 !important;
-  color: #fff !important;
+.custom-add-btn {
+  background: #fff !important;
+  border: 1px solid #1E7145 !important;
+  color: #1E7145 !important;
+  font-weight: 600 !important;
   border-radius: 6px !important;
-  padding: 8px 16px !important;
-  min-width: 60px;
-  min-height: 36px !important;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
   font-size: 13px !important;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  height: 36px;
+  padding: 0 !important;
 }
-.black-btn::after {
-  display: none !important;
+.custom-add-btn:hover {
+  background: #1E7145 !important;
+  color: #fff !important;
+}
+.custom-add-btn span {
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 400;
+  margin-top: -2px;
+}
+.block-add-btn {
+  padding: 0 16px !important;
+  min-width: 80px;
+}
+.carousel-add-btn {
+  width: 100%;
 }
 
 .coupons-block {
@@ -428,34 +450,7 @@
   color: #000;
   margin: 0;
 }
-.bestseller-add-btn {
-  width: 100%;
-  background: #fff !important;
-  border: 1px solid #1E7145 !important;
-  color: #1E7145 !important;
-  font-weight: 600 !important;
-  border-radius: 6px !important;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px !important;
-  letter-spacing: 0.5px;
-  transition: all 0.2s ease;
-  height: 36px;
-  padding: 0 !important;
-}
-.bestseller-add-btn:hover {
-  background: #1E7145 !important;
-  color: #fff !important;
-}
-.bestseller-add-btn span {
-  font-size: 18px;
-  line-height: 1;
-  font-weight: 400;
-  margin-top: -2px;
-}
+
 
 /* Swiper Navigation Arrows */
 .bestseller-slider-container .swiper {
@@ -540,13 +535,7 @@
   .bestseller-info .price {
     font-size: 13px;
   }
-  .bestseller-add-btn {
-    height: 32px;
-    font-size: 12px !important;
-  }
-  .bestseller-add-btn span {
-    font-size: 16px;
-  }
+
   .bestseller-slider-container .swiper-button-next,
   .bestseller-slider-container .swiper-button-prev {
     width: 28px;
@@ -571,9 +560,15 @@
   .sneaker-wipes-block .product-price {
     font-size: 13px;
   }
-  .sneaker-wipes-block .black-btn {
-    padding: 6px 12px !important;
-    min-width: 50px;
+  .custom-add-btn {
+    height: 32px;
     font-size: 12px !important;
+  }
+  .custom-add-btn span {
+    font-size: 16px;
+  }
+  .block-add-btn {
+    padding: 0 12px !important;
+    min-width: 60px;
   }
 }
