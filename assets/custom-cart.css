@@ -197,7 +197,8 @@
   font-weight: bold;
   white-space: nowrap;
 }
-.custom-add-btn {
+.custom-add-btn,
+.black-btn {
   background: #fff !important;
   border: 1px solid #1E7145 !important;
   color: #1E7145 !important;
@@ -214,17 +215,24 @@
   height: 36px;
   padding: 0 !important;
 }
-.custom-add-btn:hover {
+.custom-add-btn:hover,
+.black-btn:hover {
   background: #1E7145 !important;
   color: #fff !important;
 }
-.custom-add-btn span {
+.custom-add-btn span,
+.black-btn span {
   font-size: 18px;
   line-height: 1;
   font-weight: 400;
   margin-top: -2px;
 }
 .block-add-btn {
+  padding: 0 16px !important;
+  min-width: 80px;
+  flex-shrink: 0;
+}
+.black-btn {
   padding: 0 16px !important;
   min-width: 80px;
   flex-shrink: 0;
@@ -561,14 +569,17 @@
   .sneaker-wipes-block .product-price {
     font-size: 13px;
   }
-  .custom-add-btn {
+  .custom-add-btn,
+  .black-btn {
     height: 32px;
     font-size: 12px !important;
   }
-  .custom-add-btn span {
+  .custom-add-btn span,
+  .black-btn span {
     font-size: 16px;
   }
-  .block-add-btn {
+  .block-add-btn,
+  .black-btn {
     padding: 0 12px !important;
     min-width: 60px;
     flex-shrink: 0;
