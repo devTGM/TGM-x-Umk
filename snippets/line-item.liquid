@@ -171,26 +171,26 @@
 
 {% comment %} CAPTURE: Quantity and Remove Controls {% endcomment %}
 {% capture quantity_controls %}
-  <div class="cart-item__quantity">
-    {%- render 'quantity-input',
-      product_ref: line_item.product,
-      value: line_item.quantity,
-      name: 'updates[]',
-      min: 0,
-      max: adjusted_max_quantity,
-      index: line_item_index,
-      hide_label: true,
-      cart_item: cart_item
-    -%}
-  </div>
+  <div class="cart-item__quantity-wrapper custom-drawer-qty">
+    <cart-remove-button id="Remove-{{- line_item_index -}}" data-index="{{- line_item_index -}}">
+      <a href="{{- line_item.url_to_remove -}}" title="{{- 'cart.remove' | t -}}" class="cart-item__remove-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+      </a>
+    </cart-remove-button>
 
-  <cart-remove-button id="Remove-{{- line_item_index -}}" data-index="{{- line_item_index -}}">
-    <a href="{{- line_item.url_to_remove -}}" title="{{- 'cart.remove' | t -}}">
-      {%- if cart_item == true -%}
-        {%- render 'icon', icon_name: 'theme-delete' -%}
-      {%- endif -%}
-    </a>
-  </cart-remove-button>
+    <div class="cart-item__quantity">
+      {%- render 'quantity-input',
+        product_ref: line_item.product,
+        value: line_item.quantity,
+        name: 'updates[]',
+        min: 0,
+        max: adjusted_max_quantity,
+        index: line_item_index,
+        hide_label: true,
+        cart_item: cart_item
+      -%}
+    </div>
+  </div>
 {% endcapture %}
 
 {% comment %} MAIN TEMPLATE STRUCTURE {% endcomment %}
@@ -200,17 +200,22 @@
     {% comment %} CART DRAWER LAYOUT {% endcomment %}
     <div class="cart-item__media">{{ product_image }}</div>
 
-    <div class="cart-item__details">
+    <div class="cart-item__details custom-drawer-details">
       <div class="cart-item__content">
-        {{ product_title }}
-        <div class="cart-item__price" {{ rtl_attr }}>{{ price_display }}</div>
-        {{ discounts_list }}
-        {{ product_options }}
-        {{ product_properties }}
+        <div class="cart-item__content-header">
+          <div class="cart-item__title-options">
+            {{ product_title }}
+            {{ product_options }}
+            {{ product_properties }}
 
-        {%- if line_item.selling_plan_allocation != nil -%}
-          <p class="cart-item__plan">{{- line_item.selling_plan_allocation.selling_plan.name -}}</p>
-        {%- endif -%}
+            {%- if line_item.selling_plan_allocation != nil -%}
+              <p class="cart-item__plan">{{- line_item.selling_plan_allocation.selling_plan.name -}}</p>
+            {%- endif -%}
+          </div>
+          <div class="cart-item__price-right" {{ rtl_attr }}>{{ price_display }}</div>
+        </div>
+
+        {{ discounts_list }}
         <p class="cart-item__error color-red" role="alert" data-line-item-error data-line="{{- line_item_index -}}"></p>
       </div>
 
