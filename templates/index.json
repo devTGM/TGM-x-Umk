@@ -2213,6 +2213,7 @@
         "image_Y3B3TH",
         "image_QUHEUH"
       ],
+      "disabled": true,
       "custom_css": [
         ".swiper-slide {margin-right: 0px !important;}"
       ],
