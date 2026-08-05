@@ -24,6 +24,7 @@
   background: #f9f9f9;
   border-radius: 8px;
   overflow: hidden;
+  align-self: flex-start;
 }
 .cart-item__media img {
   width: 100%;
@@ -50,6 +51,11 @@
   font-size: 13px !important;
   margin: 0 0 4px 0 !important;
   line-height: 1.2 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .cart-item__title-options dl {
   margin: 0;
