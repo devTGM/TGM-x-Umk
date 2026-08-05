@@ -14,6 +14,21 @@
     "cart-drawer": {
       "type": "cart-drawer",
       "blocks": {
+        "custom_cross_sell_QhUVVL": {
+          "type": "custom_cross_sell",
+          "settings": {
+            "product": "",
+            "title": "BUNDLE & SAVE",
+            "desc_prefix": ""
+          }
+        },
+        "custom_upsell_PadnwJ": {
+          "type": "custom_upsell",
+          "settings": {
+            "product": "",
+            "title": "GET SNEAKER WIPES & CLAIM YOUR FREE SHIPPING!"
+          }
+        },
         "info_bar_dQhnDN": {
           "type": "info-bar",
           "disabled": true,
@@ -24,6 +39,8 @@
         }
       },
       "block_order": [
+        "custom_cross_sell_QhUVVL",
+        "custom_upsell_PadnwJ",
         "info_bar_dQhnDN"
       ],
       "settings": {
