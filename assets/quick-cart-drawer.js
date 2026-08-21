@@ -52,16 +52,23 @@ if (!customElements.get("quick-cart-drawer")) {
     }
 
     initTriggers() {
+      if (this._triggersInitialized) return;
+      this._triggersInitialized = true;
+
       document.addEventListener("click", (e) => {
         const trigger = e.target.closest(".quick-cart-drawer__trigger");
         if (trigger && !trigger.classList.contains("js-cart-quick-add-btn")) {
-          this.fetchProductForQuickCartDrawer(e);
+          e.preventDefault();
+          const drawer = document.querySelector("quick-cart-drawer");
+          if (drawer && typeof drawer.fetchProductForQuickCartDrawer === "function") {
+            drawer.fetchProductForQuickCartDrawer(e, trigger);
+          }
         }
       });
     }
 
-    async fetchProductForQuickCartDrawer(e) {
-      const trigger = e.target.closest(".quick-cart-drawer__trigger");
+    async fetchProductForQuickCartDrawer(e, directTrigger = null) {
+      const trigger = directTrigger || e.target.closest(".quick-cart-drawer__trigger");
       if (!trigger) return;
 
       const cardSlider = trigger.closest("card-product-slider");
@@ -77,25 +84,51 @@ if (!customElements.get("quick-cart-drawer")) {
         checkedInputs = productCard.querySelectorAll('input[type="radio"]:checked, select');
       }
 
-      const productUrlEl = trigger.closest("[data-product-url]");
-      if (!productUrlEl) return;
-
+      const productUrlEl = trigger.closest("[data-product-url]") || trigger;
       productUrlEl.classList.add("is--loading");
 
       try {
-        let fetchUrl = productUrlEl.dataset.productUrl || "";
-        if (!fetchUrl.startsWith("http") && !fetchUrl.startsWith("/")) {
-          fetchUrl = "/" + fetchUrl;
+        let rawUrl = productUrlEl.dataset.productUrl || trigger.dataset.productUrl || "";
+        if (!rawUrl.startsWith("http") && !rawUrl.startsWith("/")) {
+          rawUrl = "/" + rawUrl;
         }
-        const separator = fetchUrl.includes("?") ? "&" : "?";
-        const response = await fetch(`${fetchUrl}${separator}view=quick-cart`);
-        if (!response.ok) return;
+
+        let localePrefix = "";
+        if (
+          window.Shopify?.routes?.root &&
+          window.Shopify?.locale &&
+          window.Shopify.routes.root.includes(`/${window.Shopify.locale}/`)
+        ) {
+          localePrefix = `/${window.Shopify.locale}`;
+        }
+
+        let fetchUrl = `${localePrefix}${rawUrl}`;
+        const sep = fetchUrl.includes("?") ? "&" : (fetchUrl.endsWith("/") ? "?" : "/?");
+        let response = await fetch(`${fetchUrl}${sep}view=quick-cart`);
+
+        if (!response || !response.ok) {
+          const sep2 = fetchUrl.includes("?") ? "&" : "?";
+          response = await fetch(`${fetchUrl}${sep2}view=quick-cart`);
+        }
+
+        if (!response || !response.ok) {
+          const sep3 = rawUrl.includes("?") ? "&" : "?";
+          response = await fetch(`${rawUrl}${sep3}view=quick-cart`);
+        }
+
+        if (!response || !response.ok) {
+          console.error("Failed to fetch quick cart view:", response?.status);
+          return;
+        }
 
         const html = await response.text();
         const div = document.createElement("div");
-        div.insertAdjacentHTML("beforeend", html);
+        div.innerHTML = html;
         const productContent = div.querySelector(".quick-cart-product");
-        if (!productContent) return;
+        if (!productContent) {
+          console.error("quick-cart-product not found in response HTML");
+          return;
+        }
 
         const mainContainer = this.querySelector(".quick-cart-drawer__main");
         if (mainContainer) {
@@ -111,12 +144,13 @@ if (!customElements.get("quick-cart-drawer")) {
             breakpoints: { 750: { slidesPerView: 2 } }
           });
         }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        productUrlEl.classList.remove("is--loading");
 
-        if (!isRecommendations && checkedInputs && productCard) {
+        const innerCard = this.querySelector("product-card");
+        if (innerCard && typeof innerCard.init === "function") {
+          innerCard.init();
+        }
+
+        if (!isRecommendations && checkedInputs && checkedInputs.length > 0 && productCard) {
           checkedInputs.forEach((input) => {
             const targetInput = this.querySelector(`[name="${input.name}"][value="${input.value}"]`);
             const legend = targetInput?.parentElement?.parentElement?.querySelector("legend");
@@ -131,7 +165,6 @@ if (!customElements.get("quick-cart-drawer")) {
                 selectedVariantText.innerHTML = input.value;
               }
             }
-            const innerCard = this.querySelector("product-card");
             if (innerCard) {
               const innerIdInput = innerCard.querySelector('input[name="id"]');
               const cardIdInput = productCard.querySelector('input[name="id"]');
@@ -139,14 +172,12 @@ if (!customElements.get("quick-cart-drawer")) {
                 innerIdInput.value = cardIdInput.value;
               }
               targetInput?.closest("li")?.classList.add("checked");
-              innerCard.init();
             }
           });
+          if (innerCard && typeof innerCard.init === "function") {
+            innerCard.init();
+          }
         }
-
-        setTimeout(() => {
-          this.open();
-        }, 300);
 
         this.querySelector(".quick-cart-drawer__main")
           ?.querySelectorAll(".variant-option-radio-input")
@@ -167,6 +198,12 @@ if (!customElements.get("quick-cart-drawer")) {
               }
             });
           });
+
+        this.open();
+      } catch (err) {
+        console.error("Error in fetchProductForQuickCartDrawer:", err);
+      } finally {
+        productUrlEl.classList.remove("is--loading");
       }
     }
 

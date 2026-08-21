@@ -204,7 +204,7 @@
         tabindex="{% if is_in_drawer == true %}-1{% else %}0{% endif %}"
         aria-expanded="false"
         aria-controls="quick-cart-drawer"
-        data-product-url="{{- product_ref.handle | prepend: '/products/'  -}}"
+        data-product-url="{{- product_ref.url | split: '?' | first -}}"
         {%- unless product_ref.available -%}disabled{%- endunless -%}
       >
         {{- button_content -}}
