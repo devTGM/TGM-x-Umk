@@ -1394,14 +1394,17 @@ if (
         this.init());
     }
     init() {
-      (this.initForm(),
-        this.initVariants(),
-        this.imageBorderCalc(),
+      this.initForm();
+      this.initVariants();
+      this.imageBorderCalc();
+      if (
         this.querySelector(".product-card__media") &&
-          this.querySelector(".product-card__media").classList.contains(
-            "product-card__media--hoverable",
-          ) &&
-          this.secondImgHoverStates();
+        this.querySelector(".product-card__media").classList.contains(
+          "product-card__media--hoverable",
+        )
+      ) {
+        this.secondImgHoverStates();
+      }
     }
     initForm() {
       ((this.cart =
