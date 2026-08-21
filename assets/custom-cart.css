@@ -698,6 +698,7 @@ quick-cart-drawer .quick-cart-drawer__blocks {
 }
 
 /* Snapmint EMI Widget in Quick Cart */
+.snapmint-emi-container,
 quick-cart-drawer .snapmint_emi_detail,
 quick-cart-drawer [id*="snapmint"],
 quick-cart-drawer .snapmint-widget,
@@ -707,14 +708,57 @@ quick-cart-drawer .snapmint_emi_detail_custom {
   align-items: center !important;
   justify-content: space-between !important;
   background: #f8f9fa !important;
-  border: 1px solid #e8e8e8 !important;
+  border: 1px solid #ebebeb !important;
   border-radius: 8px !important;
-  padding: 8px 12px !important;
+  padding: 10px 14px !important;
   margin: 8px 0 12px 0 !important;
-  font-size: 13px !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }
+.snapmint-emi-content {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+}
+.snapmint-emi-line1 {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 13px !important;
+  color: #111111 !important;
+}
+.snapmint-tag {
+  background: #1b8a36 !important;
+  color: #ffffff !important;
+  font-size: 9.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+}
+.snapmint-main-text {
+  font-weight: 500 !important;
+}
+.snapmint-main-text strong,
+.snapmint-main-text [data-snapmint-emi-val] {
+  color: #1b8a36 !important;
+  font-weight: 800 !important;
+}
+.snapmint-emi-line2 {
+  font-size: 11px !important;
+  color: #666666 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+.snapmint-upi-logo {
+  font-weight: 800 !important;
+  font-style: italic !important;
+  color: #111111 !important;
+}
+.snapmint-emi-btn,
 quick-cart-drawer .snapmint_emi_detail .snapmint-emi-btn,
 quick-cart-drawer [id*="snapmint"] button,
 quick-cart-drawer .snapmint_emi_detail button,
@@ -722,14 +766,18 @@ quick-cart-drawer .snapmint_emi_detail a {
   background: #000000 !important;
   color: #ffffff !important;
   font-size: 11px !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
   letter-spacing: 0.5px !important;
-  padding: 6px 12px !important;
+  padding: 8px 14px !important;
   border-radius: 4px !important;
   border: none !important;
-  text-decoration: none !important;
   cursor: pointer !important;
   white-space: nowrap !important;
+  text-transform: uppercase !important;
+  transition: background-color 0.15s ease !important;
+}
+.snapmint-emi-btn:hover {
+  background: #222222 !important;
 }
 
 /* Quick Cart Header */

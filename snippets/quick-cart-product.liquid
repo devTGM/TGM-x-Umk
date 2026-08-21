@@ -26,6 +26,20 @@
       <div class="quick-cart-product-price">
         {%- render 'price', product: product, use_variant: true -%}
       </div>
+
+      {%- assign emi_amount = product.selected_or_first_available_variant.price | divided_by: 4 | money_without_trailing_zeros | remove: 'Rs.' | remove: '₹' | strip -%}
+      <div class="snapmint-emi-container" data-snapmint-container>
+        <div class="snapmint-emi-content">
+          <div class="snapmint-emi-line1">
+            <span class="snapmint-tag">NEW</span>
+            <span class="snapmint-main-text">OR <strong data-snapmint-emi-val>₹{{ emi_amount }}</strong> /MONTH (4 MONTHS)</span>
+          </div>
+          <div class="snapmint-emi-line2">
+            <span>0% EMI ON <span class="snapmint-upi-logo">UPI</span> • <strong>snapmint</strong></span>
+          </div>
+        </div>
+        <button type="button" class="snapmint-emi-btn">BUY ON EMI</button>
+      </div>
     </div>
 
     <product-card class="product-card product-card__quick-cart">
