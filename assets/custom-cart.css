@@ -626,12 +626,16 @@
   stroke: #ffffff !important;
 }
 .product-card__actions .button.button--icon .quick-cart-drawer__trigger--loading {
+  display: none !important;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 18px;
   height: 18px;
+}
+.product-card__actions .button.button--icon.is--loading .quick-cart-drawer__trigger--loading {
+  display: block !important;
 }
 .product-card__actions .button.button--icon .quick-cart-drawer__trigger--loading .lds-ring {
   width: 18px;
@@ -646,6 +650,6 @@
   border-color: #ffffff transparent transparent transparent;
 }
 .product-card__actions .button.button--icon.is--loading svg {
-  opacity: 0;
+  opacity: 0 !important;
 }
 
