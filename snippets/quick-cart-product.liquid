@@ -48,33 +48,35 @@
 
       <div class="product-card__variants">
         {%- for option in product.options_with_values -%}
+          {%- assign option_pos = forloop.index0 -%}
           {%- assign opt_idx = forloop.index -%}
           {%- assign opt_name_down = option.name | downcase -%}
+          {%- assign clean_opt_name = option.name | remove: ':' | strip -%}
 
           {%- if option.values.size == 1 and opt_name_down contains 'delivery' or opt_name_down contains 'shipping' or opt_name_down contains 'timeline' -%}
             <div class="quick-cart-delivery-badge">
               <span class="delivery-icon">⚡</span>
-              <span class="delivery-text">{{ option.name }}: <strong>{{ option.values.first }}</strong></span>
+              <span class="delivery-text">{{ clean_opt_name }}: <strong>{{ option.values.first }}</strong></span>
               <input type="hidden" name="{{ product.id }}-option[{{ opt_idx }}]" value="{{ option.values.first }}" class="variant-option-radio-input">
             </div>
           {%- else -%}
             <fieldset class="product__variant-options js-product-card-options" data-option-index="{{ opt_idx }}">
               <legend>
-                <span class="option-name">{{ option.name }}:</span>
-                <span class="option-selected-val" data-selected-variant>{{ option.selected_value }}</span>
+                <span class="option-name">{{ clean_opt_name }}:</span>
+                <span class="option-selected-val" data-selected-variant>{{ current_variant.options[option_pos] | default: option.selected_value }}</span>
               </legend>
               <div class="variant-pills-row">
                 {%- for val in option.values -%}
                   {%- assign is_selected = false -%}
-                  {%- if val == option.selected_value -%}
+                  {%- if val == current_variant.options[option_pos] -%}
                     {%- assign is_selected = true -%}
                   {%- endif -%}
 
                   {%- assign is_available = false -%}
                   {%- for v in product.variants -%}
-                    {%- assign v_opt = v.options[forloop.parentloop.index0] -%}
-                    {%- if v_opt == val and v.available -%}
+                    {%- if v.options[option_pos] == val and v.available -%}
                       {%- assign is_available = true -%}
+                      {%- break -%}
                     {%- endif -%}
                   {%- endfor -%}
 
