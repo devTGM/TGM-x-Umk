@@ -30,6 +30,11 @@
           {%- for recommendation in recommendations.products limit: 5 -%}
             {%- if recommendation.id == product_id or recommendation.handle == product_id -%}{%- continue -%}{%- endif -%}
             {%- assign rec_count = rec_count | plus: 1 -%}
+            {%- assign is_single_variant = false -%}
+            {%- if recommendation.has_only_default_variant or recommendation.variants.size == 1 -%}
+              {%- assign is_single_variant = true -%}
+            {%- endif -%}
+
             {%- if rec_count == 1 -%}
               <div class="custom-cart-block sneaker-wipes-block">
                 <p class="block-title">
@@ -49,7 +54,11 @@
                       {%- endif -%}
                     </p>
                   </div>
-                  <button type="button" class="custom-add-btn block-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" onclick="preventDefault(event)"><span>+</span> ADD</button>
+                  {%- if is_single_variant -%}
+                    <button type="button" class="custom-add-btn block-add-btn js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" onclick="preventDefault(event)"><span>+</span> ADD</button>
+                  {%- else -%}
+                    <button type="button" class="custom-add-btn block-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" aria-controls="quick-cart-drawer" onclick="preventDefault(event)"><span>+</span> ADD</button>
+                  {%- endif -%}
                 </div>
               </div>
             {%- elsif rec_count == 2 -%}
@@ -63,7 +72,11 @@
                     <strong>{{ recommendation.price_min | money }}</strong>
                   </p>
                 </div>
-                <button type="button" class="custom-add-btn block-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" onclick="preventDefault(event)"><span>+</span> ADD</button>
+                {%- if is_single_variant -%}
+                  <button type="button" class="custom-add-btn block-add-btn js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" onclick="preventDefault(event)"><span>+</span> ADD</button>
+                {%- else -%}
+                  <button type="button" class="custom-add-btn block-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" aria-controls="quick-cart-drawer" onclick="preventDefault(event)"><span>+</span> ADD</button>
+                {%- endif -%}
               </div>
             {%- elsif rec_count == 3 -%}
               <div class="custom-cart-block bestseller-slider-container">
@@ -85,9 +98,15 @@
                             <p class="price">{{ recommendation.price_min | money }}</p>
                           </div>
                         </div>
-                        <button type="button" class="custom-add-btn carousel-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" onclick="preventDefault(event)">
-                          <span>+</span> ADD
-                        </button>
+                        {%- if is_single_variant -%}
+                          <button type="button" class="custom-add-btn carousel-add-btn js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" onclick="preventDefault(event)">
+                            <span>+</span> ADD
+                          </button>
+                        {%- else -%}
+                          <button type="button" class="custom-add-btn carousel-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" aria-controls="quick-cart-drawer" onclick="preventDefault(event)">
+                            <span>+</span> ADD
+                          </button>
+                        {%- endif -%}
                       </div>
                     </div>
             {%- else -%}
@@ -104,9 +123,15 @@
                             <p class="price">{{ recommendation.price_min | money }}</p>
                           </div>
                         </div>
-                        <button type="button" class="custom-add-btn carousel-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" onclick="preventDefault(event)">
-                          <span>+</span> ADD
-                        </button>
+                        {%- if is_single_variant -%}
+                          <button type="button" class="custom-add-btn carousel-add-btn js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" onclick="preventDefault(event)">
+                            <span>+</span> ADD
+                          </button>
+                        {%- else -%}
+                          <button type="button" class="custom-add-btn carousel-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" aria-controls="quick-cart-drawer" onclick="preventDefault(event)">
+                            <span>+</span> ADD
+                          </button>
+                        {%- endif -%}
                       </div>
                     </div>
             {%- endif -%}

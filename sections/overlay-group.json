@@ -71,7 +71,6 @@
     },
     "quick-cart-drawer": {
       "type": "quick-cart-drawer",
-      "disabled": true,
       "settings": {
         "color_scheme": ""
       }
