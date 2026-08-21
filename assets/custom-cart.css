@@ -590,3 +590,62 @@
     flex-shrink: 0;
   }
 }
+
+/* Product Card Quick Add / Select Size Icon Button */
+.product-card__actions .button.button--icon {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  max-width: 36px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: #222222 !important;
+  color: #ffffff !important;
+  border-radius: 50% !important;
+  position: absolute !important;
+  right: 12px !important;
+  bottom: 12px !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2) !important;
+  border: none !important;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease !important;
+  z-index: 3 !important;
+}
+.product-card__actions .button.button--icon:hover {
+  transform: scale(1.08);
+  background-color: #000000 !important;
+}
+.product-card__actions .button.button--icon svg {
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0 !important;
+}
+.product-card__actions .button.button--icon svg * {
+  stroke: #ffffff !important;
+}
+.product-card__actions .button.button--icon .quick-cart-drawer__trigger--loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+}
+.product-card__actions .button.button--icon .quick-cart-drawer__trigger--loading .lds-ring {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+.product-card__actions .button.button--icon .quick-cart-drawer__trigger--loading .lds-ring span {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border: 2px solid #ffffff;
+  border-color: #ffffff transparent transparent transparent;
+}
+.product-card__actions .button.button--icon.is--loading svg {
+  opacity: 0;
+}
+
