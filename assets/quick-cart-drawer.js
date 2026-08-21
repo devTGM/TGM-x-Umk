@@ -187,6 +187,14 @@
                 ${hasComparePrice ? `<s>${comparePriceFormatted}</s> ` : ""}
                 <span class="price">${priceFormatted}</span>
               </div>
+              <div class="snapmint_emi_detail_custom">
+                <div class="snapmint-emi-info" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                  <span style="background:#28a745;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;">NEW</span>
+                  <span>OR <strong>₹${Math.round(firstAvailableVariant.price / 400).toLocaleString("en-IN")}</strong> /MONTH (4 MONTHS)</span>
+                  <span style="color:#666;font-size:11px;">0% EMI ON UPI • <strong>snapmint</strong></span>
+                </div>
+                <button type="button" class="snapmint-emi-btn">BUY ON EMI</button>
+              </div>
             </div>
 
             ${optionsHtml}

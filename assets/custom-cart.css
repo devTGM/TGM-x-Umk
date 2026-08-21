@@ -697,22 +697,49 @@ quick-cart-drawer .quick-cart-drawer__blocks {
   }
 }
 
-/* Hide third party banners inside quick cart drawer */
+/* Snapmint EMI Widget in Quick Cart */
 quick-cart-drawer .snapmint_emi_detail,
 quick-cart-drawer [id*="snapmint"],
-quick-cart-drawer [class*="snapmint"],
 quick-cart-drawer .snapmint-widget,
-quick-cart-drawer .snapmint-banner {
-  display: none !important;
+quick-cart-drawer .snapmint-banner,
+quick-cart-drawer .snapmint_emi_detail_custom {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: #f8f9fa !important;
+  border: 1px solid #e8e8e8 !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  margin: 8px 0 12px 0 !important;
+  font-size: 13px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+quick-cart-drawer .snapmint_emi_detail .snapmint-emi-btn,
+quick-cart-drawer [id*="snapmint"] button,
+quick-cart-drawer .snapmint_emi_detail button,
+quick-cart-drawer .snapmint_emi_detail a {
+  background: #000000 !important;
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  padding: 6px 12px !important;
+  border-radius: 4px !important;
+  border: none !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
 }
 
 /* Quick Cart Header */
 .quick-cart-drawer__header {
-  padding: 18px 20px !important;
+  padding: 16px 20px !important;
   border-bottom: 1px solid #f0f0f0;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-shrink: 0 !important;
 }
 .quick-cart-drawer__header h5 {
   font-size: 15px !important;
@@ -744,6 +771,8 @@ quick-cart-drawer .snapmint-banner {
 /* Quick Cart Product Gallery */
 .quick-cart-product {
   padding: 0 0 20px 0;
+  display: flex;
+  flex-direction: column;
 }
 .quick-cart-product .quick-cart-drawer__slider-wrapper {
   padding: 16px 20px 14px !important;
@@ -776,7 +805,7 @@ quick-cart-drawer .snapmint-banner {
   margin: 0 !important;
 }
 .quick-cart-product-header {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .quick-cart-product-title,
 .quick-cart-product .product__title {
@@ -795,7 +824,7 @@ quick-cart-drawer .snapmint-banner {
   font-size: 16px !important;
   font-weight: 800 !important;
   color: #111111 !important;
-  margin: 0 0 12px 0 !important;
+  margin: 0 0 8px 0 !important;
   display: flex;
   align-items: baseline;
   gap: 8px;
@@ -819,17 +848,17 @@ quick-cart-drawer .snapmint-banner {
   border-radius: 6px !important;
   font-size: 12px !important;
   color: #1b6332 !important;
-  margin-bottom: 14px !important;
+  margin-bottom: 12px !important;
 }
 
 /* Variant / Size Options */
 .quick-cart-product .product-card__variants {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .quick-cart-product .product__variant-options {
   border: none !important;
   padding: 0 !important;
-  margin: 0 0 14px 0 !important;
+  margin: 0 0 12px 0 !important;
 }
 .quick-cart-product .product__variant-options legend {
   font-size: 12px !important;
@@ -904,7 +933,7 @@ quick-cart-drawer .snapmint-banner {
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
-  margin-top: 16px !important;
+  margin-top: 14px !important;
   width: 100% !important;
 }
 .quick-cart-product .product-selector__quantity {
@@ -978,7 +1007,6 @@ quick-cart-drawer .snapmint-banner {
 .quick-cart-product button[type="submit"]:hover,
 .quick-cart-product .product-card__submit-btn:hover {
   background: #222222 !important;
-  transform: translateY(-1px);
 }
 .quick-cart-product button[type="submit"]:disabled,
 .quick-cart-product .product-card__submit-btn:disabled {
@@ -986,6 +1014,131 @@ quick-cart-drawer .snapmint-banner {
   color: #888888 !important;
   cursor: not-allowed !important;
   box-shadow: none !important;
-  transform: none !important;
 }
+
+/* ========================================================
+   MOBILE-SPECIFIC OPTIMIZATION FOR QUICK CART POPUP (<750px)
+   ======================================================== */
+@media screen and (max-width: 749px) {
+  quick-cart-drawer {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    align-items: stretch !important;
+  }
+  quick-cart-drawer .quick-cart-drawer__blocks {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 85vh !important;
+    border-radius: 20px 20px 0 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.3) !important;
+  }
+  quick-cart-drawer .quick-cart-drawer__header {
+    padding: 14px 16px !important;
+    flex-shrink: 0 !important;
+  }
+  quick-cart-drawer .quick-cart-drawer__header h5 {
+    font-size: 14px !important;
+  }
+  quick-cart-drawer .quick-cart-drawer__main {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 0 0 16px 0 !important;
+  }
+  /* Compact Image Slider on Mobile so Size & CTA are immediately visible */
+  .quick-cart-product .quick-cart-drawer__slider-wrapper {
+    padding: 10px 16px 8px !important;
+  }
+  .quick-cart-product .swiper-slide,
+  .quick-cart-product .quick-cart-media-box {
+    aspect-ratio: 1 / 1 !important;
+    height: 150px !important;
+    border-radius: 8px !important;
+  }
+  .quick-cart-product .product__content {
+    padding: 0 16px !important;
+  }
+  .quick-cart-product-title,
+  .quick-cart-product .product__title {
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+    margin-bottom: 4px !important;
+  }
+  .quick-cart-product-price,
+  .quick-cart-product .product__price {
+    font-size: 15px !important;
+    margin-bottom: 6px !important;
+  }
+  /* Compact Snapmint on Mobile */
+  quick-cart-drawer .snapmint_emi_detail,
+  quick-cart-drawer [id*="snapmint"],
+  quick-cart-drawer .snapmint-widget,
+  quick-cart-drawer .snapmint-banner,
+  quick-cart-drawer .snapmint_emi_detail_custom {
+    padding: 6px 10px !important;
+    font-size: 11.5px !important;
+    margin: 6px 0 10px 0 !important;
+    border-radius: 6px !important;
+  }
+  quick-cart-drawer .snapmint_emi_detail button,
+  quick-cart-drawer .snapmint_emi_detail a,
+  quick-cart-drawer .snapmint-emi-btn {
+    font-size: 10px !important;
+    padding: 4px 8px !important;
+  }
+  .quick-cart-delivery-badge {
+    margin-bottom: 8px !important;
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+  }
+  .quick-cart-product .product__variant-options {
+    margin-bottom: 10px !important;
+  }
+  .quick-cart-product .product__variant-options legend {
+    font-size: 11.5px !important;
+    margin-bottom: 6px !important;
+  }
+  .quick-cart-product .button--variant {
+    min-width: 44px !important;
+    height: 38px !important;
+    padding: 0 12px !important;
+    font-size: 12px !important;
+    border-radius: 6px !important;
+  }
+  .quick-cart-actions-row {
+    margin-top: 10px !important;
+    gap: 8px !important;
+    position: sticky !important;
+    bottom: 0 !important;
+    background: #ffffff !important;
+    padding: 8px 0 max(8px, env(safe-area-inset-bottom)) 0 !important;
+    z-index: 10 !important;
+  }
+  .quick-cart-product .quantity__wrapper {
+    width: 95px !important;
+    height: 44px !important;
+    border-radius: 6px !important;
+  }
+  .quick-cart-product .quantity__button {
+    width: 28px !important;
+    height: 44px !important;
+  }
+  .quick-cart-product .quantity__input {
+    width: 38px !important;
+    height: 44px !important;
+    font-size: 14px !important;
+  }
+  .quick-cart-product button[type="submit"],
+  .quick-cart-product .product-card__submit-btn {
+    height: 44px !important;
+    font-size: 13px !important;
+    border-radius: 6px !important;
+  }
+}
+
 
