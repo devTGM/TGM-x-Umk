@@ -428,7 +428,7 @@
   {%- assign product_link_with_variant = product_ref.url -%}
 {%- endif -%}
 
-<product-card class="product-card{% if is_small %} product-card--small{% endif %}{% unless product_ref.available %} product-card__sold-out{% endunless %}">
+<product-card class="product-card{% if is_small %} product-card--small{% endif %}{% unless product_ref.available %} product-card__sold-out{% endunless %}"{% if product_ref.metafields.custom.instant_ship %} data-instant-ship="true"{% endif %}>
   <div class="product-card__actions">
     <a href="{{ product_link_with_variant }}" tabindex="-1" class="product-card__link" data-product-link title="{{ 'product.go_to_title' | t : title: product_ref.title }}">
   {{ media }}

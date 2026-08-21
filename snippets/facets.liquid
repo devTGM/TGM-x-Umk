@@ -75,9 +75,17 @@
                                 <div class="drawer__row drawer__row--mb-lg">
                                   <accordion-default class="accordion facets__accordion">
                                     {% assign total_active_values = 0 %}
+                                    {% assign has_instant_ship_filter = false %}
                                     {%- for filter in results.filters -%}
+                                      {% assign filter_label_lower = filter.label | downcase %}
+                                      {% if filter_label_lower contains 'instant ship' or filter.param_name contains 'instant_ship' %}
+                                        {% assign has_instant_ship_filter = true %}
+                                      {% endif %}
                                       {%- render 'facet', index: forloop.index, section_id: section.id, filter: filter, opened_accordions: opened_accordions, total_active_values: total_active_values -%}
                                     {%- endfor -%}
+                                    {%- unless has_instant_ship_filter -%}
+                                      {%- render 'facet-instant-ship', section_id: section.id, opened_accordions: opened_accordions, form_id: 'FacetFiltersForm' -%}
+                                    {%- endunless -%}
                                   </accordion-default>
                                 </div>
                               </div>
@@ -276,6 +284,29 @@
                 {%- endif -%}
               {% endif %}
             {%- endfor -%}
+
+            {%- assign instant_ship_active = false -%}
+            {%- if canonical_url contains 'filter.p.m.custom.instant_ship' or canonical_url contains 'instant_ship=true' or canonical_url contains 'instant_ship=1' -%}
+              {%- assign instant_ship_active = true -%}
+              {%- assign filter_count = true -%}
+            {%- endif -%}
+
+            {%- if instant_ship_active -%}
+              {% if show_slider %}<div class="swiper-slide">{% endif %}
+                <div class="active-facets__button js-instant-ship-active-pill">
+                  <div class="active-facets__button-text">
+                    <span>Instant Ship</span>
+                  </div>
+                  <facet-remove>
+                    <a href="{{ results_url | remove: '&filter.p.m.custom.instant_ship=true' | remove: 'filter.p.m.custom.instant_ship=true&' | remove: 'filter.p.m.custom.instant_ship=true' }}" class="active-facets__button-link js-remove-instant-ship" aria-label="Remove Instant Ship filter">
+                      <div class="svg-wrapper">
+                        {%- render 'icon', icon_name: 'theme-close' -%}
+                      </div>
+                    </a>
+                  </facet-remove>
+                </div>
+              {% if show_slider %}</div>{% endif %}
+            {%- endif -%}
             {%- if filter_count and show_slider == false -%}
               <div class="active-facets__button active-facets__vertical-filter">
                 <facet-remove class="active-facets__button-wrapper">

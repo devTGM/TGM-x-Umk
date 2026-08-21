@@ -71,9 +71,17 @@
                 <accordion-default class="accordion facets__accordion collection-grid__sidebar-filter">
                   <span class="facets__accordion-header">{{- 'collection.filter_by' | t -}}</span>
                   {% assign total_active_values = 0 %}
+                  {% assign has_instant_ship_filter = false %}
                   {%- for filter in collection.filters -%}
+                    {% assign filter_label_lower = filter.label | downcase %}
+                    {% if filter_label_lower contains 'instant ship' or filter.param_name contains 'instant_ship' %}
+                      {% assign has_instant_ship_filter = true %}
+                    {% endif %}
                     {%- render 'facet', index: forloop.index, section_id: section.id, filter: filter, opened_accordions: section.settings.enable_opened_accordions, total_active_values: total_active_values -%}
                   {%- endfor -%}
+                  {%- unless has_instant_ship_filter -%}
+                    {%- render 'facet-instant-ship', section_id: section.id, opened_accordions: section.settings.enable_opened_accordions, form_id: 'FacetFiltersForm' -%}
+                  {%- endunless -%}
                 </accordion-default>
               </div>
             </form>

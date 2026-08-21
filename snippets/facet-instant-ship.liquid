@@ -1,0 +1,42 @@
+{% liquid
+  assign opened_accordions = opened_accordions | default: false
+  assign section_id = section_id | default: section.id
+  assign form_id = form_id | default: 'FacetFiltersForm'
+  
+  assign instant_ship_active = false
+  if canonical_url contains 'filter.p.m.custom.instant_ship' or canonical_url contains 'instant_ship=true' or canonical_url contains 'instant_ship=1'
+    assign instant_ship_active = true
+  endif
+%}
+
+<details class="accordion__section facets__accordion-section{% if instant_ship_active or opened_accordions %} is-active{% endif %}" id="Filters-accordion-section-instant-ship-{{ section_id }}"{% if instant_ship_active or opened_accordions %} open{% endif %}>
+  <summary class="facets__accordion-btn h4 js-btn" id="Filters-accordion-button-instant-ship-{{ section_id }}">
+    <span>Instant Ship</span>
+    <div class="facets__accordion-icon">
+      {%- render 'icon', icon_name: 'theme-chevron', class: 'icon' -%}
+    </div>
+  </summary>
+
+  <div class="accordion__body facets__accordion-body slim-scrollbar" id="Filters-accordion-dropdown-instant-ship-{{ section_id }}"{% if instant_ship_active or opened_accordions %} style="height: auto;"{% endif %}>
+    <div id="Filter-instant-ship-{{ section_id }}" class="js-filter" data-index="instant-ship">
+      <ul class="facets__list list-unstyled" role="list">
+        <li class="facets__item{% if instant_ship_active %} facets__item--checked{% endif %}">
+          <div class="checkbox facet-checkbox" tabindex="0">
+            <input
+              type="checkbox"
+              name="filter.p.m.custom.instant_ship"
+              value="true"
+              id="Filter-instant-ship-checkbox-{{ section_id }}"
+              class="product-option__input js-instant-ship-checkbox"
+              form="{{ form_id }}"
+              {% if instant_ship_active %}checked="checked"{% endif %}
+            >
+            <label for="Filter-instant-ship-checkbox-{{ section_id }}">
+              Instant Ship Only
+            </label>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</details>
