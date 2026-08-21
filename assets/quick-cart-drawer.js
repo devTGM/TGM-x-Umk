@@ -179,15 +179,22 @@ if (!customElements.get("quick-cart-drawer")) {
           }
         }
 
+        // Setup variant option change listeners
         this.querySelector(".quick-cart-drawer__main")
           ?.querySelectorAll(".variant-option-radio-input")
           ?.forEach((radio) => {
             radio.addEventListener("change", (event) => {
-              const legend = event.target.parentElement?.parentElement?.querySelector("legend");
-              const label = legend?.querySelector("[data-selected-variant]");
+              const fieldset = event.target.closest(".product__variant-options");
+              const label = fieldset?.querySelector("[data-selected-variant]");
               if (label) {
                 label.innerHTML = event.target.value;
               }
+              // Update visual active state on variant pills
+              fieldset?.querySelectorAll(".button--variant").forEach((vBtn) => {
+                const r = vBtn.querySelector('input[type="radio"]');
+                vBtn.classList.toggle("checked", !!r?.checked);
+              });
+
               const card = this.querySelector("product-card");
               const variantId = this.querySelector(".product-card__add-to-cart--form input[name='id']")?.value;
               if (card && card.variantsObj && variantId) {
@@ -198,6 +205,29 @@ if (!customElements.get("quick-cart-drawer")) {
               }
             });
           });
+
+        // Setup quantity stepper buttons in drawer
+        this.querySelectorAll("quantity-input").forEach((qInput) => {
+          const input = qInput.querySelector("input.quantity__input");
+          qInput.querySelectorAll("button.quantity__button").forEach((btn) => {
+            if (!btn._qbound) {
+              btn._qbound = true;
+              btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (!input) return;
+                const isInc = btn.getAttribute("name") === "increment" || btn.querySelector(".icon-theme-plus");
+                let cur = parseInt(input.value, 10) || 1;
+                if (isInc) {
+                  cur = Math.min(99, cur + 1);
+                } else {
+                  cur = Math.max(1, cur - 1);
+                }
+                input.value = cur;
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+              });
+            }
+          });
+        });
 
         this.open();
       } catch (err) {

@@ -188,16 +188,7 @@
     {%- endcapture -%}
 
     {% comment %} Render | Product Add-To-Cart Button {% endcomment %}
-    {%- if product_ref.variants.size == 1 and settings.product_card_enable_single_add_to_cart_button -%}
-      <button
-        type="submit"
-        class="{{ button_classes }}"
-        {%- unless product_ref.available -%}disabled{%- endunless -%}
-      >
-        {{- button_content -}}
-      </button>
-    {%- endif -%}
-    {%- if product_ref.variants.size > 1 and settings.product_card_enable_quick_add_to_cart_button -%}
+    {%- if settings.product_card_enable_quick_add_to_cart_button or settings.product_card_enable_single_add_to_cart_button -%}
       <button
         type="button"
         class="quick-cart-drawer__trigger {{ button_classes }}"
@@ -222,20 +213,8 @@
     {%- capture variant_id_input -%}
       <input type='hidden' name='id' value='{{- product_ref.selected_or_first_available_variant.id -}}'>
     {%- endcapture -%}
-
-    {%- if product_ref.variants.size == 1 and settings.product_card_enable_single_add_to_cart_button -%}
-      {% comment %} Render | Product Add-To-Cart Form {% endcomment %}
-      <form class="product-card__add-to-cart--form">
-        {{ variant_id_input }}
-        <input type='hidden' name='quantity' value='1'>
-        {{ add_to_cart_button }}
-      </form>
-    {%- else -%}
-      {{ variant_id_input }}
-    {%- endif -%}
-    {%- if product_ref.variants.size > 1 and settings.product_card_enable_quick_add_to_cart_button -%}
-      {{ add_to_cart_button }}
-    {%- endif -%}
+    {{ variant_id_input }}
+    {{ add_to_cart_button }}
   {%- endif -%}
 {%- endcapture -%}
 

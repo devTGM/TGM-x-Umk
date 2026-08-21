@@ -150,20 +150,22 @@
           class: 'product-card__add-to-cart--form product__form product__form--inline',
           novalidate: 'novalidate'
         -%}
-          <input type="hidden" name="id" value="{{- product.first_available_variant.id -}}">
-          <div class="product-selector__quantity">
-            {%- render 'quantity-input', product: product, hide_label: true -%}
+          <input type="hidden" name="id" value="{{- product.selected_or_first_available_variant.id -}}">
+          <div class="quick-cart-actions-row">
+            <div class="product-selector__quantity">
+              {%- render 'quantity-input', product_ref: product, hide_label: true -%}
+            </div>
+            <button type="submit" class="button button--filled button--uppercase product-card__submit-btn"{% unless product.available %} disabled{% endunless %}>
+              <span>
+                {%- if product_preorder -%}
+                  {{- 'product.preorder' | t -}}
+                {%- else -%}
+                  {{- 'theme.actions.add_to_cart' | t -}}
+                {%- endif -%}
+              </span>
+            </button>
           </div>
-          <button type="submit" class="button button--filled button--uppercase"{% unless product.available %} disabled{% endunless %}>
-            <span>
-              {%- if product_preorder -%}
-                {{- 'product.preorder' | t -}}
-              {%- else -%}
-                {{- 'theme.actions.add_to_cart' | t -}}
-              {%- endif -%}
-            </span>
-          </button>
-          {% if product_preorder == false %}
+          {% if product_preorder == false and false %}
             {{- form | payment_button -}}
           {% endif %}
           <div class="product-form__error-message-wrapper" role="alert" hidden>
