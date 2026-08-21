@@ -662,9 +662,16 @@ quick-cart-drawer {
   inset: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  pointer-events: none;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.25s ease, visibility 0.25s ease !important;
 }
 quick-cart-drawer.is--open {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   pointer-events: auto !important;
 }
 quick-cart-drawer .quick-cart-drawer__backdrop {
@@ -676,6 +683,14 @@ quick-cart-drawer .quick-cart-drawer__backdrop {
   width: 100vw;
   height: 100vh;
   z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+quick-cart-drawer.is--open .quick-cart-drawer__backdrop {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
 }
 quick-cart-drawer .quick-cart-drawer__blocks {
   background: #ffffff !important;
@@ -683,17 +698,44 @@ quick-cart-drawer .quick-cart-drawer__blocks {
   box-shadow: -4px 0 30px rgba(0, 0, 0, 0.25);
   display: flex !important;
   flex-direction: column !important;
+  position: relative !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 @media screen and (min-width: 750px) {
+  quick-cart-drawer {
+    justify-content: flex-end !important;
+    align-items: stretch !important;
+  }
   quick-cart-drawer .quick-cart-drawer__blocks {
     width: 440px !important;
     max-width: 90vw !important;
+    height: 100vh !important;
+    transform: translateX(100%);
+  }
+  quick-cart-drawer.is--open .quick-cart-drawer__blocks {
+    transform: translateX(0) !important;
   }
 }
 @media screen and (max-width: 749px) {
+  quick-cart-drawer {
+    display: none !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    align-items: stretch !important;
+  }
+  quick-cart-drawer.is--open {
+    display: flex !important;
+  }
   quick-cart-drawer .quick-cart-drawer__blocks {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 86vh !important;
     border-radius: 20px 20px 0 0 !important;
-    max-height: 88vh !important;
+    transform: translateY(100%);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35) !important;
+  }
+  quick-cart-drawer.is--open .quick-cart-drawer__blocks {
+    transform: translateY(0) !important;
   }
 }
 
@@ -1081,10 +1123,13 @@ quick-cart-drawer .snapmint_emi_detail a {
    ======================================================== */
 @media screen and (max-width: 749px) {
   quick-cart-drawer {
-    display: flex !important;
+    display: none !important;
     flex-direction: column !important;
     justify-content: flex-end !important;
     align-items: stretch !important;
+  }
+  quick-cart-drawer.is--open {
+    display: flex !important;
   }
   quick-cart-drawer .quick-cart-drawer__blocks {
     width: 100% !important;

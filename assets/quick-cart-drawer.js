@@ -18,6 +18,7 @@
     drawers.forEach((drawer) => {
       drawer.classList.remove("is--open");
       drawer.toggleState = false;
+      drawer.style.display = "none";
       drawer.dispatchEvent(new Event("closed", { bubbles: true }));
     });
     const shopLookDrawer = document.querySelector("shop-the-look-drawer");
@@ -83,6 +84,7 @@
 
     open() {
       this.toggleState = true;
+      this.style.display = "flex";
       document.body.classList.add("overflow-hidden");
       this.classList.add("is--open");
       const blocks = this.querySelector(".quick-cart-drawer__blocks");
@@ -92,12 +94,13 @@
 
     close() {
       this.toggleState = false;
+      this.classList.remove("is--open");
+      this.style.display = "none";
       const shopLookDrawer = document.querySelector("shop-the-look-drawer");
       if (!shopLookDrawer || !shopLookDrawer.classList.contains("is--open")) {
         document.body.classList.remove("overflow-hidden");
         document.body.style.overflow = "";
       }
-      this.classList.remove("is--open");
       this.dispatchEvent(new Event("closed", { bubbles: true }));
     }
 
