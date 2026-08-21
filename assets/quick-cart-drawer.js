@@ -128,10 +128,26 @@
         const optionsList = product.options
           .map((option, optIdx) => {
             const optNum = optIdx + 1;
+            const optNameLower = (option.name || "").toLowerCase();
+
+            // Render single delivery timeline option as a clean badge
+            if (
+              option.values.length === 1 &&
+              (optNameLower.includes("delivery") ||
+                optNameLower.includes("ship") ||
+                optNameLower.includes("timeline"))
+            ) {
+              return `
+                <div class="quick-cart-delivery-badge">
+                  <span class="delivery-icon">⚡</span>
+                  <span class="delivery-text">${option.name}: <strong>${option.values[0]}</strong></span>
+                </div>
+              `;
+            }
+
             const valuesHtml = option.values
-              .map((val, valIdx) => {
+              .map((val) => {
                 const isSelected = firstAvailableVariant[`option${optNum}`] === val;
-                // check if any variant with this option is available
                 const isAvailable = product.variants.some(
                   (v) => v[`option${optNum}`] === val && v.available
                 );
@@ -145,7 +161,10 @@
 
             return `
             <div class="product__variant-options js-product-card-options" data-option-num="${optNum}">
-              <legend>${option.name}: <span data-selected-variant>${firstAvailableVariant[`option${optNum}`] || ""}</span></legend>
+              <legend>
+                <span class="option-name">${option.name}:</span>
+                <span class="option-selected-val" data-selected-variant>${firstAvailableVariant[`option${optNum}`] || ""}</span>
+              </legend>
               <div class="variant-pills-row">${valuesHtml}</div>
             </div>
           `;
@@ -162,12 +181,12 @@
         <div class="quick-cart-product product">
           ${mediaHtml}
           <div class="product__content">
-            <div class="product__title-wrapper">
-              <a href="${product.url}" class="product__title">${product.title}</a>
-            </div>
-            <div class="product__price">
-              ${hasComparePrice ? `<s>${comparePriceFormatted}</s> ` : ""}
-              <span class="price">${priceFormatted}</span>
+            <div class="quick-cart-product-header">
+              <h3 class="quick-cart-product-title">${product.title}</h3>
+              <div class="quick-cart-product-price">
+                ${hasComparePrice ? `<s>${comparePriceFormatted}</s> ` : ""}
+                <span class="price">${priceFormatted}</span>
+              </div>
             </div>
 
             ${optionsHtml}
@@ -177,9 +196,13 @@
               <div class="quick-cart-actions-row">
                 <div class="product-selector__quantity">
                   <div class="quantity__wrapper">
-                    <button class="quantity__button" name="decrement" type="button">-</button>
-                    <input class="quantity__input" type="number" name="quantity" min="1" max="99" value="1">
-                    <button class="quantity__button" name="increment" type="button">+</button>
+                    <button class="quantity__button" name="decrement" type="button" aria-label="Decrease quantity">
+                      <svg width="12" height="2" viewBox="0 0 12 2" fill="none"><path d="M1 1H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    </button>
+                    <input class="quantity__input" type="number" name="quantity" min="1" max="99" value="1" aria-label="Quantity">
+                    <button class="quantity__button" name="increment" type="button" aria-label="Increase quantity">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    </button>
                   </div>
                 </div>
                 <button type="submit" class="button product-card__submit-btn" ${!firstAvailableVariant.available ? "disabled" : ""}>
@@ -360,27 +383,90 @@
                 });
               }
 
-              const innerCard = this.querySelector("product-card");
-              if (innerCard && typeof innerCard.init === "function") {
-                innerCard.init();
-              }
+              const form = main.querySelector("form.product-card__add-to-cart--form");
+              const formIdInput = form?.querySelector("input[name='id']");
+              const submitBtn = form?.querySelector("button[type='submit']");
+              const qtyInput = form?.querySelector("input[name='quantity']");
 
-              // Bind quantity stepper buttons
-              this.querySelectorAll("quantity-input").forEach((qInput) => {
-                const input = qInput.querySelector("input.quantity__input");
-                qInput.querySelectorAll("button.quantity__button").forEach((btn) => {
-                  if (!btn._qbound) {
-                    btn._qbound = true;
-                    btn.addEventListener("click", (evt) => {
-                      evt.preventDefault();
-                      if (!input) return;
-                      const isInc = btn.getAttribute("name") === "increment" || btn.querySelector(".icon-theme-plus");
-                      let cur = parseInt(input.value, 10) || 1;
-                      input.value = isInc ? Math.min(99, cur + 1) : Math.max(1, cur - 1);
-                      input.dispatchEvent(new Event("change", { bubbles: true }));
-                    });
+              // Handle variant pill clicks
+              main.querySelectorAll(".button--variant").forEach((pill) => {
+                pill.addEventListener("click", () => {
+                  const fieldset = pill.closest(".product__variant-options");
+                  fieldset?.querySelectorAll(".button--variant").forEach((p) => p.classList.remove("checked"));
+                  pill.classList.add("checked");
+
+                  const radio = pill.querySelector("input[type='radio']");
+                  if (radio) {
+                    radio.checked = true;
+                    radio.dispatchEvent(new Event("change", { bubbles: true }));
+                  }
+
+                  const selectedLabel = fieldset?.querySelector("[data-selected-variant]");
+                  if (selectedLabel && radio) {
+                    selectedLabel.textContent = radio.value;
                   }
                 });
+              });
+
+              // Handle quantity buttons
+              main.querySelector(".quantity__button[name='decrement']")?.addEventListener("click", () => {
+                if (!qtyInput) return;
+                let v = parseInt(qtyInput.value, 10) || 1;
+                qtyInput.value = Math.max(1, v - 1);
+              });
+              main.querySelector(".quantity__button[name='increment']")?.addEventListener("click", () => {
+                if (!qtyInput) return;
+                let v = parseInt(qtyInput.value, 10) || 1;
+                qtyInput.value = Math.min(99, v + 1);
+              });
+
+              // Form submit
+              form?.addEventListener("submit", async (evt) => {
+                evt.preventDefault();
+                const variantId = formIdInput?.value;
+                const qty = parseInt(qtyInput?.value, 10) || 1;
+                if (!variantId) return;
+
+                submitBtn?.setAttribute("disabled", "disabled");
+                const prevText = submitBtn?.innerHTML || "";
+                if (submitBtn) submitBtn.innerHTML = "<span>ADDING...</span>";
+
+                try {
+                  const cart = document.querySelector("cart-drawer");
+                  const sections = cart && typeof cart.getSectionsToRender === "function"
+                    ? cart.getSectionsToRender().map((s) => s.section).join(",")
+                    : "";
+
+                  const bodyData = new FormData();
+                  bodyData.append("id", variantId);
+                  bodyData.append("quantity", qty.toString());
+                  if (sections) {
+                    bodyData.append("sections", sections);
+                    bodyData.append("sections_url", window.location.pathname);
+                  }
+
+                  const res = await fetch("/cart/add.js", {
+                    method: "POST",
+                    body: bodyData
+                  });
+                  const data = await res.json();
+
+                  if (data.errors) {
+                    alert(data.errors);
+                  } else {
+                    this.close();
+                    if (cart && typeof cart.renderContents === "function") {
+                      cart.renderContents(data);
+                    } else if (typeof updateCartCounters === "function") {
+                      updateCartCounters();
+                    }
+                  }
+                } catch (err) {
+                  console.error("Cart Add Error:", err);
+                } finally {
+                  submitBtn?.removeAttribute("disabled");
+                  if (submitBtn) submitBtn.innerHTML = prevText;
+                }
               });
 
               this.open();
