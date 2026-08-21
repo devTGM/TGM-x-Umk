@@ -424,6 +424,52 @@
               const submitBtn = form?.querySelector("button[type='submit']");
               const qtyInput = form?.querySelector("input[name='quantity']");
 
+              let variantsData = [];
+              const variantsJsonEl = main.querySelector("script[data-product-variants-json]");
+              if (variantsJsonEl) {
+                try {
+                  variantsData = JSON.parse(variantsJsonEl.textContent);
+                } catch (e) {}
+              }
+
+              const updateVariantState = () => {
+                const checkedRadios = Array.from(main.querySelectorAll(".variant-option-radio-input:checked"));
+                const selectedValues = checkedRadios.map((r) => r.value);
+
+                if (variantsData.length > 0) {
+                  const matched =
+                    variantsData.find((v) => selectedValues.every((val) => v.options.includes(val))) ||
+                    variantsData.find((v) => selectedValues.some((val) => v.options.includes(val)));
+
+                  if (matched) {
+                    if (formIdInput) formIdInput.value = matched.id;
+                    if (matched.available) {
+                      submitBtn?.removeAttribute("disabled");
+                      if (submitBtn) submitBtn.innerHTML = "<span>ADD TO CART</span>";
+                    } else {
+                      submitBtn?.setAttribute("disabled", "disabled");
+                      if (submitBtn) submitBtn.innerHTML = "<span>SOLD OUT</span>";
+                    }
+
+                    // Update price
+                    const priceEl = main.querySelector(".quick-cart-product-price");
+                    if (priceEl && matched.price) {
+                      const compPrice =
+                        matched.compare_at_price > matched.price
+                          ? `<s>${formatMoney(matched.compare_at_price)}</s> `
+                          : "";
+                      priceEl.innerHTML = `${compPrice}<span class="price">${formatMoney(matched.price)}</span>`;
+                    }
+
+                    // Update Snapmint EMI
+                    const snapmintVal = main.querySelector("[data-snapmint-emi-val]");
+                    if (snapmintVal && matched.price) {
+                      snapmintVal.textContent = "₹" + Math.round(matched.price / 400).toLocaleString("en-IN");
+                    }
+                  }
+                }
+              };
+
               // Handle variant pill clicks
               main.querySelectorAll(".button--variant").forEach((pill) => {
                 pill.addEventListener("click", () => {
@@ -441,6 +487,8 @@
                   if (selectedLabel && radio) {
                     selectedLabel.textContent = radio.value;
                   }
+
+                  updateVariantState();
                 });
               });
 

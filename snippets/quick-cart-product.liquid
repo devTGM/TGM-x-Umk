@@ -57,8 +57,16 @@
             <div class="quick-cart-delivery-badge">
               <span class="delivery-icon">⚡</span>
               <span class="delivery-text">{{ clean_opt_name }}: <strong>{{ option.values.first }}</strong></span>
-              <input type="hidden" name="{{ product.id }}-option[{{ opt_idx }}]" value="{{ option.values.first }}" class="variant-option-radio-input">
             </div>
+            <fieldset class="js-product-card-options visually-hidden" data-option-index="{{ opt_idx }}" style="display:none;">
+              <input
+                type="radio"
+                name="{{ product.id }}-option[{{ opt_idx }}]"
+                value="{{ option.values.first | escape }}"
+                checked="checked"
+                class="variant-option-radio-input"
+              >
+            </fieldset>
           {%- else -%}
             <fieldset class="product__variant-options js-product-card-options" data-option-index="{{ opt_idx }}">
               <legend>
