@@ -9,6 +9,24 @@
     return "Rs. " + value;
   }
 
+  window.closeQuickCartDrawer = function (e) {
+    if (e) {
+      if (typeof e.preventDefault === "function") e.preventDefault();
+      if (typeof e.stopPropagation === "function") e.stopPropagation();
+    }
+    const drawers = document.querySelectorAll("quick-cart-drawer");
+    drawers.forEach((drawer) => {
+      drawer.classList.remove("is--open");
+      drawer.toggleState = false;
+      drawer.dispatchEvent(new Event("closed", { bubbles: true }));
+    });
+    const shopLookDrawer = document.querySelector("shop-the-look-drawer");
+    if (!shopLookDrawer || !shopLookDrawer.classList.contains("is--open")) {
+      document.body.classList.remove("overflow-hidden");
+      document.body.style.overflow = "";
+    }
+  };
+
   function getDrawerElement() {
     let drawer = document.querySelector("quick-cart-drawer");
     if (!drawer) {
@@ -17,7 +35,7 @@
         <div class="quick-cart-drawer__blocks slim-scrollbar" tabindex="-1">
           <div class="quick-cart-drawer__header">
             <h5>SELECT SIZE & QUANTITY</h5>
-            <button type="button" class="button--close" aria-label="Close">
+            <button type="button" class="button--close" aria-label="Close" onclick="window.closeQuickCartDrawer && window.closeQuickCartDrawer(event)">
               <svg class="icon icon-theme-close" viewBox="0 0 16 16" width="16" height="16">
                 <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
@@ -25,7 +43,7 @@
           </div>
           <div class="quick-cart-drawer__main"></div>
         </div>
-        <div class="quick-cart-drawer__backdrop"></div>
+        <div class="quick-cart-drawer__backdrop" onclick="window.closeQuickCartDrawer && window.closeQuickCartDrawer(event)"></div>
       `;
       document.body.appendChild(drawer);
     }
@@ -50,8 +68,14 @@
 
     init() {
       this.toggleState = false;
-      this.querySelector(".button--close")?.addEventListener("click", () => this.close());
-      this.querySelector(".quick-cart-drawer__backdrop")?.addEventListener("click", () => this.close());
+      const closeBtn = this.querySelector(".button--close");
+      if (closeBtn) {
+        closeBtn.onclick = (e) => window.closeQuickCartDrawer(e);
+      }
+      const backdrop = this.querySelector(".quick-cart-drawer__backdrop");
+      if (backdrop) {
+        backdrop.onclick = (e) => window.closeQuickCartDrawer(e);
+      }
       this.querySelector(".quick-cart-drawer__blocks")?.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && this.toggleState) this.close();
       });

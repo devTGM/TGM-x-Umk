@@ -18,7 +18,7 @@
         aria-expanded='false'
         aria-controls='quick-cart-drawer'
         aria-label='Close drawer for selected item'
-        tabindex="-1"
+        onclick="window.closeQuickCartDrawer && window.closeQuickCartDrawer(event)"
       >
         {%- render 'icon', icon_name: 'theme-close' -%}
       </button>
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <div class='quick-cart-drawer__backdrop'></div>
+  <div class='quick-cart-drawer__backdrop' onclick="window.closeQuickCartDrawer && window.closeQuickCartDrawer(event)"></div>
 </quick-cart-drawer>
 {% schema %}
 {
