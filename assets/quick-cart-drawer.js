@@ -52,16 +52,12 @@ if (!customElements.get("quick-cart-drawer")) {
     }
 
     initTriggers() {
-      new MutationObserver(() => {
-        document.querySelectorAll(".quick-cart-drawer__trigger").forEach((btn) => {
-          if (!btn._init) {
-            btn.addEventListener("click", (e) => {
-              this.fetchProductForQuickCartDrawer(e);
-            });
-            btn._init = true;
-          }
-        });
-      }).observe(document.body, { childList: true, subtree: true });
+      document.addEventListener("click", (e) => {
+        const trigger = e.target.closest(".quick-cart-drawer__trigger");
+        if (trigger && !trigger.classList.contains("js-cart-quick-add-btn")) {
+          this.fetchProductForQuickCartDrawer(e);
+        }
+      });
     }
 
     async fetchProductForQuickCartDrawer(e) {
@@ -87,11 +83,12 @@ if (!customElements.get("quick-cart-drawer")) {
       productUrlEl.classList.add("is--loading");
 
       try {
-        let rootUrl = "";
-        if (window.Shopify?.routes?.root?.includes(`/${window.Shopify.locale}/`)) {
-          rootUrl = `/${window.Shopify.locale}`;
+        let fetchUrl = productUrlEl.dataset.productUrl || "";
+        if (!fetchUrl.startsWith("http") && !fetchUrl.startsWith("/")) {
+          fetchUrl = "/" + fetchUrl;
         }
-        const response = await fetch(`${rootUrl}${productUrlEl.dataset.productUrl}/?view=quick-cart`);
+        const separator = fetchUrl.includes("?") ? "&" : "?";
+        const response = await fetch(`${fetchUrl}${separator}view=quick-cart`);
         if (!response.ok) return;
 
         const html = await response.text();

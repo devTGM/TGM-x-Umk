@@ -1401,9 +1401,7 @@ if (
           this.querySelector(".product-card__media").classList.contains(
             "product-card__media--hoverable",
           ) &&
-          this.secondImgHoverStates(),
-        document.querySelector("quick-cart-drawer") ||
-          this.querySelector(".quick-cart-drawer__trigger")?.remove());
+          this.secondImgHoverStates();
     }
     initForm() {
       ((this.cart =

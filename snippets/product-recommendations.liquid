@@ -55,9 +55,9 @@
                     </p>
                   </div>
                   {%- if is_single_variant -%}
-                    <button type="button" class="custom-add-btn block-add-btn js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" onclick="preventDefault(event)"><span>+</span> ADD</button>
+                    <button type="button" class="custom-add-btn block-add-btn js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" data-product-url="{{ recommendation.url }}"><span>+</span> ADD</button>
                   {%- else -%}
-                    <button type="button" class="custom-add-btn block-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" aria-controls="quick-cart-drawer" onclick="preventDefault(event)"><span>+</span> ADD</button>
+                    <button type="button" class="custom-add-btn block-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" data-has-multiple-variants="true" data-product-url="{{ recommendation.url }}" aria-controls="quick-cart-drawer"><span>+</span> ADD</button>
                   {%- endif -%}
                 </div>
               </div>
@@ -73,9 +73,9 @@
                   </p>
                 </div>
                 {%- if is_single_variant -%}
-                  <button type="button" class="custom-add-btn block-add-btn js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" onclick="preventDefault(event)"><span>+</span> ADD</button>
+                  <button type="button" class="custom-add-btn block-add-btn js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" data-product-url="{{ recommendation.url }}"><span>+</span> ADD</button>
                 {%- else -%}
-                  <button type="button" class="custom-add-btn block-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" aria-controls="quick-cart-drawer" onclick="preventDefault(event)"><span>+</span> ADD</button>
+                  <button type="button" class="custom-add-btn block-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" data-has-multiple-variants="true" data-product-url="{{ recommendation.url }}" aria-controls="quick-cart-drawer"><span>+</span> ADD</button>
                 {%- endif -%}
               </div>
             {%- elsif rec_count == 3 -%}
@@ -99,11 +99,11 @@
                           </div>
                         </div>
                         {%- if is_single_variant -%}
-                          <button type="button" class="custom-add-btn carousel-add-btn js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" onclick="preventDefault(event)">
+                          <button type="button" class="custom-add-btn carousel-add-btn js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" data-product-url="{{ recommendation.url }}">
                             <span>+</span> ADD
                           </button>
                         {%- else -%}
-                          <button type="button" class="custom-add-btn carousel-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" aria-controls="quick-cart-drawer" onclick="preventDefault(event)">
+                          <button type="button" class="custom-add-btn carousel-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" data-has-multiple-variants="true" data-product-url="{{ recommendation.url }}" aria-controls="quick-cart-drawer">
                             <span>+</span> ADD
                           </button>
                         {%- endif -%}
@@ -124,11 +124,11 @@
                           </div>
                         </div>
                         {%- if is_single_variant -%}
-                          <button type="button" class="custom-add-btn carousel-add-btn js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" onclick="preventDefault(event)">
+                          <button type="button" class="custom-add-btn carousel-add-btn js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" data-product-url="{{ recommendation.url }}">
                             <span>+</span> ADD
                           </button>
                         {%- else -%}
-                          <button type="button" class="custom-add-btn carousel-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations" data-product-url="{{- recommendation.handle | prepend: '/products/'  -}}" aria-controls="quick-cart-drawer" onclick="preventDefault(event)">
+                          <button type="button" class="custom-add-btn carousel-add-btn quick-cart-drawer__trigger quick-cart-drawer__trigger--recommendations js-cart-quick-add-btn" data-variant-id="{{ recommendation.first_available_variant.id }}" data-has-multiple-variants="true" data-product-url="{{ recommendation.url }}" aria-controls="quick-cart-drawer">
                             <span>+</span> ADD
                           </button>
                         {%- endif -%}
