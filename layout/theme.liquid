@@ -89,6 +89,7 @@
       }
     </script>
   <script data-custom-wpsob="1">function wpsobIsInViewport(el){const rect=el.getBoundingClientRect();return rect.top>=0&&rect.left>=0&&rect.bottom<=(window.innerHeight||document.documentElement.clientHeight)&&rect.right<=(window.innerWidth||document.documentElement.clientWidth)}function wpsobRemoveDims(img){if(img.hasAttribute("data-wpsob-width"))img.removeAttribute("width");if(img.hasAttribute("data-wpsob-height"))img.removeAttribute("height")}function wpsobCheckVisibleImages(){const imgs=document.querySelectorAll("img");for(let i=0;i<imgs.length;i++)if(wpsobIsInViewport(imgs[i]))wpsobRemoveDims(imgs[i])}function wpsobRemoveDimsAll(){const imgs=document.querySelectorAll("img");for(let i=0;i<imgs.length;i++)wpsobRemoveDims(imgs[i])}window.onload=wpsobCheckVisibleImages;let wpsobScrollTimeout;window.addEventListener("scroll",function(){if(!wpsobScrollTimeout){wpsobScrollTimeout=requestAnimationFrame(function(){wpsobRemoveDimsAll();wpsobScrollTimeout=null})}},{passive:true});</script>  {% render 'sr-checkout' %}
+  <script src="https://unpkg.com/spf-analytics@1.0.0/index.js" defer></script>
 </head>
 
   <body class="template template--{{ template.name }}{% if template.suffix %} template--{{- template.suffix -}}{% endif %} is-at-top">
