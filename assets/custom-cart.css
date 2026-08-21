@@ -798,22 +798,34 @@ quick-cart-drawer .snapmint_emi_detail a {
   color: #111111;
 }
 .quick-cart-drawer__header .button--close {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #e5e5e5;
-  border-radius: 50%;
-  cursor: pointer;
-  background: #f7f7f7;
-  transition: all 0.2s ease;
-  color: #333;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid #e5e5e5 !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  background: #f7f7f7 !important;
+  transition: all 0.2s ease !important;
+  color: #333333 !important;
+  pointer-events: auto !important;
+  z-index: 50 !important;
+  position: relative !important;
+  padding: 0 !important;
+}
+.quick-cart-drawer__header .button--close svg,
+.quick-cart-drawer__header .button--close path {
+  pointer-events: none !important;
 }
 .quick-cart-drawer__header .button--close:hover {
-  background: #111111;
-  color: #ffffff;
-  border-color: #111111;
+  background: #111111 !important;
+  color: #ffffff !important;
+  border-color: #111111 !important;
+}
+.quick-cart-drawer__header .button--close:hover path {
+  stroke: #ffffff !important;
 }
 
 /* Quick Cart Product Gallery */

@@ -71,6 +71,7 @@
       const shopLookDrawer = document.querySelector("shop-the-look-drawer");
       if (!shopLookDrawer || !shopLookDrawer.classList.contains("is--open")) {
         document.body.classList.remove("overflow-hidden");
+        document.body.style.overflow = "";
       }
       this.classList.remove("is--open");
       this.dispatchEvent(new Event("closed", { bubbles: true }));
@@ -506,8 +507,29 @@
     customElements.define("quick-cart-drawer", QuickCartDrawer);
   }
 
-  // Global click listener for ALL quick add buttons across the site
+  // Global click listener for closing drawer and opening triggers
   document.addEventListener("click", (e) => {
+    // 1. Check if clicked close button or backdrop
+    const closeBtn = e.target.closest(
+      "quick-cart-drawer .button--close, [aria-controls='quick-cart-drawer'].button--close, .quick-cart-drawer__backdrop"
+    );
+    if (closeBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const drawer = document.querySelector("quick-cart-drawer");
+      if (drawer) {
+        if (typeof drawer.close === "function") {
+          drawer.close();
+        } else {
+          drawer.classList.remove("is--open");
+        }
+        document.body.classList.remove("overflow-hidden");
+        document.body.style.overflow = "";
+      }
+      return;
+    }
+
+    // 2. Check if clicked trigger
     const trigger = e.target.closest(".quick-cart-drawer__trigger, .product-card__add-to-cart--button");
     if (trigger) {
       if (trigger.classList.contains("js-cart-quick-add-btn")) return;
@@ -517,6 +539,22 @@
       const drawer = getDrawerElement();
       if (drawer && typeof drawer.fetchProductForQuickCartDrawer === "function") {
         drawer.fetchProductForQuickCartDrawer(e, trigger);
+      }
+    }
+  });
+
+  // ESC key listener to close drawer
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" || e.code === "Escape") {
+      const drawer = document.querySelector("quick-cart-drawer.is--open");
+      if (drawer) {
+        if (typeof drawer.close === "function") {
+          drawer.close();
+        } else {
+          drawer.classList.remove("is--open");
+        }
+        document.body.classList.remove("overflow-hidden");
+        document.body.style.overflow = "";
       }
     }
   });
