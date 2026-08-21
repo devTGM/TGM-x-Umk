@@ -800,6 +800,12 @@ quick-cart-drawer .quick-cart-drawer__blocks {
 }
 .quick-cart-product .product__variant-options {
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.quick-cart-product .variant-pills-row {
+  display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
