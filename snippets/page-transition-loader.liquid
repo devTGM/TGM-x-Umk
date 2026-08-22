@@ -1,0 +1,225 @@
+{% comment %}
+  Page Transition Loader with Store Logo
+  Displays a luxury loading screen with the Unmatched Kicks logo during page transitions
+{% endcomment %}
+
+<div id="page-transition-loader" class="page-transition-loader is-initial-loading" aria-hidden="true">
+  <div class="page-transition-loader__inner">
+    <div class="page-transition-loader__logo-container">
+      <img
+        src="{{ 'UK-Logo_768dfaa3-0466-45b5-b9e8-2d1bae580e2d.png' | file_img_url: '400x' }}"
+        alt="{{ shop.name | escape }}"
+        class="page-transition-loader__logo"
+        width="160"
+        height="80"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+    <div class="page-transition-loader__progress">
+      <div class="page-transition-loader__progress-bar"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .page-transition-loader {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: #0a0a0a !important;
+    z-index: 99999999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: opacity, visibility;
+  }
+
+  .page-transition-loader.is-initial-loading,
+  .page-transition-loader.is-active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .page-transition-loader__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    user-select: none;
+  }
+
+  .page-transition-loader__logo-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: loaderLogoPulse 1.8s ease-in-out infinite;
+  }
+
+  .page-transition-loader__logo {
+    max-width: 160px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.15));
+  }
+
+  @media screen and (max-width: 749px) {
+    .page-transition-loader__logo {
+      max-width: 130px;
+    }
+  }
+
+  .page-transition-loader__progress {
+    width: 120px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .page-transition-loader__progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 45%;
+    background: #ffffff;
+    border-radius: 2px;
+    animation: loaderProgressMove 1.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+
+  @keyframes loaderLogoPulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.92;
+    }
+    50% {
+      transform: scale(1.04);
+      opacity: 1;
+    }
+  }
+
+  @keyframes loaderProgressMove {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(250%);
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const loader = document.getElementById("page-transition-loader");
+    if (!loader) return;
+
+    let timeoutId = null;
+
+    function hideLoader() {
+      if (timeoutId) clearTimeout(timeoutId);
+      loader.classList.remove("is-initial-loading");
+      loader.classList.remove("is-active");
+    }
+
+    function showLoader() {
+      loader.classList.add("is-active");
+      // Safety timeout: auto-hide after 3.5s if navigation takes too long or fails
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(hideLoader, 3500);
+    }
+
+    // Hide loader when page is fully ready
+    if (document.readyState === "complete") {
+      setTimeout(hideLoader, 150);
+    } else {
+      window.addEventListener("load", function () {
+        setTimeout(hideLoader, 150);
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(hideLoader, 250);
+      });
+    }
+
+    // Always hide loader on back/forward navigation (BFCache restore)
+    window.addEventListener("pageshow", function (e) {
+      hideLoader();
+    });
+
+    // Capture header logo src dynamically if rendered
+    const headerLogo = document.querySelector(".header__logo-image, .header__logo img");
+    if (headerLogo && headerLogo.src) {
+      const loaderImg = loader.querySelector(".page-transition-loader__logo");
+      if (loaderImg && headerLogo.src !== loaderImg.src) {
+        loaderImg.src = headerLogo.src;
+      }
+    }
+
+    // Intercept internal link clicks for smooth page transitions
+    document.addEventListener("click", function (e) {
+      const link = e.target.closest("a");
+      if (!link || !link.href) return;
+
+      // Ignore modified clicks (cmd+click, ctrl+click, shift+click)
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+      // Ignore default prevented clicks
+      if (e.defaultPrevented) return;
+
+      // Ignore new tab links
+      if (link.target === "_blank") return;
+
+      const rawHref = link.getAttribute("href") || "";
+
+      // Ignore hash / anchors, javascript, mailto, tel
+      if (
+        rawHref.startsWith("#") ||
+        rawHref.startsWith("javascript:") ||
+        rawHref.startsWith("mailto:") ||
+        rawHref.startsWith("tel:")
+      ) {
+        return;
+      }
+
+      // Ignore links that trigger drawers, modals, size charts, or quick adds
+      if (
+        link.closest(
+          "[aria-controls], [data-drawer], cart-drawer, quick-cart-drawer, .open-size-chart, .button--close, .modal, .custom-add-btn"
+        )
+      ) {
+        return;
+      }
+
+      try {
+        const dest = new URL(link.href, window.location.origin);
+        // Only trigger for same origin internal navigations
+        if (dest.origin === window.location.origin) {
+          const isSamePage =
+            dest.pathname === window.location.pathname && dest.search === window.location.search;
+          if (!isSamePage) {
+            showLoader();
+          }
+        }
+      } catch (err) {}
+    });
+
+    // Also trigger on beforeunload
+    window.addEventListener("beforeunload", function () {
+      showLoader();
+    });
+  })();
+</script>
