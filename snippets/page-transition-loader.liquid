@@ -1,19 +1,18 @@
 {% comment %}
-  Page Transition Loader with Store Logo
-  Displays a luxury loading screen with the Unmatched Kicks logo during page transitions
+  Ultra-Smooth Page Transition Loader with Store Logo
+  Hardware-accelerated 60fps/120fps smooth transition screen
 {% endcomment %}
 
-<div id="page-transition-loader" class="page-transition-loader is-initial-loading" aria-hidden="true">
+<div id="page-transition-loader" class="page-transition-loader" aria-hidden="true">
   <div class="page-transition-loader__inner">
     <div class="page-transition-loader__logo-container">
       <img
         src="{{ 'UK-Logo_768dfaa3-0466-45b5-b9e8-2d1bae580e2d.png' | file_img_url: '400x' }}"
         alt="{{ shop.name | escape }}"
         class="page-transition-loader__logo"
-        width="160"
-        height="80"
+        width="150"
+        height="75"
         loading="eager"
-        fetchpriority="high"
       />
     </div>
     <div class="page-transition-loader__progress">
@@ -25,13 +24,10 @@
 <style>
   .page-transition-loader {
     position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    background-color: #0a0a0a !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #000000 !important;
     z-index: 99999999 !important;
     display: flex !important;
     align-items: center !important;
@@ -39,11 +35,13 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    will-change: opacity, visibility;
+    transition: opacity 0.24s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.24s cubic-bezier(0.25, 1, 0.5, 1);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
   }
 
-  .page-transition-loader.is-initial-loading,
   .page-transition-loader.is-active {
     opacity: 1 !important;
     visibility: visible !important;
@@ -55,40 +53,44 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 16px;
     padding: 20px;
-    user-select: none;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 
   .page-transition-loader__logo-container {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: loaderLogoPulse 1.8s ease-in-out infinite;
+    animation: loaderBreathe 1.6s ease-in-out infinite;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    will-change: transform, opacity;
   }
 
   .page-transition-loader__logo {
-    max-width: 160px;
+    max-width: 150px;
     height: auto;
     object-fit: contain;
     display: block;
-    filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.15));
   }
 
   @media screen and (max-width: 749px) {
     .page-transition-loader__logo {
-      max-width: 130px;
+      max-width: 120px;
     }
   }
 
   .page-transition-loader__progress {
-    width: 120px;
+    width: 100px;
     height: 2px;
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 2px;
     overflow: hidden;
     position: relative;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
   }
 
   .page-transition-loader__progress-bar {
@@ -96,29 +98,30 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 45%;
+    width: 40%;
     background: #ffffff;
     border-radius: 2px;
-    animation: loaderProgressMove 1.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    animation: loaderProgressAnim 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: transform;
   }
 
-  @keyframes loaderLogoPulse {
+  @keyframes loaderBreathe {
     0%, 100% {
-      transform: scale(1);
-      opacity: 0.92;
+      transform: scale3d(0.98, 0.98, 1);
+      opacity: 0.9;
     }
     50% {
-      transform: scale(1.04);
+      transform: scale3d(1.02, 1.02, 1);
       opacity: 1;
     }
   }
 
-  @keyframes loaderProgressMove {
+  @keyframes loaderProgressAnim {
     0% {
-      transform: translateX(-100%);
+      transform: translate3d(-100%, 0, 0);
     }
     100% {
-      transform: translateX(250%);
+      transform: translate3d(280%, 0, 0);
     }
   }
 </style>
@@ -130,37 +133,31 @@
 
     let timeoutId = null;
 
-    function hideLoader() {
+    function hide() {
       if (timeoutId) clearTimeout(timeoutId);
-      loader.classList.remove("is-initial-loading");
       loader.classList.remove("is-active");
     }
 
-    function showLoader() {
+    function show() {
       loader.classList.add("is-active");
-      // Safety timeout: auto-hide after 3.5s if navigation takes too long or fails
       if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(hideLoader, 3500);
+      timeoutId = setTimeout(hide, 3000);
     }
 
-    // Hide loader when page is fully ready
-    if (document.readyState === "complete") {
-      setTimeout(hideLoader, 150);
+    // Always ensure loader is hidden once page is interactive / loaded
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+      hide();
     } else {
-      window.addEventListener("load", function () {
-        setTimeout(hideLoader, 150);
-      });
-      document.addEventListener("DOMContentLoaded", function () {
-        setTimeout(hideLoader, 250);
-      });
+      window.addEventListener("DOMContentLoaded", hide);
+      window.addEventListener("load", hide);
     }
 
-    // Always hide loader on back/forward navigation (BFCache restore)
+    // Critical for iOS Safari back/forward swipe & buttons (BFCache)
     window.addEventListener("pageshow", function (e) {
-      hideLoader();
+      hide();
     });
 
-    // Capture header logo src dynamically if rendered
+    // Sync header logo src if available
     const headerLogo = document.querySelector(".header__logo-image, .header__logo img");
     if (headerLogo && headerLogo.src) {
       const loaderImg = loader.querySelector(".page-transition-loader__logo");
@@ -169,23 +166,16 @@
       }
     }
 
-    // Intercept internal link clicks for smooth page transitions
+    // Trigger on clean page navigation clicks
     document.addEventListener("click", function (e) {
       const link = e.target.closest("a");
       if (!link || !link.href) return;
 
-      // Ignore modified clicks (cmd+click, ctrl+click, shift+click)
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-
-      // Ignore default prevented clicks
       if (e.defaultPrevented) return;
-
-      // Ignore new tab links
       if (link.target === "_blank") return;
 
       const rawHref = link.getAttribute("href") || "";
-
-      // Ignore hash / anchors, javascript, mailto, tel
       if (
         rawHref.startsWith("#") ||
         rawHref.startsWith("javascript:") ||
@@ -195,10 +185,9 @@
         return;
       }
 
-      // Ignore links that trigger drawers, modals, size charts, or quick adds
       if (
         link.closest(
-          "[aria-controls], [data-drawer], cart-drawer, quick-cart-drawer, .open-size-chart, .button--close, .modal, .custom-add-btn"
+          "[aria-controls], [data-drawer], cart-drawer, quick-cart-drawer, .open-size-chart, .button--close, .modal, .custom-add-btn, .product-card__add-to-cart--button"
         )
       ) {
         return;
@@ -206,20 +195,18 @@
 
       try {
         const dest = new URL(link.href, window.location.origin);
-        // Only trigger for same origin internal navigations
         if (dest.origin === window.location.origin) {
           const isSamePage =
             dest.pathname === window.location.pathname && dest.search === window.location.search;
           if (!isSamePage) {
-            showLoader();
+            show();
           }
         }
       } catch (err) {}
     });
 
-    // Also trigger on beforeunload
     window.addEventListener("beforeunload", function () {
-      showLoader();
+      show();
     });
   })();
 </script>
