@@ -1,9 +1,8 @@
 {% comment %}
   Ultra-Smooth Page Transition Loader with Store Logo
-  Hardware-accelerated 60fps/120fps smooth transition screen
 {% endcomment %}
 
-<div id="page-transition-loader" class="page-transition-loader" aria-hidden="true">
+<div id="page-transition-loader" class="page-transition-loader is-active" aria-hidden="true">
   <div class="page-transition-loader__inner">
     <div class="page-transition-loader__logo-container">
       <img
@@ -13,6 +12,7 @@
         width="150"
         height="75"
         loading="eager"
+        fetchpriority="high"
       />
     </div>
     <div class="page-transition-loader__progress">
@@ -25,17 +25,17 @@
   .page-transition-loader {
     position: fixed !important;
     inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
+    width: 100vw !important;
+    height: 100vh !important;
     background: #000000 !important;
-    z-index: 99999999 !important;
+    z-index: 999999999 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.24s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.24s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     -webkit-transform: translateZ(0);
@@ -63,14 +63,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: loaderBreathe 1.6s ease-in-out infinite;
+    animation: loaderBreathe 1.5s ease-in-out infinite;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
-    will-change: transform, opacity;
   }
 
   .page-transition-loader__logo {
-    max-width: 150px;
+    max-width: 140px;
     height: auto;
     object-fit: contain;
     display: block;
@@ -102,16 +101,15 @@
     background: #ffffff;
     border-radius: 2px;
     animation: loaderProgressAnim 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    will-change: transform;
   }
 
   @keyframes loaderBreathe {
     0%, 100% {
-      transform: scale3d(0.98, 0.98, 1);
-      opacity: 0.9;
+      transform: scale3d(0.97, 0.97, 1);
+      opacity: 0.88;
     }
     50% {
-      transform: scale3d(1.02, 1.02, 1);
+      transform: scale3d(1.03, 1.03, 1);
       opacity: 1;
     }
   }
@@ -141,23 +139,21 @@
     function show() {
       loader.classList.add("is-active");
       if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(hide, 3000);
+      timeoutId = setTimeout(hide, 3500);
     }
 
-    // Always ensure loader is hidden once page is interactive / loaded
-    if (document.readyState === "complete" || document.readyState === "interactive") {
-      hide();
-    } else {
-      window.addEventListener("DOMContentLoaded", hide);
-      window.addEventListener("load", hide);
-    }
+    // Smooth initial page load fade-out
+    setTimeout(hide, 300);
 
-    // Critical for iOS Safari back/forward swipe & buttons (BFCache)
-    window.addEventListener("pageshow", function (e) {
+    window.addEventListener("load", function () {
+      setTimeout(hide, 200);
+    });
+
+    window.addEventListener("pageshow", function () {
       hide();
     });
 
-    // Sync header logo src if available
+    // Capture header logo src
     const headerLogo = document.querySelector(".header__logo-image, .header__logo img");
     if (headerLogo && headerLogo.src) {
       const loaderImg = loader.querySelector(".page-transition-loader__logo");
@@ -166,44 +162,50 @@
       }
     }
 
-    // Trigger on clean page navigation clicks
-    document.addEventListener("click", function (e) {
-      const link = e.target.closest("a");
-      if (!link || !link.href) return;
+    // Global listener with capture: true so mobile drawers and menus do not block navigation trigger
+    document.addEventListener(
+      "click",
+      function (e) {
+        const link = e.target.closest("a");
+        if (!link || !link.href) return;
 
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      if (e.defaultPrevented) return;
-      if (link.target === "_blank") return;
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        if (link.target === "_blank" || link.hasAttribute("download")) return;
 
-      const rawHref = link.getAttribute("href") || "";
-      if (
-        rawHref.startsWith("#") ||
-        rawHref.startsWith("javascript:") ||
-        rawHref.startsWith("mailto:") ||
-        rawHref.startsWith("tel:")
-      ) {
-        return;
-      }
-
-      if (
-        link.closest(
-          "[aria-controls], [data-drawer], cart-drawer, quick-cart-drawer, .open-size-chart, .button--close, .modal, .custom-add-btn, .product-card__add-to-cart--button"
-        )
-      ) {
-        return;
-      }
-
-      try {
-        const dest = new URL(link.href, window.location.origin);
-        if (dest.origin === window.location.origin) {
-          const isSamePage =
-            dest.pathname === window.location.pathname && dest.search === window.location.search;
-          if (!isSamePage) {
-            show();
-          }
+        const rawHref = link.getAttribute("href") || "";
+        if (
+          rawHref.startsWith("#") ||
+          rawHref.startsWith("javascript:") ||
+          rawHref.startsWith("mailto:") ||
+          rawHref.startsWith("tel:")
+        ) {
+          return;
         }
-      } catch (err) {}
-    });
+
+        // Only ignore non-navigational action buttons
+        if (
+          link.classList.contains("quick-cart-drawer__trigger") ||
+          link.classList.contains("custom-add-btn") ||
+          link.classList.contains("button--close") ||
+          link.classList.contains("open-size-chart")
+        ) {
+          return;
+        }
+
+        try {
+          const dest = new URL(link.href, window.location.origin);
+          if (dest.origin === window.location.origin) {
+            const isDifferent =
+              dest.pathname !== window.location.pathname ||
+              dest.search !== window.location.search;
+            if (isDifferent) {
+              show();
+            }
+          }
+        } catch (err) {}
+      },
+      true
+    );
 
     window.addEventListener("beforeunload", function () {
       show();
