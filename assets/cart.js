@@ -265,6 +265,11 @@ document.addEventListener("click", function (e) {
     ".js-cart-quick-add-btn, .custom-add-btn, .quick-cart-drawer__trigger--recommendations",
   );
   if (!btn) return;
+  if (btn.hasAttribute("disabled") || btn.classList.contains("is--loading")) {
+    e.preventDefault();
+    e.stopPropagation();
+    return;
+  }
 
   const hasMultipleVariants =
     btn.dataset.hasMultipleVariants === "true" ||
@@ -275,12 +280,14 @@ document.addEventListener("click", function (e) {
 
   if (hasMultipleVariants && quickCartDrawer && productUrl) {
     e.preventDefault();
-    quickCartDrawer.fetchProductForQuickCartDrawer(e);
+    e.stopPropagation();
+    quickCartDrawer.fetchProductForQuickCartDrawer(e, btn);
     return;
   }
 
   if (variantId) {
     e.preventDefault();
+    e.stopPropagation();
     btn.setAttribute("disabled", "disabled");
     const originalContent = btn.innerHTML;
     btn.innerHTML = `<span>⏳</span> ADDING...`;

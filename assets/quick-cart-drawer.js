@@ -310,12 +310,16 @@
 
       // Quantity controls
       const qtyInput = main.querySelector("input.quantity__input");
-      main.querySelector(".quantity__button[name='decrement']")?.addEventListener("click", () => {
+      main.querySelector(".quantity__button[name='decrement']")?.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (!qtyInput) return;
         let v = parseInt(qtyInput.value, 10) || 1;
         qtyInput.value = Math.max(1, v - 1);
       });
-      main.querySelector(".quantity__button[name='increment']")?.addEventListener("click", () => {
+      main.querySelector(".quantity__button[name='increment']")?.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (!qtyInput) return;
         let v = parseInt(qtyInput.value, 10) || 1;
         qtyInput.value = Math.min(99, v + 1);
@@ -493,12 +497,16 @@
               });
 
               // Handle quantity buttons
-              main.querySelector(".quantity__button[name='decrement']")?.addEventListener("click", () => {
+              main.querySelector(".quantity__button[name='decrement']")?.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 if (!qtyInput) return;
                 let v = parseInt(qtyInput.value, 10) || 1;
                 qtyInput.value = Math.max(1, v - 1);
               });
-              main.querySelector(".quantity__button[name='increment']")?.addEventListener("click", () => {
+              main.querySelector(".quantity__button[name='increment']")?.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 if (!qtyInput) return;
                 let v = parseInt(qtyInput.value, 10) || 1;
                 qtyInput.value = Math.min(99, v + 1);
