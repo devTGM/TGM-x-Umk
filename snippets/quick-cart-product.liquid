@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <product-card class="product-card product-card__quick-cart">
+    <div class="product-card product-card__quick-cart">
       {%- assign variants = product.variants -%}
       {%- assign current_variant = product.selected_or_first_available_variant -%}
 
@@ -140,6 +140,6 @@
           <span class="product-form__error-message"></span>
         </div>
       {%- endform -%}
-    </product-card>
+    </div>
   </div>
 </div>

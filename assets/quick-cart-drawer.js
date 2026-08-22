@@ -326,12 +326,20 @@
       });
 
       // Form Submit
+      let isSubmittingJson = false;
       const form = main.querySelector("form.product-card__add-to-cart--form");
       form?.addEventListener("submit", async (evt) => {
         evt.preventDefault();
+        evt.stopImmediatePropagation();
+        if (isSubmittingJson) return;
+        isSubmittingJson = true;
+
         const variantId = formIdInput?.value;
         const qty = parseInt(qtyInput?.value, 10) || 1;
-        if (!variantId) return;
+        if (!variantId) {
+          isSubmittingJson = false;
+          return;
+        }
 
         submitBtn?.setAttribute("disabled", "disabled");
         const prevText = submitBtn?.innerHTML || "";
@@ -370,6 +378,7 @@
         } catch (err) {
           console.error("Cart Add Error:", err);
         } finally {
+          isSubmittingJson = false;
           submitBtn?.removeAttribute("disabled");
           if (submitBtn) submitBtn.innerHTML = prevText;
         }
@@ -513,11 +522,19 @@
               });
 
               // Form submit
+              let isSubmitting = false;
               form?.addEventListener("submit", async (evt) => {
                 evt.preventDefault();
+                evt.stopImmediatePropagation();
+                if (isSubmitting) return;
+                isSubmitting = true;
+
                 const variantId = formIdInput?.value;
                 const qty = parseInt(qtyInput?.value, 10) || 1;
-                if (!variantId) return;
+                if (!variantId) {
+                  isSubmitting = false;
+                  return;
+                }
 
                 submitBtn?.setAttribute("disabled", "disabled");
                 const prevText = submitBtn?.innerHTML || "";
@@ -556,6 +573,7 @@
                 } catch (err) {
                   console.error("Cart Add Error:", err);
                 } finally {
+                  isSubmitting = false;
                   submitBtn?.removeAttribute("disabled");
                   if (submitBtn) submitBtn.innerHTML = prevText;
                 }
