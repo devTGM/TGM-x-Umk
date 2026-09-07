@@ -2,15 +2,25 @@
   Ultra-Smooth Page Transition Loader with Store Logo
 {% endcomment %}
 
+{% liquid
+  assign loader_logo_url = 'IMG_1637_JPG.jpg' | file_img_url: '400x'
+  if settings.logo != blank
+    assign loader_logo_url = settings.logo | image_url: width: 400
+  elsif shop.brand.logo != blank
+    assign loader_logo_url = shop.brand.logo | image_url: width: 400
+  endif
+%}
+
 <div id="page-transition-loader" class="page-transition-loader is-active" aria-hidden="true">
   <div class="page-transition-loader__inner">
     <div class="page-transition-loader__logo-container">
       <img
-        src="{{ 'UK-Logo_768dfaa3-0466-45b5-b9e8-2d1bae580e2d.png' | file_img_url: '400x' }}"
+        id="page-transition-loader-img"
+        src="{{ loader_logo_url }}"
         alt="{{ shop.name | escape }}"
         class="page-transition-loader__logo"
-        width="150"
-        height="75"
+        width="160"
+        height="80"
         loading="eager"
         fetchpriority="high"
       />
@@ -69,7 +79,9 @@
   }
 
   .page-transition-loader__logo {
-    max-width: 140px;
+    max-width: 150px;
+    max-height: 80px;
+    width: auto;
     height: auto;
     object-fit: contain;
     display: block;
@@ -77,7 +89,8 @@
 
   @media screen and (max-width: 749px) {
     .page-transition-loader__logo {
-      max-width: 120px;
+      max-width: 130px;
+      max-height: 70px;
     }
   }
 
@@ -128,6 +141,51 @@
   (function () {
     const loader = document.getElementById("page-transition-loader");
     if (!loader) return;
+    const loaderImg =
+      document.getElementById("page-transition-loader-img") ||
+      loader.querySelector(".page-transition-loader__logo");
+
+    function getActiveLogoSrc() {
+      const headerLogo = document.querySelector(
+        ".header__logo-image, .header__logo-image-transparent, .header__logo img, .footer__brand-logo img, header a[href*='/'] img"
+      );
+      if (headerLogo) {
+        return headerLogo.currentSrc || headerLogo.src;
+      }
+      return null;
+    }
+
+    function updateLoaderLogo(src) {
+      if (src && loaderImg && loaderImg.src !== src) {
+        loaderImg.src = src;
+      }
+    }
+
+    // Restore cached logo immediately from sessionStorage if available
+    try {
+      const cachedLogo = sessionStorage.getItem("umk_logo_url");
+      if (cachedLogo) {
+        updateLoaderLogo(cachedLogo);
+      }
+    } catch (err) {}
+
+    function syncAndCacheLogo() {
+      const activeLogo = getActiveLogoSrc();
+      if (activeLogo) {
+        updateLoaderLogo(activeLogo);
+        try {
+          sessionStorage.setItem("umk_logo_url", activeLogo);
+        } catch (err) {}
+      }
+    }
+
+    // Sync on DOM ready and window load
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", syncAndCacheLogo);
+    } else {
+      syncAndCacheLogo();
+    }
+    window.addEventListener("load", syncAndCacheLogo);
 
     let timeoutId = null;
 
@@ -137,6 +195,7 @@
     }
 
     function show() {
+      syncAndCacheLogo();
       loader.classList.add("is-active");
       if (timeoutId) clearTimeout(timeoutId);
       timeoutId = setTimeout(hide, 3500);
@@ -146,21 +205,12 @@
     setTimeout(hide, 300);
 
     window.addEventListener("load", function () {
-      setTimeout(hide, 200);
+      setTimeout(hide, 150);
     });
 
     window.addEventListener("pageshow", function () {
       hide();
     });
-
-    // Capture header logo src
-    const headerLogo = document.querySelector(".header__logo-image, .header__logo img");
-    if (headerLogo && headerLogo.src) {
-      const loaderImg = loader.querySelector(".page-transition-loader__logo");
-      if (loaderImg && headerLogo.src !== loaderImg.src) {
-        loaderImg.src = headerLogo.src;
-      }
-    }
 
     // Global listener with capture: true so mobile drawers and menus do not block navigation trigger
     document.addEventListener(
@@ -212,3 +262,4 @@
     });
   })();
 </script>
+
