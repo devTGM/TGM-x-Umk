@@ -1308,6 +1308,10 @@ if (
           n = document.querySelector('div.menu-panel[data-menu="' + o + '"]'),
           r = document.querySelectorAll(".menu-panel");
         const i = document.querySelector(".primary-menu-panel");
+        const drawerContent = document.querySelector(".drawer__content--nav");
+        if (drawerContent) {
+          drawerContent.scrollTop = 0;
+        }
         let a = !1;
         n
           ? (r.forEach(function (e) {
