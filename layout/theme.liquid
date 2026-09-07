@@ -202,9 +202,59 @@ document.addEventListener("DOMContentLoaded", function() {
  
 </script>
 <script src="https://checkout-merchant.snapmint.com/js/v1/8628" defer></script>
-<!-- End Shopify-payment JavaScript -->
 {% render 'wishlist-drawer' %}
 <script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
+<script>
+  (function () {
+    function replaceBrandNames(root) {
+      if (!root) return;
+      const walker = document.createTreeWalker(
+        root,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode: function (node) {
+            const parentTag = node.parentElement ? node.parentElement.tagName.toLowerCase() : "";
+            if (parentTag === "script" || parentTag === "style" || parentTag === "textarea" || parentTag === "input") {
+              return NodeFilter.FILTER_REJECT;
+            }
+            if (/unmatched\s*kicks|unamtched\s*kicks/i.test(node.nodeValue)) {
+              return NodeFilter.FILTER_ACCEPT;
+            }
+            return NodeFilter.FILTER_SKIP;
+          }
+        },
+        false
+      );
+
+      const nodes = [];
+      while (walker.nextNode()) {
+        nodes.push(walker.currentNode);
+      }
+
+      nodes.forEach(function (node) {
+        if (node.nodeValue) {
+          node.nodeValue = node.nodeValue
+            .replace(/UNMATCHED\s*KICKS/g, "UNMATCHED SUPPLY")
+            .replace(/Unmatched\s*Kicks/g, "Unmatched Supply")
+            .replace(/unmatched\s*kicks/g, "unmatched supply")
+            .replace(/Unamtched\s*Kicks/g, "Unmatched Supply")
+            .replace(/unamtched\s*kicks/g, "unmatched supply");
+        }
+      });
+    }
+
+    function runPolicyBrandUpdate() {
+      replaceBrandNames(document.querySelector(".shopify-policy__container") || document.querySelector("main") || document.body);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", runPolicyBrandUpdate);
+    } else {
+      runPolicyBrandUpdate();
+    }
+    window.addEventListener("load", runPolicyBrandUpdate);
+  })();
+</script>
 </body>
 
 <!--Speed Optimized By SpeedBoostr WebPlanex Infotech App-->
