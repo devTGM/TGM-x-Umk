@@ -3,11 +3,11 @@
 {% endcomment %}
 
 {% liquid
-  assign loader_logo_url = 'IMG_1637_JPG.jpg' | file_img_url: '400x'
+  assign loader_logo_url = '//www.unmatchedsupply.com/cdn/shop/files/IMG_1637_JPG.jpg?v=1788777744&width=400'
   if settings.logo != blank
     assign loader_logo_url = settings.logo | image_url: width: 400
-  elsif shop.brand.logo != blank
-    assign loader_logo_url = shop.brand.logo | image_url: width: 400
+  elsif 'IMG_1637_JPG.jpg' | file_img_url: '400x' != blank
+    assign loader_logo_url = 'IMG_1637_JPG.jpg' | file_img_url: '400x'
   endif
 %}
 
@@ -155,26 +155,41 @@
       return null;
     }
 
+    function isOldLogo(url) {
+      if (!url) return false;
+      const lower = url.toLowerCase();
+      return lower.includes("uk_logo") || lower.includes("uk-logo") || lower.includes("768dfaa3");
+    }
+
     function updateLoaderLogo(src) {
-      if (src && loaderImg && loaderImg.src !== src) {
+      if (src && loaderImg && loaderImg.src !== src && !isOldLogo(src)) {
         loaderImg.src = src;
       }
     }
 
+    // Purge any stale cache of the old logo from previous sessions
+    try {
+      sessionStorage.removeItem("umk_logo_url");
+      const existingCached = sessionStorage.getItem("ums_logo_url");
+      if (existingCached && isOldLogo(existingCached)) {
+        sessionStorage.removeItem("ums_logo_url");
+      }
+    } catch (err) {}
+
     // Restore cached logo immediately from sessionStorage if available
     try {
-      const cachedLogo = sessionStorage.getItem("umk_logo_url");
-      if (cachedLogo) {
+      const cachedLogo = sessionStorage.getItem("ums_logo_url");
+      if (cachedLogo && !isOldLogo(cachedLogo)) {
         updateLoaderLogo(cachedLogo);
       }
     } catch (err) {}
 
     function syncAndCacheLogo() {
       const activeLogo = getActiveLogoSrc();
-      if (activeLogo) {
+      if (activeLogo && !isOldLogo(activeLogo)) {
         updateLoaderLogo(activeLogo);
         try {
-          sessionStorage.setItem("umk_logo_url", activeLogo);
+          sessionStorage.setItem("ums_logo_url", activeLogo);
         } catch (err) {}
       }
     }
@@ -262,4 +277,3 @@
     });
   })();
 </script>
-
