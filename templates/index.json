@@ -170,6 +170,7 @@
         },
         "slide_B3J4qa": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "banner_layout": "hero-banner--full",
             "color_scheme": "scheme-1",
@@ -232,6 +233,7 @@
         },
         "slide_9FPzqt": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "banner_layout": "hero-banner--full",
             "color_scheme": "scheme-1",
@@ -485,6 +487,7 @@
         },
         "slide_maiQ8b": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "banner_layout": "hero-banner--full",
             "color_scheme": "scheme-1",
@@ -516,6 +519,7 @@
         },
         "slide_8VpRcD": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "banner_layout": "hero-banner--full",
             "color_scheme": "scheme-1",
