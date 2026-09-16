@@ -108,14 +108,18 @@
   assign srcset = srcset | remove_last: ','
 
   # generate sizes
-  if sizes == 'auto'
-    assign size_list = width_list
-    assign sizes = ''
-    for size in size_list
-      assign size_int = size | plus: 0
-      assign sizes = sizes | append: '(max-width: ' | append: size_int | append: 'px) ' | append: size_int | append: 'px,'
-    endfor
-    assign sizes = sizes | append: ' 100vw'
+  if sizes == 'auto' or sizes == blank
+    if image_for_mobile
+      assign sizes = '100vw'
+    elsif image_per_view >= 4
+      assign sizes = '(max-width: 749px) 50vw, (max-width: 990px) 33vw, 25vw'
+    elsif image_per_view == 3
+      assign sizes = '(max-width: 749px) 50vw, (max-width: 990px) 33vw, 33vw'
+    elsif image_per_view == 2
+      assign sizes = '(max-width: 749px) 100vw, 50vw'
+    else
+      assign sizes = '100vw'
+    endif
   endif
 
   # set width and height

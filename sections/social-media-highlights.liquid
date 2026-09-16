@@ -59,7 +59,7 @@
                 <div class="media" style="aspect-ratio: {{ card_aspect_ratio }}">
                   {% capture block_media %}
                     {% if media.src != blank %}
-                      {%- render 'image', image: media, alt: media.alt | escape -%}
+                      {%- render 'image', image: media, alt: media.alt | escape, sizes: '(max-width: 749px) 45vw, (max-width: 990px) 25vw, 20vw', width: 600, loading: 'lazy' -%}
                     {% else %}
                       {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
                     {% endif %}

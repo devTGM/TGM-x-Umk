@@ -172,7 +172,13 @@
           -%}
           <a href="{{ collection_detail.url | default: '#' }}" class="custom-collection-card" {{ block.shopify_attributes }}>
             {%- if collection_image != blank -%}
-              {%- render 'image', image: collection_image, class: 'custom-collection-card__image' -%}
+              {%- render 'image',
+                image: collection_image,
+                class: 'custom-collection-card__image',
+                sizes: '(max-width: 749px) 48vw, (max-width: 990px) 32vw, 20vw',
+                width: 600,
+                loading: 'lazy'
+              -%}
             {%- else -%}
               {{ 'collection-1' | placeholder_svg_tag: 'custom-collection-card__image placeholder-svg' }}
             {%- endif -%}
