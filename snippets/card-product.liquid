@@ -35,46 +35,7 @@
     {%- assign media_classes = media_classes | append: ' product-card__media--hoverable' -%}
   {%- endif -%}
 
-  {% comment %} Styles | Product Media {% endcomment %}
-  <style>
-    .product-card__media {
-      --product-card-media-aspect-ratio: {{ settings.product_card_media_aspect_ratio }};
-      --product-card-media-object-fit: {{ settings.product_card_media_object_fit }};
-    }
-    .product-card__actions {
-      position: relative;
-    }
-    .badge.instant-ship {
-      position: absolute;
-      top: 1.6rem;
-      left: 1rem;
-      z-index: 3;
-      display: inline-block;
-      padding: 0;
-      background: transparent;
-      color: red;
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      line-height: 1.2;
-      white-space: nowrap;
-      animation: blink 1.2s ease-in-out infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-    @media screen and (max-width: 749px) {
-      .badge.instant-ship {
-        font-size: 5.5px;
-        top: 1rem;
-        left: 0.5rem;
-        letter-spacing: 0.04em;
-        padding: 0;
-      }
-    }
-  </style>
+  {%- assign card_sizes = '(max-width: 749px) 50vw, (max-width: 990px) 33vw, 25vw' -%}
 
   {% comment %} Render | Product Media {% endcomment %}
   <div
@@ -117,18 +78,18 @@
               endif
 
               if image_render_condition
-                render 'image', image: product_image, attr: attr, image_per_view: image_per_view, loading: loading
+                render 'image', image: product_image, attr: attr, image_per_view: image_per_view, loading: loading, sizes: card_sizes
               else
-                render 'image', image: product_image, attr: attr, image_per_view: image_per_view, loading: loading, class: 'hidden'
+                render 'image', image: product_image, attr: attr, image_per_view: image_per_view, loading: loading, sizes: card_sizes, class: 'hidden'
               endif
             endif
           endfor
         else
-          render 'image', image: product_ref.featured_image, image_per_view: image_per_view, loading: loading
+          render 'image', image: product_ref.featured_image, image_per_view: image_per_view, loading: loading, sizes: card_sizes
         endif
 
         if settings.product_card_media_hover and product_ref.media.size > 1 and hover_media != nil
-          render 'image', image: hover_media, alt: hover_media.alt | default: product_ref.title, class: 'hover-img', image_per_view: image_per_view
+          render 'image', image: hover_media, alt: hover_media.alt | default: product_ref.title, class: 'hover-img', image_per_view: image_per_view, sizes: card_sizes
         endif
       else
         echo 'product-1' | placeholder_svg_tag: 'placeholder-svg'

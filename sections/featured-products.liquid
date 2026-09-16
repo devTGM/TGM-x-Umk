@@ -16,8 +16,8 @@
 -%}
 
 {%- if products_array != nil -%}
-  {{- 'component-card-product-slider.aio.min.css' | asset_url | stylesheet_tag -}}
-  {{- 'component-card-product.aio.min.css' | asset_url | stylesheet_tag -}}
+  {% render 'css', css: 'component-card-product-slider.aio.min.css' %}
+  {% render 'css', css: 'component-card-product.aio.min.css' %}
   <script src="{{- 'tab-manager.js' | asset_url -}}" defer="defer"></script>
 
   {%- assign section_button = blank -%}
@@ -106,10 +106,8 @@
               endif
             %}
 
-            {%- assign products_array_size = 0 -%}
-            {%- for product in products_array limit: section.settings.max_products -%}
-              {%- assign products_array_size = products_array_size | plus: 1 -%}
-            {%- endfor -%}
+            {%- assign max_prods = section.settings.max_products | default: products_array.size -%}
+            {%- assign products_array_size = products_array.size | at_most: max_prods -%}
 
             {%- capture data_swiper_options -%}
               {

@@ -164,6 +164,14 @@
       endif
 
       assign header_menu_text_color = block.settings.header_menu_text_color.red | append: ', ' | append: block.settings.header_menu_text_color.green | append: ', ' | append: block.settings.header_menu_text_color.blue
+
+      if forloop.first
+        assign slide_loading = 'eager'
+        assign slide_fetchpriority = 'high'
+      else
+        assign slide_loading = 'lazy'
+        assign slide_fetchpriority = 'low'
+      endif
     -%}
 
     <div class="hero__inner {{ block.settings.banner_layout }} {{ hero_enable_media_overlay | strip }}" data-header-menu-text-color="{{ header_menu_text_color }}">
@@ -181,7 +189,7 @@
         <div class="media media--overlay hero__media {% if has_mobile_media %} small-hide{% endif %}">
           {%- liquid
             if block.settings.image != blank
-              render 'image', image: block.settings.image, width: 2160, alt: image.alt | default: block.settings.heading
+              render 'image', image: block.settings.image, width: 2160, alt: image.alt | default: block.settings.heading, loading: slide_loading, fetchpriority: slide_fetchpriority
             else
               echo 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg'
             endif
@@ -203,7 +211,7 @@
           <div class="media media--overlay hero__media small-up-hide">
             {%- liquid
               if block.settings.image_mobile != blank
-                render 'image', image: block.settings.image_mobile, image_for_mobile: true, alt: block.settings.image_mobile.alt | default: block.settings.heading
+                render 'image', image: block.settings.image_mobile, image_for_mobile: true, alt: block.settings.image_mobile.alt | default: block.settings.heading, loading: slide_loading, fetchpriority: slide_fetchpriority
               else
                 echo 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg'
               endif
