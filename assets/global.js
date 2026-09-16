@@ -22,10 +22,7 @@ const isHeaderSticky = header?.classList.contains("is-sticky"),
   sectionsOfAnnouncementBar = document.querySelectorAll(
     ".section-announcement-bar",
   );
-if (sectionsOfAnnouncementBar) {
-  const e = (e, t) => {
-    document.documentElement.style.setProperty(e, t);
-  };
+if (sectionsOfAnnouncementBar && sectionsOfAnnouncementBar.length > 0) {
   function calcSectionHeights(e) {
     return {
       visibleHeight: Math.max(
@@ -42,15 +39,13 @@ if (sectionsOfAnnouncementBar) {
   function updateVisibleHeightsOfAnnouncementBars() {
     let t = 0,
       s = 0;
-    (Array.from(sectionsOfAnnouncementBar).forEach((e) => {
+    Array.from(sectionsOfAnnouncementBar).forEach((e) => {
       const { height: o, visibleHeight: n } = calcSectionHeights(e);
-      ((s += o), (t += n));
-    }),
-      e("--announcement-bars-before-header-heights", `${parseFloat(s)}px`),
-      e(
-        "--announcement-bars-before-header-visible-heights",
-        `${parseFloat(t)}px`,
-      ));
+      s += o;
+      t += n;
+    });
+    document.documentElement.style.setProperty("--announcement-bars-before-header-heights", `${parseFloat(s)}px`);
+    document.documentElement.style.setProperty("--announcement-bars-before-header-visible-heights", `${parseFloat(t)}px`);
   }
   const throttledUpdateVisibleHeightsOfAnnouncementBars = (function () {
     let timeout;
@@ -63,9 +58,9 @@ if (sectionsOfAnnouncementBar) {
       }
     };
   })();
-  (updateVisibleHeightsOfAnnouncementBars(),
-    window.addEventListener("scroll", throttledUpdateVisibleHeightsOfAnnouncementBars, { passive: true }),
-    window.addEventListener("resize", throttledUpdateVisibleHeightsOfAnnouncementBars, { passive: true }));
+  updateVisibleHeightsOfAnnouncementBars();
+  window.addEventListener("scroll", throttledUpdateVisibleHeightsOfAnnouncementBars, { passive: true });
+  window.addEventListener("resize", throttledUpdateVisibleHeightsOfAnnouncementBars, { passive: true });
 }
 let productMedia = document.querySelector(".main-product__media"),
   productMediaSwiper = document.querySelector(
@@ -73,6 +68,7 @@ let productMedia = document.querySelector(".main-product__media"),
   ),
   productCardMedia = document.querySelector(".product-card__media"),
   productCardCollections = document.querySelector(".product-card");
+
 function getCoordinates(e) {
   const t = e.getBoundingClientRect();
   return {
@@ -82,114 +78,97 @@ function getCoordinates(e) {
     left: t.left + window.scrollX,
   };
 }
+
 function setCustomProperty(e, t) {
   document.documentElement.style.setProperty(e, t);
 }
+
 function setRootCustomProperties() {
-  const e = (e, t) => {
-    document.documentElement.style.setProperty(e, t);
-  };
+  // Phase 1: Batch all DOM Reads
+  let headerGroupHeight = null;
   if (sectionsOfHeaderGroup.length > 0) {
-    const e = Array.from(sectionsOfHeaderGroup).reduce(
-      (e, t) => e + t.offsetHeight,
+    const total = Array.from(sectionsOfHeaderGroup).reduce(
+      (acc, el) => acc + el.offsetHeight,
       0,
     );
-    document.documentElement.style.setProperty(
-      "--header-group-height",
-      e - 1 + "px",
-    );
+    headerGroupHeight = total - 1 + "px";
   }
-  let t = 0;
-  (header && (t = header.getBoundingClientRect().height.toFixed(2)),
-    e("--header-height", `${parseFloat(t)}px`));
-  let s = document.querySelector(".cart-drawer__body");
-  function o() {
-    if (productMedia && body.classList.contains("template--product")) {
-      let t = 0;
-      const s = getCoordinates(main).top,
-        o = getCoordinates(productMedia).top,
-        n = document.querySelector(".product__topbar-nav");
-      let r = 0;
-      (n && (r = n.offsetHeight),
-        (t =
-          window.innerHeight -
-          Math.round(s) -
-          2 * Math.round(o - s) +
-          Math.round(r)));
-      (Array.prototype.indexOf.call(
-        main.children,
-        document.querySelector("main section.main-product"),
-      ) > 0 &&
-        (t =
-          window.innerHeight -
-          Math.round(s) -
-          2 * Math.round(o - s) +
-          Math.round(r)),
-        (t = Math.round(t - 24)),
-        e("--product-media-area-height", t + "px"));
-    }
+
+  let headerHeight = null;
+  if (header) {
+    headerHeight = `${parseFloat(header.getBoundingClientRect().height.toFixed(2))}px`;
   }
-  function n() {
-    const t = document.querySelector(".main-product__media--slider-wrapper");
-    t &&
-      e("--product-media-area-swiper-height", `${parseInt(t.offsetHeight)}px`);
+
+  let cartDrawerBodyWidth = null;
+  let cartDrawerBodyHeight = null;
+  const cartDrawerBody = document.querySelector(".cart-drawer__body");
+  if (cartDrawerBody) {
+    cartDrawerBodyWidth = `${parseFloat(cartDrawerBody.offsetWidth)}px`;
+    cartDrawerBodyHeight = `${parseFloat(cartDrawerBody.offsetHeight)}px`;
   }
-  if (
-    (s &&
-      (e("--cart-drawer-body-width", `${parseFloat(s.offsetWidth)}px`),
-      e("--cart-drawer-body-height", `${parseFloat(s.offsetHeight)}px`)),
-    productMedia &&
-      e(
-        "--product-media-area-width",
-        `${parseFloat(productMedia.offsetWidth)}px`,
-      ),
-    document.addEventListener("DOMContentLoaded", o),
-    window.addEventListener("resize", o),
-    document.addEventListener("DOMContentLoaded", n),
-    window.addEventListener("resize", n),
-    productMedia)
-  ) {
-    new MutationObserver(() => {
-      (o(), n());
-    }).observe(productMedia, { childList: !0, subtree: !0 });
+
+  let productMediaWidth = null;
+  if (productMedia) {
+    productMediaWidth = `${parseFloat(productMedia.offsetWidth)}px`;
   }
-  (Shopify.designMode && window.addEventListener("shopify:section:load", n),
-    heroBanner &&
-      (e(
-        "--hero-banner-top",
-        `${parseFloat(getCoordinates(heroBanner).top)}px`,
-      ),
-      e(
-        "--hero-banner-bottom",
-        `${parseFloat(getCoordinates(heroBanner).bottom)}px`,
-      )));
-  const r = document.querySelector(".js-article-hero-media"),
-    i = document.querySelector(".js-article-content");
-  if (r || i) {
-    let t = 0,
-      s = 0,
-      o = parseInt(header.getBoundingClientRect().bottom);
-    (r
-      ? ((t = parseInt(r.getBoundingClientRect().top)),
-        (s = parseInt(r.getBoundingClientRect().right)))
-      : ((t = parseInt(i.getBoundingClientRect().y)),
-        (s = parseInt(i.getBoundingClientRect().right))),
-      t < 0 + o && (t = o),
-      e("--social-share-sticky-top", `${t}px`),
-      e("--social-share-sticky-start", `${s}px`));
-  }
+
+  let heroBannerTop = null;
+  let heroBannerBottom = null;
+  let heroHeaderColor = null;
   if (heroBanner) {
-    let t = heroBanner.querySelectorAll(".hero__inner");
-    if (t.length > 0) {
-      let s = t[0].getAttribute("data-header-menu-text-color");
-      s && e("--transparent-header-menu-text-color", `${s}`);
+    const heroCoords = getCoordinates(heroBanner);
+    heroBannerTop = `${parseFloat(heroCoords.top)}px`;
+    heroBannerBottom = `${parseFloat(heroCoords.bottom)}px`;
+    const heroInners = heroBanner.querySelectorAll(".hero__inner");
+    if (heroInners.length > 0) {
+      heroHeaderColor = heroInners[0].getAttribute("data-header-menu-text-color");
     }
-  } else e("--transparent-header-menu-text-color", "var(--color-background)");
-  productCardMedia &&
-    e(
-      "--product-card-media-height",
-      `${parseInt(productCardMedia.offsetHeight)}px`,
-    );
+  }
+
+  let socialShareTop = null;
+  let socialShareStart = null;
+  const articleHeroMedia = document.querySelector(".js-article-hero-media");
+  const articleContent = document.querySelector(".js-article-content");
+  if ((articleHeroMedia || articleContent) && header) {
+    const headerBottom = parseInt(header.getBoundingClientRect().bottom);
+    let t = 0,
+      s = 0;
+    if (articleHeroMedia) {
+      const rRect = articleHeroMedia.getBoundingClientRect();
+      t = parseInt(rRect.top);
+      s = parseInt(rRect.right);
+    } else {
+      const iRect = articleContent.getBoundingClientRect();
+      t = parseInt(iRect.y);
+      s = parseInt(iRect.right);
+    }
+    if (t < headerBottom) t = headerBottom;
+    socialShareTop = `${t}px`;
+    socialShareStart = `${s}px`;
+  }
+
+  let productCardMediaHeight = null;
+  if (productCardMedia) {
+    productCardMediaHeight = `${parseInt(productCardMedia.offsetHeight)}px`;
+  }
+
+  // Phase 2: Batch all DOM Writes (no reflows triggered)
+  const rootStyle = document.documentElement.style;
+  if (headerGroupHeight) rootStyle.setProperty("--header-group-height", headerGroupHeight);
+  if (headerHeight) rootStyle.setProperty("--header-height", headerHeight);
+  if (cartDrawerBodyWidth) rootStyle.setProperty("--cart-drawer-body-width", cartDrawerBodyWidth);
+  if (cartDrawerBodyHeight) rootStyle.setProperty("--cart-drawer-body-height", cartDrawerBodyHeight);
+  if (productMediaWidth) rootStyle.setProperty("--product-media-area-width", productMediaWidth);
+  if (heroBannerTop) rootStyle.setProperty("--hero-banner-top", heroBannerTop);
+  if (heroBannerBottom) rootStyle.setProperty("--hero-banner-bottom", heroBannerBottom);
+  if (heroHeaderColor) {
+    rootStyle.setProperty("--transparent-header-menu-text-color", heroHeaderColor);
+  } else if (!heroBanner) {
+    rootStyle.setProperty("--transparent-header-menu-text-color", "var(--color-background)");
+  }
+  if (socialShareTop) rootStyle.setProperty("--social-share-sticky-top", socialShareTop);
+  if (socialShareStart) rootStyle.setProperty("--social-share-sticky-start", socialShareStart);
+  if (productCardMediaHeight) rootStyle.setProperty("--product-card-media-height", productCardMediaHeight);
 }
 function scrollPositionY() {
   (setCustomProperty("--window-scroll-y-position", window.scrollY),
@@ -252,9 +231,8 @@ const throttledSetRootCustomProperties = (function () {
   };
 })();
 
-windowDynamicEvents.forEach((e) => {
-  window.addEventListener(e, throttledSetRootCustomProperties, { passive: true });
-});
+window.addEventListener("resize", throttledSetRootCustomProperties, { passive: true });
+window.addEventListener("orientationchange", throttledSetRootCustomProperties, { passive: true });
 
 setRootCustomProperties();
 
@@ -866,21 +844,27 @@ let navItems = document.querySelectorAll(
 }),
   ["DOMContentLoaded", "resize"].forEach((e) => {
     window.addEventListener(e, () => {
-      ((navItems = document.querySelectorAll(
+      navItems = document.querySelectorAll(
         ".js-nav-item.has-dropdown:not(.dropdown)",
-      )),
-        navItems.forEach((e) => {
-          const t = e.querySelector(".js-dropdown");
-          if (!t) return;
-          const { y: s, height: o } = e.getBoundingClientRect(),
-            n = s + o,
-            r = t.getBoundingClientRect().y;
-          if (n === r) return;
+      );
+      if (!navItems.length) return;
+      const updates = [];
+      navItems.forEach((el) => {
+        const drop = el.querySelector(".js-dropdown");
+        if (!drop) return;
+        const { y: s, height: o } = el.getBoundingClientRect();
+        const n = s + o;
+        const r = drop.getBoundingClientRect().y;
+        if (n !== r) {
           const i = Math.round(r - n);
-          e.style.setProperty("--after-height", `${i}px`);
-        }));
+          updates.push({ el, height: i });
+        }
+      });
+      updates.forEach(({ el, height }) => {
+        el.style.setProperty("--after-height", `${height}px`);
+      });
     });
-  }));
+  });
 let hero =
   document.querySelector(".hero-banner") ||
   document.querySelector("main section");
