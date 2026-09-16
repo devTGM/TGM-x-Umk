@@ -64,6 +64,7 @@
 
     {{ 'base.aio.min.css' | asset_url | stylesheet_tag }}
     {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+    {{ 'component-card-product.aio.min.css' | asset_url | stylesheet_tag }}
     {% render 'css', css: 'component-drawer.aio.min.css' %}
 
     {%- if settings.enable_predictive_search -%}

@@ -37,6 +37,14 @@
 
   {%- assign card_sizes = '(max-width: 749px) 50vw, (max-width: 990px) 33vw, 25vw' -%}
 
+  {% comment %} Styles | Product Media {% endcomment %}
+  <style>
+    .product-card__media {
+      --product-card-media-aspect-ratio: {{ settings.product_card_media_aspect_ratio | default: '4/5' }};
+      --product-card-media-object-fit: {{ settings.product_card_media_object_fit | default: 'contain' }};
+    }
+  </style>
+
   {% comment %} Render | Product Media {% endcomment %}
   <div
     class="{{ media_classes }} media-wrapper-fix"

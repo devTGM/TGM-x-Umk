@@ -1,97 +1,228 @@
-const mobileWidth = 750,
-  tabletWidth = 990,
-  windowDynamicEvents = ["scroll", "resize"],
-  isDesktop = window.innerWidth > 990,
-  isTablet = window.innerWidth <= 990 && window.innerWidth >= 750,
-  isMobile = window.innerWidth < 750,
-  body = document.querySelector("body"),
-  main = document.querySelector("main"),
-  sectionsOfHeaderGroup = Array.from(
-    document.querySelectorAll(".shopify-section-group-header-group"),
-  ).filter((e) => !e.classList.contains("section-header")),
-  headerElement = document.querySelector(
-    "#header, #shopify-section-main-password-header",
-  );
-headerElement && sectionsOfHeaderGroup.push(headerElement);
-let header = document.querySelector(
-    "#header, #shopify-section-main-password-header",
-  ),
-  announcementBar = document.querySelector(".js-announcement-bar"),
-  heroBanner = document.querySelector(".hero-banner");
-const isHeaderSticky = header?.classList.contains("is-sticky"),
-  sectionsOfAnnouncementBar = document.querySelectorAll(
-    ".section-announcement-bar",
-  );
-if (sectionsOfAnnouncementBar && sectionsOfAnnouncementBar.length > 0) {
-  function calcSectionHeights(e) {
-    return {
-      visibleHeight: Math.max(
-        0,
-        Math.min(
-          e.offsetHeight,
-          window.innerHeight - e.getBoundingClientRect().top,
-          e.getBoundingClientRect().bottom,
-        ),
-      ),
-      height: e.getBoundingClientRect().height,
-    };
-  }
-  function updateVisibleHeightsOfAnnouncementBars() {
-    let t = 0,
-      s = 0;
-    Array.from(sectionsOfAnnouncementBar).forEach((e) => {
-      const { height: o, visibleHeight: n } = calcSectionHeights(e);
-      s += o;
-      t += n;
-    });
-    document.documentElement.style.setProperty("--announcement-bars-before-header-heights", `${parseFloat(s)}px`);
-    document.documentElement.style.setProperty("--announcement-bars-before-header-visible-heights", `${parseFloat(t)}px`);
-  }
-  const throttledUpdateVisibleHeightsOfAnnouncementBars = (function () {
-    let timeout;
-    return function () {
-      if (!timeout) {
-        timeout = requestAnimationFrame(() => {
-          updateVisibleHeightsOfAnnouncementBars();
-          timeout = null;
-        });
-      }
-    };
-  })();
-  updateVisibleHeightsOfAnnouncementBars();
-  window.addEventListener("scroll", throttledUpdateVisibleHeightsOfAnnouncementBars, { passive: true });
-  window.addEventListener("resize", throttledUpdateVisibleHeightsOfAnnouncementBars, { passive: true });
-}
-let productMedia = document.querySelector(".main-product__media"),
-  productMediaSwiper = document.querySelector(
-    ".main-product__media .swiper--product-gallery",
-  ),
-  productCardMedia = document.querySelector(".product-card__media"),
-  productCardCollections = document.querySelector(".product-card");
+/* Release Theme - v2.0.1 */
 
-function getCoordinates(e) {
-  const t = e.getBoundingClientRect();
+/* Define Breakpoints -- START */
+const mobileWidth = 750;
+const tabletWidth = 990;
+const windowDynamicEvents = ["scroll", "resize"];
+
+// define desktop, tablet, mobile
+const isDesktop = window.innerWidth > tabletWidth;
+const isTablet = window.innerWidth <= tabletWidth && window.innerWidth >= mobileWidth;
+const isMobile = window.innerWidth < mobileWidth;
+/* Define Breakpoints -- END */
+
+const body = document.querySelector("body");
+const main = document.querySelector("main");
+
+/* SECTIONS: HEADER GROUP */
+const sectionsOfHeaderGroup = Array.from(
+  document.querySelectorAll(".shopify-section-group-header-group")
+).filter(section => !section.classList.contains("section-header"));
+// then add #header element to the end of the array
+const headerElement = document.querySelector("#header, #shopify-section-main-password-header");
+if (headerElement) {
+  sectionsOfHeaderGroup.push(headerElement);
+}
+
+let header = document.querySelector(
+  "#header, #shopify-section-main-password-header"
+);
+let announcementBar = document.querySelector(".js-announcement-bar");
+
+let heroBanner = document.querySelector(".hero-banner");
+
+/* SECTION: Header */
+const isHeaderSticky = header?.classList.contains('is-sticky');
+
+/* SECTION: Announcement Bars */
+const sectionsOfAnnouncementBar = document.querySelectorAll('.section-announcement-bar');
+if (sectionsOfAnnouncementBar && sectionsOfAnnouncementBar.length > 0) {
+
+  const setCustomProperty = (property, value) => {
+    document.documentElement.style.setProperty(property, value);
+  };
+
+  function calcSectionHeights (section) {
+    const sectionHeights = {
+      visibleHeight : Math.max(0, Math.min(section.offsetHeight, window.innerHeight - section.getBoundingClientRect().top, section.getBoundingClientRect().bottom)),
+      height : section.getBoundingClientRect().height
+    };
+    return sectionHeights;
+  }
+
+  function updateVisibleHeightsOfAnnouncementBars() {
+    let totalVisibleHeights = 0;
+    let totalHeights = 0;
+
+    sectionsOfAnnouncementBar.forEach((section) => {
+      // calculate total heights and visible heights of all announcement bars before the header
+      Array.from(sectionsOfAnnouncementBar)
+        .forEach((section) => {
+          // console.log(sectionIndex, section);
+          const { height, visibleHeight } = calcSectionHeights(section);
+          totalHeights += height;
+          totalVisibleHeights += visibleHeight;
+      });
+    });
+    setCustomProperty(`--announcement-bars-before-header-heights`, `${parseFloat(totalHeights)}px`);
+    setCustomProperty(`--announcement-bars-before-header-visible-heights`, `${parseFloat(totalVisibleHeights)}px`);
+  }
+  // set initial visible heights
+  updateVisibleHeightsOfAnnouncementBars();
+  // update visible heights on scroll and window resize
+  window.addEventListener('scroll', updateVisibleHeightsOfAnnouncementBars, { passive: true });
+  window.addEventListener('resize', updateVisibleHeightsOfAnnouncementBars, { passive: true });
+}
+
+/* PAGE: Collection */
+/*
+const pageCollection = document.querySelector('body.template--collection');
+if (pageCollection) {
+  const productGrid = pageCollection.querySelector('.collection-grid-container__products');
+  const products = productGrid?.querySelectorAll('.product-card');
+
+  // get .product-card__content height and set max of them as .product-card__content height
+  if (products) {
+    let maxProductCardContentHeight = 0;
+    products.forEach(product => {
+      const productCardContent = product.querySelector('.product-card__content');
+      if (productCardContent) {
+        productCardContent.style.height = 'auto';
+        maxProductCardContentHeight = Math.max(maxProductCardContentHeight, productCardContent.offsetHeight);
+      }
+    });
+    products.forEach(product => {
+      const productCardContent = product.querySelector('.product-card__content');
+      if (productCardContent) {
+        productCardContent.style.height = `${maxProductCardContentHeight}px`;
+      }
+    });
+  }
+}
+  */
+
+let productMedia = document.querySelector(".main-product__media"); // on pdp
+let productMediaSwiper = document.querySelector(
+  ".main-product__media .swiper--product-gallery"
+); // on pdp
+
+let productCardMedia = document.querySelector(".product-card__media");
+let productCardCollections = document.querySelector(".product-card");
+
+document.addEventListener("DOMContentLoaded", function () {
+  const lazyImages = document.querySelectorAll('img[loading="lazy"]:not(.animation-none)');
+
+  lazyImages.forEach(img => {
+    // add initial lazy class
+    img.classList.add("lazy");
+    img.addEventListener("load", function () {
+      handleLazyLoadedImage(img);
+    });
+    if (img.complete) {
+      handleLazyLoadedImage(img);
+    }
+  });
+
+  function handleLazyLoadedImage(img) {
+    if (!img || !img.hasAttribute("loading")) { return; }
+    setTimeout(() => {
+      img.removeAttribute("loading");
+      // remove lazy class after transition
+      img.classList.remove("lazy");
+    }, 100);
+  }
+
+  // Set observer to catch dynamicly added images with lazy loading
+  function mutationCallbackForLazyLoadedImage(mutationList, observer) {
+    for (const mutation of mutationList) {
+      if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+        mutation.addedNodes.forEach(node => {
+          if (node instanceof HTMLElement) {
+            if (node.querySelector('img[loading="lazy"]')) {
+              node.querySelectorAll('img[loading="lazy"]').forEach(img => {
+                handleLazyLoadedImage(img);
+              })
+            }
+          }
+        })
+      }
+    }
+  };
+
+  const observer = new MutationObserver(mutationCallbackForLazyLoadedImage);
+  observer.observe(
+    document.querySelector("body"),
+    { childList: true, subtree: true }
+  );
+  // observer.disconnect();
+
+});
+
+// add loading lazy attribute to div.hero__inner > div.media > video > img
+document
+  .querySelectorAll(".hero__inner > .media > video > img")
+  .forEach(function (el) {
+    el.setAttribute("loading", "lazy");
+    el.setAttribute("alt", "Video Cover");
+  });
+
+// catch all images with class 'lazyload' and add loading lazy attribute
+document.querySelectorAll(".lazyload").forEach(function (el) {
+  el.setAttribute("loading", "lazy");
+});
+
+const throttledSetRootCustomProperties = (function () {
+  let timeout = null;
+  return function () {
+    if (timeout) cancelAnimationFrame(timeout);
+    timeout = requestAnimationFrame(() => {
+      setRootCustomProperties();
+      timeout = null;
+    });
+  };
+})();
+
+window.addEventListener("resize", throttledSetRootCustomProperties, { passive: true });
+window.addEventListener("orientationchange", throttledSetRootCustomProperties, { passive: true });
+
+setRootCustomProperties();
+
+if (Shopify.designMode) {
+  window.addEventListener("shopify:section:load", setRootCustomProperties);
+  window.addEventListener("shopify:section:select", setRootCustomProperties);
+}
+
+window.addEventListener("shopify:section:load", function () {
+
+  header = document.querySelector(
+    "#header, #shopify-section-main-password-header header"
+  );
+  announcementBar = document.querySelector(".js-announcement-bar");
+  productCardMedia = document.querySelector(".product-card__media");
+});
+
+function getCoordinates(element) {
+  const rect = element.getBoundingClientRect();
   return {
-    top: t.top + window.scrollY,
-    right: t.right + window.scrollX,
-    bottom: t.bottom + window.scrollY,
-    left: t.left + window.scrollX,
+    top: rect.top + window.scrollY,
+    right: rect.right + window.scrollX,
+    bottom: rect.bottom + window.scrollY,
+    left: rect.left + window.scrollX
   };
 }
 
-function setCustomProperty(e, t) {
-  document.documentElement.style.setProperty(e, t);
+function setCustomProperty(property, value) {
+  document.documentElement.style.setProperty(property, value);
 }
 
 function setRootCustomProperties() {
   // Phase 1: Batch all DOM Reads
   let headerGroupHeight = null;
   if (sectionsOfHeaderGroup.length > 0) {
-    const total = Array.from(sectionsOfHeaderGroup).reduce(
-      (acc, el) => acc + el.offsetHeight,
-      0,
-    );
-    headerGroupHeight = total - 1 + "px";
+    const totalHeight = Array.from(sectionsOfHeaderGroup).reduce((sum, section) => {
+      return sum + section.offsetHeight;
+    }, 0);
+    headerGroupHeight = `${totalHeight - 1}px`;
   }
 
   let headerHeight = null;
@@ -131,8 +262,7 @@ function setRootCustomProperties() {
   const articleContent = document.querySelector(".js-article-content");
   if ((articleHeroMedia || articleContent) && header) {
     const headerBottom = parseInt(header.getBoundingClientRect().bottom);
-    let t = 0,
-      s = 0;
+    let t = 0, s = 0;
     if (articleHeroMedia) {
       const rRect = articleHeroMedia.getBoundingClientRect();
       t = parseInt(rRect.top);
@@ -170,1217 +300,1845 @@ function setRootCustomProperties() {
   if (socialShareStart) rootStyle.setProperty("--social-share-sticky-start", socialShareStart);
   if (productCardMediaHeight) rootStyle.setProperty("--product-card-media-height", productCardMediaHeight);
 }
+
+// scroll-position
 function scrollPositionY() {
-  (setCustomProperty("--window-scroll-y-position", window.scrollY),
-    0 === window.scrollY
-      ? (document.body.classList.add("is-at-top"),
-        document.body.classList.remove("is-scrolled"))
-      : (document.body.classList.add("is-scrolled"),
-        document.body.classList.remove("is-at-top")));
-}
-document.addEventListener("DOMContentLoaded", function () {
-  function e(e) {
-    e &&
-      e.hasAttribute("loading") &&
-      setTimeout(() => {
-        (e.removeAttribute("loading"), e.classList.remove("lazy"));
-      }, 100);
+  setCustomProperty("--window-scroll-y-position", window.scrollY);
+  if (window.scrollY === 0) {
+    document.body.classList.add('is-at-top');
+    document.body.classList.remove('is-scrolled');
+  } else {
+    document.body.classList.add('is-scrolled');
+    document.body.classList.remove('is-at-top');
   }
-  document
-    .querySelectorAll('img[loading="lazy"]:not(.animation-none)')
-    .forEach((t) => {
-      (t.classList.add("lazy"),
-        t.addEventListener("load", function () {
-          e(t);
-        }),
-        t.complete && e(t));
-    });
-  new MutationObserver(function (t, s) {
-    for (const s of t)
-      "childList" === s.type &&
-        s.addedNodes.length > 0 &&
-        s.addedNodes.forEach((t) => {
-          t instanceof HTMLElement &&
-            t.querySelector('img[loading="lazy"]') &&
-            t.querySelectorAll('img[loading="lazy"]').forEach((t) => {
-              e(t);
-            });
-        });
-  }).observe(document.querySelector("body"), { childList: !0, subtree: !0 });
-});
+}
+scrollPositionY();
+window.addEventListener("scroll", scrollPositionY);
+
+
+const bodyScroll = {
+  lock(container) {
+    bodyScrollLock.disableBodyScroll(container);
+  },
+  unlock(container) {
+    bodyScrollLock.enableBodyScroll(container);
+  },
+  clear() {
+    bodyScrollLock.clearAllBodyScrollLocks();
+  }
+};
+
+const onKeyUpEscape = event => {
+  if (event.code.toUpperCase() !== "ESCAPE") return;
+
+  const openDetailsElement = event.target.closest("details[open]");
+  if (!openDetailsElement) return;
+
+  const summaryElement = openDetailsElement.querySelector("summary");
+  openDetailsElement.removeAttribute("open");
+  summaryElement.setAttribute("aria-expanded", false);
+  summaryElement.focus({
+    preventScroll: true
+  });
+};
+
+const getFocusableElements = container => {
+  return Array.from(
+    container.querySelectorAll(
+      'summary, a[href], button:enabled, [tabindex]:not([tabindex^="-"]), [draggable], area, input:not([type=hidden]):enabled, select:enabled, textarea:enabled, object, iframe'
+    )
+  );
+};
 
 document
-  .querySelectorAll(".hero__inner > .media > video > img")
-  .forEach(function (e) {
-    (e.setAttribute("loading", "lazy"), e.setAttribute("alt", "Video Cover"));
+  .querySelectorAll('[id^="Details-"] summary')
+  .forEach(summary => {
+    summary.setAttribute("role", "button");
+    summary.setAttribute(
+      "aria-expanded",
+      summary.parentNode.hasAttribute("open")
+    );
+
+    if (summary.nextElementSibling.getAttribute("id")) {
+      summary.setAttribute(
+        "aria-controls",
+        summary.nextElementSibling.id
+      );
+    }
+
+    summary.addEventListener("click", event => {
+      event.currentTarget.setAttribute(
+        "aria-expanded",
+        !event.currentTarget.closest("details").hasAttribute("open")
+      );
+    });
+
+    if (summary.closest("header-drawer")) return;
+    summary.parentElement.addEventListener("keyup", onKeyUpEscape);
   });
 
-document.querySelectorAll(".lazyload").forEach(function (e) {
-  e.setAttribute("loading", "lazy");
-});
+const trapFocusHandlers = {};
 
-const throttledSetRootCustomProperties = (function () {
-  let timeout;
-  return function () {
-    if (!timeout) {
-      timeout = requestAnimationFrame(() => {
-        setRootCustomProperties();
-        timeout = null;
-      });
-    }
+const removeTrapFocus = (elementToFocus = null) => {
+  document.removeEventListener("focusin", trapFocusHandlers.focusin);
+  document.removeEventListener(
+    "focusout",
+    trapFocusHandlers.focusout
+  );
+  document.removeEventListener("keydown", trapFocusHandlers.keydown);
+
+  if (elementToFocus)
+    elementToFocus.focus({
+      preventScroll: true
+    });
+};
+
+const trapFocus = (container, elementToFocus = container) => {
+  var elements = getFocusableElements(container);
+  var first = elements[0];
+  var last = elements[elements.length - 1];
+
+  removeTrapFocus();
+
+  trapFocusHandlers.focusin = event => {
+    if (
+      event.target !== container &&
+      event.target !== last &&
+      event.target !== first
+    )
+      return;
+
+    document.addEventListener("keydown", trapFocusHandlers.keydown);
   };
-})();
 
-window.addEventListener("resize", throttledSetRootCustomProperties, { passive: true });
-window.addEventListener("orientationchange", throttledSetRootCustomProperties, { passive: true });
-
-setRootCustomProperties();
-
-Shopify.designMode &&
-  (window.addEventListener("shopify:section:load", setRootCustomProperties),
-  window.addEventListener("shopify:section:select", setRootCustomProperties));
-
-window.addEventListener("shopify:section:load", function () {
-  ((header = document.querySelector(
-    "#header, #shopify-section-main-password-header header",
-  )),
-    (announcementBar = document.querySelector(".js-announcement-bar")),
-    (productCardMedia = document.querySelector(".product-card__media")));
-});
-
-const throttledScrollPositionY = (function () {
-  let timeout;
-  return function () {
-    if (!timeout) {
-      timeout = requestAnimationFrame(() => {
-        scrollPositionY();
-        timeout = null;
-      });
-    }
-  };
-})();
-
-scrollPositionY();
-window.addEventListener("scroll", throttledScrollPositionY, { passive: true });
-const bodyScroll = {
-    lock(e) {
-      bodyScrollLock.disableBodyScroll(e);
-    },
-    unlock(e) {
-      bodyScrollLock.enableBodyScroll(e);
-    },
-    clear() {
-      bodyScrollLock.clearAllBodyScrollLocks();
-    },
-  },
-  onKeyUpEscape = (e) => {
-    if ("ESCAPE" !== e.code.toUpperCase()) return;
-    const t = e.target.closest("details[open]");
-    if (!t) return;
-    const s = t.querySelector("summary");
-    (t.removeAttribute("open"),
-      s.setAttribute("aria-expanded", !1),
-      s.focus({ preventScroll: !0 }));
-  },
-  getFocusableElements = (e) =>
-    Array.from(
-      e.querySelectorAll(
-        'summary, a[href], button:enabled, [tabindex]:not([tabindex^="-"]), [draggable], area, input:not([type=hidden]):enabled, select:enabled, textarea:enabled, object, iframe',
-      ),
+  trapFocusHandlers.focusout = function () {
+    document.removeEventListener(
+      "keydown",
+      trapFocusHandlers.keydown
     );
-document.querySelectorAll('[id^="Details-"] summary').forEach((e) => {
-  (e.setAttribute("role", "button"),
-    e.setAttribute("aria-expanded", e.parentNode.hasAttribute("open")),
-    e.nextElementSibling.getAttribute("id") &&
-      e.setAttribute("aria-controls", e.nextElementSibling.id),
-    e.addEventListener("click", (e) => {
-      e.currentTarget.setAttribute(
-        "aria-expanded",
-        !e.currentTarget.closest("details").hasAttribute("open"),
-      );
-    }),
-    e.closest("header-drawer") ||
-      e.parentElement.addEventListener("keyup", onKeyUpEscape));
-});
-const trapFocusHandlers = {},
-  removeTrapFocus = (e = null) => {
-    (document.removeEventListener("focusin", trapFocusHandlers.focusin),
-      document.removeEventListener("focusout", trapFocusHandlers.focusout),
-      document.removeEventListener("keydown", trapFocusHandlers.keydown),
-      e && e.focus({ preventScroll: !0 }));
-  },
-  trapFocus = (e, t = e) => {
-    var s = getFocusableElements(e),
-      o = s[0],
-      n = s[s.length - 1];
-    (removeTrapFocus(),
-      (trapFocusHandlers.focusin = (t) => {
-        (t.target !== e && t.target !== n && t.target !== o) ||
-          document.addEventListener("keydown", trapFocusHandlers.keydown);
-      }),
-      (trapFocusHandlers.focusout = function () {
-        document.removeEventListener("keydown", trapFocusHandlers.keydown);
-      }),
-      (trapFocusHandlers.keydown = function (t) {
-        "TAB" === t.code.toUpperCase() &&
-          (t.target !== n || t.shiftKey || (t.preventDefault(), o.focus()),
-          (t.target !== e && t.target !== o) ||
-            !t.shiftKey ||
-            (t.preventDefault(), n.focus()));
-      }),
-      document.addEventListener("focusout", trapFocusHandlers.focusout),
-      document.addEventListener("focusin", trapFocusHandlers.focusin),
-      t.focus());
-  },
-  serializeForm = (e) => {
-    const t = {},
-      s = new FormData(e);
-    for (const e of s.keys()) t[e] = s.get(e);
-    return JSON.stringify(t);
-  },
-  deepClone = (e) => JSON.parse(JSON.stringify(e)),
-  handleize = (e) => e.replace(/[ /_]/g, "-").toLowerCase(),
-  decode = (e) => decodeURIComponent(e).replace(/\+/g, " "),
-  getOffsetTop = (e) => {
-    let t = 0;
-    do {
-      isNaN(e.offsetTop) || (t += e.offsetTop);
-    } while ((e = e.offsetParent));
-    return t;
   };
+
+  trapFocusHandlers.keydown = function (event) {
+    if (event.code.toUpperCase() !== "TAB") return; // If not TAB key
+    // On the last focusable element and tab forward, focus the first element.
+    if (event.target === last && !event.shiftKey) {
+      event.preventDefault();
+      first.focus();
+    }
+
+    //  On the first focusable element and tab backward, focus the last element.
+    if (
+      (event.target === container || event.target === first) &&
+      event.shiftKey
+    ) {
+      event.preventDefault();
+      last.focus();
+    }
+  };
+
+  document.addEventListener("focusout", trapFocusHandlers.focusout);
+  document.addEventListener("focusin", trapFocusHandlers.focusin);
+
+  elementToFocus.focus();
+};
+
+const serializeForm = form => {
+  const obj = {};
+  const formData = new FormData(form);
+  for (const key of formData.keys()) {
+    obj[key] = formData.get(key);
+  }
+  return JSON.stringify(obj);
+};
+
+const deepClone = obj => {
+  return JSON.parse(JSON.stringify(obj));
+};
+
+const handleize = str => str.replace(/[ /_]/g, "-").toLowerCase();
+
+const decode = str => decodeURIComponent(str).replace(/\+/g, " ");
+
+const getOffsetTop = element => {
+  let offsetTop = 0;
+
+  do {
+    if (!isNaN(element.offsetTop)) {
+      offsetTop += element.offsetTop;
+    }
+  } while ((element = element.offsetParent));
+
+  return offsetTop;
+};
+
 class MenuDrawer extends HTMLElement {
   constructor() {
-    (super(),
-      (this.details = this.querySelector("details")),
-      (this.summary = this.querySelector("summary")),
-      (this.drawer = this.querySelector(".js-drawer")),
-      (this.btnsCloseDrawer = this.querySelectorAll(".js-btn-close-drawer")),
-      (this.btnsCloseDrawer = [...this.btnsCloseDrawer].filter(
-        (e) => this.drawer === e.closest(".js-drawer"),
-      )),
-      (this.elementToFocus =
-        this.querySelector(".js-drawer-focus-element") ||
-        this.btnsCloseDrawer[0]),
-      (this.toggleButtons = [this.summary, ...this.btnsCloseDrawer]),
-      (this.isParentDrawerOpen = !1),
-      (this.predictiveSearch = this.querySelector("predictive-search")),
-      (this.HeaderDrawer = document.querySelector("header-drawer")),
-      this.setInitialAccessibilityAttr(),
-      this.toggleButtons.forEach((e) => {
-        e.addEventListener("click", (e) => {
-          (e.preventDefault(), this.toggleDrawer());
-        });
-      }),
-      this.addEventListener("keydown", (e) => {
-        const t = "Escape" === e.key,
-          s = this.details.classList.contains("menu-opening"),
-          o = this.details.querySelector("details[open]");
-        t &&
-          !o &&
-          s &&
-          ((this.predictiveSearch &&
-            this.predictiveSearch.input == document.activeElement) ||
-            this.toggleDrawer());
-      }),
-      this.toggleTrapFocus());
+    super();
+
+    this.details = this.querySelector("details");
+    this.summary = this.querySelector("summary");
+    this.drawer = this.querySelector(".js-drawer");
+    this.btnsCloseDrawer = this.querySelectorAll(
+      ".js-btn-close-drawer"
+    );
+    this.btnsCloseDrawer = [...this.btnsCloseDrawer].filter(
+      btnCloseDrawer =>
+        this.drawer === btnCloseDrawer.closest(".js-drawer")
+    );
+    this.elementToFocus =
+      this.querySelector(".js-drawer-focus-element") ||
+      this.btnsCloseDrawer[0];
+    this.toggleButtons = [this.summary, ...this.btnsCloseDrawer];
+    this.isParentDrawerOpen = false;
+    this.predictiveSearch = this.querySelector("predictive-search");
+
+    this.HeaderDrawer = document.querySelector("header-drawer");
+
+    this.setInitialAccessibilityAttr();
+
+    this.toggleButtons.forEach(toggleButton => {
+      toggleButton.addEventListener("click", e => {
+        e.preventDefault();
+
+        this.toggleDrawer();
+      });
+    });
+
+    this.addEventListener("keydown", e => {
+      const isEscapeKey = e.key === "Escape";
+      const isDrawerOpen =
+        this.details.classList.contains("menu-opening");
+      const nestedOpenDrawer =
+        this.details.querySelector("details[open]");
+
+      if (!isEscapeKey || nestedOpenDrawer || !isDrawerOpen) {
+        return;
+      }
+
+      if (
+        this.predictiveSearch &&
+        this.predictiveSearch.input == document.activeElement
+      ) {
+        return;
+      }
+
+      this.toggleDrawer();
+    });
+
+    this.toggleTrapFocus();
   }
+
   toggleDrawer() {
-    this.details.classList.contains("drawer-transitioning");
-    const e = this.details.hasAttribute("open"),
-      t = document.getElementById("header");
-    if (e)
-      (this.details.classList.remove("menu-opening"),
-        this.toggleButtons.forEach((e) => {
-          (e.classList.remove("menu-is-open"),
-            e.setAttribute("aria-expanded", !1));
-        }),
-        (body.style.overflow = ""),
-        (body.style.position = ""),
-        (body.style.top = ""),
-        (body.style.width = ""),
-        window.scrollTo(0, this.scrollTopValue),
-        body.classList.remove("drawer--is-open"),
-        this.isParentDrawerOpen && (this.parentDrawer.style.overflow = ""),
-        setTimeout(() => {
-          this.details.removeAttribute("open");
-        }, 500));
-    else {
-      (this.details.setAttribute("open", ""),
-        this.toggleButtons.forEach((e) => {
-          (e.classList.add("menu-is-open"),
-            e.setAttribute("aria-expanded", !0));
-        }),
-        this.details.classList.add("menu-opening"),
-        t.classList.add("menu-open"));
-      "hidden" === body.style.overflow
-        ? ((this.parentDrawer = this.closest(".js-drawer")),
-          this.parentDrawer && (this.isParentDrawerOpen = !0))
-        : ((body.style.overflow = "hidden"),
-          body.classList.add("drawer--is-open"),
-          (this.scrollTopValue = window.scrollY),
-          (body.style.top = `-${this.scrollTopValue}px`),
-          (body.style.position = "fixed"),
-          (body.style.width = "100%"));
-      var s = this.querySelector("#search-desktop");
-      s && (s.focus(), t && t.classList.remove("menu-open"));
+    const isDrawerTransitioning = this.details.classList.contains(
+      "drawer-transitioning"
+    );
+
+    // const isDetailsOpen = this.details.classList.contains('menu-opening');
+    const isDetailsOpen = this.details.hasAttribute("open");
+    const headerDiv = document.getElementById("header");
+    if (!isDetailsOpen) {
+
+      // this.closeAllOtherDrawers();
+
+      this.details.setAttribute("open", "");
+      this.toggleButtons.forEach(toggleButton => {
+        toggleButton.classList.add("menu-is-open");
+        toggleButton.setAttribute("aria-expanded", true);
+      });
+      this.details.classList.add("menu-opening");
+      headerDiv.classList.add("menu-open");
+      const bodyHasOverflow = body.style.overflow === "hidden";
+      if (bodyHasOverflow) {
+        this.parentDrawer = this.closest(".js-drawer");
+        if (this.parentDrawer) {
+          this.isParentDrawerOpen = true;
+          // this.parentDrawer.style.overflow = "hidden";
+        }
+      } else {
+        body.style.overflow = "hidden";
+        body.classList.add("drawer--is-open");
+        this.scrollTopValue = window.scrollY;
+        body.style.top = `-${this.scrollTopValue}px`;
+        body.style.position = "fixed";
+        body.style.width = "100%";
+      }
+      var searchInput = this.querySelector("#search-desktop");
+      if (searchInput) {
+        searchInput.focus();
+        if (headerDiv) {
+          headerDiv.classList.remove("menu-open");
+        }
+      }
+    } else {
+      this.details.classList.remove("menu-opening");
+      this.toggleButtons.forEach(toggleButton => {
+        toggleButton.classList.remove("menu-is-open");
+        toggleButton.setAttribute("aria-expanded", false);
+      });
+      body.style.overflow = "";
+      body.style.position = "";
+      body.style.top = "";
+      body.style.width = "";
+      window.scrollTo(0, this.scrollTopValue);
+      body.classList.remove("drawer--is-open");
+      if (this.isParentDrawerOpen) {
+        this.parentDrawer.style.overflow = "";
+      }
+      /** removing this attr witout timeout causes transition issues */
+      setTimeout(() => {
+        this.details.removeAttribute("open");
+      }, 500);
     }
-    const o = (e) => {
-      if (e.target !== this.drawer || "visibility" !== e.propertyName) return;
-      (this.details.classList.remove("drawer-transitioning"),
-        this.elementToFocus &&
-          this.elementToFocus.focus({ preventScroll: !0 }));
-      (this.details.hasAttribute("open") ||
-        (this.toggleButtons.forEach((e) => {
-          e.setAttribute("aria-expanded", !1);
-        }),
-        this.summary.focus({ preventScroll: !0 })),
-        this.isParentDrawerOpen
-          ? ((this.parentDrawer.style.overflow = ""),
-            (document.body.style.overflow = ""))
-          : (document.body.style.overflow = "hidden"),
-        e.target.removeEventListener("transitionend", o));
+
+    const handleDropdownTransition = e => {
+      if (
+        e.target !== this.drawer ||
+        e.propertyName !== "visibility"
+      ) {
+        return;
+      }
+
+      this.details.classList.remove("drawer-transitioning");
+
+      if (this.elementToFocus) {
+        this.elementToFocus.focus({
+          preventScroll: true
+        });
+      }
+
+      const isDetailsOpen = this.details.hasAttribute("open");
+
+      if (!isDetailsOpen) {
+        this.toggleButtons.forEach(toggleButton => {
+          toggleButton.setAttribute("aria-expanded", false);
+        });
+        this.summary.focus({
+          preventScroll: true
+        });
+      }
+
+      if (this.isParentDrawerOpen) {
+        this.parentDrawer.style.overflow = "";
+        document.body.style.overflow = "";
+      } else {
+        document.body.style.overflow = "hidden";
+      }
+
+      e.target.removeEventListener(
+        "transitionend",
+        handleDropdownTransition
+      );
     };
-    (this.drawer.addEventListener(
+
+    this.drawer.addEventListener(
       "transitionstart",
-      (e) => {
+      e => {
         this.details.classList.add("drawer-transitioning");
       },
-      { once: !0 },
-    ),
-      this.drawer.addEventListener("transitionend", o));
+      {
+        once: true
+      }
+    );
+
+    this.drawer.addEventListener(
+      "transitionend",
+      handleDropdownTransition
+    );
   }
+
+  /* probably not needed -- start */
   closeAllOtherDrawers() {
-    (document.querySelectorAll(".js-drawer").forEach((e) => {
-      const t = e.closest("details");
-      t &&
-        t !== this.details &&
-        (t.removeAttribute("open"), (e.style.overflow = ""));
-    }),
-      (document.body.style.overflow = ""));
+    const allDrawers = document.querySelectorAll(".js-drawer");
+    allDrawers.forEach(drawer => {
+      const details = drawer.closest("details");
+      if (details && details !== this.details) {
+        details.removeAttribute("open");
+        drawer.style.overflow = "";
+      }
+    });
+
+    document.body.style.overflow = "";
   }
+  /* probably not needed -- end */
+
   instantlyHideDrawer() {
-    (this.toggleButtons.forEach((e) => {
-      e.setAttribute("aria-expanded", !1);
-    }),
-      this.details.classList.remove("menu-opening"),
-      this.details.removeAttribute("open"),
-      (body.style.overflow = ""));
+    this.toggleButtons.forEach(toggleButton => {
+      toggleButton.setAttribute("aria-expanded", false);
+    });
+    this.details.classList.remove("menu-opening");
+    this.details.removeAttribute("open");
+    body.style.overflow = "";
   }
-  toggleTrapFocus(e = this.drawer) {
-    let t = !1;
-    document.addEventListener("focusin", (s) => {
-      if (t) return;
-      t = !0;
-      if (!this.details.classList.contains("menu-opening"))
-        return void (t = !1);
-      const o = s.target.closest("details.menu-opening .js-drawer"),
-        n = this.details.querySelector("details.menu-opening");
-      if (o === this.drawer || n) return void (t = !1);
-      s.preventDefault();
-      const r = getFocusableElements(e),
-        i = e.compareDocumentPosition(s.target),
-        a = r.filter((e) => {
-          if ("none" === getComputedStyle(e).display) return;
-          const t = "SUMMARY" === e.tagName,
-            s = e.closest("details"),
-            o = s.parentElement.closest("details"),
-            n = s.querySelector(".js-drawer");
+
+  toggleTrapFocus(container = this.drawer) {
+    let isHandlingFocus = false;
+
+    document.addEventListener("focusin", e => {
+      if (isHandlingFocus) return;
+      isHandlingFocus = true;
+
+      const isDrawerOpen =
+        this.details.classList.contains("menu-opening");
+
+      if (!isDrawerOpen) {
+        isHandlingFocus = false;
+        return;
+      }
+
+      const openDrawer = e.target.closest(
+        "details.menu-opening .js-drawer"
+      );
+      const nestedOpenDrawer = this.details.querySelector(
+        "details.menu-opening"
+      );
+
+      if (openDrawer === this.drawer || nestedOpenDrawer) {
+        isHandlingFocus = false;
+        return;
+      }
+
+      e.preventDefault();
+
+      const focusableElements = getFocusableElements(container);
+      const focusedElementDOMPosition =
+        container.compareDocumentPosition(e.target);
+
+      const visibleFocusableElements = focusableElements.filter(
+        focusableElement => {
+          const isHidden =
+            getComputedStyle(focusableElement).display === "none";
+
+          if (isHidden) {
+            return;
+          }
+
+          const isSummary = focusableElement.tagName === "SUMMARY";
+          const focusableElementDetails =
+            focusableElement.closest("details");
+          const parentFocusableElementDetails =
+            focusableElementDetails.parentElement.closest("details");
+          const focusableElementDrawer =
+            focusableElementDetails.querySelector(".js-drawer");
+          const isThisDrawerOrDetails = focusableElementDrawer
+            ? focusableElementDrawer === this.drawer
+            : focusableElementDetails === this.details;
+
           return (
-            (n ? n === this.drawer : s === this.details) ||
-            (t && o.hasAttribute("open"))
+            isThisDrawerOrDetails ||
+            (isSummary &&
+              parentFocusableElementDetails.hasAttribute("open"))
           );
-        }),
-        c = a[0],
-        l = a[a.length - 1];
-      (i >= 4 ? c.focus({ preventScroll: !0 }) : l.focus({ preventScroll: !0 }),
-        (t = !1));
+        }
+      );
+
+      const firstFocusableElement = visibleFocusableElements[0];
+      const lastFocusableElement =
+        visibleFocusableElements[visibleFocusableElements.length - 1];
+
+      if (focusedElementDOMPosition >= 4) {
+        firstFocusableElement.focus({
+          preventScroll: true
+        });
+      } else {
+        lastFocusableElement.focus({
+          preventScroll: true
+        });
+      }
+      isHandlingFocus = false;
     });
   }
+
   setInitialAccessibilityAttr() {
-    const e = this.details.hasAttribute("open");
-    (this.summary.setAttribute("role", "button"),
-      this.summary.setAttribute("aria-controls", this.drawer.id),
-      this.summary.setAttribute("aria-expanded", e));
+    const isDetailsOpen = this.details.hasAttribute("open");
+
+    this.summary.setAttribute("role", "button");
+    this.summary.setAttribute("aria-controls", this.drawer.id);
+    this.summary.setAttribute("aria-expanded", isDetailsOpen);
   }
 }
 customElements.define("menu-drawer", MenuDrawer);
+
 class HeaderDrawer extends MenuDrawer {
   constructor() {
-    (super(),
-      window.addEventListener("resize", (e) => {
-        if (!this.classList.contains("mobile-drawer")) return;
-        const t = window.innerWidth < 990,
-          s = this.details.classList.contains("menu-opening");
-        !t && s && this.instantlyHideDrawer();
-      }));
+    super();
+
+    window.addEventListener("resize", e => {
+      const isMobileDrawer = this.classList.contains("mobile-drawer");
+
+      if (!isMobileDrawer) {
+        return;
+      }
+
+      const isDesktop = window.innerWidth < tabletWidth;
+      const isMenuOpen =
+        this.details.classList.contains("menu-opening");
+
+      if (isDesktop || !isMenuOpen) {
+        return;
+      }
+
+      this.instantlyHideDrawer();
+    });
   }
+
   instantlyHideDrawer() {
     super.instantlyHideDrawer();
   }
+
   toggleDrawer() {
-    this.details.classList.contains("drawer-transitioning");
-    const e = this.querySelector(".drawer__button");
-    (e.classList.contains("menu-is-open")
-      ? (header.classList.remove("menu-open"),
-        e.classList.remove("menu-is-open"),
-        body.style.removeProperty("position"),
-        window.scrollTo(0, this.scrollTopValue))
-      : ((this.scrollTopValue = window.scrollY),
-        header.classList.add("menu-open"),
-        e.classList.add("menu-is-open")),
-      super.toggleDrawer(),
-      this.querySelectorAll(".drawer__menu-item").forEach((e) => {
-        e.classList.toggle("is--visible");
-      }),
-      this.querySelectorAll(".drawer__subnav-item").forEach((e) => {
-        e.classList.toggle("is--visible");
-      }));
+    const isDrawerTransitioning = this.details.classList.contains(
+      "drawer-transitioning"
+    );
+
+    const drawerButton = this.querySelector(".drawer__button");
+    // if drawerButton has .menu-is-open class and if header has .menu-open class, drawer is open
+    // so when drawerButton with .menu-is-open class is clicked, remove .menu-open class from header
+    if (drawerButton.classList.contains("menu-is-open")) {
+      header.classList.remove("menu-open");
+      drawerButton.classList.remove("menu-is-open");
+      // body scroll lock for iphones - start
+      body.style.removeProperty("position");
+      window.scrollTo(0, this.scrollTopValue);
+    } else {
+      this.scrollTopValue = window.scrollY;
+      // body.style.position = "fixed"; / this causes scroll to top - buggy code
+      // body scroll lock for iphones - end
+      header.classList.add("menu-open");
+      drawerButton.classList.add("menu-is-open");
+    }
+
+    // header.classList.toggle('menu-open');
+    super.toggleDrawer();
+
+    this.querySelectorAll(".drawer__menu-item").forEach(item => {
+      item.classList.toggle("is--visible");
+    });
+    this.querySelectorAll(".drawer__subnav-item").forEach(item => {
+      item.classList.toggle("is--visible");
+    });
   }
+
   toggleTrapFocus() {
     super.toggleTrapFocus(this.details);
   }
 }
+
 customElements.define("header-drawer", HeaderDrawer);
+
 class DesktopDrawer extends MenuDrawer {
   constructor() {
-    (super(),
-      window.addEventListener("resize", (e) => {
-        const t = window.innerWidth < 990,
-          s = this.details.classList.contains("menu-opening");
-        t && s && this.instantlyHideDrawer();
-      }));
+    super();
+
+    window.addEventListener("resize", e => {
+      const isDesktop = window.innerWidth < tabletWidth;
+      const isMenuOpen =
+        this.details.classList.contains("menu-opening");
+
+      if (!isDesktop || !isMenuOpen) {
+        return;
+      }
+
+      this.instantlyHideDrawer();
+    });
   }
 }
+
 customElements.define("desktop-drawer", DesktopDrawer);
+
 class SearchDrawer extends MenuDrawer {
   constructor() {
-    (super(),
-      window.addEventListener("resize", (e) => {
+    super();
+
+    window.addEventListener("resize", e => {
+      const isMenuOpen =
         this.details.classList.contains("menu-opening");
-      }),
-      (this.btn = this.querySelector(".drawer__button")),
-      this.btn.addEventListener("click", () => {
-        const e = document.querySelector("header-drawer details");
-        e && (e.removeAttribute("open"), e.classList.remove("menu-opening"));
-      }));
+
+      if (!isMenuOpen) {
+        return;
+      }
+    });
+
+    // get button element
+    this.btn = this.querySelector(".drawer__button");
+    // if this button clicked, close all other drawers
+    this.btn.addEventListener("click", () => {
+      const headerDrawerDetails = document.querySelector("header-drawer details");
+      if (headerDrawerDetails) {
+        headerDrawerDetails.removeAttribute("open");
+        headerDrawerDetails.classList.remove("menu-opening");
+      }
+    });
   }
-}
-function pauseAllMedia() {
-  (document.querySelectorAll(".js-youtube").forEach((e) => {
-    e.contentWindow.postMessage(
-      '{"event":"command","func":"pauseVideo","args":""}',
-      "*",
-    );
-  }),
-    document.querySelectorAll(".js-vimeo").forEach((e) => {
-      e.contentWindow.postMessage('{"method":"pause"}', "*");
-    }),
-    document.querySelectorAll("video").forEach((e) => e.pause()),
-    document.querySelectorAll("product-model").forEach((e) => {
-      e.modelViewerUI && e.modelViewerUI.pause();
-    }));
-}
-function unpauseAllMedia() {
-  (document.querySelectorAll(".js-youtube").forEach((e) => {
-    e.contentWindow.postMessage(
-      '{"event":"command","func":"playVideo","args":""}',
-      "*",
-    );
-  }),
-    document.querySelectorAll(".js-vimeo").forEach((e) => {
-      e.contentWindow.postMessage('{"method":"play"}', "*");
-    }),
-    document.querySelectorAll("video").forEach((e) => {
-      let t = e.play();
-      void 0 !== t &&
-        t
-          .then((e) => {})
-          .catch((t) => {
-            e.play();
-          });
-    }),
-    document.querySelectorAll("product-model").forEach((e) => {
-      e.modelViewerUI && e.modelViewerUI.play();
-    }));
 }
 customElements.define("search-drawer", SearchDrawer);
-const debounce = (e, t) => {
-    let s;
-    return (...o) => {
-      (clearTimeout(s), (s = setTimeout(() => e.apply(this, o), t)));
-    };
-  },
-  fetchConfig = (e = "json") => ({
-    method: "POST",
-    headers: { "Content-Type": `application/${e}`, Accept: `application/${e}` },
+
+function pauseAllMedia() {
+  document.querySelectorAll(".js-youtube").forEach(video => {
+    video.contentWindow.postMessage(
+      '{"event":"command","func":"' + "pauseVideo" + '","args":""}',
+      "*"
+    );
   });
+  document.querySelectorAll(".js-vimeo").forEach(video => {
+    video.contentWindow.postMessage('{"method":"pause"}', "*");
+  });
+  document.querySelectorAll("video").forEach(video => video.pause());
+  document.querySelectorAll("product-model").forEach(model => {
+    if (model.modelViewerUI) model.modelViewerUI.pause();
+  });
+}
+
+// unpause all media
+function unpauseAllMedia() {
+  document.querySelectorAll(".js-youtube").forEach(video => {
+    video.contentWindow.postMessage(
+      '{"event":"command","func":"' + "playVideo" + '","args":""}',
+      "*"
+    );
+  });
+  document.querySelectorAll(".js-vimeo").forEach(video => {
+    video.contentWindow.postMessage('{"method":"play"}', "*");
+  });
+  // document.querySelectorAll('video').forEach(video => video.play());
+
+  document.querySelectorAll("video").forEach(video => {
+    let playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(_ => {
+          // Automatic playback started!
+          // Show playing UI.
+          // video.play();
+        })
+        .catch(error => {
+          // Auto-play was prevented
+          // Show paused UI.
+          // if paused, play
+          video.play();
+        });
+    } else {
+      // Show paused UI.
+    }
+  });
+
+  document.querySelectorAll("product-model").forEach(model => {
+    if (model.modelViewerUI) model.modelViewerUI.play();
+  });
+}
+
+const debounce = (fn, wait) => {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn.apply(this, args), wait);
+  };
+};
+
+const fetchConfig = (type = "json") => {
+  return {
+    method: "POST",
+    headers: {
+      "Content-Type": `application/${type}`,
+      "Accept": `application/${type}`
+    }
+  };
+};
+
 class QuantityInput extends HTMLElement {
   constructor() {
-    (super(),
-      (this.input = this.querySelector("input")),
-      (this.changeEvent = new Event("change", { bubbles: !0 })),
-      this.querySelectorAll("button").forEach((e) =>
-        e.addEventListener("click", this.onButtonClick.bind(this)),
-      ));
+    super();
+
+    this.input = this.querySelector("input");
+    this.changeEvent = new Event("change", { bubbles: true });
+
+    this.querySelectorAll("button").forEach(button =>
+      button.addEventListener("click", this.onButtonClick.bind(this))
+    );
   }
-  onButtonClick(e) {
-    e.preventDefault();
-    const t = e.target.name ? e.target : e.target.closest("button"),
-      s = this.input.value;
-    ("increment" === t.name ? this.input.stepUp() : this.input.stepDown(),
-      s !== this.input.value && this.input.dispatchEvent(this.changeEvent));
+
+  onButtonClick(event) {
+    event.preventDefault();
+
+    const eventTarget = event.target.name
+      ? event.target
+      : event.target.closest("button");
+
+    const previousValue = this.input.value;
+
+    eventTarget.name === "increment"
+      ? this.input.stepUp()
+      : this.input.stepDown();
+
+    if (previousValue !== this.input.value)
+      this.input.dispatchEvent(this.changeEvent);
   }
 }
+
 customElements.define("quantity-input", QuantityInput);
+
 class ModalOpener extends HTMLElement {
   constructor() {
     super();
-    const e = this.querySelector("button");
-    e &&
-      e.addEventListener("click", () => {
-        const t = document.querySelector(this.getAttribute("data-modal"));
-        t && t.show(e);
-      });
+
+    const button = this.querySelector("button");
+
+    if (!button) return;
+
+    button.addEventListener("click", () => {
+      const modal = document.querySelector(
+        this.getAttribute("data-modal")
+      );
+
+      if (modal) modal.show(button);
+    });
   }
 }
 customElements.define("modal-opener", ModalOpener);
+
 class ModalDialog extends HTMLElement {
   constructor() {
-    (super(),
-      (this.dialogHolder = this.querySelector('[role="dialog"]')),
-      this.querySelector('[id^="ModalClose-"]').addEventListener(
-        "click",
-        this.hide.bind(this, !1),
-      ),
-      this.addEventListener("keyup", (e) => {
-        "ESCAPE" !== e.code?.toUpperCase() ||
-          e.target.closest("age-verification-popup") ||
-          this.hide();
-      }),
-      this.addEventListener("click", (e) => {
-        e.target !== this ||
-          e.target.closest("age-verification-popup") ||
-          this.hide();
-      }),
-      this.dialogHolder.addEventListener("click", (e) => {
-        e.stopPropagation();
-      }));
+    super();
+
+    this.dialogHolder = this.querySelector('[role="dialog"]');
+    this.querySelector('[id^="ModalClose-"]').addEventListener(
+      "click",
+      this.hide.bind(this, false)
+    );
+
+    this.addEventListener("keyup", event => {
+      if (event.code?.toUpperCase() === "ESCAPE" && !event.target.closest("age-verification-popup")) {
+        this.hide();
+      }
+    });
+
+    this.addEventListener("click", event => {
+      if (event.target === this && !event.target.closest("age-verification-popup")) {
+        this.hide();
+      }
+    });
+
+    // Prevent closing the modal dialog when clicking inside the dialog holder
+    this.dialogHolder.addEventListener("click", event => {
+      event.stopPropagation();
+    });
   }
+
   connectedCallback() {
-    this.moved || ((this.moved = !0), document.body.appendChild(this));
+    if (this.moved) return;
+    this.moved = true;
+    document.body.appendChild(this);
   }
-  show(e) {
-    ((this.openedBy = e),
-      bodyScroll.lock(this.dialogHolder),
-      this.setAttribute("open", ""),
-      trapFocus(this, this.dialogHolder),
-      window.pauseAllMedia());
+
+  show(opener) {
+    this.openedBy = opener;
+    bodyScroll.lock(this.dialogHolder);
+    this.setAttribute("open", "");
+    trapFocus(this, this.dialogHolder);
+    window.pauseAllMedia();
   }
+
   hide() {
-    (bodyScroll.unlock(this.dialogHolder),
-      document.body.dispatchEvent(new CustomEvent("modalClosed")),
-      this.removeAttribute("open"),
-      removeTrapFocus(this.openedBy),
-      window.unpauseAllMedia());
+    bodyScroll.unlock(this.dialogHolder);
+    document.body.dispatchEvent(new CustomEvent("modalClosed"));
+    this.removeAttribute("open");
+    removeTrapFocus(this.openedBy);
+    window.unpauseAllMedia();
   }
 }
+
+customElements.define("modal-dialog", ModalDialog);
+
 function isIOS() {
   return (
     /iPad|iPhone|iPod|iPad Simulator|iPhone Simulator|iPod Simulator/.test(
-      navigator.platform,
+      navigator.platform
     ) ||
-    ("MacIntel" === navigator.platform && navigator.maxTouchPoints > 1)
+    (navigator.platform === "MacIntel" &&
+      navigator.maxTouchPoints > 1)
   );
 }
-customElements.define("modal-dialog", ModalDialog);
 class DeferredMedia extends HTMLElement {
   constructor() {
     super();
-    const e = this.querySelector('[id^="Deferred-Poster-"]');
-    e && e.addEventListener("click", this.loadContent.bind(this));
+    const poster = this.querySelector('[id^="Deferred-Poster-"]');
+    if (!poster) return;
+    poster.addEventListener("click", this.loadContent.bind(this));
   }
-  loadContent(e = !0) {
+
+  loadContent(focus = true) {
     if (!this.getAttribute("loaded")) {
-      const t = document.createElement("div");
-      (t.appendChild(
-        this.querySelector("template").content.firstElementChild.cloneNode(!0),
-      ),
-        this.setAttribute("loaded", !0));
-      const s = this.appendChild(
-        t.querySelector("video, model-viewer, iframe"),
+      const content = document.createElement("div");
+      content.appendChild(
+        this.querySelector(
+          "template"
+        ).content.firstElementChild.cloneNode(true)
       );
-      (isIOS() && (s.controls = !0), s.play && s.play(), e && s.focus());
+
+      this.setAttribute("loaded", true);
+      const deferredElement = this.appendChild(
+        content.querySelector("video, model-viewer, iframe")
+      );
+
+      if (isIOS()) {
+        deferredElement.controls = true;
+      }
+
+      deferredElement.play && deferredElement.play();
+
+      if (focus) deferredElement.focus();
     }
   }
 }
+
 customElements.define("deferred-media", DeferredMedia);
+
+/**
+ * Additions
+ */
+
 class LocalizationForm extends HTMLElement {
   constructor() {
-    (super(),
-      (this.form = this.querySelector("form")),
-      (this.localizationInputElements = this.querySelectorAll(
-        '[name="country_code"], [name="language_code"]',
-      )),
-      this.localizationInputElements.forEach((e) => {
-        e.addEventListener("input", () => {
-          this.form.submit();
-        });
-      }));
+    super();
+
+    this.form = this.querySelector("form");
+    this.localizationInputElements = this.querySelectorAll(
+      '[name="country_code"], [name="language_code"]'
+    );
+
+    this.localizationInputElements.forEach(inputElement => {
+      inputElement.addEventListener("input", () => {
+        this.form.submit();
+      });
+    });
   }
 }
+
 customElements.define("localization-form", LocalizationForm);
+
 class AccordionDefault extends HTMLElement {
   constructor() {
-    (super(),
-      (this.hideMultiple = this.hasAttribute("data-hide-multiple")),
-      (this.summaryElements = this.querySelectorAll("summary")),
-      this.setInitialAccessibilityAttr(),
-      this.addEventListener("click", (e) => {
-        let t = e.target.classList.contains("js-btn");
-        (t || (t = e.target.closest("summary.js-btn")),
-          t &&
-            (e.preventDefault(),
-            this.toggleDropdown(
-              e.target.classList.contains("js-btn")
-                ? e.target
-                : e.target.closest("summary"),
-            ),
-            this.collapseInactiveItems()));
-      }),
-      this.addEventListener("keydown", (e) => {
-        if (!("Escape" === e.key)) return;
-        const t = document.activeElement.closest("details.is-active");
-        if (!t) return;
-        const s = t.querySelector("summary");
-        this.closest("menu-drawer").classList.contains("facets__drawer")
-          ? this.closest("menu-drawer").toggleDrawer()
-          : (this.toggleDropdown(s), this.collapseInactiveItems());
-      }));
-  }
-  collapseInactiveItems() {
-    if (!this.hideMultiple) return;
-    document.querySelectorAll("accordion-default summary").forEach((e) => {
-      e.closest("accordion-default").toggleDropdown(e, !0);
+    super();
+
+    this.hideMultiple = this.hasAttribute("data-hide-multiple");
+    this.summaryElements = this.querySelectorAll("summary");
+
+    this.setInitialAccessibilityAttr();
+
+    this.addEventListener("click", e => {
+      let isBtn = e.target.classList.contains("js-btn");
+
+      if (!isBtn) {
+        isBtn = e.target.closest("summary.js-btn");
+      }
+
+      if (!isBtn) return;
+
+      e.preventDefault();
+
+      this.toggleDropdown(
+        e.target.classList.contains("js-btn")
+          ? e.target
+          : e.target.closest("summary")
+      );
+      this.collapseInactiveItems();
+    });
+
+    this.addEventListener("keydown", e => {
+      const isEscapeKey = e.key === "Escape";
+
+      if (!isEscapeKey) {
+        return;
+      }
+
+      const closestOpenDetails = document.activeElement.closest(
+        "details.is-active"
+      );
+
+      if (!closestOpenDetails) {
+        return;
+      }
+
+      const btn = closestOpenDetails.querySelector("summary");
+
+      if (this.closest('menu-drawer').classList.contains('facets__drawer')) {
+        this.closest('menu-drawer').toggleDrawer();
+        return;
+      }
+
+      this.toggleDropdown(btn);
+      this.collapseInactiveItems();
     });
   }
-  toggleDropdown(e, t) {
-    const s = e.nextElementSibling;
-    if (s.classList.contains("is-transitioning")) return;
-    const o = e.parentElement,
-      n = o.closest(".product__accordion");
-    if (t)
-      return (
-        o.classList.remove("is-active"),
-        o.removeAttribute("open"),
-        e.setAttribute("aria-expanded", !1),
-        void (s.style.height = "0px")
-      );
-    o.classList.toggle("is-active");
-    const r = o.classList.contains("is-active");
-    (e.setAttribute("aria-expanded", r),
-      r
-        ? (o.setAttribute("open", ""),
-          (s.style.height = `${s.scrollHeight}px`),
-          setTimeout(() => {
-            if (n) {
-              const e = n.getBoundingClientRect(),
-                t = window.scrollY + e.top - 150;
-              window.scrollTo({ top: t, behavior: "smooth" });
-            }
-          }, 150))
-        : ((s.style.height = `${s.scrollHeight}px`),
-          setTimeout(() => {
-            s.style.height = "0px";
-          }, 0)),
-      s.classList.add("is-transitioning"),
-      s.addEventListener("transitionend", function t(n) {
-        if (
-          (s.removeEventListener("transitionend", t),
-          s.classList.remove("is-transitioning"),
-          r)
-        )
-          return void (s.style.height = "auto");
-        (o.removeAttribute("open"), e.focus());
-      }));
+
+  collapseInactiveItems() {
+    if (!this.hideMultiple) return;
+    const allSummaryElements = document.querySelectorAll(
+      "accordion-default summary"
+    );
+    allSummaryElements.forEach(summary => {
+      const accordionDefault = summary.closest("accordion-default");
+      accordionDefault.toggleDropdown(summary, true);
+    });
   }
+
+  toggleDropdown(btn, forceClose) {
+    const dropdown = btn.nextElementSibling;
+    const isDropdownTransitioning = dropdown.classList.contains(
+      "is-transitioning"
+    );
+
+    if (isDropdownTransitioning) {
+      return;
+    }
+
+    const details = btn.parentElement;
+    const accordionContainer = details.closest(".product__accordion");
+
+    if (forceClose) {
+      details.classList.remove("is-active");
+      details.removeAttribute("open");
+      btn.setAttribute("aria-expanded", false);
+      dropdown.style.height = "0px";
+      return;
+    }
+
+    details.classList.toggle("is-active");
+
+    const isDetailsActive = details.classList.contains("is-active");
+
+    btn.setAttribute("aria-expanded", isDetailsActive);
+
+    if (isDetailsActive) {
+      details.setAttribute("open", "");
+
+      dropdown.style.height = `${dropdown.scrollHeight}px`;
+      setTimeout(() => {
+        if (accordionContainer) {
+          const rect = accordionContainer.getBoundingClientRect();
+          const scrollY = window.scrollY + rect.top - 150;
+
+          window.scrollTo({
+            top: scrollY,
+            behavior: "smooth"
+          });
+        }
+      }, 150);
+    } else {
+      dropdown.style.height = `${dropdown.scrollHeight}px`;
+
+      setTimeout(() => {
+        dropdown.style.height = "0px";
+      }, 0);
+    }
+
+    dropdown.classList.add("is-transitioning");
+    dropdown.addEventListener(
+      "transitionend",
+      handleHeightTransition
+    );
+
+    function handleHeightTransition(e) {
+      dropdown.removeEventListener(
+        "transitionend",
+        handleHeightTransition
+      );
+      dropdown.classList.remove("is-transitioning");
+
+      if (isDetailsActive) {
+        dropdown.style.height = "auto";
+        return;
+      }
+
+      details.removeAttribute("open");
+      btn.focus();
+    }
+  }
+
   setInitialAccessibilityAttr() {
-    this.summaryElements.forEach((e) => {
-      const t = e.parentElement,
-        s = e.nextElementSibling,
-        o = t.hasAttribute("open");
-      (e.setAttribute("role", "button"),
-        e.setAttribute("aria-controls", s.id),
-        e.setAttribute("aria-expanded", o));
+    this.summaryElements.forEach(summaryElement => {
+      const detailsElement = summaryElement.parentElement;
+      const dropdown = summaryElement.nextElementSibling;
+      const isDetailsOpen = detailsElement.hasAttribute("open");
+
+      summaryElement.setAttribute("role", "button");
+      summaryElement.setAttribute("aria-controls", dropdown.id);
+      summaryElement.setAttribute("aria-expanded", isDetailsOpen);
     });
   }
 }
+
 customElements.define("accordion-default", AccordionDefault);
+
 const nav = document.querySelector(".js-nav");
-(nav?.addEventListener("click", function (e) {
-  const t = matchMedia("(hover: none)").matches,
-    s = e.target.classList.contains("js-nav-link");
-  if (!t || !s) return;
-  const o = e.target.parentElement,
-    n = o.parentElement.querySelector(".js-nav-item.is-active"),
-    r = o.classList.contains("has-dropdown");
-  (n !== o && n?.classList.remove("is-active"),
-    r && (e.preventDefault(), o.classList.toggle("is-active")));
-}),
-  document.addEventListener("click", function (e) {
-    if (e.target.closest(".js-nav-item.is-active")) return;
-    const t = document.querySelectorAll(".js-nav-item.is-active");
-    0 != t.length &&
-      t.forEach((e) => {
-        e.classList.remove("is-active");
-      });
-  }));
-let navItems = document.querySelectorAll(
-  ".js-nav-item.has-dropdown:not(.dropdown)",
-);
-(window.addEventListener("shopify:section:load", function () {
-  navItems = document.querySelectorAll(
-    ".js-nav-item.has-dropdown:not(.dropdown)",
+
+nav?.addEventListener("click", function (e) {
+  const isHoverDisabled = matchMedia("(hover: none)").matches;
+  const isLink = e.target.classList.contains("js-nav-link");
+
+  if (!isHoverDisabled || !isLink) {
+    return;
+  }
+
+  const link = e.target;
+  const linkItem = link.parentElement;
+  const linksList = linkItem.parentElement;
+  const activeLinkItem = linksList.querySelector(
+    ".js-nav-item.is-active"
   );
-}),
-  ["DOMContentLoaded", "resize"].forEach((e) => {
-    window.addEventListener(e, () => {
-      navItems = document.querySelectorAll(
-        ".js-nav-item.has-dropdown:not(.dropdown)",
-      );
-      if (!navItems.length) return;
-      const updates = [];
-      navItems.forEach((el) => {
-        const drop = el.querySelector(".js-dropdown");
-        if (!drop) return;
-        const { y: s, height: o } = el.getBoundingClientRect();
-        const n = s + o;
-        const r = drop.getBoundingClientRect().y;
-        if (n !== r) {
-          const i = Math.round(r - n);
-          updates.push({ el, height: i });
-        }
-      });
-      updates.forEach(({ el, height }) => {
-        el.style.setProperty("--after-height", `${height}px`);
-      });
+  const hasDropdown = linkItem.classList.contains("has-dropdown");
+
+  if (activeLinkItem !== linkItem) {
+    activeLinkItem?.classList.remove("is-active");
+  }
+
+  if (!hasDropdown) {
+    return;
+  }
+
+  e.preventDefault();
+
+  linkItem.classList.toggle("is-active");
+});
+
+document.addEventListener("click", function (e) {
+  const targetActiveLinkItem = e.target.closest(
+    ".js-nav-item.is-active"
+  );
+
+  if (targetActiveLinkItem) {
+    return;
+  }
+
+  const activeLinkItems = document.querySelectorAll(
+    ".js-nav-item.is-active"
+  );
+
+  if (activeLinkItems.length == 0) {
+    return;
+  }
+
+  activeLinkItems.forEach(activeLinkItem => {
+    activeLinkItem.classList.remove("is-active");
+  });
+});
+
+let navItems = document.querySelectorAll(
+  ".js-nav-item.has-dropdown:not(.dropdown)"
+);
+
+window.addEventListener("shopify:section:load", function () {
+  navItems = document.querySelectorAll(
+    ".js-nav-item.has-dropdown:not(.dropdown)"
+  );
+});
+
+["DOMContentLoaded", "resize"].forEach(eventType => {
+  window.addEventListener(eventType, () => {
+    navItems = document.querySelectorAll(
+      ".js-nav-item.has-dropdown:not(.dropdown)"
+    );
+    if (!navItems.length) return;
+    const updates = [];
+    navItems.forEach(navItem => {
+      const dropdown = navItem.querySelector(".js-dropdown");
+      if (!dropdown) return;
+      const { y, height } = navItem.getBoundingClientRect();
+      const itemTop = y + height;
+      const dropdownY = dropdown.getBoundingClientRect().y;
+      if (itemTop !== dropdownY) {
+        const difference = Math.round(dropdownY - itemTop);
+        updates.push({ navItem, difference });
+      }
+    });
+    updates.forEach(({ navItem, difference }) => {
+      navItem.style.setProperty("--after-height", `${difference}px`);
     });
   });
+});
+
+// Add is scrolled class for header when transparent and sticky are enabled
+
 let hero =
   document.querySelector(".hero-banner") ||
   document.querySelector("main section");
+
 window.addEventListener("shopify:section:load", function () {
   hero =
     document.querySelector(".hero-banner") ||
     document.querySelector("main section");
 });
-const megaMenu = document.querySelector("nav.js-nav");
+
+const megaMenu = document.querySelector('nav.js-nav');
 if (megaMenu) {
+  // CHANGE: function name is not relevant to what it does
   function toggleHeaderTransparency() {
-    megaMenu.querySelector(".js-dropdown.is-visible")
-      ? header.classList.add("is-megamenu-open")
-      : header.classList.remove("is-megamenu-open");
+    const hasVisibleDropdown = megaMenu.querySelector('.js-dropdown.is-visible');
+
+    if (hasVisibleDropdown) {
+      header.classList.add('is-megamenu-open');
+    } else {
+      header.classList.remove('is-megamenu-open');
+    }
   }
-  function closeAllDropdowns() {
-    megaMenu.querySelectorAll(".js-dropdown.is-visible").forEach((e) => {
-      const t = e.closest(".js-nav-item"),
-        s = t?.getAttribute("data-menu-item");
-      (megaMenu.querySelectorAll(".header__nav-sublinks").forEach((e) => {
-        e.classList.contains("is-visible") && e.classList.remove("is-visible");
-      }),
-        null !== s && e.classList.remove("is-visible"));
+
+  megaMenu.querySelectorAll('.js-nav-item').forEach(item => {
+    const menuContent = item.querySelector('.js-dropdown');
+
+    item.addEventListener('mouseenter', () => {
+      const menuItem = item.getAttribute('data-menu-item');
+      if (menuItem === null) {
+        return; // if menu item is not defined, return
+      }
+      closeAllDropdowns();
+      if (menuContent) {
+        menuContent.classList.add('is-visible');
+      }
+      toggleHeaderTransparency(); // update header transparency
     });
-  }
-  (megaMenu.querySelectorAll(".js-nav-item").forEach((e) => {
-    const t = e.querySelector(".js-dropdown");
-    (e.addEventListener("mouseenter", () => {
-      null !== e.getAttribute("data-menu-item") &&
-        (closeAllDropdowns(),
-        t && t.classList.add("is-visible"),
-        toggleHeaderTransparency());
-    }),
-      e.addEventListener("mouseleave", (s) => {
-        const o = s.relatedTarget;
-        (o && (t?.contains(o) || e.contains(o) || megaMenu.contains(o))) ||
-          (closeAllDropdowns(), toggleHeaderTransparency());
-      }),
-      t &&
-        t.addEventListener("mouseleave", (s) => {
-          const o = s.relatedTarget;
-          (o && (t.contains(o) || e.contains(o) || megaMenu.contains(o))) ||
-            (closeAllDropdowns(), toggleHeaderTransparency());
-        }));
-  }),
-    megaMenu.addEventListener("mouseleave", () => {
-      (closeAllDropdowns(), toggleHeaderTransparency());
-    }));
-}
-document
-  .querySelectorAll(".header__nav-item.dropdown [data-child-menu-item]")
-  .forEach((e) => {
-    const t = e.querySelector("[data-child-menu-content]");
-    (e.addEventListener("mouseenter", () => {
-      (document
-        .querySelectorAll(
-          ".header__nav-item.dropdown [data-child-menu-content]",
-        )
-        .forEach((e) => {
-          e.classList.remove("is-visible");
-        }),
-        t?.classList.add("is-visible"));
-    }),
-      e.addEventListener("mouseleave", (s) => {
-        const o = s.relatedTarget;
-        o &&
-          o.closest("[data-child-menu-item]") !== e &&
-          o.closest("[data-child-menu-item]") &&
-          t?.classList.remove("is-visible");
-      }));
-  });
-const animationObserverOptions = { rootMargin: "-100px" },
-  animationObserver = new IntersectionObserver((e) => {
-    e.forEach((e) => {
-      e.isIntersecting &&
-        (e.target.classList.add("animation-init"),
-        e.target.addEventListener(
-          "animationend",
-          () => {
-            e.target.classList.add("animation-none");
-          },
-          { once: !0 },
-        ),
-        animationObserver.unobserve(e.target));
+
+    item.addEventListener('mouseleave', e => {
+      const related = e.relatedTarget;
+      if (related && (menuContent?.contains(related) || item.contains(related) || megaMenu.contains(related))) {
+        return; // if mouse is still in the menu, keep the dropdown open
+      }
+      closeAllDropdowns();
+      toggleHeaderTransparency(); // update header transparency
     });
-  }, animationObserverOptions);
-function observeAnimationElements() {
-  document.querySelectorAll('[class*="js-animation-"]').forEach((e) => {
-    animationObserver.observe(e);
-  });
-}
-function preventDefault(e) {
-  e.preventDefault();
-}
-(observeAnimationElements(),
-  window.addEventListener("shopify:section:load", () => {
-    observeAnimationElements();
-  }));
-class DropdownInput extends HTMLElement {
-  constructor() {
-    (super(),
-      (this.select = this.querySelector("select")),
-      (this.dropdown = null),
-      (this.buttons = null),
-      (this.detailsTemplate = this.querySelector(
-        'template[data-name="details"]',
-      )),
-      (this.optionTemplate = this.querySelector(
-        'template[data-name="option"]',
-      )),
-      this.select);
-  }
-  connectedCallback() {
-    this.init();
-  }
-  init() {
-    (this.select.classList.add("hidden"), this.appendTemplate());
-  }
-  appendTemplate() {
-    const e = this.detailsTemplate.content.firstElementChild.cloneNode(!0),
-      t = this.optionTemplate.content,
-      s = Array.from(this.select.options);
-    if (0 === s.length) return;
-    const o = s.find((e) => e.selected);
-    ((e.querySelector("[data-label]").textContent = o.label),
-      s.forEach((s) => {
-        const o = t.cloneNode(!0),
-          n = o.querySelector("button"),
-          r = o.querySelector("li");
-        (n.setAttribute("data-value", s.value),
-          (n.textContent = s.label),
-          n.toggleAttribute("disabled", s.disabled),
-          r.classList.toggle("is-active", s.selected),
-          e.querySelector("[data-options]").append(o));
-      }),
-      this.append(e),
-      (this.dropdown = this.querySelector("details")),
-      (this.buttons = this.dropdown.querySelectorAll("button")),
-      this.setHandlers());
-  }
-  update() {
-    ((this.dropdown = null),
-      (this.buttons = null),
-      this.querySelector("details")?.remove(),
-      this.appendTemplate());
-  }
-  setHandlers() {
-    (this.querySelector("summary").addEventListener(
-      "click",
-      this.onSummaryClick.bind(this),
-    ),
-      this.buttons.forEach((e, t) => {
-        e.addEventListener("click", (e) => this.onOptionSelect(e, t));
-      }));
-  }
-  onOptionSelect(e, t) {
-    (e.preventDefault(),
-      Array.from(this.select.options).forEach((e) =>
-        e.removeAttribute("selected"),
-      ),
-      this.select.options[t].setAttribute("selected", "selected"),
-      (this.select.value = e.target.dataset.value),
-      this.select.dispatchEvent(new Event("change", { bubbles: !0 })),
-      (this.querySelector("[data-label]").textContent =
-        this.select.options[t].label),
-      this.setSelectedOption(e.target),
-      this.update());
-  }
-  setSelectedOption(e) {
-    const t = e;
-    (this.buttons.forEach((e) => {
-      e.parentElement.classList.remove("is-active");
-    }),
-      t.parentElement.classList.add("is-active"),
-      this.select.dispatchEvent(new Event("change")),
-      this.select.closest("form")?.dispatchEvent(new Event("input")),
-      this.close(
-        void 0,
-        this.dropdown.querySelector("summary"),
-        this.dropdown,
-      ));
-  }
-  onSummaryClick(e) {
-    const t = e.currentTarget,
-      s = t.parentNode;
-    s.hasAttribute("open") ? this.close(e, t, s) : this.open(t, s);
-  }
-  open(e, t) {
-    (setTimeout(() => {
-      t.classList.add("is-open");
-    }),
-      e.setAttribute("aria-expanded", !0),
-      trapFocus(t, e));
-  }
-  close(e, t, s) {
-    (e && e.preventDefault(),
-      s.classList.remove("is-open"),
-      removeTrapFocus(t),
-      this.closeAnimation(s));
-  }
-  closeAnimation(e) {
-    let t;
-    const s = (o) => {
-      void 0 === t && (t = o);
-      o - t < 300 ? window.requestAnimationFrame(s) : e.removeAttribute("open");
-    };
-    window.requestAnimationFrame(s);
-  }
-}
-customElements.define("dropdown-input", DropdownInput);
-class CountdownTimer extends HTMLElement {
-  constructor() {
-    super();
-    const e = this.dataset.timezone,
-      t = this.dataset.date.split("-").filter(function (e) {
-        return "" != e;
-      }),
-      s = parseInt(t[0]),
-      o = parseInt(t[1]),
-      n = parseInt(t[2]);
-    let r,
-      i,
-      a = this.dataset.time;
-    null != a &&
-      ((a = a.split(":")), (r = parseInt(a[0])), (i = parseInt(a[1])));
-    let c = o + "/" + s + "/" + n + " " + r + ":" + i + " GMT" + e;
-    ((this.countDownDate = new Date(n, o - 1, s, r, i, 0, 0).getTime()),
-      (this.countDownDate = new Date(c).getTime()));
-  }
-  convertDateForIos(e) {
-    var t = e.split(/[- :]/);
-    return (e = new Date(t[0], t[1] - 1, t[2], t[3], t[4], t[5]));
-  }
-  connectedCallback() {
-    let e = this,
-      t = e.dataset.timerLayout;
-    e.dataset.endMessage;
-    const s = function () {
-      const o = new Date().getTime(),
-        n = e.countDownDate - o,
-        r = Math.floor(n / 864e5),
-        i = Math.floor((n % 864e5) / 36e5),
-        a = Math.floor((n % 36e5) / 6e4),
-        c = Math.floor((n % 6e4) / 1e3);
-      let l = e.querySelector(".countdown-timer__columns"),
-        d = e.querySelector(".countdown-timer__message"),
-        u = e.querySelector(".days .countdown-timer__column-number"),
-        h = e.querySelector(".hours .countdown-timer__column-number"),
-        p = e.querySelector(".minutes .countdown-timer__column-number"),
-        m = e.querySelector(".seconds .countdown-timer__column-number");
-      if (n < 0) {
-        if (
-          (u && (u.innerHTML = 0),
-          h && (h.innerHTML = 0),
-          p && (p.innerHTML = 0),
-          m && (m.innerHTML = 0),
-          e.classList.add("loading-effect"),
-          e.setAttribute("data-is-ended", "true"),
-          "1" !== t &&
-            (l && l.classList.add("hidden"), d && d.classList.remove("hidden")),
-          "1" === t)
-        ) {
-          let t = e
-            .closest(".callout-banner")
-            ?.querySelector(".callout-banner__content-heading");
-          t && (t.innerHTML = e.dataset.endMessage);
+
+    if (menuContent) {
+      menuContent.addEventListener('mouseleave', e => {
+        const related = e.relatedTarget;
+        if (related && (menuContent.contains(related) || item.contains(related) || megaMenu.contains(related))) {
+          return; // if mouse is still in the menu, keep the dropdown open
         }
-      } else
-        (requestAnimationFrame(s),
-          u && (u.innerHTML = CountdownTimer.addZero(r)),
-          h && (h.innerHTML = CountdownTimer.addZero(i)),
-          p && (p.innerHTML = CountdownTimer.addZero(a)),
-          m && (m.innerHTML = CountdownTimer.addZero(c)),
-          0 === r && u && u.parentElement.parentElement.remove(),
-          e.classList.remove("loading-effect"));
-    };
-    requestAnimationFrame(s);
-  }
-  static addZero(e) {
-    return e < 10 && e >= 0 ? "0" + e : e;
-  }
-}
-if (
-  (customElements.define("countdown-timer", CountdownTimer),
-  !customElements.get("text-truncator"))
-) {
-  class t extends HTMLElement {
-    constructor() {
-      (super(), this.initElements());
+        closeAllDropdowns();
+        toggleHeaderTransparency(); // update header transparency
+      });
     }
-    connectedCallback() {
-      this.setupTextTruncation();
-    }
-    initElements() {
-      ((this.textTruncatorButton = this.querySelector(
-        ".text-truncator__button",
-      )),
-        (this.textTruncatorButtonText = this.textTruncatorButton?.querySelector(
-          ".text-truncator__button-text",
-        )),
-        (this.textTruncatorIconPlus =
-          this.textTruncatorButton?.querySelector(".icon-plus")),
-        (this.textTruncatorIconMinus =
-          this.textTruncatorButton?.querySelector(".icon-minus")));
-    }
-    setupTextTruncation() {
-      const e = this.querySelector(".text-truncator");
-      e.style.display = "block";
-      const {
-        lineHeight: t,
-        lineCount: s,
-        maxLineCount: o,
-      } = this.calculateLineCounts(e);
-      s > o
-        ? (this.applyTextTruncation(e, t, o), this.setupButton(e))
-        : this.removeTextTruncation(e);
-    }
-    calculateLineCounts(e) {
-      const t = parseFloat(window.getComputedStyle(e).lineHeight);
-      return {
-        lineHeight: t,
-        lineCount: Math.floor(e.clientHeight / t),
-        maxLineCount: parseInt(this.dataset.maxLineCount),
-      };
-    }
-    applyTextTruncation(e, t, s) {
-      e.classList.add("text-truncator--hidden");
-      const o = t * s + "px",
-        n = document.createElement("style");
-      ((n.innerHTML = `.text-truncator--hidden { max-height: ${o}; }`),
-        document.head.appendChild(n),
-        this.textTruncatorButton &&
-          (this.textTruncatorButton.style.display = ""));
-    }
-    removeTextTruncation(e) {
-      (e.classList.remove("text-truncator--hidden"),
-        this.textTruncatorButton &&
-          (this.textTruncatorButton.style.display = "none"));
-    }
-    setupButton(e) {
-      this.textTruncatorButton &&
-        ((this.textTruncatorButtonText.innerHTML = `<span>${this.dataset.readMore}</span>`),
-        this.toggleIcons("plus"),
-        this.textTruncatorButton.addEventListener("click", (t) => {
-          (t.preventDefault(), this.toggleTextTruncation(e));
-        }));
-    }
-    toggleTextTruncation(e) {
-      const t = e.querySelectorAll("p"),
-        s = e.classList.contains("text-truncator--hidden");
-      (t.forEach((e, t) => {
-        e.style.marginTop = s && 0 !== t ? "1rem" : "";
-      }),
-        e.classList.toggle("text-truncator--hidden"),
-        (this.textTruncatorButtonText.innerHTML = `<span>${s ? this.dataset.readLess : this.dataset.readMore}</span>`),
-        this.toggleIcons(s ? "minus" : "plus"),
-        s && window.innerWidth < 768
-          ? (e.style.overflow = "scroll")
-          : ((e.style.maxHeight = ""), (e.style.overflow = "")));
-    }
-    toggleIcons(e) {
-      ((this.textTruncatorIconPlus.style.display =
-        "plus" === e ? "inline-block" : "none"),
-        (this.textTruncatorIconMinus.style.display =
-          "minus" === e ? "inline-block" : "none"));
-    }
-  }
-  customElements.define("text-truncator", t);
-}
-class BackToTop extends HTMLElement {
-  constructor() {
-    (super(),
-      (this.vertical_offset_for_trigger = 0.5 * window.innerHeight),
-      this.addEventListener("click", this.scrollToTop.bind(this)));
-  }
-  scrollToTop() {
-    window.scroll({ top: 0, behavior: "smooth" });
-  }
-  connectedCallback() {
-    window.addEventListener("scroll", () => this.handleScroll(), {
-      passive: !0,
+  });
+  megaMenu.addEventListener('mouseleave', () => {
+    closeAllDropdowns();
+    toggleHeaderTransparency(); // update header transparency
+  });
+
+  function closeAllDropdowns() {
+    megaMenu.querySelectorAll('.js-dropdown.is-visible').forEach(dropdown => {
+      const item = dropdown.closest('.js-nav-item');
+      const menuItem = item?.getAttribute('data-menu-item');
+      const allSublinks = megaMenu.querySelectorAll('.header__nav-sublinks');
+
+      allSublinks.forEach((sublink) => {
+        if (sublink.classList.contains('is-visible')) {
+          sublink.classList.remove("is-visible");
+        }
+      })
+      if (menuItem === null) {
+        return; // if menu item is not defined, return
+      }
+      dropdown.classList.remove('is-visible');
     });
   }
-  handleScroll() {
-    window.pageYOffset > this.vertical_offset_for_trigger
-      ? this.classList.remove("hide")
-      : this.classList.add("hide");
-  }
 }
-customElements.define("back-to-top", BackToTop);
-const submenuButtons = document.querySelectorAll(".drawer__submenu-btn");
-submenuButtons.forEach((e) => {
-  e.addEventListener("click", function () {
-    const t = e.parentElement,
-      s = t.classList.contains("is-active"),
-      o = t.querySelector(".drawer__submenu-second");
-    o && (o.style.height = s ? "0px" : "auto");
+
+document.querySelectorAll('.header__nav-item.dropdown [data-child-menu-item]').forEach(childItem => {
+  const childMenuContent = childItem.querySelector('[data-child-menu-content]');
+
+  childItem.addEventListener('mouseenter', () => {
+    document.querySelectorAll('.header__nav-item.dropdown [data-child-menu-content]').forEach(menuContent => {
+      menuContent.classList.remove('is-visible');
+    });
+    childMenuContent?.classList.add('is-visible');
+  });
+
+  childItem.addEventListener('mouseleave', e => {
+    const related = e.relatedTarget;
+    // if mouse enters another sibling `data-child-menu-item`, remove 'is-visible'
     if (
-      (document.querySelectorAll(".drawer__submenu-first-item").forEach((e) => {
-        e.classList.remove("is-active");
-        const t = e.querySelector(".drawer__submenu-second");
-        t && (t.style.height = "0px");
-      }),
-      !s)
+      related &&
+      related.closest('[data-child-menu-item]') !== childItem &&
+      related.closest('[data-child-menu-item]')
     ) {
-      t.classList.add("is-active");
-      const e = t.querySelector(".drawer__submenu-second");
-      e && (e.style.height = "auto");
+      childMenuContent?.classList.remove('is-visible');
     }
   });
 });
+// Animations
+
+const animationObserverOptions = {
+  rootMargin: "-100px"
+};
+
+const animationObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) {
+      return;
+    }
+
+    entry.target.classList.add("animation-init");
+    entry.target.addEventListener(
+      "animationend",
+      () => {
+        entry.target.classList.add("animation-none");
+      },
+      {
+        once: true
+      }
+    );
+    animationObserver.unobserve(entry.target);
+  });
+}, animationObserverOptions);
+
+observeAnimationElements();
+
+window.addEventListener("shopify:section:load", () => {
+  observeAnimationElements();
+});
+
+function observeAnimationElements() {
+  const animationElements = document.querySelectorAll(
+    '[class*="js-animation-"]'
+  );
+
+  animationElements.forEach(animationElement => {
+    animationObserver.observe(animationElement);
+  });
+}
+
+function preventDefault(event) {
+  event.preventDefault();
+}
+
+// DropdownInput
+
+class DropdownInput extends HTMLElement {
+  constructor() {
+    super();
+    this.select = this.querySelector("select");
+    this.dropdown = null;
+    this.buttons = null;
+    this.detailsTemplate = this.querySelector(
+      'template[data-name="details"]'
+    );
+    this.optionTemplate = this.querySelector(
+      'template[data-name="option"]'
+    );
+    if (!this.select) return;
+  }
+
+  connectedCallback() {
+    this.init();
+  }
+
+  init() {
+    this.select.classList.add("hidden");
+    this.appendTemplate();
+  }
+
+  appendTemplate() {
+    const detailsTemplate =
+      this.detailsTemplate.content.firstElementChild.cloneNode(true);
+    const optionTemplate = this.optionTemplate.content;
+    const options = Array.from(this.select.options);
+    if (options.length === 0) return;
+    const selectedOption = options.find(option => option.selected);
+    detailsTemplate.querySelector("[data-label]").textContent =
+      selectedOption.label;
+
+    options.forEach(option => {
+      const html = optionTemplate.cloneNode(true);
+      const button = html.querySelector("button");
+      const li = html.querySelector("li");
+
+      button.setAttribute("data-value", option.value);
+      button.textContent = option.label;
+      button.toggleAttribute("disabled", option.disabled);
+      li.classList.toggle("is-active", option.selected);
+      detailsTemplate.querySelector("[data-options]").append(html);
+    });
+
+    this.append(detailsTemplate);
+    this.dropdown = this.querySelector("details");
+    this.buttons = this.dropdown.querySelectorAll("button");
+    this.setHandlers();
+  }
+
+  update() {
+    this.dropdown = null;
+    this.buttons = null;
+    this.querySelector("details")?.remove();
+    this.appendTemplate();
+  }
+
+  setHandlers() {
+    this.querySelector("summary").addEventListener(
+      "click",
+      this.onSummaryClick.bind(this)
+    );
+    this.buttons.forEach((button, index) => {
+      button.addEventListener("click", event =>
+        this.onOptionSelect(event, index)
+      );
+    });
+  }
+
+  onOptionSelect(event, index) {
+    event.preventDefault();
+    Array.from(this.select.options).forEach(option =>
+      option.removeAttribute("selected")
+    );
+
+    this.select.options[index].setAttribute("selected", "selected");
+    this.select.value = event.target.dataset.value;
+    this.select.dispatchEvent(new Event("change", { bubbles: true }));
+    this.querySelector("[data-label]").textContent =
+      this.select.options[index].label;
+    this.setSelectedOption(event.target);
+
+    // when option is selected, update the dropdown
+    this.update();
+  }
+
+  setSelectedOption(buttonOption) {
+    const buttonEl = buttonOption;
+    this.buttons.forEach(button => {
+      button.parentElement.classList.remove("is-active");
+    });
+    buttonEl.parentElement.classList.add("is-active");
+    this.select.dispatchEvent(new Event("change"));
+    this.select.closest("form")?.dispatchEvent(new Event("input"));
+    this.close(
+      undefined,
+      this.dropdown.querySelector("summary"),
+      this.dropdown
+    );
+  }
+
+  onSummaryClick(event) {
+    const summaryElement = event.currentTarget;
+    const detailsElement = summaryElement.parentNode;
+    const isOpen = detailsElement.hasAttribute("open");
+
+    isOpen
+      ? this.close(event, summaryElement, detailsElement)
+      : this.open(summaryElement, detailsElement);
+  }
+
+  open(summaryElement, detailsElement) {
+    setTimeout(() => {
+      detailsElement.classList.add("is-open");
+    });
+    summaryElement.setAttribute("aria-expanded", true);
+    trapFocus(detailsElement, summaryElement);
+  }
+
+  close(event, summaryElement, detailsElement) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    detailsElement.classList.remove("is-open");
+    removeTrapFocus(summaryElement);
+    this.closeAnimation(detailsElement);
+  }
+
+  closeAnimation(detailsElement) {
+    let animationStart;
+
+    const handleAnimation = time => {
+      if (animationStart === undefined) {
+        animationStart = time;
+      }
+
+      const elapsedTime = time - animationStart;
+
+      elapsedTime < 300 // Increase for animation duration if necessary
+        ? window.requestAnimationFrame(handleAnimation)
+        : detailsElement.removeAttribute("open");
+    };
+
+    window.requestAnimationFrame(handleAnimation);
+  }
+}
+customElements.define("dropdown-input", DropdownInput);
+
+// Countdown Timer
+class CountdownTimer extends HTMLElement {
+  constructor() {
+    super();
+
+    const timezone = this.dataset.timezone,
+      date = this.dataset.date.split("-").filter(function (el) { return el != ""; }),
+      day = parseInt(date[0]),
+      month = parseInt(date[1]),
+      year = parseInt(date[2]);
+
+    let time = this.dataset.time,
+      tarhour,
+      tarmin;
+
+    if (time != null) {
+      time = time.split(":");
+      tarhour = parseInt(time[0]);
+      tarmin = parseInt(time[1]);
+    }
+
+    // Set the date we're counting down to
+    let date_string =
+      month +
+      "/" +
+      day +
+      "/" +
+      year +
+      " " +
+      tarhour +
+      ":" +
+      tarmin +
+      " GMT" +
+      timezone;
+    // Time without timezone
+    this.countDownDate = new Date(
+      year,
+      month - 1,
+      day,
+      tarhour,
+      tarmin,
+      0,
+      0
+    ).getTime();
+
+    // Time with timezone
+    this.countDownDate = new Date(date_string).getTime();
+  }
+
+  convertDateForIos(date) {
+    var arr = date.split(/[- :]/);
+    date = new Date(
+      arr[0],
+      arr[1] - 1,
+      arr[2],
+      arr[3],
+      arr[4],
+      arr[5]
+    );
+    return date;
+  }
+  connectedCallback() {
+    let _this = this;
+    let timer_layout = _this.dataset.timerLayout;
+    let timer_ended_message = _this.dataset.endMessage;
+
+    const updateTime = function () {
+      // Get todays date and time
+      const now = new Date().getTime();
+
+      // Find the distance between now an the count down date
+      const distance = _this.countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor(
+        (distance % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      let countdownTimerColumns = _this.querySelector(
+        ".countdown-timer__columns"
+      );
+      let countdownTimerMessage = _this.querySelector(
+        ".countdown-timer__message"
+      );
+
+      // set .countdown-timer__column-number blocks
+      let daysBlock = _this.querySelector(
+        ".days .countdown-timer__column-number"
+      );
+      let hoursBlock = _this.querySelector(
+        ".hours .countdown-timer__column-number"
+      );
+      let minutesBlock = _this.querySelector(
+        ".minutes .countdown-timer__column-number"
+      );
+      let secondsBlock = _this.querySelector(
+        ".seconds .countdown-timer__column-number"
+      );
+
+      if (distance < 0) {
+        if (daysBlock) daysBlock.innerHTML = 0;
+        if (hoursBlock) hoursBlock.innerHTML = 0;
+        if (minutesBlock) minutesBlock.innerHTML = 0;
+        if (secondsBlock) secondsBlock.innerHTML = 0;
+
+        _this.classList.add("loading-effect");
+
+        // update data-is-ended attribute
+        _this.setAttribute("data-is-ended", "true");
+
+        // if data-timer-layout is not '1', hide the countdown
+        if (timer_layout !== "1") {
+          // if the countdown is over, show the message and hide the countdown
+          if (countdownTimerColumns)
+            countdownTimerColumns.classList.add("hidden");
+          if (countdownTimerMessage)
+            countdownTimerMessage.classList.remove("hidden");
+        }
+
+        if (timer_layout === "1") {
+          // change nearest .callout-banner__content-heading text with timer is ended message
+          let calloutBannerContentHeading = _this
+            .closest(".callout-banner")?.querySelector(".callout-banner__content-heading");
+          if (calloutBannerContentHeading)
+            calloutBannerContentHeading.innerHTML =
+              _this.dataset.endMessage;
+        }
+      } else {
+        requestAnimationFrame(updateTime);
+
+        if (daysBlock)
+          daysBlock.innerHTML = CountdownTimer.addZero(days);
+        if (hoursBlock)
+          hoursBlock.innerHTML = CountdownTimer.addZero(hours);
+        if (minutesBlock)
+          minutesBlock.innerHTML = CountdownTimer.addZero(minutes);
+        if (secondsBlock)
+          secondsBlock.innerHTML = CountdownTimer.addZero(seconds);
+
+        // if days is 0, remove the days block
+        if (days === 0) {
+          if (daysBlock)
+            daysBlock.parentElement.parentElement.remove();
+        }
+
+        _this.classList.remove("loading-effect");
+      }
+    };
+    requestAnimationFrame(updateTime);
+  }
+  static addZero(x) {
+    return x < 10 && x >= 0 ? "0" + x : x;
+  }
+}
+customElements.define("countdown-timer", CountdownTimer);
+
+if (!customElements.get("text-truncator")) {
+  class TextTruncator extends HTMLElement {
+    constructor() {
+      super();
+      this.initElements();
+    }
+
+    connectedCallback() {
+      this.setupTextTruncation();
+      // Uncomment the following line to enable resizing functionality
+      // window.addEventListener('resize', this.setupTextTruncation.bind(this));
+    }
+
+    initElements() {
+      this.textTruncatorButton = this.querySelector(".text-truncator__button");
+      this.textTruncatorButtonText = this.textTruncatorButton?.querySelector(".text-truncator__button-text");
+      this.textTruncatorIconPlus = this.textTruncatorButton?.querySelector(".icon-plus");
+      this.textTruncatorIconMinus = this.textTruncatorButton?.querySelector(".icon-minus");
+    }
+
+    setupTextTruncation() {
+      const textTruncator = this.querySelector(".text-truncator");
+      textTruncator.style.display = "block"; // show the block initially
+
+      const { lineHeight, lineCount, maxLineCount } = this.calculateLineCounts(textTruncator);
+
+      if (lineCount > maxLineCount) {
+        this.applyTextTruncation(textTruncator, lineHeight, maxLineCount);
+        this.setupButton(textTruncator);
+      } else {
+        this.removeTextTruncation(textTruncator);
+      }
+    }
+
+    calculateLineCounts(element) {
+      const lineHeight = parseFloat(window.getComputedStyle(element).lineHeight);
+      const lineCount = Math.floor(element.clientHeight / lineHeight);
+      const maxLineCount = parseInt(this.dataset.maxLineCount);
+
+      return { lineHeight, lineCount, maxLineCount };
+    }
+
+    applyTextTruncation(element, lineHeight, maxLineCount) {
+      element.classList.add("text-truncator--hidden");
+
+      const maxHeight = `${lineHeight * maxLineCount}px`;
+      const style = document.createElement("style");
+      style.innerHTML = `.text-truncator--hidden { max-height: ${maxHeight}; }`;
+      document.head.appendChild(style);
+      if (this.textTruncatorButton) {
+        this.textTruncatorButton.style.display = "";
+      }
+    }
+
+    removeTextTruncation(element) {
+      element.classList.remove("text-truncator--hidden");
+
+      if (this.textTruncatorButton) {
+        this.textTruncatorButton.style.display = "none";
+      }
+    }
+
+    setupButton(textTruncator) {
+      if (this.textTruncatorButton) {
+        this.textTruncatorButtonText.innerHTML = `<span>${this.dataset.readMore}</span>`;
+        this.toggleIcons("plus");
+        this.textTruncatorButton.addEventListener("click", (event) => {
+          event.preventDefault();
+          this.toggleTextTruncation(textTruncator);
+        });
+      }
+    }
+
+    toggleTextTruncation(textTruncator) {
+      const paragraphs = textTruncator.querySelectorAll("p");
+      const isHidden = textTruncator.classList.contains("text-truncator--hidden");
+
+      paragraphs.forEach((paragraph, index) => {
+        paragraph.style.marginTop = isHidden && index !== 0 ? "1rem" : "";
+      });
+
+      textTruncator.classList.toggle("text-truncator--hidden");
+      this.textTruncatorButtonText.innerHTML = `<span>${isHidden ? this.dataset.readLess : this.dataset.readMore}</span>`;
+      this.toggleIcons(isHidden ? "minus" : "plus");
+
+      // on mobile, if the text is expanded, set max-height to 4rem
+      if (isHidden && window.innerWidth < 768) {
+        textTruncator.style.overflow = "scroll";
+      } else {
+        textTruncator.style.maxHeight = "";
+        textTruncator.style.overflow = "";
+      }
+    }
+
+    toggleIcons(iconType) {
+      this.textTruncatorIconPlus.style.display = iconType === "plus" ? "inline-block" : "none";
+      this.textTruncatorIconMinus.style.display = iconType === "minus" ? "inline-block" : "none";
+    }
+  }
+  customElements.define("text-truncator", TextTruncator);
+}
+
+class BackToTop extends HTMLElement {
+  constructor() {
+    super();
+    this.vertical_offset_for_trigger = window.innerHeight * 0.5;
+    this.addEventListener("click", this.scrollToTop.bind(this));
+  }
+
+  scrollToTop() {
+    window.scroll({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+  connectedCallback() {
+    window.addEventListener("scroll", () => this.handleScroll(), {
+      passive: true
+    });
+  }
+
+  handleScroll() {
+    const top = window.pageYOffset;
+    if (top > this.vertical_offset_for_trigger) {
+      this.classList.remove("hide");
+    } else {
+      this.classList.add("hide");
+    }
+  }
+}
+
+customElements.define("back-to-top", BackToTop);
+
+const submenuButtons = document.querySelectorAll(
+  ".drawer__submenu-btn"
+);
+
+submenuButtons.forEach(button => {
+  button.addEventListener("click", function () {
+    const parentDiv = button.parentElement;
+    const isActive = parentDiv.classList.contains("is-active");
+
+    // Etkin öğeyi doğrula
+    const submenuSecond = parentDiv.querySelector(
+      ".drawer__submenu-second"
+    );
+    if (submenuSecond) {
+      submenuSecond.style.height = isActive ? "0px" : "auto";
+    }
+
+    const submenuItems = document.querySelectorAll(
+      ".drawer__submenu-first-item"
+    );
+    submenuItems.forEach(item => {
+      item.classList.remove("is-active");
+      const submenu = item.querySelector(".drawer__submenu-second");
+      if (submenu) {
+        submenu.style.height = "0px";
+      }
+    });
+
+    if (!isActive) {
+      parentDiv.classList.add("is-active");
+      const submenuSec = parentDiv.querySelector(
+        ".drawer__submenu-second"
+      );
+      if (submenuSec) {
+        submenuSec.style.height = "auto";
+      }
+    }
+  });
+});
+
+/* constants */
 const PUB_SUB_EVENTS = {
   cartUpdate: "cart-update",
   quantityUpdate: "quantity-update",
   variantChange: "variant-change",
-  cartError: "cart-error",
+  cartError: "cart-error"
 };
-if (
-  (document.addEventListener("DOMContentLoaded", function () {
-    (document.querySelectorAll("button.menu-link").forEach(function (e) {
-      e.addEventListener("click", function () {
-        var t = document.querySelector(".menu-panel.is-active"),
-          s = t?.hasAttribute("data-menu-nested"),
-          o = e.dataset.ref,
-          n = document.querySelector('div.menu-panel[data-menu="' + o + '"]'),
-          r = document.querySelectorAll(".menu-panel");
-        const i = document.querySelector(".primary-menu-panel");
-        const drawerContent = document.querySelector(".drawer__content--nav");
-        if (drawerContent) {
-          drawerContent.scrollTop = 0;
+
+document.addEventListener("DOMContentLoaded", function () {
+  var menuLinks = document.querySelectorAll("button.menu-link");
+
+  // Handle menu link click
+  menuLinks.forEach(function (menuLink) {
+    menuLink.addEventListener("click", function () {
+      var activeMenuLink = document.querySelector(".menu-panel.is-active");
+      var isNested = activeMenuLink?.hasAttribute("data-menu-nested");
+      var targetRef = menuLink.dataset.ref;
+      var targetPanel = document.querySelector(
+        'div.menu-panel[data-menu="' + targetRef + '"]'
+      );
+
+      // Remove "is-active" class from all menu panels
+      var allPanels = document.querySelectorAll(".menu-panel");
+      const primaryMenuPanel = document.querySelector(".primary-menu-panel");
+      let hasActive = false;
+
+      if (targetPanel) {
+        allPanels.forEach(function (panel) {
+          if (panel.classList.contains("is-active")) {
+            hasActive = true;
+            if (panel.hasAttribute("data-menu-nested")) {
+              panel.classList.add("was-active");
+              primaryMenuPanel.style.opacity = "0";
+              panel.classList.remove("is-active");
+            } else {
+              setTimeout(() => {
+                panel.style.opacity = "0";
+              }, 300);
+              setTimeout(() => {
+                panel.classList.remove("is-active");
+              }, 500);
+            }
+            if (panel.classList.contains("is-back")) {
+              panel.classList.remove("is-back");
+            }
+            primaryMenuPanel.style.opacity = "0";
+          }
+        });
+        if (hasActive) {
+          primaryMenuPanel.style.opacity = "0";
+        } else {
+          primaryMenuPanel.style.opacity = "1";
         }
-        let a = !1;
-        n
-          ? (r.forEach(function (e) {
-              e.classList.contains("is-active") &&
-                ((a = !0),
-                e.hasAttribute("data-menu-nested")
-                  ? (e.classList.add("was-active"),
-                    (i.style.opacity = "0"),
-                    e.classList.remove("is-active"))
-                  : (setTimeout(() => {
-                      e.style.opacity = "0";
-                    }, 300),
-                    setTimeout(() => {
-                      e.classList.remove("is-active");
-                    }, 500)),
-                e.classList.contains("is-back") &&
-                  e.classList.remove("is-back"),
-                (i.style.opacity = "0"));
-            }),
-            (i.style.opacity = a ? "0" : "1"),
-            n.classList.add("is-active"),
-            (n.style.opacity = "1"),
-            n.classList.contains("is-back") && n.classList.remove("is-back"),
-            s && n.classList.add("is-instant"),
+
+        // Add "is-active" class to the target menu panel
+        targetPanel.classList.add("is-active");
+        targetPanel.style.opacity = "1";
+        if (targetPanel.classList.contains("is-back")) {
+          targetPanel.classList.remove("is-back");
+        }
+        if (isNested) {
+          targetPanel.classList.add("is-instant");
+        }
+        setTimeout(() => {
+          allPanels.forEach(function (panel) {
+            if (panel.classList.contains("was-active")) {
+              panel.classList.remove("was-active");
+            }
+            targetPanel.classList.remove("is-instant");
+          });
+        }, 300);
+      } else {
+        primaryMenuPanel.style.opacity = "1";
+        allPanels.forEach(function (panel) {
+          if (panel.classList.contains("is-active")) {
+            panel.classList.remove("is-active");
+            panel.classList.add("is-back");
+            panel.classList.add("non-active");
             setTimeout(() => {
-              r.forEach(function (e) {
-                (e.classList.contains("was-active") &&
-                  e.classList.remove("was-active"),
-                  n.classList.remove("is-instant"));
-              });
-            }, 300))
-          : ((i.style.opacity = "1"),
-            r.forEach(function (e) {
-              e.classList.contains("is-active") &&
-                (e.classList.remove("is-active"),
-                e.classList.add("is-back"),
-                e.classList.add("non-active"),
-                setTimeout(() => {
-                  e.classList.remove("non-active");
-                }, 300));
-            }));
-      });
-    }),
-    document.querySelector(".template--faq")) &&
-      document.querySelectorAll(".accordion__section").forEach(function (e) {
-        e.addEventListener("click", function () {
-          var t = document.querySelector(".header").offsetHeight,
-            s = this.offsetHeight,
-            o = e.getBoundingClientRect().top,
-            n = o - t - s;
-          (n < 0 && (n = 0),
-            o > t && (n = window.scrollY),
-            window.scrollTo({ top: n, behavior: "smooth" }));
+              panel.classList.remove("non-active");
+            }, 300);
+          }
+        })
+      }
+    });
+  });
+
+  var faqPage = document.querySelector('.template--faq');
+
+  if(faqPage) {
+    var accordions = document.querySelectorAll(".accordion__section");
+    accordions.forEach(function (accordion) {
+      accordion.addEventListener("click", function () {
+        var headerHeight = document.querySelector(".header").offsetHeight;
+        var bodyHeight = this.offsetHeight;
+        var accordionTop = accordion.getBoundingClientRect().top;
+        var scrollTo = accordionTop - headerHeight - bodyHeight;
+
+        if (scrollTo < 0) {
+          scrollTo = 0;
+        }
+        if (accordionTop > headerHeight) {
+          scrollTo = window.scrollY;
+        }
+
+        window.scrollTo({
+          top: scrollTo,
+          behavior: "smooth"
         });
       });
-  }),
-  document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".swiper-buttons").forEach(function (e) {
-      const t = e.querySelector(
-          "[class^='swiper-button--prev'], [class*=' swiper-button--prev']",
-        ),
-        s = e.querySelector(
-          "[class^='swiper-button--next'], [class*=' swiper-button--next']",
-        );
-      t &&
-        s &&
-        t.classList.contains("swiper-button-disabled") &&
-        s.classList.contains("swiper-button-disabled") &&
-        (e.style.display = "none");
-      const o = e.parentElement.parentElement;
-      o.classList.contains("section__foot") &&
-        !o.querySelector("a.button") &&
-        (o.style.marginBlockStart = "0");
     });
-  }),
-  !customElements.get("product-card"))
-) {
-  class s extends HTMLElement {
-    constructor() {
-      (super(),
-        (this.isQuickCart = this.classList.contains(
-          "product-card--quick-cart",
-        )),
-        this.init());
+  }
+});
+
+/* swiper - hide swiper buttons element if both next and prev buttons are disabled */
+document.addEventListener("DOMContentLoaded", function () {
+  const allSwiperButtons = document.querySelectorAll(".swiper-buttons");
+  allSwiperButtons.forEach(function (swiperButtons) {
+    const prevButton = swiperButtons.querySelector("[class^='swiper-button--prev'], [class*=' swiper-button--prev']");
+    const nextButton = swiperButtons.querySelector("[class^='swiper-button--next'], [class*=' swiper-button--next']");
+    if (prevButton && nextButton && prevButton.classList.contains("swiper-button-disabled") && nextButton.classList.contains("swiper-button-disabled")) {
+      swiperButtons.style.display = "none";
     }
+
+    // get grand parent child of swiper-buttons
+    const grandParent = swiperButtons.parentElement.parentElement;
+    // if grand parent has class of section__foot and this section__foot has no a.button set margin-block-start to 0
+    if (grandParent.classList.contains("section__foot") && !grandParent.querySelector("a.button")) {
+      grandParent.style.marginBlockStart = "0";
+    }
+  });
+});
+
+if (!customElements.get("product-card")) {
+  class ProductCard extends HTMLElement {
+    constructor() {
+      super();
+      this.isQuickCart = this.classList.contains(
+        "product-card--quick-cart"
+      );
+      this.init();
+    }
+
     init() {
       this.initForm();
       this.initVariants();
@@ -1388,553 +2146,940 @@ if (
       if (
         this.querySelector(".product-card__media") &&
         this.querySelector(".product-card__media").classList.contains(
-          "product-card__media--hoverable",
+          "product-card__media--hoverable"
         )
       ) {
         this.secondImgHoverStates();
       }
+
+      // if quick-cart-drawer does not exists, remove trigger buttons
+      if (!document.querySelector("quick-cart-drawer")) {
+        this.querySelector(".quick-cart-drawer__trigger")?.remove();
+      }
     }
+
+    /**
+     * Add to Cart Form
+     */
     initForm() {
-      ((this.cart =
+      /** Variables */
+      this.cart =
         document.querySelector("cart-notification") ||
-        document.querySelector("cart-drawer")),
-        (this.addToCartForm = this.querySelector(
-          "form.product-card__add-to-cart--form",
-        )),
-        this.addToCartForm &&
-          (this.addToCartForm.removeAttribute("method"),
-          this.addToCartForm.removeAttribute("action")),
-        (this.submitButton = this.querySelector('button[type="submit"]')),
-        this.addToCartForm &&
-          this.addToCartForm.addEventListener(
-            "submit",
-            this.submitAddToCartForm.bind(this),
-          ));
+        document.querySelector("cart-drawer");
+      this.addToCartForm = this.querySelector(
+        "form.product-card__add-to-cart--form"
+      );
+      if (this.addToCartForm) {
+        this.addToCartForm.removeAttribute("method");
+        this.addToCartForm.removeAttribute("action");
+      }
+      this.submitButton = this.querySelector('button[type="submit"]');
+      /** Event Listeners */
+      if (this.addToCartForm) {
+        this.addToCartForm.addEventListener(
+          "submit",
+          this.submitAddToCartForm.bind(this)
+        );
+      }
     }
-    submitAddToCartForm(e) {
-      (e.preventDefault(),
-        this.submitButton.setAttribute("disabled", ""),
-        this.submitButton.classList.add("add-to-cart--is-disabled"));
-      const t = fetchConfig("javascript");
-      ((t.headers["X-Requested-With"] = "XMLHttpRequest"),
-        delete t.headers["Content-Type"]);
-      const s = new FormData(e.target);
-      (this.cart &&
-        (s.append(
+
+    submitAddToCartForm(event) {
+      event.preventDefault();
+
+      this.submitButton.setAttribute("disabled", "");
+      this.submitButton.classList.add("add-to-cart--is-disabled");
+
+      const config = fetchConfig("javascript");
+      config.headers["X-Requested-With"] = "XMLHttpRequest";
+      delete config.headers["Content-Type"];
+
+      const formData = new FormData(event.target);
+      if (this.cart) {
+        formData.append(
           "sections",
-          this.cart.getSectionsToRender().map((e) => e.section),
-        ),
-        s.append("sections_url", window.location.pathname),
-        this.cart.setActiveElement(document.activeElement)),
-        (t.body = s),
-        fetch(`${routes.cart_add_url}`, t)
-          .then((e) => e.json())
-          .then((e) => {
-            e.errors
-              ? this.handleErrorMessage(e.errors)
-              : (this.cart && this.cart.renderContents(e),
-                updateCartCounters());
-          })
-          .catch((e) => {
-            console.error(e);
-          })
-          .finally(() => {
-            (this.submitButton.removeAttribute("disabled"),
-              this.submitButton.classList.remove("add-to-cart--is-disabled"));
-            const e = this.closest("quick-cart-drawer");
-            e && e.close();
-          }));
-    }
-    handleErrorMessage(e = !1) {
-      ((this.errorMessageWrapper = this.querySelector(
-        ".product-form__error-message-wrapper",
-      )),
-        this.errorMessageWrapper &&
-          ((this.errorMessage = this.errorMessageWrapper.querySelector(
-            ".product-form__error-message",
-          )),
-          this.errorMessageWrapper.toggleAttribute("hidden", !e),
-          e && (this.errorMessage.textContent = e),
-          setTimeout(() => {
-            this.resetErrorMessage();
-          }, 5e3)));
-    }
-    resetErrorMessage() {
-      this.errorMessageWrapper &&
-        (this.errorMessageWrapper.toggleAttribute("hidden", !0),
-        (this.errorMessageWrapper.textContent = ""));
-    }
-    initVariants() {
-      (this.getVariantsData(),
-        this.querySelectorAll(".button--variant input").forEach((e) => {
-          e.addEventListener("click", this.onClickOptionRadioInputs.bind(this));
-        }));
-      let e = [];
-      (this.querySelectorAll(".variant-option-radio-input").forEach((t) => {
-        t.checked && e.push(t.value);
-      }),
-        0 === e.length &&
-          this.querySelector(".variant-option-radio-input")?.click(),
-        this.updateVariantStatuses());
-      const { currentVariantId: t } =
-        this.findCurrentVariantFromOptionRadioInputs();
-      (this.querySelector(".product-card__media")?.dataset.updateMedia ||
-        this.updateMediaForVariant(t),
-        this.setCartButtonState());
-    }
-    updateVariantStatuses() {
-      const e = this.variantsObj?.filter(
-          (e) => this.querySelector(":checked")?.value === e.option1,
-        ),
-        t = [...this.querySelectorAll(".js-product-card-options")];
-      t.forEach((s, o) => {
-        if (0 === o) return;
-        const n = [...s.querySelectorAll('input[type="radio"]')],
-          r = t[o - 1].querySelector(":checked")?.value,
-          i = e
-            ?.filter((e) => e.available && e[`option${o}`] === r)
-            .map((e) => e[`option${o + 1}`]);
-        this.setInputAvailability(n, i);
-      });
-    }
-    setInputAvailability(e, t) {
-      e.forEach((e) => {
-        const s = e.getAttribute("value"),
-          o = t.includes(s);
-        (e.closest("li").classList.toggle("disabled", !o),
-          e.toggleAttribute("disabled", !o));
-      });
-    }
-    onClickOptionRadioInputs(e) {
-      const {
-        currentVariantId: t,
-        currentCheckedOptions: s,
-        currentVariantMediaId: o,
-      } = this.findCurrentVariantFromOptionRadioInputs();
-      (this.clearRadioInputStates(e),
-        s.includes(e.target.value) &&
-          (e.target.setAttribute("checked", ""),
-          this.updateVariantStatuses(),
-          this.disableAddToCartButons(),
-          this.updatePriceForVariant(t),
-          this.updateDiscountBadgeForVariant(t)),
-        this.updateFormVariantIdInput());
-      let n = [];
-      (this.querySelectorAll("[data-product-images]").forEach((e) => {
-        e.getAttribute("data-product-images")
-          .split(",")
-          .forEach((e) => {
-            n.push(e);
-          });
-      }),
-        n.includes(t.toString()) && this.updateMediaForVariant(t),
-        this.isQuickCart &&
-          o &&
-          document.querySelector("quick-cart-drawer").setActiveMedia(o),
-        this.querySelectorAll("[data-product-link]").forEach((e) => {
-          const s = e.getAttribute("href");
-          if (t) {
-            const o = s.split("?variant=")[0] + "?variant=" + t;
-            e.setAttribute("href", o);
+          this.cart
+            .getSectionsToRender()
+            .map(section => section.section)
+        );
+        formData.append("sections_url", window.location.pathname);
+        this.cart.setActiveElement(document.activeElement);
+      }
+      config.body = formData;
+
+      fetch(`${routes.cart_add_url}`, config)
+        .then(response => response.json())
+        .then(response => {
+          if (response.errors) {
+            this.handleErrorMessage(response.errors);
+            return;
           }
-        }));
-    }
-    setCartButtonState() {
-      const { currentVariantAvailable: e } =
-        this.findCurrentVariantFromOptionRadioInputs();
-      e && this.submitButton?.toggleAttribute("disabled", !e);
-    }
-    updateMediaForVariant(e) {
-      e &&
-        this.querySelectorAll("[data-product-images]").forEach((t) => {
-          t.classList.toggle(
-            "hidden",
-            !t.getAttribute("data-product-images").includes(e),
+
+          if (this.cart) {
+            this.cart.renderContents(response);
+          }
+
+          updateCartCounters();
+        })
+        .catch((error) => { console.error(error) })
+        .finally(() => {
+          this.submitButton.removeAttribute("disabled");
+          this.submitButton.classList.remove(
+            "add-to-cart--is-disabled"
           );
+
+          const quickCartDrawer = this.closest("quick-cart-drawer");
+          if (quickCartDrawer) {
+            quickCartDrawer.close();
+          }
         });
     }
-    updateFormVariantIdInput() {
-      const { currentVariantId: e } =
-          this.findCurrentVariantFromOptionRadioInputs(),
-        t = this.querySelector('input[name="id"]');
-      e && t && (this.querySelector('input[name="id"]').value = e);
-    }
-    updatePriceForVariant(e) {
-      const t = this.variantsObj?.find((t) => t.id === e);
-      if (t) {
-        let e = this.querySelector(".price__container");
-        if (!e) {
-          const t = this.previousElementSibling;
-          t && (e = t.querySelector(".price__container"));
-        }
-        if (!e) return;
-        const s = e.dataset.moneyFormat,
-          o = formatPrice(s, t.price / 100),
-          n = formatPrice(s, t.compare_at_price / 100),
-          r = e.dataset.labelPriceRegular,
-          i = e.dataset.labelPriceSale;
-        if (parseFloat(n) > parseFloat(o)) {
-          const t = `\n            <div class="price__sale">\n              <div class="price__sale-inner">\n                <span class="visually-hidden">${i}</span>\n                <s>${n}</s>\n                <ins>\n                  <span class="visually-hidden">${r}</span>\n                  ${o}\n                </ins>\n              </div>\n            </div>\n          `;
-          e.innerHTML = t;
-        } else {
-          const t = `\n            <div class="price__sale">\n              <div class="price__sale-inner">\n                <span class="visually-hidden">${r}</span>\n                ${o}\n              </div>\n            </div>\n          `;
-          e.innerHTML = t;
-        }
+
+    handleErrorMessage(errorMessage = false) {
+      this.errorMessageWrapper = this.querySelector(
+        ".product-form__error-message-wrapper"
+      );
+      if (!this.errorMessageWrapper) return;
+      this.errorMessage = this.errorMessageWrapper.querySelector(
+        ".product-form__error-message"
+      );
+
+      this.errorMessageWrapper.toggleAttribute(
+        "hidden",
+        !errorMessage
+      );
+
+      if (errorMessage) {
+        this.errorMessage.textContent = errorMessage;
       }
+
+      setTimeout(() => {
+        this.resetErrorMessage();
+      }, 5000);
     }
-    updateDiscountBadgeForVariant(e) {
-      const t = this.variantsObj?.find((t) => t.id === e);
-      if (t) {
-        let e = this.querySelector(".product-card__badge--discount");
-        if (!e) {
-          const t = this.previousElementSibling;
-          t && (e = t.querySelector(".product-card__badge--discount"));
+
+    resetErrorMessage() {
+      if (!this.errorMessageWrapper) return;
+      this.errorMessageWrapper.toggleAttribute("hidden", true);
+      this.errorMessageWrapper.textContent = "";
+    }
+
+    /**
+     * Product Variants
+     */
+    initVariants() {
+      this.getVariantsData();
+
+      // event listeners for variant buttons
+      this.querySelectorAll(".button--variant input").forEach(
+        variantButton => {
+          variantButton.addEventListener(
+            "click",
+            this.onClickOptionRadioInputs.bind(this)
+          );
         }
-        if (e)
-          if (t.compare_at_price > t.price) {
-            e.classList.remove("hidden");
-            const s = e.querySelector(".percentage"),
-              o = Math.round(
-                ((t.compare_at_price - t.price) / t.compare_at_price) * 100,
-              );
-            s.textContent = o;
-          } else e.classList.add("hidden");
+      );
+
+      // set initial checked options
+      let initialCheckedOptions = [];
+      this.querySelectorAll(".variant-option-radio-input").forEach(
+        radioInput => {
+          if (radioInput.checked) {
+            initialCheckedOptions.push(radioInput.value);
+          }
+        }
+      );
+
+      // ensure at least one option is selected on load
+      if (initialCheckedOptions.length === 0) {
+        this.querySelector(".variant-option-radio-input")?.click();
       }
+
+      // immediately update variant statuses to set disabled states on load
+      this.updateVariantStatuses();
+
+      const { currentVariantId } = this.findCurrentVariantFromOptionRadioInputs();
+
+      // update media and cart button states
+      if (!this.querySelector(".product-card__media")?.dataset.updateMedia) {
+        this.updateMediaForVariant(currentVariantId);
+      }
+      this.setCartButtonState();
     }
-    disableCheckedVariantOptions() {
-      this.querySelectorAll(".variant-option-radio-input[checked]").forEach(
-        (e) => {
-          this.isQuickCart
-            ? e.setAttribute("disabled", "")
-            : e.removeAttribute("disabled");
-        },
+
+    updateVariantStatuses() {
+
+      const selectedOptionOneVariants = this.variantsObj?.filter(
+        variant =>
+          this.querySelector(":checked")?.value === variant.option1
+      );
+
+      const inputWrappers = [
+        ...this.querySelectorAll(".js-product-card-options")
+      ];
+
+      inputWrappers.forEach((option, index) => {
+        if (index === 0) return;
+        const optionInputs = [
+          ...option.querySelectorAll('input[type="radio"]')
+        ];
+        const previousOptionSelected =
+          inputWrappers[index - 1].querySelector(":checked")?.value;
+        const availableOptionInputsValue = selectedOptionOneVariants
+          ?.filter(
+            variant =>
+              variant.available &&
+              variant[`option${index}`] === previousOptionSelected
+          )
+          .map(variantOption => variantOption[`option${index + 1}`]);
+
+        this.setInputAvailability(
+          optionInputs,
+          availableOptionInputsValue
+        );
+      });
+    }
+
+    setInputAvailability(elementList, availableValuesList) {
+      elementList.forEach(element => {
+        const value = element.getAttribute("value");
+        const availableElement = availableValuesList.includes(value);
+        element
+          .closest("li")
+          .classList.toggle("disabled", !availableElement);
+        element.toggleAttribute("disabled", !availableElement);
+      });
+    }
+
+    onClickOptionRadioInputs(event) {
+      const {
+        currentVariantId,
+        currentCheckedOptions,
+        currentVariantMediaId
+      } = this.findCurrentVariantFromOptionRadioInputs();
+
+      this.clearRadioInputStates(event);
+
+      if (currentCheckedOptions.includes(event.target.value)) {
+        // console.log('event.target', event.target);
+        event.target.setAttribute("checked", "");
+        // event.target.closest("div").classList.add("checked");
+
+        this.updateVariantStatuses();
+
+        this.disableAddToCartButons();
+
+        // call to update price when variant is changed
+        this.updatePriceForVariant(currentVariantId);
+
+        // call to update discount badge when variant is changed
+        this.updateDiscountBadgeForVariant(currentVariantId);
+      }
+
+      // update form input variant-id
+      this.updateFormVariantIdInput();
+
+      // update product image shown
+      let allVariantIdsWithImageAvailable = [];
+      this.querySelectorAll("[data-product-images]").forEach(el => {
+        el.getAttribute("data-product-images")
+          .split(",")
+          .forEach(v => {
+            allVariantIdsWithImageAvailable.push(v);
+          });
+      });
+      if (allVariantIdsWithImageAvailable.includes(currentVariantId.toString())) {
+        this.updateMediaForVariant(currentVariantId);
+      }
+
+      if (this.isQuickCart && currentVariantMediaId) {
+        document
+          .querySelector("quick-cart-drawer")
+          .setActiveMedia(currentVariantMediaId);
+      }
+
+      // update product link
+      this.querySelectorAll("[data-product-link]").forEach(
+        linkItem => {
+          const currentLink = linkItem.getAttribute("href");
+          if (currentVariantId) {
+            const newLink =
+              currentLink.split("?variant=")[0] +
+              "?variant=" +
+              currentVariantId;
+            linkItem.setAttribute("href", newLink);
+          }
+        }
       );
     }
-    disableAddToCartButons() {
-      const { currentVariantAvailable: e } =
-          this.findCurrentVariantFromOptionRadioInputs(),
-        t = this.querySelector(
-          ".product-card__add-to-cart--form button[type='submit']",
-        );
-      t &&
-        !t.classList.contains("product-card__add-to-cart--button") &&
-        (e ? t.removeAttribute("disabled") : t.setAttribute("disabled", ""));
+
+    setCartButtonState() {
+      const { currentVariantAvailable } = this.findCurrentVariantFromOptionRadioInputs();
+      if (!currentVariantAvailable) return;
+      this.submitButton?.toggleAttribute(
+        "disabled",
+        !currentVariantAvailable
+      );
     }
-    clearRadioInputStates(e) {
-      e.target
+
+    updateMediaForVariant(currentVariantId) {
+      if (!currentVariantId) return;
+      this.querySelectorAll("[data-product-images]").forEach(el => {
+        el.classList.toggle(
+          "hidden",
+          !el
+            .getAttribute("data-product-images")
+            .includes(currentVariantId)
+        );
+      });
+    }
+
+    updateFormVariantIdInput() {
+      const { currentVariantId } = this.findCurrentVariantFromOptionRadioInputs();
+      const input = this.querySelector('input[name="id"]');
+      if (currentVariantId && input) {
+        this.querySelector('input[name="id"]').value = currentVariantId;
+      }
+    }
+
+    updatePriceForVariant(variantId) {
+      // Assuming the variantsObj contains the variant data, including price
+      const selectedVariant = this.variantsObj?.find(
+        variant => variant.id === variantId
+      );
+
+      if (selectedVariant) {
+        let priceContainer = this.querySelector(".price__container");
+        // if priceContainer does not exist, check previous element
+        if (!priceContainer) {
+          const previousElement = this.previousElementSibling;
+          if (previousElement) {
+            // check if previous element has class of price__container
+            priceContainer = previousElement.querySelector(
+              ".price__container"
+            );
+          }
+        }
+
+        if (!priceContainer) return;
+        const moneyFormat = priceContainer.dataset.moneyFormat;
+        const price = formatPrice(
+          moneyFormat,
+          selectedVariant.price / 100
+        );
+        const compare_at_price = formatPrice(
+          moneyFormat,
+          selectedVariant.compare_at_price / 100
+        );
+        const labelPriceRegular =
+          priceContainer.dataset.labelPriceRegular;
+        const labelPriceSale = priceContainer.dataset.labelPriceSale;
+
+        if (parseFloat(compare_at_price) > parseFloat(price)) {
+          // generate html block and append to price container
+          const priceHtml = `
+            <div class="price__sale">
+              <div class="price__sale-inner">
+                <span class="visually-hidden">${labelPriceSale}</span>
+                <s>${compare_at_price}</s>
+                <ins>
+                  <span class="visually-hidden">${labelPriceRegular}</span>
+                  ${price}
+                </ins>
+              </div>
+            </div>
+          `;
+          priceContainer.innerHTML = priceHtml;
+        } else {
+          // generate html block and append to price container
+          const priceHtml = `
+            <div class="price__sale">
+              <div class="price__sale-inner">
+                <span class="visually-hidden">${labelPriceRegular}</span>
+                ${price}
+              </div>
+            </div>
+          `;
+          priceContainer.innerHTML = priceHtml;
+        }
+      }
+    }
+
+    updateDiscountBadgeForVariant(variantId) {
+      const selectedVariant = this.variantsObj?.find(
+        variant => variant.id === variantId
+      );
+      if (selectedVariant) {
+        let discountBadge = this.querySelector(
+          ".product-card__badge--discount"
+        );
+        // if discountBadge does not exist, check previous element
+        if (!discountBadge) {
+          const previousElement = this.previousElementSibling;
+          if (previousElement) {
+            // check if previous element has class of product-card__badge--discount
+            discountBadge = previousElement.querySelector(
+              ".product-card__badge--discount"
+            );
+          }
+        }
+
+        if (discountBadge) {
+          if (
+            selectedVariant.compare_at_price > selectedVariant.price
+          ) {
+            discountBadge.classList.remove("hidden");
+            const percentageElement =
+              discountBadge.querySelector(".percentage");
+            // calculate discount percentage
+            const discountPercentage = Math.round(
+              ((selectedVariant.compare_at_price -
+                selectedVariant.price) /
+                selectedVariant.compare_at_price) *
+                100
+            );
+            // update discount percentage
+            percentageElement.textContent = discountPercentage;
+          } else {
+            discountBadge.classList.add("hidden");
+          }
+        }
+      }
+    }
+
+    disableCheckedVariantOptions() {
+      this.querySelectorAll(
+        ".variant-option-radio-input[checked]"
+      ).forEach(variantBtn => {
+        if (this.isQuickCart) {
+          variantBtn.setAttribute("disabled", "");
+          // variantBtn.closest("div").classList.add("disabled");
+        } else {
+          variantBtn.removeAttribute("disabled");
+        }
+      });
+    }
+
+    disableAddToCartButons() {
+      const { currentVariantAvailable } =
+        this.findCurrentVariantFromOptionRadioInputs();
+      const submitBtn = this.querySelector(
+        ".product-card__add-to-cart--form button[type='submit']"
+      );
+
+      if (
+        submitBtn &&
+        !submitBtn.classList.contains(
+          "product-card__add-to-cart--button"
+        )
+      ) {
+        if (!currentVariantAvailable) {
+          submitBtn.setAttribute("disabled", "");
+        } else {
+          submitBtn.removeAttribute("disabled");
+        }
+      }
+    }
+
+    clearRadioInputStates(event) {
+      event.target
         .closest(".js-product-card-options")
         .querySelectorAll(".variant-option-radio-input")
-        .forEach((e) => {
-          e.removeAttribute("checked");
+        .forEach(radioInput => {
+          radioInput.removeAttribute("checked");
+          // radioInput.closest("div").classList.remove("checked");
         });
     }
+
     findCurrentVariantFromOptionRadioInputs() {
-      let e = null,
-        t = "",
-        s = "",
-        o = [];
-      return (
-        this.querySelectorAll(".js-product-card-options").forEach((e) => {
-          e.parentNode.classList.contains("hidden")
-            ? o.push(e.querySelector('input[type="radio"]').value)
-            : e.querySelectorAll('input[type="radio"]').forEach((e) => {
-                e.checked && o.push(e.value);
+      let currentVariantAvailable = null;
+      let currentVariantId = "";
+      let currentVariantMediaId = "";
+      let currentCheckedOptions = [];
+
+      this.querySelectorAll(".js-product-card-options").forEach(
+        item => {
+          if (!item.parentNode.classList.contains("hidden")) {
+            item
+              .querySelectorAll('input[type="radio"]')
+              .forEach(radioInput => {
+                if (radioInput.checked) {
+                  currentCheckedOptions.push(radioInput.value);
+                }
               });
-        }),
-        this.variantsObj?.forEach((n) => {
-          (n.options.join() === o.join() ||
-            (1 === n.options.length && 0 === o.length)) &&
-            ((t = n.id), (e = n.available), (s = n.featured_media?.id || null));
-        }),
-        {
-          currentVariantAvailable: e,
-          currentVariantId: t,
-          currentCheckedOptions: o,
-          currentVariantMediaId: s,
+          } else {
+            // hidden variant (size or etc) always uses the first option
+            currentCheckedOptions.push(
+              item.querySelector('input[type="radio"]').value
+            );
+          }
         }
       );
+
+      this.variantsObj?.forEach(item => {
+        if (
+          item.options.join() === currentCheckedOptions.join() ||
+          (item.options.length === 1 &&
+            currentCheckedOptions.length === 0)
+        ) {
+          currentVariantId = item.id;
+          currentVariantAvailable = item.available;
+          currentVariantMediaId = item.featured_media?.id || null;
+        }
+      });
+
+      return {
+        currentVariantAvailable,
+        currentVariantId,
+        currentCheckedOptions,
+        currentVariantMediaId
+      };
     }
-    findAndDisableAllUnavailableOptionsForSelectedVariant(e) {
-      let t = "";
-      t = e
-        ? e.value
-        : this.querySelectorAll(".variant-option-radio-input")[0].value;
-      const { currentCheckedOptions: s } =
-          this.findCurrentVariantFromOptionRadioInputs(),
-        o = s.indexOf(t) + 1;
-      this.variantsObj.forEach((e) => {
-        e[`option${o}`] !== t ||
-          e.available ||
-          [1, 2, 3].forEach((t) => {
-            if (t !== o && e[`option${t}`]) {
-              this.querySelector(
-                `.variant-option-radio-input[value="${e[`option${t}`]}"]`,
-              )
-                .closest("li")
-                .classList.add("disabled");
+
+    findAndDisableAllUnavailableOptionsForSelectedVariant(
+      selectedOption
+    ) {
+      let selectedOptionName = "";
+      if (selectedOption) {
+        selectedOptionName = selectedOption.value;
+      } else {
+        selectedOptionName = this.querySelectorAll(
+          ".variant-option-radio-input"
+        )[0].value;
+      }
+
+      const { currentCheckedOptions } =
+        this.findCurrentVariantFromOptionRadioInputs();
+      const optionIndex =
+        currentCheckedOptions.indexOf(selectedOptionName) + 1;
+
+      this.variantsObj.forEach(item => {
+        if (
+          item[`option${optionIndex}`] === selectedOptionName &&
+          !item.available
+        ) {
+          [1, 2, 3].forEach(i => {
+            if (i !== optionIndex && item[`option${i}`]) {
+              const itemToDisable = this.querySelector(
+                `.variant-option-radio-input[value="${
+                  item[`option${i}`]
+                }"]`
+              );
+              // itemToDisable.setAttribute("disabled", "");
+              itemToDisable.closest("li").classList.add("disabled");
             }
           });
+        }
       });
     }
+
     getVariantsData() {
-      const e = JSON.parse(
+      const variantsObj = JSON.parse(
         this.querySelector("[data-product-variants-json]")
-          ? this.querySelector("[data-product-variants-json]").textContent
-          : "[]",
+          ? this.querySelector("[data-product-variants-json]")
+              .textContent
+          : "[]"
       );
-      return (!e || 0 !== Object.keys(e).length) && ((this.variantsObj = e), e);
+      if (variantsObj && Object.keys(variantsObj).length === 0)
+        return false;
+      this.variantsObj = variantsObj;
+      return variantsObj;
     }
+
+    /** Additional event listerner for styling on hovering mutliple nested items */
     secondImgHoverStates() {
-      const e = this.querySelector(".product-card__actions");
-      !e ||
-        window.innerWidth < 750 ||
-        (e.addEventListener("mouseenter", () =>
-          e.classList.add("is--hovering"),
-        ),
-        e.addEventListener("mouseleave", () =>
-          e.classList.remove("is--hovering"),
-        ));
-    }
-    imageBorderCalc() {
-      const e = document.querySelectorAll(
-        ".product-swatch__inner-border--enable img",
+      const hoverableItem = this.querySelector(
+        ".product-card__actions"
       );
-      function t(e) {
-        const t = document.createElement("canvas"),
-          s = t.getContext("2d"),
-          o = e.naturalWidth || e.width,
-          n = e.naturalHeight || e.height;
-        ((t.width = o), (t.height = n), s.drawImage(e, 0, 0, o, n));
-        const r = Math.floor(o / 2),
-          i = Math.floor(n / 2),
-          a = s.getImageData(r, i, 1, 1).data,
-          c = a[0],
-          l = a[1],
-          d = a[2],
-          u = `rgb(${Math.max(0, Math.floor(0.8 * c))}, ${Math.max(0, Math.floor(0.8 * l))}, ${Math.max(0, Math.floor(0.8 * d))})`;
-        e.style.borderColor = u;
+
+      if (!hoverableItem || window.innerWidth < 750) {
+        return;
       }
-      e &&
-        e.forEach((e) => {
-          e.complete ? t(e) : (e.onload = () => t(e));
-        });
+
+      hoverableItem.addEventListener("mouseenter", () =>
+        hoverableItem.classList.add("is--hovering")
+      );
+      hoverableItem.addEventListener("mouseleave", () =>
+        hoverableItem.classList.remove("is--hovering")
+      );
     }
+
+    imageBorderCalc() {
+      const images = document.querySelectorAll(".product-swatch__inner-border--enable img");
+
+      if(images) {
+        images.forEach((image) => {
+          if (image.complete) {
+            processImage(image);
+          } else {
+            image.onload = () => processImage(image);
+          }
+        });
+      }
+
+      function processImage(image) {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        const width = image.naturalWidth || image.width;
+        const height = image.naturalHeight || image.height;
+
+        canvas.width = width;
+        canvas.height = height;
+
+        ctx.drawImage(image, 0, 0, width, height);
+
+        const centerX = Math.floor(width / 2);
+        const centerY = Math.floor(height / 2);
+
+        const pixelData = ctx.getImageData(centerX, centerY, 1, 1).data;
+        const r = pixelData[0];
+        const g = pixelData[1];
+        const b = pixelData[2];
+
+        const darkenFactor = 0.8;
+        const darkenedR = Math.max(0, Math.floor(r * darkenFactor));
+        const darkenedG = Math.max(0, Math.floor(g * darkenFactor));
+        const darkenedB = Math.max(0, Math.floor(b * darkenFactor));
+        const darkenedColor = `rgb(${darkenedR}, ${darkenedG}, ${darkenedB})`;
+
+        image.style.borderColor = darkenedColor;
+      }
+    }
+
   }
-  customElements.define("product-card", s);
+  customElements.define("product-card", ProductCard);
 }
+
 async function updateCartCounters() {
-  const e = document.querySelectorAll(".cart-count-badge"),
-    t = document.querySelectorAll(".cart-drawer__title-counter"),
-    s = [...e, ...t].filter((e) => null !== e);
+  const headerCartCounters = document.querySelectorAll('.cart-count-badge');
+  const drawerCartCounters = document.querySelectorAll('.cart-drawer__title-counter');
+
+  // combine both counters and filter out any null elements
+  const cartCounters = [...headerCartCounters, ...drawerCartCounters].filter(counter => counter !== null);
+
   try {
-    const t = await fetch(`${routes.cart_url}.json`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }),
-      o = await t.text(),
-      n = JSON.parse(o);
-    (s.length > 0 &&
-      s.forEach((e) => {
-        e.textContent = n.item_count;
-      }),
-      e.length > 0 &&
-        e.forEach((e) => {
-          e.classList.toggle("hidden", 0 === n.item_count);
-        }));
-  } catch (e) {
-    console.error("Cart counters could not be updated:", e);
-  }
-}
-async function updateFreeShipping() {
-  const e = Shopify.currency.rate,
-    {
-      cart_free_shipping_text: t,
-      cart_free_shipping_text_success: s,
-      cart_free_shipping_threshold: o,
-      money_format: n,
-    } = window.theme.settings,
-    r = document.querySelectorAll("shipping-bar");
-  try {
-    const i = await fetch("/cart.js"),
-      { total_price: a, item_count: c } = await i.json(),
-      l = 0 == c ? "hidden" : "visible";
-    r.forEach((e) => (e.style.visibility = l));
-    const d = Math.round(o * e),
-      u = d - a;
-    r.forEach((e) => {
-      const o = e.querySelector(".progress-bar__text"),
-        r = e.querySelector("[data-progress-line]");
-      if (a >= d) ((o.innerHTML = s), (r.style.width = "100%"));
-      else {
-        const e = t.match(/<span class="money">(.*)<\/span>/);
-        if (e) {
-          const s = t.replace(e[1], `${formatPrice(n, u / 100)}`);
-          o.innerHTML = s;
-        }
-        r.style.width = `calc(${(a / d) * 100}% + 2px)`;
+    const response = await fetch(`${routes.cart_url}.json`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
       }
     });
-  } catch (e) {
-    console.error("Error fetching cart data:", e);
+
+    const state = await response.text();
+    const parsedState = JSON.parse(state);
+
+    if (cartCounters.length > 0) {
+      // update all cart counters with the current item count
+      cartCounters.forEach(counter => {
+        counter.textContent = parsedState.item_count;
+      });
+    }
+
+    // toggle 'hidden' class on header counters based on the item count
+    if (headerCartCounters.length > 0) {
+      headerCartCounters.forEach(counter => {
+        counter.classList.toggle("hidden", parsedState.item_count === 0);
+      });
+    }
+  } catch (error) {
+    console.error("Cart counters could not be updated:", error);
   }
 }
-function formatPrice(e, t) {
-  t = t.toFixed(2);
-  const s = /{{(.*?)}}/;
-  let o = "";
-  e.match(s) ? (o = e.match(s)[1]) : console.error("No match found");
-  let n = "";
-  switch (o) {
+
+async function updateFreeShipping() {
+  const conversionRate = Shopify.currency.rate;
+  const {
+    cart_free_shipping_text: freeShippingTextDefault,
+    cart_free_shipping_text_success: freeShippingTextSuccessDefault,
+    cart_free_shipping_threshold: freeShippingThreshold,
+    money_format: moneyFormat
+  } = window.theme.settings;
+
+  const freeShippingElements = document.querySelectorAll("shipping-bar");
+
+  try {
+    const response = await fetch("/cart.js");
+    const { total_price, item_count } = await response.json();
+
+    const visibility = item_count == 0 ? "hidden" : "visible";
+    freeShippingElements.forEach(
+      el => (el.style.visibility = visibility)
+    );
+
+    const newShippingThreshold = Math.round(freeShippingThreshold * conversionRate);
+    const newRemainingAmount = newShippingThreshold - total_price;
+
+    freeShippingElements.forEach(freeShipping => {
+      const freeShippingTextElement = freeShipping.querySelector(".progress-bar__text");
+      const progressBarInner = freeShipping.querySelector("[data-progress-line]");
+      if (total_price >= newShippingThreshold) {
+        freeShippingTextElement.innerHTML = freeShippingTextSuccessDefault;
+        progressBarInner.style.width = "100%";
+      } else {
+        const moneyMatch = freeShippingTextDefault.match(/<span class="money">(.*)<\/span>/);
+        if (moneyMatch) {
+          const newFreeShippingText = freeShippingTextDefault.replace(
+            moneyMatch[1], `${formatPrice(moneyFormat, newRemainingAmount / 100)}`
+          );
+          freeShippingTextElement.innerHTML = newFreeShippingText;
+        }
+        progressBarInner.style.width = `calc(${(total_price / newShippingThreshold) * 100}% + 2px)`;
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching cart data:", error);
+  }
+}
+
+function formatPrice(moneyString, amount) {
+  // convert amount to 00.00 format
+  amount = amount.toFixed(2);
+
+  const money_format = /{{(.*?)}}/;
+
+  let money_format_option = "";
+  if (moneyString.match(money_format)) {
+    money_format_option = moneyString.match(money_format)[1];
+  } else {
+    console.error("No match found");
+  }
+
+  let newValue = "";
+  switch (money_format_option) {
     case "amount":
-      n = e.replace(
-        s,
+      newValue = moneyString.replace(
+        money_format,
         Intl.NumberFormat(Shopify.locale, {
           minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }).format(t),
+          maximumFractionDigits: 2
+        }).format(amount)
       );
       break;
     case "amount_with_comma_separator":
-      n = e.replace(s, t.toString().replace(".", ","));
+      newValue = moneyString.replace(
+        money_format,
+        amount.toString().replace(".", ",")
+      );
       break;
     case "amount_no_decimals":
-      n = e.replace(s, Math.round(t));
+      newValue = moneyString.replace(
+        money_format,
+        Math.round(amount)
+      );
       break;
     case "amount_no_decimals_with_comma_separator":
-      n = e.replace(
-        s,
+      newValue = moneyString.replace(
+        money_format,
         Intl.NumberFormat(Shopify.locale)
-          .format(Math.round(t))
+          .format(Math.round(amount))
           .toString()
-          .replace(".", ","),
+          .replace(".", ",")
       );
       break;
     default:
-      n = e.replace(s, t);
+      newValue = moneyString.replace(money_format, amount);
+      break;
   }
-  return n;
+
+  return newValue;
 }
+
 class SwiperComponent extends HTMLElement {
   constructor() {
-    (super(),
-      (this.swiperOptions =
-        JSON.parse(this.getAttribute("data-swiper-options")) || {}),
-      (this.swiperInitialized = !1),
-      (this.section = this.closest("section")),
-      (this.observer = null));
+    super();
+    this.swiperOptions = JSON.parse(this.getAttribute("data-swiper-options")) || {};
+    this.swiperInitialized = false; // Prevent multiple initializations
+
+    // this.hiddenClass = "invisible";
+    this.section = this.closest("section");
+    this.observer = null;
   }
+
   connectedCallback() {
-    (this.section &&
-      this.section.classList.contains("shopify-section") &&
-      ((this.observer = new IntersectionObserver((e, t) => {
-        e.forEach((e) => {
-          e.isIntersecting && (this.init(), t.disconnect());
+    if (this.section && this.section.classList.contains("shopify-section")) {
+      // this.section.classList.add(this.hiddenClass);
+
+      // Intersection Observer to check visibility
+      this.observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.init(); // Initialize Swiper when visible
+            observer.disconnect(); // Stop observing after initialization
+          }
         });
-      })),
-      this.observer.observe(this.section)),
-      Shopify.designMode
-        ? (window.addEventListener("shopify:section:load", () => this.init()),
-          window.addEventListener("shopify:section:select", () => this.init()),
-          setTimeout(() => {
-            this.swiperInitialized || this.init();
-          }, 100))
-        : window.addEventListener("load", () => this.init()));
+      });
+
+      this.observer.observe(this.section); // Observe the section
+    }
+
+    if (Shopify.designMode) {
+      window.addEventListener("shopify:section:load", () => this.init());
+      window.addEventListener("shopify:section:select", () => this.init());
+
+      // fallback initialization after delay in design mode
+      setTimeout(() => {
+        if (!this.swiperInitialized) this.init();
+      }, 100);
+    } else {
+      window.addEventListener("load", () => this.init());
+    }
   }
+
   init() {
-    if (this.swiperInitialized) return;
-    this.swiperInitialized = !0;
-    const e = this.swiperOptions,
-      t = {
-        slideshowId: e.swiperId || "",
-        slideCount: e.slideCount || 1,
-        slidesPerView: e.slidesPerView || "auto",
-        slidesPerViewDesktop: e.slidesPerViewDesktop || e.slidesPerView || 4,
-        slidesPerViewTablet:
-          e.slidesPerViewTablet ||
-          e.slidesPerViewDesktop ||
-          e.slidesPerView ||
-          3,
-        spaceBetween: e.spaceBetweenMobile || 0,
-        spaceBetweenDesktop: e.spaceBetweenDesktop || e.spaceBetween || 0,
-        spaceBetweenTablet:
-          e.spaceBetweenTablet ||
-          e.spaceBetweenDesktop ||
-          e.spaceBetweenMobile ||
-          0,
-        enabled: e.enabled ?? !0,
-        enabledDesktop: e.enabledDesktop ?? e.enabled ?? !0,
-        enabledTablet: e.enabledTablet ?? e.enabledDesktop ?? e.enabled ?? !0,
-        allowTouchMove:
-          e.allowTouchMove ??
-          ("number" != typeof e.slidesPerView ||
-            e.slideCount > e.slidesPerView),
-        allowTouchMoveTablet:
-          e.allowTouchMoveTablet ??
-          ("number" != typeof e.slidesPerViewTablet ||
-            e.slideCount > e.slidesPerViewTablet),
-        allowTouchMoveDesktop:
-          e.allowTouchMoveDesktop ??
-          ("number" != typeof e.slidesPerViewDesktop ||
-            e.slideCount > e.slidesPerViewDesktop),
-      };
-    if (
-      ((this.swiperOptions = {
-        a11y: !1,
-        allowTouchMove: t.allowTouchMove,
-        loop: e.loop || !1,
-        rewind: e.rewind || !1,
-        followFinger: e.followFinger || !1,
-        cssMode: e.cssMode || !1,
-        enabled: t.enabled,
-        watchOverflow: !0,
-        observer: !0,
-        cache: !0,
-        slidesPerView: t.slidesPerView,
-        spaceBetween: t.spaceBetween,
-        breakpoints: {
-          750: {
-            enabled: t.enabledTablet,
-            allowTouchMove: t.allowTouchMoveTablet,
-            slidesPerView: t.slidesPerViewTablet,
-            spaceBetween: t.spaceBetweenTablet,
-          },
-          990: {
-            enabled: t.enabledDesktop,
-            allowTouchMove: t.allowTouchMoveDesktop,
-            slidesPerView: t.slidesPerViewDesktop,
-            spaceBetween: t.spaceBetweenDesktop,
-          },
+    if (this.swiperInitialized) return; // prevent multiple initializations
+    this.swiperInitialized = true;
+
+    const swiperOptions = this.swiperOptions;
+
+    const option = {
+      slideshowId: swiperOptions.swiperId || "",
+      slideCount: swiperOptions.slideCount || 1,
+      slidesPerView: swiperOptions.slidesPerView || "auto",
+      slidesPerViewDesktop:
+        swiperOptions.slidesPerViewDesktop ||
+        swiperOptions.slidesPerView ||
+        4,
+      slidesPerViewTablet:
+        swiperOptions.slidesPerViewTablet ||
+        swiperOptions.slidesPerViewDesktop ||
+        swiperOptions.slidesPerView ||
+        3,
+      spaceBetween: swiperOptions.spaceBetweenMobile || 0,
+      spaceBetweenDesktop:
+        swiperOptions.spaceBetweenDesktop ||
+        swiperOptions.spaceBetween ||
+        0,
+      spaceBetweenTablet:
+        swiperOptions.spaceBetweenTablet ||
+        swiperOptions.spaceBetweenDesktop ||
+        swiperOptions.spaceBetweenMobile ||
+        0,
+      enabled: swiperOptions.enabled ?? true,
+      enabledDesktop:
+        swiperOptions.enabledDesktop ?? swiperOptions.enabled ?? true,
+      enabledTablet:
+        swiperOptions.enabledTablet ??
+        swiperOptions.enabledDesktop ??
+        swiperOptions.enabled ??
+        true,
+      allowTouchMove:
+        swiperOptions.allowTouchMove ??
+        (typeof swiperOptions.slidesPerView === "number"
+          ? swiperOptions.slideCount > swiperOptions.slidesPerView
+            ? true
+            : false
+          : true),
+      allowTouchMoveTablet:
+        swiperOptions.allowTouchMoveTablet ??
+        (typeof swiperOptions.slidesPerViewTablet === "number"
+          ? swiperOptions.slideCount > swiperOptions.slidesPerViewTablet
+            ? true
+            : false
+          : true),
+      allowTouchMoveDesktop:
+        swiperOptions.allowTouchMoveDesktop ??
+        (typeof swiperOptions.slidesPerViewDesktop === "number"
+          ? swiperOptions.slideCount > swiperOptions.slidesPerViewDesktop
+            ? true
+            : false
+          : true)
+    };
+
+    this.swiperOptions = {
+      a11y: false,
+      allowTouchMove: option.allowTouchMove,
+      loop: swiperOptions.loop || false,
+      rewind: swiperOptions.rewind || false,
+      followFinger: swiperOptions.followFinger || false,
+      cssMode: swiperOptions.cssMode || false,
+      enabled: option.enabled,
+      watchOverflow: true,
+      observer: true,
+      cache: true,
+      slidesPerView: option.slidesPerView,
+      spaceBetween: option.spaceBetween,
+      breakpoints: {
+        750: {
+          enabled: option.enabledTablet,
+          allowTouchMove: option.allowTouchMoveTablet,
+          slidesPerView: option.slidesPerViewTablet,
+          spaceBetween: option.spaceBetweenTablet
         },
-      }),
-      e.navigation && (this.swiperOptions.navigation = { ...e.navigation }),
-      "fade" == e.effect &&
-        ((this.swiperOptions.effect = "fade"),
-        (this.swiperOptions.fadeEffect = { crossFade: !0 })),
-      "custom_bullet" == e.pagination
-        ? (this.swiperOptions.pagination = {
-            el: e.paginationElement,
-            clickable: !0,
-            renderBullet: function (e, t) {
-              return `\n            <button class="${t}">\n              <span></span>\n            </button>\n          `;
-            },
-          })
-        : (this.swiperOptions.pagination = {
-            el: `.swiper-pagination--${e.swiperId}`,
-            clickable: !0,
-          }),
-      e.autoplay &&
-        ((this.swiperOptions.autoplay = { ...e.autoplay }), e.autoplayProgress))
-    ) {
-      const t = this.querySelector(`.autoplay-progress--${e.swiperId} svg`),
-        s = this.querySelector(`.autoplay-progress--${e.swiperId} span`);
-      this.swiperOptions.on = {
-        autoplayTimeLeft(e, o, n) {
-          (t.style.setProperty("--progress", 1 - n),
-            (s.textContent = `${Math.ceil(o / 1e3)}`));
-        },
+        990: {
+          enabled: option.enabledDesktop,
+          allowTouchMove: option.allowTouchMoveDesktop,
+          slidesPerView: option.slidesPerViewDesktop,
+          spaceBetween: option.spaceBetweenDesktop
+        }
+      }
+    };
+
+    if (swiperOptions.navigation) {
+      this.swiperOptions.navigation = {
+        ...swiperOptions.navigation
       };
     }
-    this.swiper = new Swiper(this, { ...this.swiperOptions });
+
+    if (swiperOptions.effect == "fade") {
+      this.swiperOptions.effect = "fade";
+      this.swiperOptions.fadeEffect = {
+        crossFade: true
+      };
+    }
+
+    if (swiperOptions.pagination == "custom_bullet") {
+      this.swiperOptions.pagination = {
+        el: swiperOptions.paginationElement,
+        clickable: true,
+        renderBullet: function (i, className) {
+          return `
+            <button class="${className}">
+              <span></span>
+            </button>
+          `;
+        }
+      };
+    } else {
+      this.swiperOptions.pagination = {
+        el: `.swiper-pagination--${swiperOptions.swiperId}`,
+        clickable: true
+      };
+    }
+
+    if (swiperOptions.autoplay) {
+      this.swiperOptions.autoplay = {
+        ...swiperOptions.autoplay
+      };
+
+      if (swiperOptions.autoplayProgress) {
+        const progressCircle = this.querySelector(
+          `.autoplay-progress--${swiperOptions.swiperId} svg`
+        );
+        const progressContent = this.querySelector(
+          `.autoplay-progress--${swiperOptions.swiperId} span`
+        );
+
+        this.swiperOptions.on = {
+          autoplayTimeLeft(s, time, progress) {
+            progressCircle.style.setProperty("--progress", 1 - progress);
+            progressContent.textContent = `${Math.ceil(time / 1000)}`;
+          },
+        };
+      }
+    }
+
+    this.swiper = new Swiper(this, {
+      ...this.swiperOptions
+      // on: {
+      //   init: () => {
+      //     setTimeout(() => {
+      //       if (this.section) {
+      //         this.section.classList.remove(this.hiddenClass);
+      //       }
+      //     }, 100);
+      //   }
+      // }
+    });
   }
 }
 customElements.define("swiper-component", SwiperComponent);

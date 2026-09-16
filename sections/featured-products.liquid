@@ -16,8 +16,8 @@
 -%}
 
 {%- if products_array != nil -%}
-  {% render 'css', css: 'component-card-product-slider.aio.min.css' %}
-  {% render 'css', css: 'component-card-product.aio.min.css' %}
+  {{- 'component-card-product-slider.aio.min.css' | asset_url | stylesheet_tag -}}
+  {{- 'component-card-product.aio.min.css' | asset_url | stylesheet_tag -}}
   <script src="{{- 'tab-manager.js' | asset_url -}}" defer="defer"></script>
 
   {%- assign section_button = blank -%}
