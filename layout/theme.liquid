@@ -53,6 +53,8 @@
         --font-body-family: 'Oswald', sans-serif !important;
         --font-button-family: 'Oswald', sans-serif !important;
         --font-italic-family: 'Oswald', sans-serif !important;
+        --product-card-media-aspect-ratio: {{ settings.product_card_media_aspect_ratio | default: '4/5' }};
+        --product-card-media-object-fit: {{ settings.product_card_media_object_fit | default: 'contain' }};
       }
       body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, p, a, span, button, input, select, textarea {
         font-family: 'Oswald', sans-serif !important;

@@ -302,6 +302,8 @@
     --card-aspect-ratio: {{ settings.card_aspect_ratio }};
     --card-media-aspect-ratio: {{ settings.card_media_aspect_ratio }};
     --card-media-object-fit: {{ settings.card_media_object_fit }};
+    --product-card-media-aspect-ratio: {{ settings.product_card_media_aspect_ratio | default: '4/5' }};
+    --product-card-media-object-fit: {{ settings.product_card_media_object_fit | default: 'contain' }};
 
     --theme-js-animations-on-mobile: {{ theme_js_animations_on_mobile }};
 
