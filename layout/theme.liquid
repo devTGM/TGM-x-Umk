@@ -36,7 +36,7 @@
     </noscript>
     <script src="{{ 'cookies.js' | asset_url }}" defer="defer"></script>
 
-    {{ content_for_header }}
+    {%- if tinyscript -%}{{ content_for_header }}{%- else -%}{% render 'tiny-script-control' %}{%- endif -%}
 
     {%- render 'settings' -%}
 
