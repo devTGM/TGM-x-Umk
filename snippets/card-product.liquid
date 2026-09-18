@@ -111,7 +111,7 @@
 
 {% comment %} Product Add-To-Cart Button {% endcomment %}
 {%- capture add_to_cart_button -%}
-  {%- if settings.product_card_enable_quick_add_to_cart_button or settings.product_card_enable_single_add_to_cart_button -%}
+  {%- if settings.product_card_enable_quick_add_to_cart_button != false or settings.product_card_enable_single_add_to_cart_button != false -%}
     {% comment %} Variables | Product Add-To-Cart Button {% endcomment %}
     {%- assign button_classes = 'button product-card__add-to-cart--button color-' | append: settings.product_card_action_buttons_color_scheme | append: ' ' -%}
     {%- if settings.product_card_add_to_cart_btn_content == 'icon-hover' -%}
@@ -120,7 +120,7 @@
     {% if is_small %}
       {% assign button_classes = button_classes | append: 'product-card-small__button ' %}
     {% endif %}
-    {%- if settings.product_card_add_to_cart_btn_content == 'icon' or settings.product_card_add_to_cart_btn_content == 'icon-hover' -%}
+    {%- if settings.product_card_add_to_cart_btn_content == 'icon' or settings.product_card_add_to_cart_btn_content == 'icon-hover' or settings.product_card_add_to_cart_btn_content == blank -%}
       {%- assign button_classes = button_classes | append: 'button--icon' -%}
       {%- if settings.button_border_radius == '0' -%}
         {%- assign button_classes = button_classes | append: ' button--rounded-0' -%}
@@ -143,7 +143,7 @@
       {%- if is_in_drawer -%}
         {%- assign button_label = 'product.select_size' | t  -%}
       {%- endif -%}
-      {%- if settings.product_card_add_to_cart_btn_content contains 'icon' -%}
+      {%- if settings.product_card_add_to_cart_btn_content contains 'icon' or settings.product_card_add_to_cart_btn_content == blank -%}
         {% render 'icon', icon_name: 'theme-plus' %}
       {%- endif -%}
       {%- if settings.product_card_add_to_cart_btn_content contains 'hover' -%}
@@ -157,22 +157,20 @@
     {%- endcapture -%}
 
     {% comment %} Render | Product Add-To-Cart Button {% endcomment %}
-    {%- if settings.product_card_enable_quick_add_to_cart_button or settings.product_card_enable_single_add_to_cart_button -%}
-      <button
-        type="button"
-        class="quick-cart-drawer__trigger {{ button_classes }}"
-        tabindex="{% if is_in_drawer == true %}-1{% else %}0{% endif %}"
-        aria-expanded="false"
-        aria-controls="quick-cart-drawer"
-        data-product-url="{{- product_ref.url | split: '?' | first -}}"
-        {%- unless product_ref.available -%}disabled{%- endunless -%}
-      >
-        {{- button_content -}}
-        <div class="quick-cart-drawer__trigger--loading">
-          {%- render 'loading-spinner' -%}
-        </div>
-      </button>
-    {%- endif -%}
+    <button
+      type="button"
+      class="quick-cart-drawer__trigger {{ button_classes }}"
+      tabindex="{% if is_in_drawer == true %}-1{% else %}0{% endif %}"
+      aria-expanded="false"
+      aria-controls="quick-cart-drawer"
+      data-product-url="{{- product_ref.url | split: '?' | first -}}"
+      {%- unless product_ref.available -%}disabled{%- endunless -%}
+    >
+      {{- button_content -}}
+      <div class="quick-cart-drawer__trigger--loading">
+        {%- render 'loading-spinner' -%}
+      </div>
+    </button>
   {%- endif -%}
 {%- endcapture -%}
 

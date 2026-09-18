@@ -2151,11 +2151,6 @@ if (!customElements.get("product-card")) {
       ) {
         this.secondImgHoverStates();
       }
-
-      // if quick-cart-drawer does not exists, remove trigger buttons
-      if (!document.querySelector("quick-cart-drawer")) {
-        this.querySelector(".quick-cart-drawer__trigger")?.remove();
-      }
     }
 
     /**
@@ -2394,7 +2389,7 @@ if (!customElements.get("product-card")) {
       if (this.isQuickCart && currentVariantMediaId) {
         document
           .querySelector("quick-cart-drawer")
-          .setActiveMedia(currentVariantMediaId);
+          ?.setActiveMedia(currentVariantMediaId);
       }
 
       // update product link

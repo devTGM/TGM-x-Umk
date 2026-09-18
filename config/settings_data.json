@@ -36,6 +36,8 @@
     "product_card_price_position": "normal",
     "product_card_action_buttons_color_scheme": "scheme-6",
     "product_card_add_to_cart_btn_content": "icon",
+    "product_card_enable_quick_add_to_cart_button": true,
+    "product_card_enable_single_add_to_cart_button": true,
     "swatches_option": "Color",
     "product_card_variants_display_limit": 2,
     "swatches_shape": "circle",

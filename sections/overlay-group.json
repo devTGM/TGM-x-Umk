@@ -69,12 +69,6 @@
         "spacing_bottom": "2"
       }
     },
-    "quick-cart-drawer": {
-      "type": "quick-cart-drawer",
-      "settings": {
-        "color_scheme": ""
-      }
-    },
     "age-verification-popup": {
       "type": "age-verification-popup",
       "disabled": true,
@@ -111,7 +105,6 @@
   "order": [
     "cart-drawer",
     "1764337175aad2f77a",
-    "quick-cart-drawer",
     "age-verification-popup",
     "newsletter-popup"
   ]
