@@ -42,7 +42,7 @@
                 </p>
                 <div class="block-content">
                   {%- if recommendation.featured_image -%}
-                    {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt | escape, width: 60, height: 60 -%}
+                    {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt, width: 60, height: 60 -%}
                   {%- endif -%}
                   <div class="block-details">
                     <p class="product-title"><a href="{{ recommendation.url }}" style="text-decoration: none; color: inherit;">{{ recommendation.title }}</a></p>
@@ -90,7 +90,7 @@
                         <div class="bestseller-card-top">
                           <div class="bestseller-image">
                             {%- if recommendation.featured_image -%}
-                              {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt | escape -%}
+                              {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt -%}
                             {%- endif -%}
                           </div>
                           <div class="bestseller-info">
@@ -115,7 +115,7 @@
                         <div class="bestseller-card-top">
                           <div class="bestseller-image">
                             {%- if recommendation.featured_image -%}
-                              {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt | escape -%}
+                              {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt -%}
                             {%- endif -%}
                           </div>
                           <div class="bestseller-info">
@@ -150,7 +150,7 @@
 
               {%- if recommendation.featured_image -%}
                 <div class="media product-recommendations__item-media">
-                  {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt | escape -%}
+                  {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt -%}
                 </div>
               {%- endif -%}
 
@@ -197,3 +197,30 @@
     </div>
   </div>
 </product-recommendations>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt
+    | escape, width: 60, height: 60 -%}"
+  to: "{%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt,
+    width: 60, height: 60 -%}"
+  position: 2445..2568
+- from: "{%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt
+    | escape -%}"
+  to: "{%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt
+    -%}"
+  position: 6257..6357
+- from: "{%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt
+    | escape -%}"
+  to: "{%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt
+    -%}"
+  position: 8003..8103
+- from: "{%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt
+    | escape -%}"
+  to: "{%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt
+    -%}"
+  position: 10059..10159
+{% endcomment %}

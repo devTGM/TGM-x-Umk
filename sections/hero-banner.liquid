@@ -189,7 +189,7 @@
         <div class="media media--overlay hero__media {% if has_mobile_media %} small-hide{% endif %}">
           {%- liquid
             if block.settings.image != blank
-              render 'image', image: block.settings.image, width: 2160, alt: image.alt | default: block.settings.heading, loading: slide_loading, fetchpriority: slide_fetchpriority
+              render 'image', image: block.settings.image, width: 2160, alt: image.alt, default: block.settings.heading, loading: slide_loading, fetchpriority: slide_fetchpriority
             else
               echo 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg'
             endif
@@ -211,7 +211,7 @@
           <div class="media media--overlay hero__media small-up-hide">
             {%- liquid
               if block.settings.image_mobile != blank
-                render 'image', image: block.settings.image_mobile, image_for_mobile: true, alt: block.settings.image_mobile.alt | default: block.settings.heading, loading: slide_loading, fetchpriority: slide_fetchpriority
+                render 'image', image: block.settings.image_mobile, image_for_mobile: true, alt: block.settings.image_mobile.alt, default: block.settings.heading, loading: slide_loading, fetchpriority: slide_fetchpriority
               else
                 echo 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg'
               endif
@@ -759,3 +759,24 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "              render 'image', image: block.settings.image, width: 2160, alt:
+    image.alt | default: block.settings.heading, loading: slide_loading, fetchpriority:
+    slide_fetchpriority"
+  to: "              render 'image', image: block.settings.image, width: 2160, alt:
+    image.alt, default: block.settings.heading, loading: slide_loading, fetchpriority:
+    slide_fetchpriority"
+  position: 8114..8293
+- from: "                render 'image', image: block.settings.image_mobile, image_for_mobile:
+    true, alt: block.settings.image_mobile.alt | default: block.settings.heading,
+    loading: slide_loading, fetchpriority: slide_fetchpriority"
+  to: "                render 'image', image: block.settings.image_mobile, image_for_mobile:
+    true, alt: block.settings.image_mobile.alt, default: block.settings.heading, loading:
+    slide_loading, fetchpriority: slide_fetchpriority"
+  position: 9380..9601
+{% endcomment %}

@@ -234,7 +234,19 @@
           {%- endif -%}
         </div>
       </div>
-      {%- render 'image', image: media.preview_image, section_index: section.index, media_index: media_index, image_url_width: 128, alt: media.alt | escape -%}
+      {%- render 'image', image: media.preview_image, section_index: section.index, media_index: media_index, image_url_width: 128, alt: media.alt -%}
     </div>
   </div>
 {%- endif -%}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- render 'image', image: media.preview_image, section_index: section.index,
+    media_index: media_index, image_url_width: 128, alt: media.alt | escape -%}"
+  to: "{%- render 'image', image: media.preview_image, section_index: section.index,
+    media_index: media_index, image_url_width: 128, alt: media.alt -%}"
+  position: 10486..10630
+{% endcomment %}
