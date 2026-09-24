@@ -160,14 +160,14 @@
       endunless
 
       assign has_desktop_video = false
-      if block.settings.video_external != blank
+      if block.settings.video_external != blank and block.settings.video_external.id != blank
         assign has_desktop_video = true
       elsif block.settings.video != blank and block.settings.video.sources.size > 0
         assign has_desktop_video = true
       endif
 
       assign has_mobile_video = false
-      if block.settings.video_external_mobile != blank
+      if block.settings.video_external_mobile != blank and block.settings.video_external_mobile.id != blank
         assign has_mobile_video = true
       elsif block.settings.video_mobile != blank and block.settings.video_mobile.sources.size > 0
         assign has_mobile_video = true
@@ -193,7 +193,7 @@
       {%- comment -%}MEDIA / DESKTOP & MOBILE{%- endcomment -%}
       {%- if has_desktop_video or has_mobile_video -%}
         {%- comment -%}VIDEO MEDIA / DESKTOP{%- endcomment -%}
-        {%- if block.settings.video_external != blank -%}
+        {%- if block.settings.video_external != blank and block.settings.video_external.id != blank -%}
           <div class="media media--16-9 media--overlay hero__media hero__media--desktop{% if has_mobile_media %} small-hide{% endif %}">
             {% render 'external-video', video: block.settings.video_external, title: block.settings.heading, youtube_container: true, controls: block.settings.show_controls_on_video %}
           </div>
@@ -210,7 +210,7 @@
 
         {%- comment -%}VIDEO MEDIA / MOBILE{%- endcomment -%}
         {%- if has_mobile_media -%}
-          {%- if block.settings.video_external_mobile != blank -%}
+          {%- if block.settings.video_external_mobile != blank and block.settings.video_external_mobile.id != blank -%}
             <div class="media media--16-9 hero__media small-up-hide">
               {% render 'external-video', video: block.settings.video_external_mobile, title: block.settings.heading, youtube_container: true, controls: block.settings.show_controls_on_video_mobile %}
             </div>
