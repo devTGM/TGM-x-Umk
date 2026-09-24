@@ -1,11 +1,48 @@
 <input type="hidden" value="true" id="srCheckoutAutoOnboardClient"/>
-<link rel="preload" as="style" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css">
-<link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css" media="print" onload="this.media='all'">
-<noscript>
-  <link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css">
-</noscript>
-<script src="https://fastrr-boost-ui.pickrr.com/assets/js/channels/shopify.js" defer></script>
-<script src="https://fastrr-boost-ui.pickrr.com/assets/js/channels/shiprocketMarketing.js" defer></script>
+{%- if template.name == 'product' or template.name == 'cart' -%}
+  <link rel="preload" as="style" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css">
+  <link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css">
+  </noscript>
+  <script src="https://fastrr-boost-ui.pickrr.com/assets/js/channels/shopify.js" defer></script>
+  <script src="https://fastrr-boost-ui.pickrr.com/assets/js/channels/shiprocketMarketing.js" defer></script>
+{%- else -%}
+  <script>
+    (function() {
+      let fastrrLoaded = false;
+      function initFastrr() {
+        if (fastrrLoaded) return;
+        fastrrLoaded = true;
+        ['touchstart', 'mouseover', 'scroll', 'keydown', 'click'].forEach(function(e) {
+          window.removeEventListener(e, initFastrr, { passive: true });
+        });
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css';
+        document.head.appendChild(link);
+
+        const s1 = document.createElement('script');
+        s1.src = 'https://fastrr-boost-ui.pickrr.com/assets/js/channels/shopify.js';
+        s1.defer = true;
+        document.body.appendChild(s1);
+
+        const s2 = document.createElement('script');
+        s2.src = 'https://fastrr-boost-ui.pickrr.com/assets/js/channels/shiprocketMarketing.js';
+        s2.defer = true;
+        document.body.appendChild(s2);
+      }
+      ['touchstart', 'mouseover', 'scroll', 'keydown', 'click'].forEach(function(e) {
+        window.addEventListener(e, initFastrr, { once: true, passive: true });
+      });
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() { setTimeout(initFastrr, 5000); });
+      } else {
+        setTimeout(initFastrr, 5000);
+      }
+    })();
+  </script>
+{%- endif -%}
 
 <style>
   .shiprocket-headless{

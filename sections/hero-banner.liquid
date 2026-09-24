@@ -176,47 +176,80 @@
 
     <div class="hero__inner {{ block.settings.banner_layout }} {{ hero_enable_media_overlay | strip }}" data-header-menu-text-color="{{ header_menu_text_color }}">
 
-      {%- comment -%}MEDIA / DESKTOP{%- endcomment -%}
-      {%- if block.settings.video_external != blank -%}
-        <div class="media media--16-9 media--overlay hero__media hero__media--desktop{% if has_mobile_media %} small-hide{% endif %}">
-          {% render 'external-video', video: block.settings.video_external, title: block.settings.heading, youtube_container: true, controls: block.settings.show_controls_on_video %}
-        </div>
-      {%- elsif block.settings.video != blank -%}
-        <div class="media media--16-9 media--overlay hero__media hero__media--desktop{% if has_mobile_media %} small-hide{% endif %}">
-          {{- block.settings.video | video_tag: image_size: '2160x', loop: true, autoplay: true, muted: true, controls: block.settings.show_controls_on_video -}}
-        </div>
-      {%- else -%}
-        <div class="media media--overlay hero__media {% if has_mobile_media %} small-hide{% endif %}">
-          {%- liquid
-            if block.settings.image != blank
-              render 'image', image: block.settings.image, width: 2160, alt: image.alt, default: block.settings.heading, loading: slide_loading, fetchpriority: slide_fetchpriority
-            else
-              echo 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg'
-            endif
-          -%}
-        </div>
-      {%- endif -%}
-
-      {%- comment -%}MEDIA / MOBILE{%- endcomment -%}
-      {%- if has_mobile_media -%}
-        {%- if block.settings.video_external_mobile != blank -%}
-          <div class="media media--16-9 hero__media small-up-hide">
-            {% render 'external-video', video: block.settings.video_external_mobile, title: block.settings.heading, youtube_container: true, controls: block.settings.show_controls_on_video_mobile %}
+      {%- comment -%}MEDIA / DESKTOP & MOBILE{%- endcomment -%}
+      {%- if block.settings.video_external != blank or block.settings.video != blank or block.settings.video_external_mobile != blank or block.settings.video_mobile != blank -%}
+        {%- comment -%}VIDEO MEDIA / DESKTOP{%- endcomment -%}
+        {%- if block.settings.video_external != blank -%}
+          <div class="media media--16-9 media--overlay hero__media hero__media--desktop{% if has_mobile_media %} small-hide{% endif %}">
+            {% render 'external-video', video: block.settings.video_external, title: block.settings.heading, youtube_container: true, controls: block.settings.show_controls_on_video %}
           </div>
-        {%- elsif block.settings.video_mobile != blank -%}
-          <div class="media media--16-9 hero__media small-up-hide">
-            {{- block.settings.video_mobile | video_tag: image_size: '720x', loop: true, autoplay: true, muted: true, controls: block.settings.show_controls_on_video_mobile -}}
+        {%- elsif block.settings.video != blank -%}
+          <div class="media media--16-9 media--overlay hero__media hero__media--desktop{% if has_mobile_media %} small-hide{% endif %}">
+            {{- block.settings.video | video_tag: image_size: '2160x', loop: true, autoplay: true, muted: true, controls: block.settings.show_controls_on_video, preload: 'none' -}}
+          </div>
+        {%- elsif block.settings.image != blank -%}
+          {%- assign hero_desktop_alt = block.settings.image.alt | default: block.settings.heading -%}
+          <div class="media media--overlay hero__media {% if has_mobile_media %} small-hide{% endif %}">
+            {% render 'image', image: block.settings.image, width: 2160, alt: hero_desktop_alt, loading: slide_loading, fetchpriority: slide_fetchpriority %}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%}VIDEO MEDIA / MOBILE{%- endcomment -%}
+        {%- if has_mobile_media -%}
+          {%- if block.settings.video_external_mobile != blank -%}
+            <div class="media media--16-9 hero__media small-up-hide">
+              {% render 'external-video', video: block.settings.video_external_mobile, title: block.settings.heading, youtube_container: true, controls: block.settings.show_controls_on_video_mobile %}
+            </div>
+          {%- elsif block.settings.video_mobile != blank -%}
+            <div class="media media--16-9 hero__media small-up-hide">
+              {{- block.settings.video_mobile | video_tag: image_size: '720x', loop: true, autoplay: true, muted: true, controls: block.settings.show_controls_on_video_mobile, preload: 'none' -}}
+            </div>
+          {%- elsif block.settings.image_mobile != blank -%}
+            {%- assign hero_mobile_alt = block.settings.image_mobile.alt | default: block.settings.heading -%}
+            <div class="media media--overlay hero__media small-up-hide">
+              {% render 'image', image: block.settings.image_mobile, image_for_mobile: true, alt: hero_mobile_alt, loading: slide_loading, fetchpriority: slide_fetchpriority %}
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      {%- else -%}
+        {%- comment -%}IMAGE MEDIA - USE PICTURE TAG WHEN BOTH EXIST TO AVOID DUAL DOWNLOADS{%- endcomment -%}
+        {%- if has_mobile_media and block.settings.image_mobile != blank and block.settings.image != blank -%}
+          <div class="media media--overlay hero__media">
+            <picture style="display:block;width:100%;height:100%;">
+              <source media="(max-width: 749px)" srcset="{% render 'srcset', image: block.settings.image_mobile, widths: '360,480,720,960' %}" sizes="100vw">
+              <source media="(min-width: 750px)" srcset="{% render 'srcset', image: block.settings.image, widths: '1080,1440,1920,2160' %}" sizes="100vw">
+              {%- assign hero_default_img = block.settings.image_mobile | default: block.settings.image -%}
+              <img
+                src="{{ hero_default_img | image_url: width: 720 }}"
+                alt="{{ block.settings.image_mobile.alt | default: block.settings.image.alt | default: block.settings.heading | escape }}"
+                width="{{ hero_default_img.width }}"
+                height="{{ hero_default_img.height }}"
+                loading="{{ slide_loading }}"
+                fetchpriority="{{ slide_fetchpriority }}"
+                style="width:100%;height:100%;object-fit:cover;"
+              >
+            </picture>
           </div>
         {%- else -%}
-          <div class="media media--overlay hero__media small-up-hide">
-            {%- liquid
-              if block.settings.image_mobile != blank
-                render 'image', image: block.settings.image_mobile, image_for_mobile: true, alt: block.settings.image_mobile.alt, default: block.settings.heading, loading: slide_loading, fetchpriority: slide_fetchpriority
-              else
-                echo 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg'
-              endif
-            -%}
-          </div>
+          {%- if block.settings.image != blank -%}
+            {%- assign hero_desktop_alt = block.settings.image.alt | default: block.settings.heading -%}
+            <div class="media media--overlay hero__media {% if has_mobile_media %} small-hide{% endif %}">
+              {% render 'image', image: block.settings.image, width: 2160, alt: hero_desktop_alt, loading: slide_loading, fetchpriority: slide_fetchpriority %}
+            </div>
+          {%- endif -%}
+          {%- if has_mobile_media and block.settings.image_mobile != blank -%}
+            {%- assign hero_mobile_alt = block.settings.image_mobile.alt | default: block.settings.heading -%}
+            <div class="media media--overlay hero__media small-up-hide">
+              {% render 'image', image: block.settings.image_mobile, image_for_mobile: true, alt: hero_mobile_alt, loading: slide_loading, fetchpriority: slide_fetchpriority %}
+            </div>
+          {%- endif -%}
+          {%- if block.settings.image == blank and block.settings.image_mobile == blank -%}
+            <div class="media media--overlay hero__media">
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
         {%- endif -%}
       {%- endif -%}
 

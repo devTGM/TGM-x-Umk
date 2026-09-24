@@ -37,14 +37,6 @@
 
   {%- assign card_sizes = '(max-width: 749px) 50vw, (max-width: 990px) 33vw, 25vw' -%}
 
-  {% comment %} Styles | Product Media {% endcomment %}
-  <style>
-    .product-card__media {
-      --product-card-media-aspect-ratio: {{ settings.product_card_media_aspect_ratio | default: '4/5' }};
-      --product-card-media-object-fit: {{ settings.product_card_media_object_fit | default: 'contain' }};
-    }
-  </style>
-
   {% comment %} Render | Product Media {% endcomment %}
   <div
     class="{{ media_classes }} media-wrapper-fix"
@@ -88,7 +80,7 @@
               if image_render_condition
                 render 'image', image: product_image, attr: attr, image_per_view: image_per_view, loading: loading, sizes: card_sizes
               else
-                render 'image', image: product_image, attr: attr, image_per_view: image_per_view, loading: loading, sizes: card_sizes, class: 'hidden'
+                render 'image', image: product_image, attr: attr, image_per_view: image_per_view, loading: 'lazy', fetchpriority: 'low', sizes: card_sizes, class: 'hidden'
               endif
             endif
           endfor
@@ -97,7 +89,8 @@
         endif
 
         if settings.product_card_media_hover and product_ref.media.size > 1 and hover_media != nil
-          render 'image', image: hover_media, alt: hover_media.alt, default: product_ref.title, class: 'hover-img', image_per_view: image_per_view, sizes: card_sizes
+          assign hover_media_alt = hover_media.alt | default: product_ref.title
+          render "image", image: hover_media, alt: hover_media_alt, class: "hover-img", image_per_view: image_per_view, sizes: card_sizes, loading: "lazy", fetchpriority: "low"
         endif
       else
         echo 'product-1' | placeholder_svg_tag: 'placeholder-svg'

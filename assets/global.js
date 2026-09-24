@@ -55,23 +55,30 @@ if (sectionsOfAnnouncementBar && sectionsOfAnnouncementBar.length > 0) {
     let totalHeights = 0;
 
     sectionsOfAnnouncementBar.forEach((section) => {
-      // calculate total heights and visible heights of all announcement bars before the header
-      Array.from(sectionsOfAnnouncementBar)
-        .forEach((section) => {
-          // console.log(sectionIndex, section);
-          const { height, visibleHeight } = calcSectionHeights(section);
-          totalHeights += height;
-          totalVisibleHeights += visibleHeight;
-      });
+      const { height, visibleHeight } = calcSectionHeights(section);
+      totalHeights += height;
+      totalVisibleHeights += visibleHeight;
     });
     setCustomProperty(`--announcement-bars-before-header-heights`, `${parseFloat(totalHeights)}px`);
     setCustomProperty(`--announcement-bars-before-header-visible-heights`, `${parseFloat(totalVisibleHeights)}px`);
   }
-  // set initial visible heights
-  updateVisibleHeightsOfAnnouncementBars();
-  // update visible heights on scroll and window resize
-  window.addEventListener('scroll', updateVisibleHeightsOfAnnouncementBars, { passive: true });
-  window.addEventListener('resize', updateVisibleHeightsOfAnnouncementBars, { passive: true });
+
+  let announcementBarTicking = false;
+  function onAnnouncementBarScrollOrResize() {
+    if (!announcementBarTicking) {
+      window.requestAnimationFrame(() => {
+        updateVisibleHeightsOfAnnouncementBars();
+        announcementBarTicking = false;
+      });
+      announcementBarTicking = true;
+    }
+  }
+
+  // set initial visible heights after layout
+  window.requestAnimationFrame(updateVisibleHeightsOfAnnouncementBars);
+  // update visible heights on scroll and window resize with rAF throttling
+  window.addEventListener('scroll', onAnnouncementBarScrollOrResize, { passive: true });
+  window.addEventListener('resize', onAnnouncementBarScrollOrResize, { passive: true });
 }
 
 /* PAGE: Collection */
@@ -185,7 +192,11 @@ const throttledSetRootCustomProperties = (function () {
 window.addEventListener("resize", throttledSetRootCustomProperties, { passive: true });
 window.addEventListener("orientationchange", throttledSetRootCustomProperties, { passive: true });
 
-setRootCustomProperties();
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => requestAnimationFrame(setRootCustomProperties));
+} else {
+  requestAnimationFrame(setRootCustomProperties);
+}
 
 if (Shopify.designMode) {
   window.addEventListener("shopify:section:load", setRootCustomProperties);
