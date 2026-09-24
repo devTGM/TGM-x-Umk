@@ -159,7 +159,21 @@
         assign hero_inner_setting_classes = hero_inner_setting_classes | append: ' small-hide-media-overlay'
       endunless
 
-      if block.settings.video_external_mobile != blank or block.settings.video_mobile != blank or block.settings.image_mobile != blank
+      assign has_desktop_video = false
+      if block.settings.video_external != blank
+        assign has_desktop_video = true
+      elsif block.settings.video != blank and block.settings.video.sources.size > 0
+        assign has_desktop_video = true
+      endif
+
+      assign has_mobile_video = false
+      if block.settings.video_external_mobile != blank
+        assign has_mobile_video = true
+      elsif block.settings.video_mobile != blank and block.settings.video_mobile.sources.size > 0
+        assign has_mobile_video = true
+      endif
+
+      if has_mobile_video or block.settings.image_mobile != blank
         assign has_mobile_media = true
       endif
 
@@ -177,13 +191,13 @@
     <div class="hero__inner {{ block.settings.banner_layout }} {{ hero_enable_media_overlay | strip }}" data-header-menu-text-color="{{ header_menu_text_color }}">
 
       {%- comment -%}MEDIA / DESKTOP & MOBILE{%- endcomment -%}
-      {%- if block.settings.video_external != blank or block.settings.video != blank or block.settings.video_external_mobile != blank or block.settings.video_mobile != blank -%}
+      {%- if has_desktop_video or has_mobile_video -%}
         {%- comment -%}VIDEO MEDIA / DESKTOP{%- endcomment -%}
         {%- if block.settings.video_external != blank -%}
           <div class="media media--16-9 media--overlay hero__media hero__media--desktop{% if has_mobile_media %} small-hide{% endif %}">
             {% render 'external-video', video: block.settings.video_external, title: block.settings.heading, youtube_container: true, controls: block.settings.show_controls_on_video %}
           </div>
-        {%- elsif block.settings.video != blank -%}
+        {%- elsif block.settings.video != blank and block.settings.video.sources.size > 0 -%}
           <div class="media media--16-9 media--overlay hero__media hero__media--desktop{% if has_mobile_media %} small-hide{% endif %}">
             {{- block.settings.video | video_tag: image_size: '2160x', loop: true, autoplay: true, muted: true, controls: block.settings.show_controls_on_video, preload: 'none' -}}
           </div>
@@ -200,7 +214,7 @@
             <div class="media media--16-9 hero__media small-up-hide">
               {% render 'external-video', video: block.settings.video_external_mobile, title: block.settings.heading, youtube_container: true, controls: block.settings.show_controls_on_video_mobile %}
             </div>
-          {%- elsif block.settings.video_mobile != blank -%}
+          {%- elsif block.settings.video_mobile != blank and block.settings.video_mobile.sources.size > 0 -%}
             <div class="media media--16-9 hero__media small-up-hide">
               {{- block.settings.video_mobile | video_tag: image_size: '720x', loop: true, autoplay: true, muted: true, controls: block.settings.show_controls_on_video_mobile, preload: 'none' -}}
             </div>

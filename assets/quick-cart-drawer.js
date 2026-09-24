@@ -83,6 +83,7 @@
     }
 
     open() {
+      if (window.initFastrr) window.initFastrr();
       this.toggleState = true;
       this.style.display = "flex";
       document.body.classList.add("overflow-hidden");

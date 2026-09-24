@@ -14,9 +14,7 @@
       function initFastrr() {
         if (fastrrLoaded) return;
         fastrrLoaded = true;
-        ['touchstart', 'mouseover', 'scroll', 'keydown', 'click'].forEach(function(e) {
-          window.removeEventListener(e, initFastrr, { passive: true });
-        });
+
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = 'https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css';
@@ -32,14 +30,19 @@
         s2.defer = true;
         document.body.appendChild(s2);
       }
-      ['touchstart', 'mouseover', 'scroll', 'keydown', 'click'].forEach(function(e) {
-        window.addEventListener(e, initFastrr, { once: true, passive: true });
-      });
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(function() { setTimeout(initFastrr, 5000); });
-      } else {
-        setTimeout(initFastrr, 5000);
-      }
+      window.initFastrr = initFastrr;
+
+      document.addEventListener('pointerdown', function(e) {
+        if (e.target && e.target.closest && e.target.closest('quick-cart-drawer, .quick-cart-drawer, [data-open-drawer], [data-cart-drawer], .button-add-to-cart, button[name="add"], a[href*="/cart"], .header__icon--cart, .product-card__actions, .product-card')) {
+          initFastrr();
+        }
+      }, { passive: true });
+
+      document.addEventListener('opened', function(e) {
+        if (e.target && e.target.tagName && e.target.tagName.toLowerCase().includes('cart')) {
+          initFastrr();
+        }
+      }, { passive: true });
     })();
   </script>
 {%- endif -%}
