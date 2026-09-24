@@ -227,7 +227,7 @@
         {%- endif -%}
       {%- else -%}
         {%- comment -%}IMAGE MEDIA - USE PICTURE TAG WHEN BOTH EXIST TO AVOID DUAL DOWNLOADS{%- endcomment -%}
-        {%- if has_mobile_media and block.settings.image_mobile != blank and block.settings.image != blank -%}
+        {%- if block.settings.image != blank and block.settings.image_mobile != blank -%}
           <div class="media media--overlay hero__media">
             <picture style="display:block;width:100%;height:100%;">
               <source media="(max-width: 749px)" srcset="{% render 'srcset', image: block.settings.image_mobile, widths: '360,480,720,960' %}" sizes="100vw">
