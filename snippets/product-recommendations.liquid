@@ -42,7 +42,9 @@
                 </p>
                 <div class="block-content">
                   {%- if recommendation.featured_image -%}
-                    {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt, width: 60, height: 60 -%}
+                    <div class="block-image">
+                      {%- render 'image', image: recommendation.featured_image, alt: recommendation.featured_image.alt, width: 60, height: 60 -%}
+                    </div>
                   {%- endif -%}
                   <div class="block-details">
                     <p class="product-title"><a href="{{ recommendation.url }}" style="text-decoration: none; color: inherit;">{{ recommendation.title }}</a></p>
@@ -65,11 +67,13 @@
               <div class="custom-cart-block bundle-save-block">
                 <div class="bundle-content">
                   <p class="bundle-title">BUNDLE & SAVE</p>
-                  <p class="bundle-desc"><a href="{{ recommendation.url }}" style="text-decoration: none; color: inherit;">{{ recommendation.title }} for </a>
-                    {%- if recommendation.compare_at_price_min > recommendation.price_min -%}
-                      <s>{{ recommendation.compare_at_price_min | money }}</s>
-                    {%- endif -%}
-                    <strong>{{ recommendation.price_min | money }}</strong>
+                  <p class="bundle-desc"><a href="{{ recommendation.url }}" style="text-decoration: none; color: inherit;">{{ recommendation.title }}</a> for 
+                    <span class="bundle-price">
+                      {%- if recommendation.compare_at_price_min > recommendation.price_min -%}
+                        <s>{{ recommendation.compare_at_price_min | money }}</s>
+                      {%- endif -%}
+                      <strong>{{ recommendation.price_min | money }}</strong>
+                    </span>
                   </p>
                 </div>
                 {%- if is_single_variant -%}

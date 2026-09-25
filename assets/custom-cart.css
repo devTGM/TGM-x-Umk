@@ -136,12 +136,19 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 .custom-cart-block {
   background: #fff;
   border-radius: 12px;
   padding: 12px 16px;
   border: 1px solid #eaeaea;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
 }
 .sneaker-wipes-block .block-title {
   font-weight: bold;
@@ -158,13 +165,39 @@
   color: #228b22;
 }
 .block-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+.block-content .block-image,
+.sneaker-wipes-block .block-image {
+  flex: 0 0 60px !important;
+  width: 60px !important;
+  height: 60px !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  display: block !important;
+}
+.block-content img,
+.sneaker-wipes-block .block-content img,
+.block-image img {
+  width: 60px !important;
+  height: 60px !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  flex: 0 0 60px !important;
+  flex-shrink: 0 !important;
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  display: block !important;
 }
 .block-details {
-  flex: 1;
-  min-width: 0; /* allows text truncation in flex child */
+  flex: 1 1 auto !important;
+  min-width: 0 !important; /* allows text truncation in flex child */
 }
 .product-title {
   font-size: 13px;
@@ -175,6 +208,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  word-break: break-word;
+  line-height: 1.3;
 }
 .product-price {
   font-size: 14px;
@@ -183,6 +218,10 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 4px;
+}
+.product-price strong,
+.product-price s {
+  white-space: nowrap;
 }
 .product-price s {
   color: #999;
@@ -232,18 +271,34 @@
   font-weight: 400;
   margin-top: -2px;
 }
-.block-add-btn {
+.block-add-btn,
+.custom-cart-block .block-add-btn,
+.custom-cart-block .block-add-btn.quick-cart-drawer__trigger,
+.block-content .block-add-btn,
+.block-content .quick-cart-drawer__trigger,
+.bundle-save-block .block-add-btn,
+.bundle-save-block .quick-cart-drawer__trigger {
+  width: auto !important;
+  max-width: fit-content !important;
+  min-width: 75px !important;
+  flex: 0 0 auto !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
   padding: 0 16px !important;
-  min-width: 80px;
-  flex-shrink: 0;
+  height: 36px !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
 }
 .black-btn {
   padding: 0 16px !important;
   min-width: 80px;
   flex-shrink: 0;
 }
-.carousel-add-btn {
-  width: 100%;
+.carousel-add-btn,
+.bestseller-card .carousel-add-btn {
+  width: 100% !important;
+  flex: 1 1 100% !important;
+  max-width: 100% !important;
 }
 
 .coupons-block {
@@ -279,14 +334,16 @@
 }
 
 .bundle-save-block {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 .bundle-content {
-  flex: 1;
-  min-width: 0;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
 }
 .bundle-title {
   font-weight: bold;
@@ -297,9 +354,19 @@
   font-size: 13px;
   margin: 0;
   color: #666;
+  line-height: 1.35;
+  word-break: break-word;
 }
 .bundle-desc s {
   margin-right: 4px;
+  white-space: nowrap;
+}
+.bundle-desc strong {
+  white-space: nowrap;
+}
+.bundle-price {
+  white-space: nowrap !important;
+  display: inline-block !important;
 }
 
 /* Footer redesign */
@@ -513,9 +580,15 @@
   .custom-cart-blocks {
     padding: 12px;
     gap: 12px;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
   .custom-cart-block {
     padding: 12px;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
   .sneaker-wipes-block .block-title,
   .bundle-title,
@@ -524,6 +597,7 @@
   }
   .bundle-desc {
     font-size: 12px;
+    line-height: 1.3;
   }
   .bestseller-slider-container {
     padding: 12px;
@@ -572,6 +646,14 @@
   }
   
   /* Additional mobile fixes for first block */
+  .sneaker-wipes-block .block-content .block-image,
+  .sneaker-wipes-block .block-content img {
+    width: 55px !important;
+    height: 55px !important;
+    min-width: 55px !important;
+    max-width: 55px !important;
+    flex: 0 0 55px !important;
+  }
   .sneaker-wipes-block .block-details .product-title {
     font-size: 12px;
     margin-bottom: 2px;
@@ -589,10 +671,21 @@
     font-size: 16px;
   }
   .block-add-btn,
-  .black-btn {
+  .black-btn,
+  .custom-cart-block .block-add-btn,
+  .custom-cart-block .block-add-btn.quick-cart-drawer__trigger,
+  .block-content .block-add-btn,
+  .bundle-save-block .block-add-btn {
+    width: auto !important;
+    max-width: fit-content !important;
+    min-width: 65px !important;
+    flex: 0 0 auto !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
     padding: 0 12px !important;
-    min-width: 60px;
-    flex-shrink: 0;
+    height: 32px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
   }
 }
 
