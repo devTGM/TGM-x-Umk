@@ -171,6 +171,9 @@ class CartDrawer extends HTMLElement {
       : console.error("Cart link not found");
   }
   open(e) {
+    if (typeof window.initFastrr === "function") {
+      window.initFastrr();
+    }
     (e && this.setActiveElement(e),
       this.classList.add("is-visible"),
       (document.querySelector("body").style.overflow = "hidden"),

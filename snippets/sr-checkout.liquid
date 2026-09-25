@@ -1,5 +1,5 @@
 <input type="hidden" value="true" id="srCheckoutAutoOnboardClient"/>
-{%- if template.name == 'product' or template.name == 'cart' -%}
+{%- if template.name == 'product' or template.name == 'cart' or cart.item_count > 0 -%}
   <link rel="preload" as="style" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css">
   <link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css" media="print" onload="this.media='all'">
   <noscript>
@@ -33,7 +33,7 @@
       window.initFastrr = initFastrr;
 
       document.addEventListener('pointerdown', function(e) {
-        if (e.target && e.target.closest && e.target.closest('quick-cart-drawer, .quick-cart-drawer, [data-open-drawer], [data-cart-drawer], .button-add-to-cart, button[name="add"], a[href*="/cart"], .header__icon--cart, .product-card__actions, .product-card')) {
+        if (e.target && e.target.closest && e.target.closest('cart-drawer, .cart-drawer, quick-cart-drawer, .quick-cart-drawer, [data-open-drawer], [data-cart-drawer], .button-add-to-cart, button[name="add"], a[href*="/cart"], .header__icon--cart, .product-card__actions, .product-card, .custom-checkout-btn')) {
           initFastrr();
         }
       }, { passive: true });
@@ -46,6 +46,118 @@
     })();
   </script>
 {%- endif -%}
+
+<script>
+  (function() {
+    function getCheckoutHandler() {
+      if (window.shiprocketCheckoutEvents && typeof window.shiprocketCheckoutEvents.buyCart === 'function') {
+        return window.shiprocketCheckoutEvents.buyCart;
+      }
+      if (typeof window.shiprocketCheckoutBuyCartHandler === 'function') {
+        return window.shiprocketCheckoutBuyCartHandler;
+      }
+      return null;
+    }
+
+    function handleSrCheckout(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      // Validate Terms & Conditions if present
+      const termsCheckbox = document.getElementById('Terms-Conditions');
+      if (termsCheckbox && !termsCheckbox.checked) {
+        termsCheckbox.focus();
+        if (typeof termsCheckbox.reportValidity === 'function') {
+          termsCheckbox.reportValidity();
+        }
+        return;
+      }
+
+      const btn = (e && (e.currentTarget || (e.target && e.target.closest && e.target.closest('.custom-checkout-btn, button[name="checkout"], .cart__summary-button')))) || document.querySelector('.custom-checkout-btn, button[name="checkout"]');
+      if (btn) {
+        btn.classList.add('is-loading');
+        btn.style.opacity = '0.7';
+        btn.style.pointerEvents = 'none';
+      }
+
+      function restoreBtn() {
+        if (btn) {
+          btn.classList.remove('is-loading');
+          btn.style.opacity = '';
+          btn.style.pointerEvents = '';
+        }
+      }
+
+      if (typeof window.initFastrr === 'function') {
+        window.initFastrr();
+      }
+
+      const handler = getCheckoutHandler();
+      if (handler) {
+        try {
+          handler(e);
+          setTimeout(restoreBtn, 2000);
+          return;
+        } catch(err) {
+          console.error('[Sr-checkout] Error invoking handler:', err);
+        }
+      }
+
+      // If script is still loading, wait and retry
+      let attempts = 0;
+      const interval = setInterval(function() {
+        attempts++;
+        const h = getCheckoutHandler();
+        if (h) {
+          clearInterval(interval);
+          try {
+            h(e);
+            setTimeout(restoreBtn, 2000);
+          } catch(err) {
+            console.error('[Sr-checkout] Async invocation error:', err);
+            restoreBtn();
+          }
+        } else if (attempts >= 60) {
+          clearInterval(interval);
+          restoreBtn();
+          console.warn('[Sr-checkout] Timeout waiting for Fastrr, submitting standard form');
+          const form = btn ? btn.closest('form') : document.getElementById('CartDrawer-FormSummary');
+          if (form) {
+            form.submit();
+          } else {
+            window.location.href = '/checkout';
+          }
+        }
+      }, 50);
+    }
+    window.handleSrCheckout = handleSrCheckout;
+
+    // Intercept checkout clicks in cart drawer and cart page
+    document.addEventListener('click', function(e) {
+      const target = e.target;
+      if (!target || !target.closest) return;
+      const btn = target.closest('.custom-checkout-btn, [data-checkout-button]');
+      if (btn) {
+        handleSrCheckout(e);
+        return;
+      }
+      const checkoutNameBtn = target.closest('button[name="checkout"], .cart__summary-button');
+      if (checkoutNameBtn && checkoutNameBtn.closest('cart-drawer, .cart-drawer, #CartDrawer-FormSummary, #cart-summary, .cart__summary, .cart-drawer__action-buttons, .cart__actions')) {
+        handleSrCheckout(e);
+      }
+    }, true);
+
+    // Intercept submit on cart drawer form
+    document.addEventListener('submit', function(e) {
+      const form = e.target;
+      if (form && (form.id === 'CartDrawer-FormSummary' || form.classList.contains('cart-drawer__form-summary'))) {
+        handleSrCheckout(e);
+      }
+    }, true);
+  })();
+</script>
 
 <style>
   .shiprocket-headless{

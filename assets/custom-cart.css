@@ -364,6 +364,11 @@
 .custom-checkout-btn::after {
   display: none !important;
 }
+.custom-checkout-btn.is-loading {
+  opacity: 0.7 !important;
+  pointer-events: none !important;
+  cursor: wait !important;
+}
 .checkout-text {
   font-weight: bold;
   font-size: 16px;
