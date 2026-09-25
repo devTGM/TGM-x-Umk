@@ -189,6 +189,7 @@
     -%}
 
     <div class="hero__inner {{ block.settings.banner_layout }} {{ hero_enable_media_overlay | strip }}" data-header-menu-text-color="{{ header_menu_text_color }}">
+      <!-- DEBUG_SLIDE: video={{ block.settings.video | json }} | ext={{ block.settings.video_external | json }} | vmob={{ block.settings.video_mobile | json }} | extmob={{ block.settings.video_external_mobile | json }} | has_d_vid={{ has_desktop_video }} | has_m_vid={{ has_mobile_video }} | has_m_media={{ has_mobile_media }} -->
 
       {%- comment -%}MEDIA / DESKTOP & MOBILE{%- endcomment -%}
       {%- if has_desktop_video or has_mobile_video -%}
