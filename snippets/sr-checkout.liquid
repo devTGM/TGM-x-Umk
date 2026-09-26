@@ -1,6 +1,6 @@
 <input type="hidden" value="true" id="srCheckoutAutoOnboardClient"/>
 <link rel="preload" as="style" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css">
-<link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css">
 <noscript>
   <link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css">
 </noscript>
@@ -9,6 +9,8 @@
 
 <script>
   (function() {
+    var isInitiating = false;
+
     function getCheckoutHandler() {
       if (window.shiprocketCheckoutEvents && typeof window.shiprocketCheckoutEvents.buyCart === 'function') {
         return function(e) {
@@ -29,9 +31,14 @@
         if (typeof e.stopPropagation === 'function') e.stopPropagation();
       }
 
+      if (isInitiating) return;
+      isInitiating = true;
+      setTimeout(function() { isInitiating = false; }, 3000);
+
       // Validate Terms & Conditions if present
       const termsCheckbox = document.getElementById('Terms-Conditions');
       if (termsCheckbox && !termsCheckbox.checked) {
+        isInitiating = false;
         termsCheckbox.focus();
         if (typeof termsCheckbox.reportValidity === 'function') {
           termsCheckbox.reportValidity();
@@ -39,18 +46,41 @@
         return;
       }
 
-      const btn = (e && (e.currentTarget || (e.target && e.target.closest && e.target.closest('.custom-checkout-btn, button[name="checkout"], .cart__summary-button')))) || document.querySelector('.custom-checkout-btn, button[name="checkout"]');
-      if (btn) {
+      // Safely resolve the button element without ever selecting `document`
+      var btn = null;
+      if (e && e.target && typeof e.target.closest === 'function') {
+        btn = e.target.closest('.custom-checkout-btn, button[name="checkout"], .cart__summary-button, [data-checkout-button]');
+      }
+      if (!btn && e && e.currentTarget && typeof e.currentTarget.closest === 'function') {
+        btn = e.currentTarget.closest('.custom-checkout-btn, button[name="checkout"], .cart__summary-button, [data-checkout-button]');
+      }
+      if (!btn) {
+        btn = document.querySelector('.custom-checkout-btn, button[name="checkout"], .cart__summary-button, [data-checkout-button]');
+      }
+
+      function restoreBtn() {
+        if (btn && btn.classList && typeof btn.classList.remove === 'function') {
+          btn.classList.remove('is-loading');
+          btn.style.opacity = '';
+          btn.style.pointerEvents = '';
+        }
+      }
+
+      if (btn && btn.classList && typeof btn.classList.add === 'function') {
         btn.classList.add('is-loading');
         btn.style.opacity = '0.7';
         btn.style.pointerEvents = 'none';
       }
 
-      function restoreBtn() {
-        if (btn) {
-          btn.classList.remove('is-loading');
-          btn.style.opacity = '';
-          btn.style.pointerEvents = '';
+      // If native headless Fastrr button exists, click it directly
+      var nativeSrBtn = document.querySelector('.sr-headless-checkout, .shiprocket-headless button');
+      if (nativeSrBtn && typeof nativeSrBtn.click === 'function') {
+        try {
+          nativeSrBtn.click();
+          setTimeout(restoreBtn, 2500);
+          return;
+        } catch(err) {
+          console.warn('[Sr-checkout] Error clicking nativeSrBtn:', err);
         }
       }
 
@@ -91,7 +121,7 @@
     // Intercept checkout clicks in cart drawer and cart page
     document.addEventListener('click', function(e) {
       const target = e.target;
-      if (!target || !target.closest) return;
+      if (!target || typeof target.closest !== 'function') return;
       const btn = target.closest('.custom-checkout-btn, [data-checkout-button]');
       if (btn) {
         handleSrCheckout(e);
@@ -106,8 +136,10 @@
     // Intercept submit on cart drawer form to ensure it never routes to native checkout
     document.addEventListener('submit', function(e) {
       const form = e.target;
-      if (form && (form.id === 'CartDrawer-FormSummary' || form.classList.contains('cart-drawer__form-summary'))) {
+      if (form && (form.id === 'CartDrawer-FormSummary' || (form.classList && form.classList.contains('cart-drawer__form-summary')))) {
+        if (typeof e.preventDefault === 'function') e.preventDefault();
         handleSrCheckout(e);
+        return false;
       }
     }, true);
   })();

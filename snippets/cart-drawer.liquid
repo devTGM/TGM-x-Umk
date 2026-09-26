@@ -147,10 +147,10 @@
             <div class="cart-drawer__bottom">
               <div class="cart-drawer__summary">
                 <form
-                  action="{{- routes.cart_url -}}"
+                  action="javascript:void(0);"
                   id="CartDrawer-FormSummary"
                   class="cart-drawer__form-summary"
-                  method="post"
+                  method="dialog"
                   onsubmit="event.preventDefault(); if (window.handleSrCheckout) { window.handleSrCheckout(event); } return false;"
                 >
                   <div id="cart-summary">
@@ -200,7 +200,8 @@
                         </div>
                       {%- endif -%}
                       <div class="cart-drawer__action-buttons custom-checkout-wrapper">
-                        <button type="button" class="button button--solid button--full-width custom-checkout-btn" onclick="if (window.handleSrCheckout) { window.handleSrCheckout(event); }">
+                        <div class="shiprocket-headless" data-type="mini-cart" style="display:none !important;"></div>
+                        <button type="button" class="button button--solid button--full-width custom-checkout-btn" onclick="event.preventDefault(); if (window.handleSrCheckout) { window.handleSrCheckout(event); } return false;">
                           <span class="checkout-text">Checkout</span>
                           <span class="checkout-icons">
                             <svg viewBox="0 0 24 24" width="24" height="24" style="background:#fff;border-radius:50%;padding:2px;"><circle cx="12" cy="12" r="10" fill="#00baf2"/><text x="12" y="16" font-size="10" font-family="Arial" font-weight="bold" fill="white" text-anchor="middle">Pay</text></svg>
@@ -212,6 +213,19 @@
                     </div>
                   </div>
                 </form>
+                <script>
+                  (function() {
+                    var f = document.getElementById('CartDrawer-FormSummary');
+                    if (f) {
+                      f.submit = function() {
+                        if (window.handleSrCheckout) {
+                          window.handleSrCheckout();
+                        }
+                        return false;
+                      };
+                    }
+                  })();
+                </script>
               </div>
             </div>
           {%- endif -%}
