@@ -151,6 +151,7 @@
                   id="CartDrawer-FormSummary"
                   class="cart-drawer__form-summary"
                   method="post"
+                  onsubmit="event.preventDefault(); if (window.handleSrCheckout) { window.handleSrCheckout(event); } return false;"
                 >
                   <div id="cart-summary">
                     <div class="cart-drawer__summary-total-wrapper">
@@ -199,7 +200,7 @@
                         </div>
                       {%- endif -%}
                       <div class="cart-drawer__action-buttons custom-checkout-wrapper">
-                        <button type="button" name="checkout" class="button button--solid button--full-width custom-checkout-btn" onclick="window.handleSrCheckout && window.handleSrCheckout(event)">
+                        <button type="button" class="button button--solid button--full-width custom-checkout-btn" onclick="if (window.handleSrCheckout) { window.handleSrCheckout(event); }">
                           <span class="checkout-text">Checkout</span>
                           <span class="checkout-icons">
                             <svg viewBox="0 0 24 24" width="24" height="24" style="background:#fff;border-radius:50%;padding:2px;"><circle cx="12" cy="12" r="10" fill="#00baf2"/><text x="12" y="16" font-size="10" font-family="Arial" font-weight="bold" fill="white" text-anchor="middle">Pay</text></svg>

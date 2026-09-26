@@ -1,68 +1,32 @@
 <input type="hidden" value="true" id="srCheckoutAutoOnboardClient"/>
-{%- if template.name == 'product' or template.name == 'cart' or cart.item_count > 0 -%}
-  <link rel="preload" as="style" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css">
-  <link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css" media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css">
-  </noscript>
-  <script src="https://fastrr-boost-ui.pickrr.com/assets/js/channels/shopify.js" defer></script>
-  <script src="https://fastrr-boost-ui.pickrr.com/assets/js/channels/shiprocketMarketing.js" defer></script>
-{%- else -%}
-  <script>
-    (function() {
-      let fastrrLoaded = false;
-      function initFastrr() {
-        if (fastrrLoaded) return;
-        fastrrLoaded = true;
-
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css';
-        document.head.appendChild(link);
-
-        const s1 = document.createElement('script');
-        s1.src = 'https://fastrr-boost-ui.pickrr.com/assets/js/channels/shopify.js';
-        s1.defer = true;
-        document.body.appendChild(s1);
-
-        const s2 = document.createElement('script');
-        s2.src = 'https://fastrr-boost-ui.pickrr.com/assets/js/channels/shiprocketMarketing.js';
-        s2.defer = true;
-        document.body.appendChild(s2);
-      }
-      window.initFastrr = initFastrr;
-
-      document.addEventListener('pointerdown', function(e) {
-        if (e.target && e.target.closest && e.target.closest('cart-drawer, .cart-drawer, quick-cart-drawer, .quick-cart-drawer, [data-open-drawer], [data-cart-drawer], .button-add-to-cart, button[name="add"], a[href*="/cart"], .header__icon--cart, .product-card__actions, .product-card, .custom-checkout-btn')) {
-          initFastrr();
-        }
-      }, { passive: true });
-
-      document.addEventListener('opened', function(e) {
-        if (e.target && e.target.tagName && e.target.tagName.toLowerCase().includes('cart')) {
-          initFastrr();
-        }
-      }, { passive: true });
-    })();
-  </script>
-{%- endif -%}
+<link rel="preload" as="style" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css">
+<link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css" media="print" onload="this.media='all'">
+<noscript>
+  <link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/sr-checkout.css">
+</noscript>
+<script src="https://fastrr-boost-ui.pickrr.com/assets/js/channels/shopify.js" defer></script>
+<script src="https://fastrr-boost-ui.pickrr.com/assets/js/channels/shiprocketMarketing.js" defer></script>
 
 <script>
   (function() {
     function getCheckoutHandler() {
       if (window.shiprocketCheckoutEvents && typeof window.shiprocketCheckoutEvents.buyCart === 'function') {
-        return window.shiprocketCheckoutEvents.buyCart;
+        return function(e) {
+          window.shiprocketCheckoutEvents.buyCart(e);
+        };
       }
       if (typeof window.shiprocketCheckoutBuyCartHandler === 'function') {
-        return window.shiprocketCheckoutBuyCartHandler;
+        return function(e) {
+          window.shiprocketCheckoutBuyCartHandler(e);
+        };
       }
       return null;
     }
 
     function handleSrCheckout(e) {
       if (e) {
-        e.preventDefault();
-        e.stopPropagation();
+        if (typeof e.preventDefault === 'function') e.preventDefault();
+        if (typeof e.stopPropagation === 'function') e.stopPropagation();
       }
 
       // Validate Terms & Conditions if present
@@ -90,22 +54,18 @@
         }
       }
 
-      if (typeof window.initFastrr === 'function') {
-        window.initFastrr();
-      }
-
       const handler = getCheckoutHandler();
       if (handler) {
         try {
           handler(e);
-          setTimeout(restoreBtn, 2000);
+          setTimeout(restoreBtn, 2500);
           return;
         } catch(err) {
           console.error('[Sr-checkout] Error invoking handler:', err);
         }
       }
 
-      // If script is still loading, wait and retry
+      // If script is still loading in background, wait and retry up to 10 seconds
       let attempts = 0;
       const interval = setInterval(function() {
         attempts++;
@@ -114,23 +74,17 @@
           clearInterval(interval);
           try {
             h(e);
-            setTimeout(restoreBtn, 2000);
+            setTimeout(restoreBtn, 2500);
           } catch(err) {
             console.error('[Sr-checkout] Async invocation error:', err);
             restoreBtn();
           }
-        } else if (attempts >= 60) {
+        } else if (attempts >= 100) {
           clearInterval(interval);
           restoreBtn();
-          console.warn('[Sr-checkout] Timeout waiting for Fastrr, submitting standard form');
-          const form = btn ? btn.closest('form') : document.getElementById('CartDrawer-FormSummary');
-          if (form) {
-            form.submit();
-          } else {
-            window.location.href = '/checkout';
-          }
+          console.warn('[Sr-checkout] Timeout waiting for Shiprocket checkout script');
         }
-      }, 50);
+      }, 100);
     }
     window.handleSrCheckout = handleSrCheckout;
 
@@ -149,7 +103,7 @@
       }
     }, true);
 
-    // Intercept submit on cart drawer form
+    // Intercept submit on cart drawer form to ensure it never routes to native checkout
     document.addEventListener('submit', function(e) {
       const form = e.target;
       if (form && (form.id === 'CartDrawer-FormSummary' || form.classList.contains('cart-drawer__form-summary'))) {
