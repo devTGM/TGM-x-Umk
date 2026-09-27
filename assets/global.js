@@ -2192,6 +2192,10 @@ if (!customElements.get("product-card")) {
     submitAddToCartForm(event) {
       event.preventDefault();
 
+      this.cart =
+        document.querySelector("cart-notification") ||
+        document.querySelector("cart-drawer");
+
       this.submitButton.setAttribute("disabled", "");
       this.submitButton.classList.add("add-to-cart--is-disabled");
 
