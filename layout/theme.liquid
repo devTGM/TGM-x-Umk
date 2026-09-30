@@ -79,14 +79,7 @@
       }
     </script>
     {% render 'sr-checkout' %}
-    <script>
-      window.addEventListener('load', function() {
-        var s = document.createElement('script');
-        s.src = 'https://unpkg.com/spf-analytics@1.0.0/index.js';
-        s.defer = true;
-        document.body.appendChild(s);
-      });
-    </script>
+    
   </head>
 
   <body class="template template--{{ template.name }}{% if template.suffix %} template--{{- template.suffix -}}{% endif %} is-at-top">
