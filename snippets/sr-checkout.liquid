@@ -9,6 +9,7 @@
 
 <script>
   (function() {
+    window.initFastrr = window.initFastrr || function() {};
     var isInitiating = false;
 
     function getCheckoutHandler() {
@@ -20,6 +21,18 @@
       if (typeof window.shiprocketCheckoutBuyCartHandler === 'function') {
         return function(e) {
           window.shiprocketCheckoutBuyCartHandler(e);
+        };
+      }
+      if (window.HeadlessCheckout && typeof window.HeadlessCheckout.checkout === 'function') {
+        return function(e) {
+          window.HeadlessCheckout.checkout(e);
+        };
+      }
+      // Strictly scoped fallback only to cart/mini-cart headless buttons (never product page buy-now buttons)
+      var nativeCartBtn = document.querySelector('.shiprocket-headless[data-type="mini-cart"] button, .shiprocket-headless[data-type="cart"] button, cart-drawer .shiprocket-headless button');
+      if (nativeCartBtn && typeof nativeCartBtn.click === 'function') {
+        return function() {
+          nativeCartBtn.click();
         };
       }
       return null;
@@ -72,49 +85,47 @@
         btn.style.pointerEvents = 'none';
       }
 
-      // If native headless Fastrr button exists, click it directly
-      var nativeSrBtn = document.querySelector('.sr-headless-checkout, .shiprocket-headless button');
-      if (nativeSrBtn && typeof nativeSrBtn.click === 'function') {
-        try {
-          nativeSrBtn.click();
-          setTimeout(restoreBtn, 2500);
-          return;
-        } catch(err) {
-          console.warn('[Sr-checkout] Error clicking nativeSrBtn:', err);
-        }
-      }
-
-      const handler = getCheckoutHandler();
-      if (handler) {
-        try {
-          handler(e);
-          setTimeout(restoreBtn, 2500);
-          return;
-        } catch(err) {
-          console.error('[Sr-checkout] Error invoking handler:', err);
-        }
-      }
-
-      // If script is still loading in background, wait and retry up to 10 seconds
-      let attempts = 0;
-      const interval = setInterval(function() {
-        attempts++;
-        const h = getCheckoutHandler();
-        if (h) {
-          clearInterval(interval);
+      function executeCheckout() {
+        const handler = getCheckoutHandler();
+        if (handler) {
           try {
-            h(e);
+            handler(e);
             setTimeout(restoreBtn, 2500);
+            return;
           } catch(err) {
-            console.error('[Sr-checkout] Async invocation error:', err);
-            restoreBtn();
+            console.error('[Sr-checkout] Error invoking handler:', err);
           }
-        } else if (attempts >= 100) {
-          clearInterval(interval);
-          restoreBtn();
-          console.warn('[Sr-checkout] Timeout waiting for Shiprocket checkout script');
         }
-      }, 100);
+
+        // If script is still loading in background, wait and retry up to 10 seconds
+        let attempts = 0;
+        const interval = setInterval(function() {
+          attempts++;
+          const h = getCheckoutHandler();
+          if (h) {
+            clearInterval(interval);
+            try {
+              h(e);
+              setTimeout(restoreBtn, 2500);
+            } catch(err) {
+              console.error('[Sr-checkout] Async invocation error:', err);
+              restoreBtn();
+            }
+          } else if (attempts >= 100) {
+            clearInterval(interval);
+            restoreBtn();
+            console.warn('[Sr-checkout] Timeout waiting for Shiprocket checkout script');
+          }
+        }, 100);
+      }
+
+      // If cart drawer is currently updating line items (e.g. quantity change), wait briefly for it to settle
+      var isCartBusy = document.querySelector('cart-drawer-items.is-loading, .cart-drawer-items.is-loading, cart-items.is-loading, .cart-items.is-loading');
+      if (isCartBusy) {
+        setTimeout(executeCheckout, 300);
+      } else {
+        executeCheckout();
+      }
     }
     window.handleSrCheckout = handleSrCheckout;
 
@@ -133,10 +144,10 @@
       }
     }, true);
 
-    // Intercept submit on cart drawer form to ensure it never routes to native checkout
+    // Intercept submit on cart drawer and cart page forms to ensure they route to Shiprocket checkout
     document.addEventListener('submit', function(e) {
       const form = e.target;
-      if (form && (form.id === 'CartDrawer-FormSummary' || (form.classList && form.classList.contains('cart-drawer__form-summary')))) {
+      if (form && (form.id === 'CartDrawer-FormSummary' || form.id === 'cart' || (form.classList && (form.classList.contains('cart-drawer__form-summary') || form.classList.contains('cart__contents'))))) {
         if (typeof e.preventDefault === 'function') e.preventDefault();
         handleSrCheckout(e);
         return false;
