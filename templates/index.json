@@ -1653,8 +1653,8 @@
         "collection_tnfiFH": {
           "type": "collection",
           "settings": {
-            "title": "Sneakers",
-            "collection": "on-cloud",
+            "title": "PROTEIN BAR",
+            "collection": "david",
             "products": [],
             "vendor": "",
             "collection_of_products": "",
@@ -1714,10 +1714,10 @@
         "heading_size": "h4",
         "subheading": "",
         "button_label": "View all",
-        "button_link": "shopify://collections/jordans",
+        "button_link": "shopify://collections/david",
         "button_style": "button--text",
         "max_products": 8,
-        "enable_slideshow_overflow": false,
+        "enable_slideshow_overflow": true,
         "show_navigation_arrows": true,
         "slideshow_autoplay_interval": 0,
         "tab_button_style": "button--text",
@@ -1821,8 +1821,8 @@
         "collection_WCmpma": {
           "type": "collection",
           "settings": {
-            "title": "Hellstar",
-            "collection": "hellstar",
+            "title": "Barebell",
+            "collection": "barbell-protein-bar",
             "products": [],
             "vendor": "",
             "collection_of_products": "",
@@ -1842,11 +1842,11 @@
       "name": "t:sections.featured-products.name",
       "settings": {
         "layout": "layout-1",
-        "heading": "Hellstar",
+        "heading": "Barebell",
         "heading_size": "h4",
         "subheading": "",
         "button_label": "View all",
-        "button_link": "shopify://collections/hellstar",
+        "button_link": "shopify://collections/barbell-protein-bar",
         "button_style": "button--text",
         "max_products": 8,
         "enable_slideshow_overflow": false,
