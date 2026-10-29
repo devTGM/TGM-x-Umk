@@ -149,6 +149,7 @@
         },
         "b2dabe12-2158-4ba6-bc54-9baae453acf5": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "spacing_bottom": "1",
             "heading": "Free delivery on Orders above ₹ 14,999",
