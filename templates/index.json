@@ -51,13 +51,13 @@
             "header_menu_text_color": "#ffffff",
             "heading": "",
             "subheading": "",
-            "subheading_link": "shopify://collections/david",
+            "subheading_link": "shopify://collections/david-protein",
             "text": "",
-            "button_link_1": "shopify://collections/david",
+            "button_link_1": "shopify://collections/david-protein",
             "button_link_1_type": "card",
             "button_label_1": "",
             "button_style_1": "button--filled",
-            "button_link_2": "shopify://collections/david",
+            "button_link_2": "shopify://collections/david-protein",
             "button_label_2": "",
             "button_style_2": "button--outlined",
             "content_position": "end",
@@ -1385,7 +1385,7 @@
         "collection_med6e8": {
           "type": "collection",
           "settings": {
-            "collection": "david",
+            "collection": "david-protein",
             "image": "shopify://shop_images/DAVID_1__jpg.jpg",
             "title": ""
           }
@@ -1654,7 +1654,7 @@
           "type": "collection",
           "settings": {
             "title": "PROTEIN BAR",
-            "collection": "david",
+            "collection": "david-protein",
             "products": [],
             "vendor": "",
             "collection_of_products": "",
@@ -1714,7 +1714,7 @@
         "heading_size": "h4",
         "subheading": "",
         "button_label": "View all",
-        "button_link": "shopify://collections/david",
+        "button_link": "shopify://collections/david-protein",
         "button_style": "button--text",
         "max_products": 8,
         "enable_slideshow_overflow": true,
