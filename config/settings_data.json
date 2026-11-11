@@ -35,9 +35,9 @@
     "product_card_badge_position": "start",
     "product_card_price_position": "normal",
     "product_card_action_buttons_color_scheme": "scheme-6",
-    "product_card_add_to_cart_btn_content": "icon",
     "product_card_enable_quick_add_to_cart_button": true,
     "product_card_enable_single_add_to_cart_button": true,
+    "product_card_add_to_cart_btn_content": "icon",
     "swatches_option": "Color",
     "product_card_variants_display_limit": 2,
     "swatches_shape": "circle",
@@ -64,7 +64,7 @@
     "share_linkedin": true,
     "share_instagram": true,
     "share_facebook": true,
-    "favicon": "shopify://shop_images/6B277319-63C5-44B8-BEF9-18A0FCAF410B.png",
+    "favicon": "shopify://shop_images/Unmatched_Supply_two-line_logo.png",
     "max_image_url_width": "1",
     "disable_image_widths_limitation": true,
     "product_card_add_to_cart_display": "quick-cart",
@@ -86,6 +86,12 @@
           "color_scheme": "scheme-1",
           "spacing_top": "0",
           "spacing_bottom": "0"
+        }
+      },
+      "quick-cart-drawer": {
+        "type": "quick-cart-drawer",
+        "settings": {
+          "color_scheme": ""
         }
       }
     },
