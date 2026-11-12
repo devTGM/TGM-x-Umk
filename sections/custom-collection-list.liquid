@@ -168,13 +168,21 @@
           {%- liquid
             assign collection_detail = block.settings.collection
             assign collection_title = block.settings.title
+            assign collection_accessible_label = collection_title | default: collection_detail.title | default: 'Collection'
+            if collection_detail.handle == 'david-protein' or collection_detail.handle == 'david'
+              if collection_title == blank
+                assign collection_accessible_label = 'David Protein Bars in India'
+              endif
+            endif
             assign collection_image = block.settings.image | default: collection_detail.featured_image
+            assign collection_image_alt = collection_image.alt | default: collection_accessible_label
           -%}
-          <a href="{{ collection_detail.url | default: '#' }}" class="custom-collection-card" {{ block.shopify_attributes }}>
+          <a href="{{ collection_detail.url | default: '#' }}" class="custom-collection-card" aria-label="{{ collection_accessible_label | escape }}" {{ block.shopify_attributes }}>
             {%- if collection_image != blank -%}
               {%- render 'image',
                 image: collection_image,
                 class: 'custom-collection-card__image',
+                alt: collection_image_alt,
                 sizes: '(max-width: 749px) 48vw, (max-width: 990px) 32vw, 20vw',
                 width: 600,
                 loading: 'lazy'

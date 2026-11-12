@@ -59,6 +59,26 @@
 
 <div class="collection js-animation-fade-in color-{{ section.settings.color_scheme }} filters--{{ section.settings.filters }} {{ settings.card_product_layout }}">
 
+  {%- if section.index == 1 and collection != blank -%}
+    {%- liquid
+      assign collection_h1_title = collection.title
+      assign collection_h1_subtitle = ''
+      if collection.handle == 'david-protein' or collection.handle == 'david'
+        assign collection_title_check = collection.title | strip | downcase
+        if collection_title_check == 'david' or collection_title_check == 'david protein'
+          assign collection_h1_title = 'David Protein Bars in India'
+        endif
+        assign collection_h1_subtitle = 'Shop 100% authentic David Protein Gold (28g protein, 150 cal, 0g sugar) and David Protein Bronze (20g protein, 150 cal, 0g sugar) 12-bar packs stocked in Mumbai with transparent INR pricing and zero customs fees.'
+      endif
+    -%}
+    <div class="container {{ section.settings.section_width }}" style="padding-block-end: var(--spacing-3);">
+      <h1 class="collection__title h3">{{- collection_h1_title | escape -}}</h1>
+      {%- if collection_h1_subtitle != blank -%}
+        <p class="collection__subtitle" style="margin: 0; max-width: 78ch; opacity: 0.85;">{{- collection_h1_subtitle -}}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
   {{ facets_html }}
 
   <div class="container {{ section.settings.section_width }} collection__container{% if section.settings.pagination_style == 'load_more' and section.settings.enable_infinity_scroll %} infinity-scroll-active{% endif %}" id="ProductGridContainer">

@@ -8,56 +8,147 @@
     }
   {%- endstyle -%}
 
+  {%- liquid
+    assign rendered_section_heading = section.settings.heading
+    assign is_david_faq_fallback = false
+    assign is_david_handle = false
+    if collection != blank
+      if collection.handle == 'david-protein' or collection.handle == 'david'
+        assign is_david_handle = true
+      endif
+    endif
+    assign is_david_suffix = false
+    if template.suffix == 'david' or template.suffix == 'david-protein'
+      assign is_david_suffix = true
+    endif
+    if template.name == 'collection' and is_david_handle and is_david_suffix == false and section.settings.heading contains '{{ collection.title }}'
+      assign is_david_faq_fallback = true
+    elsif collection != blank
+      assign rendered_section_heading = rendered_section_heading | replace: '{{ collection.title }}', collection.title | replace: '{{collection.title}}', collection.title
+    endif
+  -%}
+
   <div class="accordions color-{{ section.settings.color_scheme }} gradient js-animation-fade-in">
     <div class="container {{ section.settings.section_width }}">
-      {%- if section.settings.heading != blank -%}
-        <h2 class="section__heading {{ section.settings.heading_size }}">
-          {{- section.settings.heading -}}
-        </h2>
+      {%- if is_david_faq_fallback -%}
+        {%- render 'david-collection-faqs', heading_size: section.settings.heading_size -%}
+      {%- else -%}
+        {%- if rendered_section_heading != blank -%}
+          <h2 class="section__heading {{ section.settings.heading_size }}">
+            {{- rendered_section_heading -}}
+          </h2>
+        {%- endif -%}
+
+        <accordion-default class="accordion" data-hide-multiple>
+          {%- for block in section.blocks -%}
+            {%- liquid
+              if block.settings.title == blank
+                continue
+              elsif block.settings.text == blank and block.settings.page == blank
+                continue
+              endif
+
+              assign block_title = block.settings.title
+              assign block_body = ''
+              if block.settings.page != blank and block.settings.page.content != blank
+                assign block_body = block.settings.page.content
+              elsif block.settings.text != blank
+                assign block_body = block.settings.text
+              endif
+
+              if collection != blank
+                assign block_title = block_title | replace: '{{ collection.title }}', collection.title | replace: '{{collection.title}}', collection.title
+                assign block_body = block_body | replace: '{{ collection.title }}', collection.title | replace: '{{collection.title}}', collection.title
+              endif
+
+              if block_body == blank
+                continue
+              endif
+
+              if block.settings.is_open
+                assign details_class = ' is-active default-active'
+                assign details_attr = 'open'
+              else
+                assign details_class = blank
+                assign details_attr = blank
+              endif
+            -%}
+
+            <details class="accordion__section{{ details_class }}" id="Details-{{- block.id -}}" {{ details_attr }} {{- block.shopify_attributes -}}>
+              <summary class="accordion__button h6 js-btn" id="Details-Summary-{{- block.id -}}">
+                <div class="accordion__button-text">
+                  {{- block_title | escape -}}
+                </div>
+                <div class="accordion__icon">
+                  {% render 'icon', icon_name: 'theme-chevron-down' %}
+                </div>
+              </summary>
+
+              <div class="accordion__body" id="Details-Content-{{- block.id -}}">
+                <div class="accordion__body-inner">
+                  {{- block_body -}}
+                </div>
+              </div>
+            </details>
+          {%- endfor -%}
+        </accordion-default>
       {%- endif -%}
-
-      <accordion-default class="accordion" data-hide-multiple>
-        {%- for block in section.blocks -%}
-          {%- liquid
-            if block.settings.title == blank
-              continue
-            elsif block.settings.text == blank and block.settings.page == blank
-              continue
-            endif
-
-            if block.settings.is_open
-              assign details_class = ' is-active default-active'
-              assign details_attr = 'open'
-            else
-              assign details_class = blank
-              assign details_attr = blank
-            endif
-          -%}
-
-          <details class="accordion__section{{ details_class }}" id="Details-{{- block.id -}}" {{ details_attr }} {{- block.shopify_attributes -}}>
-            <summary class="accordion__button h6 js-btn" id="Details-Summary-{{- block.id -}}">
-              <div class="accordion__button-text">
-                {{- block.settings.title | escape -}}
-              </div>
-              <div class="accordion__icon">
-                {% render 'icon', icon_name: 'theme-chevron-down' %}
-              </div>
-            </summary>
-
-            <div class="accordion__body" id="Details-Content-{{- block.id -}}">
-              <div class="accordion__body-inner">
-                {%- if block.settings.page != blank and block.settings.page.content != blank -%}
-                  {{- block.settings.page.content -}}
-                {%- elsif block.settings.text != blank -%}
-                  {{- block.settings.text -}}
-                {%- endif -%}
-              </div>
-            </div>
-          </details>
-        {%- endfor -%}
-      </accordion-default>
     </div>
   </div>
+
+  {%- unless section.settings.enable_faq_schema == false or is_david_faq_fallback -%}
+    {%- capture faq_items_json -%}
+      {%- assign has_faq_item = false -%}
+      {%- for block in section.blocks -%}
+        {%- liquid
+          if block.settings.title == blank
+            continue
+          endif
+
+          assign faq_question = block.settings.title
+          assign faq_answer = ''
+          if block.settings.page != blank and block.settings.page.content != blank
+            assign faq_answer = block.settings.page.content
+          elsif block.settings.text != blank
+            assign faq_answer = block.settings.text
+          endif
+
+          if collection != blank
+            assign faq_question = faq_question | replace: '{{ collection.title }}', collection.title | replace: '{{collection.title}}', collection.title
+            assign faq_answer = faq_answer | replace: '{{ collection.title }}', collection.title | replace: '{{collection.title}}', collection.title
+          endif
+
+          assign faq_question_clean = faq_question | strip_html | strip_newlines | strip
+          assign faq_answer_clean = faq_answer | replace: '</p>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' ' | replace: '<br>', ' ' | replace: '</li>', '; ' | replace: '&nbsp;', ' ' | strip_html | strip_newlines | strip
+        -%}
+        {%- if faq_question_clean != blank and faq_answer_clean != blank -%}
+          {%- if has_faq_item -%},{%- endif -%}
+          {
+            "@type": "Question",
+            "name": {{ faq_question_clean | json }},
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": {{ faq_answer_clean | json }}
+            }
+          }
+          {%- assign has_faq_item = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- assign faq_items_trimmed = faq_items_json | strip -%}
+    {%- if faq_items_trimmed != blank -%}
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {{ faq_items_trimmed }}
+          ]
+        }
+      </script>
+    {%- endif -%}
+  {%- endunless -%}
 {%- endif -%}
 
 {% schema %}
@@ -71,6 +162,12 @@
       "id": "heading",
       "label": "t:sections.global.element.heading.label",
       "default": "Frequently asked questions"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_faq_schema",
+      "label": "Enable FAQ schema (JSON-LD)",
+      "default": true
     },
     {
       "type": "select",

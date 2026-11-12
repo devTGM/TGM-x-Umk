@@ -12,18 +12,45 @@
   }
 {%- endstyle -%}
 
+{%- liquid
+  assign rendered_heading = section.settings.heading
+  assign rendered_text = section.settings.text
+  assign is_david_default_fallback = false
+  assign is_david_handle = false
+  if collection != blank
+    if collection.handle == 'david-protein' or collection.handle == 'david'
+      assign is_david_handle = true
+    endif
+  endif
+  assign is_david_suffix = false
+  if template.suffix == 'david' or template.suffix == 'david-protein'
+    assign is_david_suffix = true
+  endif
+  if template.name == 'collection' and is_david_handle and is_david_suffix == false and section.settings.heading contains '{{ collection.title }}'
+    assign is_david_default_fallback = true
+  elsif collection != blank
+    assign rendered_heading = rendered_heading | replace: '{{ collection.title }}', collection.title | replace: '{{collection.title}}', collection.title
+    assign rendered_text = rendered_text | replace: '{{ collection.title }}', collection.title | replace: '{{collection.title}}', collection.title
+  endif
+  assign seo_heading_tag = section.settings.heading_tag | default: 'h2'
+-%}
+
 <div class="{%- if section.settings.section_layout == 'boxed' -%}container {{ section.settings.section_width }}{%- else -%}color-{{ section.settings.color_scheme }} gradient{%- endif -%}">
   <div class="{%- if section.settings.section_layout == 'normal' -%}container {{ section.settings.section_width }}{%- else -%}color-{{ section.settings.color_scheme }} gradient{%- endif -%}">
     <div class="seo-content js-animation-fade-in">
       <div class="text-{{ section.settings.content_alignment }}">
-        {%- if section.settings.heading != blank -%}
-          <h2 class="section__heading {{ section.settings.heading_size }}">
-            {{- section.settings.heading -}}
-          </h2>
+        {%- if is_david_default_fallback -%}
+          {%- render 'david-collection-seo-content', heading_size: section.settings.heading_size -%}
+        {%- else -%}
+          {%- if rendered_heading != blank -%}
+            <{{ seo_heading_tag }} class="section__heading {{ section.settings.heading_size }}">
+              {{- rendered_heading -}}
+            </{{ seo_heading_tag }}>
+          {%- endif -%}
+          <div class="rte">
+            {{- rendered_text -}}
+          </div>
         {%- endif -%}
-        <div class="rte">
-          {{- section.settings.text -}}
-        </div>
       </div>
     </div>
   </div>
@@ -56,6 +83,22 @@
       "id": "heading",
       "label": "t:sections.global.element.heading.label",
       "default": "Heading for rich text section"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h1",
+          "label": "H1"
+        }
+      ],
+      "default": "h2"
     },
     {
       "type": "select",

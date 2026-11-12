@@ -1,1 +1,69 @@
-{"sections":{"1658995208ad05f95f":{"type":"hero-banner","blocks":{"e3867974-072c-4cfe-968e-a10d22e8941a":{"type":"slide","settings":{"banner_layout":"hero-banner--full","header_menu_text_color":"#ffffff","video_external":"","enable_media_overlay_desktop":true,"video_external_mobile":"","enable_media_overlay_mobile":true}}},"block_order":["e3867974-072c-4cfe-968e-a10d22e8941a"],"settings":{}},"9585dbdf-5519-43bd-a4c5-6aa99afe9a31":{"type":"seo-content","settings":{}},"b9e1f375-bbe3-49e0-b449-eff934bd3497":{"type":"blog-articles","settings":{"heading":"Blog","blog":"","button_text":"Visit Blog","layout":"layout-2","content_alignment":"text-center","button_style":"button--filled"}}},"order":["1658995208ad05f95f","9585dbdf-5519-43bd-a4c5-6aa99afe9a31","b9e1f375-bbe3-49e0-b449-eff934bd3497"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "breadcrumbs": true,
+        "show_page_title": true,
+        "page_title_alignment": "text-start",
+        "info_title": "ABOUT UNMATCHED SUPPLY",
+        "info_content": "<p>Founded in 2022, <strong>Unmatched Supply</strong> (formerly <strong>Unmatched Kicks</strong> / <strong>UNMATCHEDSUPPLY</strong>) is an independent Indian resale retailer specializing in 100% authentic global streetwear, performance activewear, athleisure, limited-edition sneakers, and fitness supplements.</p><p>We source sought-after products through verified secondary market channels and trusted suppliers, making international drops accessible across India without customs hassles or inflated overseas wait times.</p><h4>OUR MISSION</h4><p>Our mission is to bring authentic global streetwear, gym wear, and sneaker culture to India with transparency, reliability, and speed.</p><h4>WHAT WE OFFER</h4><p>Our catalog curates international brands including <strong>Gymshark, YoungLA, Alo Yoga, Fear of God Essentials, Lululemon, Stussy, Supreme, Nike Air Jordan, Nike Dunks, Yeezy</strong>, and fitness supplements such as <strong>Ghost</strong> and <strong>David Protein</strong> — with Instant Ship options on select in-stock items.</p><h4>AUTHENTICITY & INSPECTION</h4><p>Every product handled by Unmatched Supply undergoes a thorough quality and authenticity inspection at our Mumbai facility before dispatch, examining packaging, tags, labels, stitching, and materials. We do not sell counterfeit items.</p><h4>OPERATIONS & PAN-INDIA DELIVERY</h4><p>Orders are verified, packed, and shipped nationwide from our registered Mumbai facility (Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai, Maharashtra 400052) using tracked courier partners, with zero additional customs fees at delivery.</p><h4>CONNECT WITH US</h4><p>Website: <a href=\"https://www.unmatchedsupply.com\">https://www.unmatchedsupply.com</a><br/>Instagram: <a href=\"https://www.instagram.com/unmatchedkicks.in\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.instagram.com/unmatchedkicks.in</a><br/>WhatsApp: +91 77100 96203<br/>Email: <a href=\"mailto:unmatchedkicks@gmail.com\">unmatchedkicks@gmail.com</a></p><h4>INDEPENDENT RETAILER NOTICE</h4><p>Unmatched Supply operates as an independent resale retailer and is not officially affiliated with or endorsed by the third-party brands featured in our catalog. All trademarks belong to their respective owners.</p>",
+        "section_width": "max-w-narrower",
+        "color_scheme": "scheme-1",
+        "spacing_top": "2",
+        "spacing_bottom": "2"
+      }
+    },
+    "faq_about_us": {
+      "type": "accordions",
+      "name": "t:sections.accordions.name",
+      "blocks": {
+        "topic_who": {
+          "type": "topic",
+          "settings": {
+            "is_open": true,
+            "title": "What is Unmatched Supply?",
+            "text": "<p>Unmatched Supply (formerly Unmatched Kicks) is an Indian independent resale retailer founded in 2022 and headquartered in Khar West, Mumbai. We offer 100% authentic global streetwear, performance activewear, athleisure, sneakers, and fitness supplements with Pan-India delivery.</p>",
+            "page": ""
+          }
+        },
+        "topic_authenticity": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How does Unmatched Supply verify product authenticity?",
+            "text": "<p>Every product is inspected at our Mumbai facility before dispatch, checking packaging, tags, labels, and construction details to confirm it is 100% genuine.</p>",
+            "page": ""
+          }
+        },
+        "topic_shipping": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Do orders from Unmatched Supply include customs charges?",
+            "text": "<p>No. Items stocked in India ship Pan-India via tracked courier with no hidden customs duties at checkout or delivery, and select products qualify for Instant Ship.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "topic_who",
+        "topic_authenticity",
+        "topic_shipping"
+      ],
+      "settings": {
+        "heading": "Unmatched Supply Quick Facts",
+        "enable_faq_schema": true,
+        "heading_size": "h3",
+        "section_width": "max-w-narrower",
+        "color_scheme": "scheme-1",
+        "spacing_top": "2",
+        "spacing_bottom": "4"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "faq_about_us"
+  ]
+}

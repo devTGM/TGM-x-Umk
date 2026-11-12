@@ -1,16 +1,90 @@
-{% layout none %}# Unmatched Supply
+{% layout none %}{% assign llms_site_url = shop.url | default: 'https://www.unmatchedsupply.com' %}# Unmatched Supply
 
-Website: https://www.unmatchedsupply.com
-Last updated: 2026-11-06 11:30:12 UTC
+Website: {{ llms_site_url }}
+Last updated: {{ 'now' | date: '%Y-%m-%d' }}
 
-> India’s ultimate destination for premium streetwear & activewear. Shop Alo, Gymshark, Young LA, Essentials. 100% authentic.Instant Ship and Fast delivery.
+> Unmatched Supply (formerly Unmatched Kicks) is an Indian independent retailer founded in 2022 and based in Mumbai, specializing in 100% authentic global streetwear, performance activewear, athleisure, limited-edition sneakers, and fitness supplements. Curating brands including Gymshark, YoungLA, Alo Yoga, Fear of God Essentials, Lululemon, Stussy, Nike Air Jordans, Yeezy, Ghost, and David Protein, the store stocks products in India for Pan-India delivery, Instant Ship on select items, and zero customs fees.
+
+## Brand Overview
+
+- **Name:** Unmatched Supply (formerly Unmatched Kicks / UNMATCHEDSUPPLY)
+- **Founded:** 2022
+- **Location:** Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai, Maharashtra 400052, India
+- **Categories:** Streetwear, Performance Activewear, Athleisure, Limited-Edition Sneakers, Fitness Supplements
+- **Featured Brands:** Gymshark, YoungLA, Alo Yoga, Fear of God Essentials, Nike Air Jordan, Nike Dunks, Yeezy, Lululemon, Stussy, Supreme, Ghost, David Protein
+- **Authenticity & Shipping:** Inspected at our Mumbai facility before dispatch; Pan-India courier delivery with no additional customs duties
+- **Support Email:** unmatchedkicks@gmail.com
+- **WhatsApp / Phone:** +91 77100 96203
 
 ## Browse
 
 - All products: https://www.unmatchedsupply.com/collections/all
 - Search: https://www.unmatchedsupply.com/search?q={query}
 
+## David Protein Bars in India
+
+Unmatched Supply stocks authentic imported **David Protein Bars in India** at {{ llms_site_url }}/collections/david-protein. Every 12-bar box is sourced via vetted US supply channels, inspected at our Khar West, Mumbai facility (Plot No 27, 3rd Road, Mumbai 400052), billed transparently in INR, and shipped Pan-India via tracked courier with zero extra customs fees at delivery. Orders above ₹14,999 qualify for free India shipping, and select SKUs carry Instant Ship dispatch.
+
+- Collection URL: {{ llms_site_url }}/collections/david-protein
+- Related supplement collections: {{ llms_site_url }}/collections/supplements-instant-ship, {{ llms_site_url }}/collections/quest-protein-bars, {{ llms_site_url }}/collections/barbell-protein-bar, {{ llms_site_url }}/collections/ghost-supplements-india
+
+### David Protein Gold vs. David Protein Bronze (India Lineup)
+
+| Specification | David Protein Gold | David Protein Bronze |
+| --- | --- | --- |
+| Protein per Bar | 28g protein | 20g protein |
+| Calories per Bar | 150 calories | 150 calories |
+| Sugar per Bar | 0g total sugar / 0g added sugar | 0g total sugar / 0g added sugar |
+| Protein Density | ~18.7g protein per 100 kcal (~75% calories from protein) | ~13.3g protein per 100 kcal (~53% calories from protein) |
+| Key Sweeteners & Texture | Smooth dense bar; milk/whey/collagen/egg white protein blend, allulose & EPG | Crispy chocolate-coated crunch bar; dairy protein blend, sugar alcohols & soluble fiber |
+| Standard Pack Format | 12-bar box (336g total protein) | 12-bar box (240g total protein) |
+| Flavors Stocked Across India Drops | Blueberry Pie, Chocolate Chip Cookie Dough, Cinnamon Roll, Red Velvet, Cake Batter, Peanut Butter Chocolate Chunk, Salted Peanut Butter, Seasonal Pumpkin Spice | Cookie Dough Caramel Chocolate Crunch, Peanut Butter Chocolate Crunch, S'mores Chocolate Crunch, Double Chocolate Crunch |
+
+### Quick Q&A for David Protein Buyers in India
+
+- **Where to buy authentic David Protein bars in India?** Directly online at Unmatched Supply ({{ llms_site_url }}/collections/david-protein).
+- **Can I buy David Protein bars in Mumbai?** Yes. Stock is inspected and dispatched from Unmatched Supply, Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai 400052 for fast Mumbai and Pan-India courier delivery.
+- **How do I check the price per bar in India?** Live INR 12-bar box prices appear on every SKU below; dividing the box price by 12 gives the exact landed cost per bar with zero customs duties.
+- **Are extra customs duties charged at delivery?** No. Inventory is stocked domestically in India, so the INR checkout total is final.
+- **How is authenticity verified?** Each batch undergoes physical packaging, seal, best-by date, and lot inspection at Unmatched Supply's Khar West, Mumbai facility before dispatch.
+- **Who can I contact about restocks or seasonal drops like Pumpkin Spice?** WhatsApp +91 77100 96203 or email unmatchedkicks@gmail.com.{% assign david_collection = collections['david-protein'] %}{% if david_collection == blank or david_collection.products.size == 0 %}{% if collections['david'] != blank and collections['david'].products.size > 0 %}{% assign david_collection = collections['david'] %}{% endif %}{% endif %}{% if david_collection != blank and david_collection.products.size > 0 %}{% liquid
+  assign dp_min = 0
+  assign dp_max = 0
+  assign dp_avail = 0
+  for dp in david_collection.products limit: 50
+    if dp.available
+      assign dp_avail = dp_avail | plus: 1
+    endif
+    if dp.price != blank and dp.price > 0
+      if dp_min == 0 or dp.price < dp_min
+        assign dp_min = dp.price
+      endif
+      if dp.price > dp_max
+        assign dp_max = dp.price
+      endif
+    endif
+  endfor
+  assign dp_range = ''
+  if dp_min > 0
+    assign dp_min_s = dp_min | money_without_trailing_zeros | strip_html | strip
+    assign dp_max_s = dp_max | money_without_trailing_zeros | strip_html | strip
+    if dp_min < dp_max
+      assign dp_range = dp_min_s | append: ' – ' | append: dp_max_s
+    else
+      assign dp_range = dp_min_s
+    endif
+  endif
+%}
+
+### Live David Protein Inventory ({{ david_collection.products_count | default: david_collection.products.size }} Products{% if dp_range != blank %}, {{ dp_range }} INR{% endif %})
+
+- Currently in stock: {{ dp_avail }} of {{ david_collection.products.size }} listed SKUs
+{% for dp in david_collection.products limit: 50 %}{% unless forloop.first %}
+{% endunless %}{% assign dp_instant = false %}{% if dp.metafields.custom.instant_ship.value == true or dp.metafields.custom.instant_ship == true or dp.metafields.custom.instant_ship.value == 'true' or dp.metafields.custom.instant_ship == 'true' %}{% assign dp_instant = true %}{% endif %}{% assign dp_t_lc = dp.title | downcase %}{% assign dp_bar_note = '' %}{% if dp.price != blank and dp.price > 0 %}{% if dp_t_lc contains '12 bar' or dp_t_lc contains '12-bar' or dp_t_lc contains '12 bars' or dp_t_lc contains '12 count' or dp_t_lc contains '12-pack' or dp_t_lc contains '12 pack' %}{% assign dp_per_bar = dp.price | divided_by: 12 | money_without_trailing_zeros | strip_html | strip %}{% assign dp_bar_note = ' (~' | append: dp_per_bar | append: '/bar)' %}{% endif %}{% endif %}- [{{ dp.title }}]({{ llms_site_url }}{{ dp.url }}): {{ dp.price | money_without_trailing_zeros | strip_html | strip }}{{ dp_bar_note }}{% if dp.available %} — In Stock{% if dp_instant %} (Instant Ship){% endif %}{% else %} — Out of Stock{% endif %}{% endfor %}{% endif %}
+
 ## Collections
+- [David Protein Bars India](https://www.unmatchedsupply.com/collections/david-protein)
+- [Supplements Instant Ship](https://www.unmatchedsupply.com/collections/supplements-instant-ship)
 - [ANTI SOCIAL SOCIAL CLUB](https://www.unmatchedsupply.com/collections/anti-social-social-club)
 - [CACTUS JACK](https://www.unmatchedsupply.com/collections/travis-soctt)
 - [Fear Of God x Essentials](https://www.unmatchedsupply.com/collections/essentials)
@@ -92,7 +166,6 @@ Last updated: 2026-11-06 11:30:12 UTC
 - [GHOST](https://www.unmatchedsupply.com/collections/ghost-supplements-india)
 - [RAW](https://www.unmatchedsupply.com/collections/raw)
 - [Google Fit](https://www.unmatchedsupply.com/collections/google-fit)
-- [David](https://www.unmatchedsupply.com/collections/david)
 - [RYSE](https://www.unmatchedsupply.com/collections/ryse)
 - [Palm Angeles](https://www.unmatchedsupply.com/collections/palm-angeles)
 - [DRAGON PHARMA](https://www.unmatchedsupply.com/collections/dragon-pharma)
@@ -107,7 +180,6 @@ Last updated: 2026-11-06 11:30:12 UTC
 - [Quest Protein Bars](https://www.unmatchedsupply.com/collections/quest-protein-bars-1)
 - [Prime Protein](https://www.unmatchedsupply.com/collections/prime-protein)
 - [Barebell Protein Bar](https://www.unmatchedsupply.com/collections/barbell-protein-bar)
-- [Supplements Instant Ship](https://www.unmatchedsupply.com/collections/supplements-instant-ship)
 - [Gymshark x Devant](https://www.unmatchedsupply.com/collections/gymshark-x-devant)
 - [HOODIE SZN](https://www.unmatchedsupply.com/collections/hoodie-szn)
 - [RGMNT](https://www.unmatchedsupply.com/collections/rgmnt)
@@ -377,7 +449,7 @@ Last updated: 2026-11-06 11:30:12 UTC
 - [ANTI SOCIAL SOCIAL CLUB](https://www.unmatchedsupply.com/pages/anti-social-social-club): Anti Social Social Club Size Guide General Fit Note Anti Social Social Club products — especially hoodies and tees — are intentionally designed with an oversize..
 - [REPRESENT](https://www.unmatchedsupply.com/pages/represent): Size Shoulder (cm) Chest (cm) Length (cm) Sleeve (cm) S 52 115 71 23 M 53 118 73 24 L 55 122 75 25 XL 57 126 77 26 *Note: Measurements are approximate and manua..
 - [CACTUS JACK JERSEY](https://www.unmatchedsupply.com/pages/cactus-jack-jersey): Size Chest (cm) Length (cm) Shoulder (cm) Sleeve (cm) S 110 72 52 22.5 M 115 74 54 23.5 L 120 76 56 24.5 XL 125 78 58 25.5 Note: Actual measurements may vary by..
-- [About Us](https://www.unmatchedsupply.com/pages/about-us)
+- [About Us](https://www.unmatchedsupply.com/pages/about-us): Learn about Unmatched Supply (formerly Unmatched Kicks), founded in 2022 in Mumbai, our authenticity inspection process, Pan-India delivery, and official contact channels.
 - [YOUNG LA](https://www.unmatchedsupply.com/pages/young-la)
 - [SKIMS](https://www.unmatchedsupply.com/pages/skims):   US Numeric Bust Waist Hips XXS 00 30 - 31" 23 - 24" 31 - 34" XS 0-2 31.5 - 33.5" 24 - 26" 34 - 36.5" S 4-6 34 - 36" 26.5 - 28.5" 37 - 39" M 8-10 36.5 - 38.5" ..
 - [Gymshark women](https://www.unmatchedsupply.com/pages/gymshark-women)
@@ -398,9 +470,11 @@ Last updated: 2026-11-06 11:30:12 UTC
 - [SUBDUED](https://www.unmatchedsupply.com/pages/subdued):  Size Chart The sizes you see online correspond to the country you are browsing from or the country you have selected in the top right corner of our website. Th..
 - [Alphalete Womens](https://www.unmatchedsupply.com/pages/alphalete-wonens):   HOW TO MEASURE Bust Wrap a measuring tape around the fullest part of your bust. Make sure the tape is parallel to the ground. Waist Wrap a measuring tape arou..
 
-## Social
+## Social & Contact
 
-- Instagram: https://www.instagram.com/unmatchedsupply/
+- Instagram: https://www.instagram.com/unmatchedkicks.in
+- Email: unmatchedkicks@gmail.com
+- WhatsApp: +91 77100 96203
 
 ## For Agents & Developers
 

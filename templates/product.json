@@ -12,6 +12,10 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "breadcrumbs": {
+          "type": "breadcrumbs",
+          "settings": {}
+        },
         "badge_c8gmNc": {
           "type": "badge",
           "settings": {
@@ -118,7 +122,7 @@
           "settings": {
             "spacing_bottom": "1",
             "heading": "Our Commitment",
-            "row_content": "<p>Delivering <em>unmatched</em> satisfaction to every sneakerhead with exceptional service and premium-quality products from <em>Unmatched Supply.</em></p>",
+            "row_content": "<p>Delivering <em>unmatched</em> satisfaction to every customer with exceptional service and premium-quality products from <em>Unmatched Supply.</em></p>",
             "icon": "theme-box",
             "custom_icon": "shopify://shop_images/pact.png",
             "page": "",
@@ -230,6 +234,7 @@
         }
       },
       "block_order": [
+        "breadcrumbs",
         "badge_c8gmNc",
         "1e0c79e9-7de0-4eee-b9c5-f27132635fb8",
         "8effeb43-55b7-4ec4-ab9b-68bcd89b865b",

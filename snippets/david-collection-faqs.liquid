@@ -1,0 +1,245 @@
+{%- comment -%}
+  David Protein Bar India FAQ fallback (HTML accordion + FAQPage JSON-LD)
+  used when /collections/david-protein or /collections/david renders on the default collection template.
+{%- endcomment -%}
+{%- liquid
+  assign q1 = 'Where can I buy authentic David Protein bars in India?'
+  assign a1 = 'You can buy 100% authentic David Protein bars in India directly online at Unmatched Supply (unmatchedsupply.com/collections/david-protein). We source and inspect imported 12-bar boxes at our Khar West, Mumbai facility and ship Pan-India in INR with zero customs fees.'
+
+  assign q2 = 'What is the difference between David Protein Gold and David Protein Bronze?'
+  assign a2 = 'David Protein Gold bars deliver 28g of protein, 150 calories, and 0g sugar per bar (336g total protein per 12-bar box) with a smooth, dense texture. David Protein Bronze bars deliver 20g of protein, 150 calories, and 0g sugar per bar (240g total protein per 12-bar box) with a crisp chocolate-coated crunch texture.'
+
+  assign q3 = 'Which David Protein bar flavors can I shop at Unmatched Supply India?'
+-%}
+{%- capture a3 -%}Depending on current stock, our David Protein India lineup includes Gold flavors (Blueberry Pie, Chocolate Chip Cookie Dough, Cinnamon Roll, Red Velvet, Cake Batter, Peanut Butter Chocolate Chunk, Salted Peanut Butter), Bronze flavors (Cookie Dough Caramel Chocolate Crunch, Peanut Butter Chocolate Crunch, S'mores Chocolate Crunch, Double Chocolate Crunch), and seasonal releases like Pumpkin Spice.{%- endcapture -%}
+{%- liquid
+  assign a3 = a3 | strip
+
+  assign q4 = 'What is the price of David Protein bars in India?'
+-%}
+{%- capture a4 -%}Live INR pricing for every David Protein Gold and Bronze box is displayed on the product cards and live inventory table above. The checkout total you see in INR is final with no added customs charges at delivery—divide any 12-bar box's live INR price by 12 to view your exact cost per bar.{%- endcapture -%}
+{%- liquid
+  assign a4 = a4 | strip
+
+  assign q5 = 'How many calories, protein grams, and sugar are in David Protein bars?'
+  assign a5 = 'Every David Protein Gold bar contains 28g protein, 150 calories, and 0g sugar (~75% of calories from protein). Every David Protein Bronze bar contains 20g protein, 150 calories, and 0g total sugars in a crisp chocolate-coated bar. Always review the printed nutrition panel on your specific flavor box.'
+
+  assign q6 = 'How does Unmatched Supply verify David Protein authenticity in Mumbai?'
+-%}
+{%- capture a6 -%}Every batch is procured through vetted supply channels and inspected at Unmatched Supply's Khar West, Mumbai facility before dispatch, checking box seals, packaging labels, best-by dates, and lot integrity. Unmatched Supply operates as an independent Indian retailer offering genuine imported brands.{%- endcapture -%}
+{%- liquid
+  assign a6 = a6 | strip
+
+  assign q7 = 'Are there extra customs fees or international import duties when ordering David Protein bars in India?'
+  assign a7 = 'No. Unlike cross-border marketplaces that charge unpredictable customs clearance fees upon arrival, Unmatched Supply imports and stocks inventory in India so you pay zero additional customs duties at delivery.'
+
+  assign q8 = 'How fast does Unmatched Supply ship David Protein bars across India?'
+  assign a8 = 'We ship Pan-India through tracked courier partners from Mumbai. Flavors marked Instant Ship dispatch faster for quick delivery across Mumbai and major Indian cities, and orders above ₹14,999 qualify for free shipping.'
+
+  assign q9 = 'How can I check when sold-out David Protein flavors restock in India?'
+  assign a9 = 'David Protein batches refresh regularly across Mumbai drops, and ready-to-ship boxes appear under the Instant Ship filter on this page. For restock ETA updates on a specific Gold or Bronze flavor, message our team on WhatsApp at +91 77100 96203 or email unmatchedkicks@gmail.com.'
+
+  assign q10 = 'Where in Mumbai does Unmatched Supply store and dispatch David Protein bars from?'
+  assign a10 = 'All stocked David Protein Gold and Bronze boxes are inspected and dispatched from Unmatched Supply, Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai, Maharashtra 400052, ensuring fast local Mumbai courier dispatch and Pan-India shipping.'
+
+  assign q11 = 'How do I calculate the per-bar INR price of David Protein boxes at Unmatched Supply?'
+  assign a11 = 'Standard David Protein Gold and Bronze packs contain 12 individually wrapped bars, so dividing the live INR box price shown on our collection table or product page by 12 gives the exact landed INR cost per bar with zero customs surcharges.'
+
+  assign q12 = 'What sweeteners, EPG, and allergens are used in David Protein Gold and Bronze bars?'
+  assign a12 = 'David Protein Gold uses a milk protein isolate, whey, collagen, and egg white blend paired with allulose and EPG (esterified propoxylated glycerol) for 0g sugar. David Protein Bronze uses dairy/protein blends alongside sugar alcohols and soluble dietary fiber for a crisp 0g sugar crunch. Check each box label for milk, egg, peanut, soy, tree nut, or sesame allergens.'
+-%}
+
+<h2 class="section__heading {{ heading_size | default: 'h3' }}">
+  FAQ – David Protein Bars in India
+</h2>
+
+<accordion-default class="accordion" data-hide-multiple>
+  <details class="accordion__section is-active default-active" id="Details-david-faq-1" open>
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-david-faq-1">
+      <div class="accordion__button-text">{{ q1 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-david-faq-1">
+      <div class="accordion__body-inner"><p>{{ a1 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-david-faq-2">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-david-faq-2">
+      <div class="accordion__button-text">{{ q2 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-david-faq-2">
+      <div class="accordion__body-inner"><p>{{ a2 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-david-faq-3">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-david-faq-3">
+      <div class="accordion__button-text">{{ q3 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-david-faq-3">
+      <div class="accordion__body-inner"><p>{{ a3 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-david-faq-4">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-david-faq-4">
+      <div class="accordion__button-text">{{ q4 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-david-faq-4">
+      <div class="accordion__body-inner"><p>{{ a4 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-david-faq-5">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-david-faq-5">
+      <div class="accordion__button-text">{{ q5 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-david-faq-5">
+      <div class="accordion__body-inner"><p>{{ a5 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-david-faq-6">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-david-faq-6">
+      <div class="accordion__button-text">{{ q6 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-david-faq-6">
+      <div class="accordion__body-inner"><p>{{ a6 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-david-faq-7">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-david-faq-7">
+      <div class="accordion__button-text">{{ q7 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-david-faq-7">
+      <div class="accordion__body-inner"><p>{{ a7 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-david-faq-8">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-david-faq-8">
+      <div class="accordion__button-text">{{ q8 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-david-faq-8">
+      <div class="accordion__body-inner"><p>{{ a8 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-david-faq-9">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-david-faq-9">
+      <div class="accordion__button-text">{{ q9 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-david-faq-9">
+      <div class="accordion__body-inner"><p>{{ a9 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-david-faq-10">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-david-faq-10">
+      <div class="accordion__button-text">{{ q10 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-david-faq-10">
+      <div class="accordion__body-inner"><p>{{ a10 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-david-faq-11">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-david-faq-11">
+      <div class="accordion__button-text">{{ q11 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-david-faq-11">
+      <div class="accordion__body-inner"><p>{{ a11 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-david-faq-12">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-david-faq-12">
+      <div class="accordion__button-text">{{ q12 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-david-faq-12">
+      <div class="accordion__body-inner"><p>{{ a12 }}</p></div>
+    </div>
+  </details>
+</accordion-default>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": {{ q1 | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a1 | json }} }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q2 | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a2 | json }} }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q3 | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a3 | json }} }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q4 | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a4 | json }} }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q5 | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a5 | json }} }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q6 | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a6 | json }} }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q7 | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a7 | json }} }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q8 | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a8 | json }} }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q9 | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a9 | json }} }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q10 | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a10 | json }} }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q11 | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a11 | json }} }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q12 | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a12 | json }} }
+      }
+    ]
+  }
+</script>

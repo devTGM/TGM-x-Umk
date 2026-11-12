@@ -13,6 +13,23 @@
   else
     assign class = class | default: ''
   endif
+
+  assign active_collection = collection | default: product_collection
+  assign active_collection_title = ''
+  if active_collection != blank
+    assign active_collection_lc = active_collection.title | strip | downcase
+    if active_collection.handle == 'david-protein' or active_collection.handle == 'david'
+      if active_collection_lc == 'david'
+        assign active_collection_title = 'David Protein'
+      else
+        assign active_collection_title = active_collection.title
+      endif
+    else
+      assign active_collection_title = active_collection.title
+    endif
+  endif
+
+  assign crumb_position = 1
 -%}
 
 <nav class="breadcrumbs {{ class }} {{ template.name }}__breadcrumbs" role="navigation" aria-label="{{- 'theme.breadcrumb.label' | t -}}" itemscope itemtype="https://schema.org/BreadcrumbList">
@@ -21,46 +38,40 @@
       <a href="{{- routes.root_url -}}" itemprop="item">
         <span itemprop="name" class="breadcrumbs__link">{{- 'theme.breadcrumb.home' | t -}}</span>
       </a>
-      <meta itemprop="position" content="1" />
+      <meta itemprop="position" content="{{ crumb_position }}" />
     </li>
 
     <li class="breadcrumbs__separator">/</li>
 
-    {%- if product and collection -%}
+    {%- if template.name == 'product' and active_collection != blank and active_collection.url != blank -%}
+      {%- assign crumb_position = crumb_position | plus: 1 -%}
       <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a href="{{- collection.url -}}" itemprop="item">
-          <span itemprop="name" class="breadcrumbs__link">{{- collection.title | escape -}}</span>
+        <a href="{{- active_collection.url -}}" itemprop="item">
+          <span itemprop="name" class="breadcrumbs__link">{{- active_collection_title | escape -}}</span>
         </a>
-        <meta itemprop="position" content="2" />
+        <meta itemprop="position" content="{{ crumb_position }}" />
       </li>
       <li class="breadcrumbs__separator">/</li>
     {%- endif -%}
 
-    {%- if product_collection -%}
+    {%- if template.name == 'article' and blog != blank -%}
+      {%- assign crumb_position = crumb_position | plus: 1 -%}
       <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a href="{{- product_collection.url -}}"  itemprop="item">
-          <span itemprop="name" class="breadcrumbs__link">{{- product_collection.title | escape -}}</span>
-        </a>
-        <meta itemprop="position" content="2" />
-      </li>
-      <li class="breadcrumbs__separator">/</li>
-    {%- endif -%}
-
-    {%- if template.name == 'article' -%}
-      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a href="{{- blog.url -}}"  title="{{- blog.title | escape -}}" itemprop="item">
+        <a href="{{- blog.url -}}" title="{{- blog.title | escape -}}" itemprop="item">
           <span itemprop="name" class="breadcrumbs__link">{{- blog.title | escape -}}</span>
         </a>
-        <meta itemprop="position" content="2" />
+        <meta itemprop="position" content="{{ crumb_position }}" />
       </li>
       <li class="breadcrumbs__separator">/</li>
     {%- endif -%}
+
+    {%- assign crumb_position = crumb_position | plus: 1 -%}
     <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
       <span itemprop="name">
         {%- if template.name == 'index' -%}
           {{- 'theme.breadcrumb.home' | t -}}
         {%- elsif template.name == 'collection' -%}
-          {{- collection.title | escape -}}
+          {{- active_collection_title | default: collection.title | escape -}}
         {%- elsif template.name == 'product' -%}
           {{- product.title | escape -}}
         {%- elsif template.name == 'article' -%}
@@ -78,7 +89,7 @@
           {{- 'theme.breadcrumb.search' | t -}}
         {%- endif -%} {% endcomment %}
       </span>
-      <meta itemprop="position" content="3" />
+      <meta itemprop="position" content="{{ crumb_position }}" />
     </li>
   </ul>
 </nav>

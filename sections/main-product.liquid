@@ -43,7 +43,27 @@
       {%- liquid
         assign block_goback = section.blocks | where: 'type', 'goback' | first
         assign block_breadcrumbs = section.blocks | where: 'type', 'breadcrumbs' | first
-        assign product_collection = product.collections.first | default: collections.all
+        assign product_collection = collection
+        if product_collection == blank
+          assign fallback_david_collection = blank
+          assign fallback_product_collection = blank
+          for pcol in product.collections
+            if pcol.handle == 'david-protein'
+              assign product_collection = pcol
+              break
+            elsif pcol.handle == 'david' and fallback_david_collection == blank
+              assign fallback_david_collection = pcol
+            endif
+            if fallback_product_collection == blank
+              unless pcol.handle == 'all' or pcol.handle contains 'sale' or pcol.handle == 'popular-products' or pcol.handle == 'latest-drops-1' or pcol.handle == 'featured' or pcol.handle == 'tax-override'
+                assign fallback_product_collection = pcol
+              endunless
+            endif
+          endfor
+          if product_collection == blank
+            assign product_collection = fallback_david_collection | default: fallback_product_collection | default: product.collections.first | default: collections.all
+          endif
+        endif
       -%}
       {% if block_goback or block_breadcrumbs %}
         {%- liquid

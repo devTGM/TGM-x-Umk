@@ -181,16 +181,28 @@
                   }
                 }
               {%- endstyle -%}
+              {%- liquid
+                assign footer_brand_name = shop.name | strip
+                assign footer_brand_lc = footer_brand_name | downcase
+                if footer_brand_name == blank or footer_brand_lc contains 'unmatched kicks' or footer_brand_lc contains 'unamtched kicks' or footer_brand_lc == 'unmatchedsupply'
+                  assign footer_brand_name = 'Unmatched Supply'
+                endif
+              -%}
               <div class="section-footer__content footer__brand {{ block_content_alignment_class }}">
-                <a href="{{- routes.root_url -}}" title="{{- shop.name | escape -}}">
+                <a href="{{- routes.root_url -}}" title="{{- footer_brand_name | escape -}}" aria-label="{{- footer_brand_name | escape -}}">
                   {%- liquid
                     if block.settings.logo_svg_code != blank
                       echo block.settings.logo_svg_code
                     elsif block.settings.logo != blank
-                      assign logo_alt = block.settings.logo.alt | default: shop.name | escape
+                      assign logo_alt_raw = block.settings.logo.alt | default: footer_brand_name
+                      assign logo_alt_lc = logo_alt_raw | downcase
+                      if logo_alt_lc contains 'unmatched kicks' or logo_alt_lc contains 'unamtched kicks'
+                        assign logo_alt_raw = footer_brand_name
+                      endif
+                      assign logo_alt = logo_alt_raw | escape
                       render 'image', image: block.settings.logo, section_index: section.index, alt: logo_alt, width: block.settings.logo_width_new, class: 'footer__brand-logo', animation: 'false'
                     else
-                      echo shop.name | escape
+                      echo footer_brand_name | escape
                     endif
                   -%}
                 </a>

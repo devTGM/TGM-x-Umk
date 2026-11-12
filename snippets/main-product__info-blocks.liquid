@@ -813,4 +813,92 @@
         </div>
     {%- endcase -%}
   {%- endfor -%}
+
+  {%- liquid
+    assign david_pdp_match = false
+    assign david_pdp_col_url = ''
+    if product != blank and is_gift_card != true
+      assign david_pdp_title_lc = product.title | strip | downcase
+      assign david_pdp_vendor_lc = product.vendor | strip | downcase
+      if david_pdp_title_lc contains 'david protein' or david_pdp_vendor_lc contains 'david'
+        assign david_pdp_match = true
+      endif
+      for pcol in product.collections
+        if pcol.handle == 'david-protein'
+          assign david_pdp_match = true
+          if pcol.url != blank
+            assign david_pdp_col_url = pcol.url
+          endif
+          break
+        elsif pcol.handle == 'david'
+          assign david_pdp_match = true
+          if david_pdp_col_url == blank and pcol.url != blank
+            assign david_pdp_col_url = pcol.url
+          endif
+        endif
+      endfor
+      if david_pdp_col_url == blank
+        if collections['david-protein'] != blank
+          assign david_pdp_col_url = collections['david-protein'].url | default: '/collections/david-protein'
+        elsif collections['david'] != blank
+          assign david_pdp_col_url = collections['david'].url | default: '/collections/david'
+        else
+          assign david_pdp_col_url = '/collections/david-protein'
+        endif
+      endif
+    endif
+  -%}
+  {%- if david_pdp_match -%}
+    {{- 'section-accordions.aio.min.css' | asset_url | stylesheet_tag -}}
+    {%- liquid
+      assign david_pdp_is_12pack = false
+      if david_pdp_title_lc contains '12 bar' or david_pdp_title_lc contains '12-bar' or david_pdp_title_lc contains '12 bars' or david_pdp_title_lc contains '12 count' or david_pdp_title_lc contains '12-pack' or david_pdp_title_lc contains '12 pack'
+        assign david_pdp_is_12pack = true
+      endif
+      assign david_pdp_box_price = ''
+      assign david_pdp_bar_price = ''
+      if product.price != blank and product.price > 0
+        assign david_pdp_box_price = product.price | money_without_trailing_zeros | strip_html | strip
+        if david_pdp_is_12pack
+          assign david_pdp_bar_price = product.price | divided_by: 12 | money_without_trailing_zeros | strip_html | strip
+        endif
+      endif
+    -%}
+    <accordion-default class="accordion product__accordion product__block product__block--gap-1" data-hide-multiple>
+      <details class="accordion__section" id="Details-david-india-guide">
+        <summary class="accordion__button h5 js-btn" id="Details-Summary-david-india-guide">
+          <span>
+            {% render 'icon', icon_name: 'theme-package-check' %}
+            <span>David Protein India — Nutrition &amp; Buying Guide</span>
+          </span>
+          <div class="accordion__icon">
+            {%- render 'icon', icon_name: 'theme-minus' -%}
+            {%- render 'icon', icon_name: 'theme-minus' -%}
+          </div>
+        </summary>
+        <div class="accordion__body" id="Details-Content-david-india-guide">
+          <div class="accordion__body-inner">
+            <div class="rte">
+              {%- if david_pdp_title_lc contains 'bronze' or david_pdp_title_lc contains '20g' -%}
+                <p><strong>David Protein Bronze Line:</strong> Delivers <strong>20g protein</strong>, <strong>150 calories</strong>, and <strong>0g sugar</strong> per bar in a multi-layered crispy chocolate-coated crunch bar, stocked in factory-sealed multi-bar boxes for Indian buyers.</p>
+              {%- elsif david_pdp_title_lc contains 'gold' or david_pdp_title_lc contains '28g' -%}
+                <p><strong>David Protein Gold Line:</strong> Delivers <strong>28g protein</strong>, <strong>150 calories</strong>, and <strong>0g sugar</strong> per bar (~75% of calories from protein), stocked in factory-sealed multi-bar boxes for Indian buyers.</p>
+              {%- else -%}
+                <p><strong>David Protein Lineup:</strong> David Protein Gold delivers <strong>28g protein, 150 calories, and 0g sugar</strong> per bar, while David Protein Bronze delivers <strong>20g protein, 150 calories, and 0g sugar</strong> per bar with a crispy chocolate-coated crunch texture.</p>
+              {%- endif -%}
+              <ul>
+                {%- if david_pdp_box_price != blank -%}
+                  <li><strong>INR Pricing:</strong> {{ david_pdp_box_price }} final checkout price{%- if david_pdp_bar_price != blank %} ({{ david_pdp_bar_price }} per bar across 12 bars){% endif %}.</li>
+                {%- endif -%}
+                <li><strong>Mumbai Batch Inspection:</strong> Verified for seal and packaging integrity at Unmatched Supply, Khar West, Plot No 27, 3rd Road, Mumbai 400052.</li>
+                <li><strong>Zero Extra Customs Fees:</strong> Pre-imported Indian stock with Pan-India tracked courier dispatch and free India shipping above ₹14,999.</li>
+                <li><strong>Sweeteners &amp; Allergens:</strong> Gold uses allulose and EPG with a milk/whey/collagen/egg white protein blend; Bronze uses sugar alcohols and soluble fiber. Check your printed box panel for exact flavor allergens.</li>
+              </ul>
+              <p><a href="{{ david_pdp_col_url }}#david-india-quick-facts">Compare all 12 David Protein Gold &amp; Bronze flavors in India</a> · <a href="/collections/supplements-instant-ship">Instant Ship Supplements</a></p>
+            </div>
+          </div>
+        </div>
+      </details>
+    </accordion-default>
+  {%- endif -%}
 </section>

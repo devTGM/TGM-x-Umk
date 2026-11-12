@@ -1,0 +1,230 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "page_banner_david": {
+      "type": "page-banner",
+      "settings": {
+        "enable_transparent_header": false,
+        "heading": "David Protein Bars in India",
+        "heading_size": "h3",
+        "text": "<p>Shop 100% authentic <strong>David Protein bars in India</strong> at Unmatched Supply (Khar West, Mumbai). Explore Gold (28g protein, 150 cal, 0g sugar) and Bronze (20g protein, 150 cal, 0g sugar) 12-bar packs for tracked Pan-India delivery with transparent INR pricing and zero customs duties.</p>",
+        "show_default_description": false,
+        "show_on_description": "both",
+        "content_position": "center",
+        "content_alignment": "start",
+        "media_position": "background",
+        "page_menu": "",
+        "enable_breadcrumbs": true,
+        "section_height": "auto",
+        "content_width": "100%",
+        "video_external": "",
+        "show_controls_on_video": false,
+        "section_height_mobile": "auto",
+        "video_external_mobile": "",
+        "show_controls_on_video_mobile": false,
+        "section_width": "max-w-page",
+        "color_scheme": "scheme-1",
+        "color_scheme_for_media": "scheme-6",
+        "spacing_top": "2",
+        "spacing_bottom": "1"
+      }
+    },
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "show_top_border_for_utilities_bar": true,
+        "enable_products_count": true,
+        "enable_sorting": true,
+        "enable_opened_accordions": true,
+        "filters": "drawer",
+        "products_per_row": "4",
+        "products_per_row_mobile": "2",
+        "products_per_page": 24,
+        "pagination_style": "load_more",
+        "enable_infinity_scroll": true,
+        "section_width": "max-w-page",
+        "color_scheme": "scheme-1",
+        "spacing_top": "1",
+        "spacing_bottom": "1"
+      }
+    },
+    "david_ai_summary": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{% render 'david-collection-data-tables' %}",
+        "section_width": "max-w-fluid",
+        "color_scheme": "scheme-1",
+        "spacing_top": "2",
+        "spacing_bottom": "2"
+      }
+    },
+    "seo_content_david": {
+      "type": "seo-content",
+      "settings": {
+        "section_layout": "normal",
+        "heading": "Buy David Protein Bars in India — Gold (28g) vs Bronze (20g) Complete Guide",
+        "heading_tag": "h2",
+        "heading_size": "h4",
+        "text": "<p>Looking to buy an authentic <strong>David Protein bar in India</strong> without international shipping delays or surprise import duties? At <strong>Unmatched Supply</strong> (formerly Unmatched Kicks), we make ordering <strong>David Protein in India</strong> predictable and transparent: every 12-bar box is sourced from vetted US channels, inspected at our Khar West, Mumbai facility, billed in INR, and dispatched Pan-India with zero extra customs fees at delivery.</p><h3>What Makes David Protein Stand Out in India?</h3><p>David Protein bars are built around protein-to-calorie efficiency at 150 calories and 0g sugar. In the flagship <strong>David Protein Gold</strong> line, each bar delivers <strong>28g of protein at 150 calories with 0g sugar</strong> (~75% of calories from protein), making it popular with strength athletes and calorie-tracking buyers across India. For anyone craving a crispy chocolate bar bite without added sugar, the <strong>David Protein Bronze</strong> line supplies <strong>20g of protein at 150 calories with 0g sugar</strong> per bar.</p><h3>David Protein Lineup Available in India</h3><ul><li><strong>David Protein Gold (28g Protein | 150 Calories | 0g Sugar per bar):</strong> High-density 12-bar boxes totaling 336g of protein per box, crafted with a multi-source protein blend (milk protein isolate, whey, collagen, egg white), allulose, and EPG. Flavors stocked across India drops include <strong>Blueberry Pie, Chocolate Chip Cookie Dough, Cinnamon Roll, Red Velvet, Cake Batter, Peanut Butter Chocolate Chunk,</strong> and <strong>Salted Peanut Butter</strong>.</li><li><strong>David Protein Bronze (20g Protein | 150 Calories | 0g Sugar per bar):</strong> Crispy chocolate-coated crunch bars in factory-sealed 12-bar boxes (240g total protein per box) sweetened with sugar alcohols and soluble dietary fiber (up to 6g fiber on Peanut Butter Chocolate Crunch). Flavors include <strong>Cookie Dough Caramel Chocolate Crunch, Peanut Butter Chocolate Crunch, S'mores Chocolate Crunch,</strong> and <strong>Double Chocolate Crunch</strong>.</li><li><strong>Seasonal &amp; Instant Ship Drops:</strong> Limited-batch releases such as <strong>Pumpkin Spice Gold</strong> appear alongside core stock, with <strong>Instant Ship</strong> tags highlighting ready-to-dispatch India boxes.</li></ul><h3>How to Pick Your David Protein Box &amp; Compare INR Cost Per Bar</h3><ul><li><strong>Compare Cost Per Bar Clearly:</strong> Each standard David Protein box contains 12 individually wrapped bars, so dividing the live INR box price shown above by 12 gives your exact landed per-bar price—with no foreign currency FX markup or courier customs bill upon arrival.</li><li><strong>Choose David Protein Gold (28g / 150 cal / 0g sugar):</strong> Best when maximizing daily protein within tight calorie targets. Top flavors include Chocolate Chip Cookie Dough, Blueberry Pie, Cinnamon Roll, Cake Batter, Red Velvet, Peanut Butter Chocolate Chunk, and Salted Peanut Butter.</li><li><strong>Choose David Protein Bronze (20g / 150 cal / 0g sugar):</strong> Best if you enjoy a crisp, chocolate-covered crunch bar experience while staying at 0g total sugar and 150 calories. Picks include Double Chocolate Crunch, S'mores Chocolate Crunch, Peanut Butter Chocolate Crunch, and Cookie Dough Caramel Chocolate Crunch.</li></ul><h3>Mumbai Facility Inspection &amp; Pan-India Delivery</h3><ul><li><strong>Zero Customs Bills at Doorstep:</strong> Unlike overseas marketplaces or US package forwarders where Indian customs duties and courier clearance charges add sharply to checkout costs, every SKU on this page is already imported into India.</li><li><strong>Inspected in Khar West, Mumbai:</strong> Our Mumbai team checks carton seals, lot details, best-by dates, and cool storage handling at Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai 400052 prior to dispatch.</li><li><strong>Fast Pan-India Dispatch &amp; Direct Support:</strong> Orders above ₹14,999 qualify for free India delivery, Instant Ship flavors leave our facility faster for Mumbai and metro routes, and you can message WhatsApp at <strong>+91 77100 96203</strong> or <a href=\"mailto:unmatchedkicks@gmail.com\">unmatchedkicks@gmail.com</a> for restock ETAs.</li></ul><p>Explore more imported sports nutrition stocked in India: <a href=\"/collections/supplements-instant-ship\">Instant Ship Supplements</a>, <a href=\"/collections/quest-protein-bars\">Quest Protein Bars</a>, <a href=\"/collections/barbell-protein-bar\">Barbell Protein Bars</a>, <a href=\"/collections/ghost-supplements-india\">Ghost Supplements</a>, and <a href=\"/pages/about-us\">About Unmatched Supply</a>.</p>",
+        "content_alignment": "start",
+        "section_width": "max-w-fluid",
+        "color_scheme": "scheme-5",
+        "spacing_inner": "2",
+        "spacing_top": "4",
+        "spacing_bottom": "4"
+      }
+    },
+    "accordions_david": {
+      "type": "accordions",
+      "blocks": {
+        "david_faq_1": {
+          "type": "topic",
+          "settings": {
+            "is_open": true,
+            "title": "Where can I buy authentic David Protein bars in India?",
+            "text": "<p>You can buy 100% authentic David Protein bars in India directly online at Unmatched Supply (unmatchedsupply.com/collections/david-protein). We source and inspect imported 12-bar boxes at our Khar West, Mumbai facility and ship Pan-India in INR with zero customs fees.</p>",
+            "page": ""
+          }
+        },
+        "david_faq_2": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "What is the difference between David Protein Gold and David Protein Bronze?",
+            "text": "<p>David Protein Gold bars deliver 28g of protein, 150 calories, and 0g sugar per bar (336g total protein per 12-bar box) with a smooth, dense texture. David Protein Bronze bars deliver 20g of protein, 150 calories, and 0g sugar per bar (240g total protein per 12-bar box) with a crisp chocolate-coated crunch texture.</p>",
+            "page": ""
+          }
+        },
+        "david_faq_3": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Which David Protein bar flavors can I shop at Unmatched Supply India?",
+            "text": "<p>Depending on current stock, our David Protein India lineup includes Gold flavors (Blueberry Pie, Chocolate Chip Cookie Dough, Cinnamon Roll, Red Velvet, Cake Batter, Peanut Butter Chocolate Chunk, Salted Peanut Butter), Bronze flavors (Cookie Dough Caramel Chocolate Crunch, Peanut Butter Chocolate Crunch, S'mores Chocolate Crunch, Double Chocolate Crunch), and seasonal releases like Pumpkin Spice.</p>",
+            "page": ""
+          }
+        },
+        "david_faq_4": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "What is the price of David Protein bars in India?",
+            "text": "<p>Live INR pricing for every David Protein Gold and Bronze box is displayed on the product cards and live inventory table above. The checkout total you see in INR is final with no added customs charges at delivery—divide any 12-bar box's live INR price by 12 to check your exact landed cost per bar.</p>",
+            "page": ""
+          }
+        },
+        "david_faq_5": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How many calories, protein grams, and sugar are in David Protein bars?",
+            "text": "<p>Every David Protein Gold bar contains 28g protein, 150 calories, and 0g sugar (~75% of calories from protein). Every David Protein Bronze bar contains 20g protein, 150 calories, and 0g total sugars in a crisp chocolate-coated bar. Always review the printed nutrition panel on your specific flavor box.</p>",
+            "page": ""
+          }
+        },
+        "david_faq_6": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How does Unmatched Supply verify David Protein authenticity in Mumbai?",
+            "text": "<p>Every batch is procured through vetted supply channels and inspected at Unmatched Supply's Khar West, Mumbai facility before dispatch, checking box seals, packaging labels, best-by dates, and lot integrity. Unmatched Supply operates as an independent Indian retailer offering genuine imported brands.</p>",
+            "page": ""
+          }
+        },
+        "david_faq_7": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Are there extra customs fees or international import duties when ordering David Protein bars in India?",
+            "text": "<p>No. Unlike cross-border marketplaces that charge unpredictable customs clearance fees upon arrival, Unmatched Supply imports and stocks inventory in India so you pay zero additional customs duties at delivery.</p>",
+            "page": ""
+          }
+        },
+        "david_faq_8": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How fast does Unmatched Supply ship David Protein bars across India?",
+            "text": "<p>We ship Pan-India through tracked courier partners from Mumbai. Flavors marked Instant Ship dispatch faster for quick delivery across Mumbai and major Indian cities, and orders above ₹14,999 qualify for free shipping.</p>",
+            "page": ""
+          }
+        },
+        "david_faq_9": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How can I check when sold-out David Protein flavors restock in India?",
+            "text": "<p>David Protein batches refresh regularly across Mumbai drops, and ready-to-ship boxes appear under the Instant Ship filter on this page. For restock ETA updates on a specific Gold or Bronze flavor, message our team on WhatsApp at +91 77100 96203 or email unmatchedkicks@gmail.com.</p>",
+            "page": ""
+          }
+        },
+        "david_faq_10": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Where in Mumbai does Unmatched Supply store and dispatch David Protein bars from?",
+            "text": "<p>All stocked David Protein Gold and Bronze boxes are inspected and dispatched from Unmatched Supply, Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai, Maharashtra 400052, ensuring fast local Mumbai courier dispatch and Pan-India shipping.</p>",
+            "page": ""
+          }
+        },
+        "david_faq_11": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How do I calculate the per-bar INR price of David Protein boxes at Unmatched Supply?",
+            "text": "<p>Standard David Protein Gold and Bronze packs contain 12 individually wrapped bars, so dividing the live INR box price shown on our collection table or product page by 12 gives the exact landed INR cost per bar with zero customs surcharges.</p>",
+            "page": ""
+          }
+        },
+        "david_faq_12": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "What sweeteners, EPG, and allergens are used in David Protein Gold and Bronze bars?",
+            "text": "<p>David Protein Gold uses a milk protein isolate, whey, collagen, and egg white blend paired with allulose and EPG (esterified propoxylated glycerol) for 0g sugar. David Protein Bronze uses dairy/protein blends alongside sugar alcohols and soluble dietary fiber for a crisp 0g sugar crunch. Check each box label for milk, egg, peanut, soy, tree nut, or sesame allergens.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "david_faq_1",
+        "david_faq_2",
+        "david_faq_3",
+        "david_faq_4",
+        "david_faq_5",
+        "david_faq_6",
+        "david_faq_7",
+        "david_faq_8",
+        "david_faq_9",
+        "david_faq_10",
+        "david_faq_11",
+        "david_faq_12"
+      ],
+      "name": "t:sections.accordions.name",
+      "settings": {
+        "heading": "FAQ – David Protein Bars in India",
+        "enable_faq_schema": true,
+        "heading_size": "h3",
+        "section_width": "max-w-fluid",
+        "color_scheme": "",
+        "spacing_top": "2",
+        "spacing_bottom": "4"
+      }
+    }
+  },
+  "order": [
+    "page_banner_david",
+    "main",
+    "david_ai_summary",
+    "seo_content_david",
+    "accordions_david"
+  ]
+}

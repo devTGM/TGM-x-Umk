@@ -404,10 +404,15 @@
           if section.settings.logo_svg_code == blank and section.settings.logo == blank
             assign header_logo_text_class = 'header__logo-text'
           endif
+          assign canonical_brand_name = shop.name | strip
+          assign canonical_brand_lc = canonical_brand_name | downcase
+          if canonical_brand_name == blank or canonical_brand_lc contains 'unmatched kicks' or canonical_brand_lc contains 'unamtched kicks' or canonical_brand_lc == 'unmatchedsupply'
+            assign canonical_brand_name = 'Unmatched Supply'
+          endif
         -%}
 
         <div class="header__logo {{ header_logo_text_class }}">
-          <a href="{{- routes.root_url -}}" class="full-unstyled-link">
+          <a href="{{- routes.root_url -}}" class="full-unstyled-link" title="{{- canonical_brand_name | escape -}}" aria-label="{{- canonical_brand_name | escape -}}">
             {%- if section.settings.logo_svg_code != blank -%}
               {{- section.settings.logo_svg_code -}}
             {%- elsif section.settings.logo != blank -%}
@@ -418,7 +423,12 @@
                   assign logo_srcset_double = section.settings.logo | image_url: width: logo_image_size_double
                   echo logo_srcset | append: ' 1x' | append: ', ' | append: logo_srcset_double | append: ' 2x'
                 endcapture
-                assign logo_alt = section.settings.logo.alt | default: shop.name | escape
+                assign logo_alt_raw = section.settings.logo.alt | default: canonical_brand_name
+                assign logo_alt_lc = logo_alt_raw | downcase
+                if logo_alt_lc contains 'unmatched kicks' or logo_alt_lc contains 'unamtched kicks'
+                  assign logo_alt_raw = canonical_brand_name
+                endif
+                assign logo_alt = logo_alt_raw | escape
               %}
 
               {{ section.settings.logo
@@ -446,7 +456,12 @@
                   assign logo_srcset_double = logo_transparent_image | image_url: width: logo_transparent_image_size_double
                   echo logo_srcset | append: ' 1x' | append: ', ' | append: logo_srcset_double | append: ' 2x'
                 endcapture
-                assign logo_transparent_alt = logo_transparent_image.alt | default: shop.name | escape
+                assign logo_transparent_alt_raw = logo_transparent_image.alt | default: canonical_brand_name
+                assign logo_transparent_alt_lc = logo_transparent_alt_raw | downcase
+                if logo_transparent_alt_lc contains 'unmatched kicks' or logo_transparent_alt_lc contains 'unamtched kicks'
+                  assign logo_transparent_alt_raw = canonical_brand_name
+                endif
+                assign logo_transparent_alt = logo_transparent_alt_raw | escape
               %}
 
               {{ logo_transparent_image
@@ -461,7 +476,7 @@
               }}
 
             {%- else -%}
-              <span class="h4">{{- shop.name | escape -}}</span>
+              <span class="h4">{{- canonical_brand_name | escape -}}</span>
             {%- endif -%}
           </a>
         </div>
@@ -572,44 +587,7 @@
   </div>
 </div>
 
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": {{ shop.name | json }},
-    {% if section.settings.logo != blank %}
-      "logo": {{ section.settings.logo | image_url: width: section.settings.logo.width | prepend: "https:" | json }},
-    {% endif %}
-    "sameAs": [
-      {{ settings.social_twitter_link | json }},
-      {{ settings.social_facebook_link | json }},
-      {{ settings.social_pinterest_link | json }},
-      {{ settings.social_instagram_link | json }},
-      {{ settings.social_tiktok_link | json }},
-      {{ settings.social_snapchat_link | json }},
-      {{ settings.social_youtube_link | json }},
-      {{ settings.social_vimeo_link | json }}
-    ],
-    "url": {{ request.origin | append: page.url | json }}
-  }
-</script>
-
-{%- if request.page_type == 'index' -%}
-  {% assign potential_action_target = request.origin | append: routes.search_url | append: '?q={search_term_string}' %}
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": {{ shop.name | json }},
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {{ potential_action_target | json }},
-        "query-input": "required name=search_term_string"
-      },
-      "url": {{ request.origin | append: page.url | json }}
-    }
-  </script>
-{%- endif -%}
+{% render 'seo-structured-data', logo: section.settings.logo %}
 
 {% schema %}
 {

@@ -1,0 +1,38 @@
+{%- comment -%}
+  Shopify robots.txt customization allowing search engines and AI citation crawlers
+  to index Unmatched Supply's public storefront, /collections/david-protein, and /collections/david
+  while preserving standard Shopify private route disallows and sitemap declarations.
+{%- endcomment -%}
+# Unmatched Supply (www.unmatchedsupply.com)
+{% for group in robots.default_groups %}
+{{ group.user_agent }}
+{% for rule in group.rules %}{{ rule }}
+{% endfor %}{% if group.user_agent.value == '*' %}Allow: /collections/david-protein
+Allow: /collections/david
+Allow: /llms.txt
+Allow: /llms-full.txt
+{% endif %}{% if group.sitemap != blank %}{{ group.sitemap }}
+{% endif %}
+{% endfor %}
+# AI Search & Answer Engines
+{% assign ai_bots = 'OAI-SearchBot,ChatGPT-User,PerplexityBot,Google-Extended,ClaudeBot,Applebot-Extended' | split: ',' %}
+{% for bot in ai_bots %}User-agent: {{ bot }}
+Allow: /
+Allow: /collections/david-protein
+Allow: /collections/david
+Allow: /llms.txt
+Allow: /llms-full.txt
+Disallow: /admin
+Disallow: /cart
+Disallow: /orders
+Disallow: /checkouts/
+Disallow: /checkout
+Disallow: /carts
+Disallow: /account
+Disallow: /*?*oseid=*
+Disallow: /*preview_theme_id*
+Disallow: /*preview_script_id*
+Disallow: /services/login_with_shop
+
+{% endfor %}# LLMs index: https://www.unmatchedsupply.com/llms.txt
+

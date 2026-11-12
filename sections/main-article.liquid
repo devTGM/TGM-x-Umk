@@ -285,30 +285,59 @@
   </div>
 </div>
 
+{%- liquid
+  assign article_site_url = shop.url | default: request.origin
+  assign article_canonical_url = canonical_url
+  if article_canonical_url == blank
+    assign article_canonical_url = article_site_url | append: article.url
+  endif
+  assign article_description = article.excerpt | strip_html | strip_newlines | strip
+  if article_description == blank
+    assign article_description = article.content | strip_html | strip_newlines | strip | truncate: 200
+  endif
+  assign article_image_url = ''
+  if article.image
+    if article.image.width
+      assign article_image_raw = article.image | image_url: width: article.image.width
+    else
+      assign article_image_raw = article.image | image_url
+    endif
+    if article_image_raw contains 'http://' or article_image_raw contains 'https://'
+      assign article_image_url = article_image_raw | replace: 'http://', 'https://'
+    else
+      assign article_image_url = 'https:' | append: article_image_raw
+    endif
+  endif
+-%}
+
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     "articleBody": {{ article.content | strip_html | json }},
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": {{ shop.url | append: page.url | json }}
+      "@id": {{ article_canonical_url | json }}
     },
+    "url": {{ article_canonical_url | json }},
     "headline": {{ article.title | json }},
-    {% if article.excerpt != blank %}
-      "description": {{ article.excerpt | strip_html | json }},
+    {% if article_description != blank %}
+      "description": {{ article_description | json }},
     {% endif %}
-    {% if article.image %}
-      {% assign image_size = article.image.width | append: 'x' %}
+    {% if article_image_url != blank %}
       "image": [
-        {{ article | image_url: image_size | prepend: "https:" | json }}
+        {{ article_image_url | json }}
       ],
     {% endif %}
     "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+    "dateModified": {{ article.updated_at | default: article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
     "dateCreated": {{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
     "author": {
       "@type": "Person",
       "name": {{ article.author | json }}
+    },
+    "publisher": {
+      "@id": {{ article_site_url | append: '/#organization' | json }}
     }
   }
 </script>

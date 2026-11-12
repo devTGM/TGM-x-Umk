@@ -159,8 +159,9 @@
       "settings": {
         "section_layout": "normal",
         "heading": "Buy {{ collection.title }} in India",
+        "heading_tag": "h2",
         "heading_size": "h4",
-        "text": "<p>Discover the curated range of {{ collection.title }} in India at Unmatched Supply — where global streetwear, premium gym wear, and hype culture come together for the Indian market. Every drop in this collection is carefully selected to bring you the same quality, comfort and authenticity you expect from international brands, without the long waits or uncertainty of overseas orders.</p><p>Our {{ collection.title }} in India lineup includes styles that balance performance, everyday comfort and modern design. Whether you’re hitting the gym, elevating your athleisure fits or building a clean streetwear rotation, each piece is chosen to help you look sharper and feel more confident. We focus on authenticity above everything else, which means every item you see here is 100% genuine and sourced responsibly.</p><p>At Unmatched Supply, we understand how tough it can be to find original global products in India — especially when it comes to popular hypewear, gym wear and sneaker-first brands. That’s why this {{ collection.title }} collection is designed to make international fashion accessible, reliable and fast. No customs surprises, no fake sellers, and no complicated shipping — just smooth, trustworthy delivery across the country.</p><p>Explore the latest drops, trending fits and classic staples in the {{ collection.title }} in India range. Whether you're a fitness enthusiast, a streetwear fan, or someone who appreciates high-quality essentials, this collection brings global energy straight to your wardrobe. Upgrade your style with verified pieces and experience why thousands across India trust Unmatched Supply for premium international fashion.</p>",
+        "text": "<p>Discover the curated range of {{ collection.title }} in India at Unmatched Supply — bringing together authentic global streetwear, performance activewear, sneakers, and fitness supplements for Indian buyers. Every item in this collection is sourced through vetted channels to deliver the genuine quality you expect from leading international brands, without overseas customs delays.</p><p>Whether you are training in the gym, stocking up on imported nutrition, or rotating everyday lifestyle essentials, each product in our {{ collection.title }} India lineup is inspected at our Mumbai facility before dispatch. Every listing features transparent INR pricing and verified authenticity.</p><p>At Unmatched Supply, we make original international drops accessible, reliable, and fast across India. Enjoy Instant Ship options on select stock, zero hidden customs fees at delivery, and tracked Pan-India shipping from Mumbai.</p>",
         "content_alignment": "start",
         "section_width": "max-w-fluid",
         "color_scheme": "scheme-5",
@@ -177,7 +178,7 @@
           "settings": {
             "is_open": true,
             "title": "Are the products in the {{ collection.title }} collection authentic?",
-            "text": "<p>Yes. Every item in our {{ collection.title }} collection is 100% authentic and sourced from trusted international suppliers. We verify all products to ensure you only receive genuine global merchandise.</p>",
+            "text": "<p>Yes. Every item in our {{ collection.title }} collection is 100% authentic and sourced from trusted international suppliers. We verify all products at our Mumbai facility before dispatch.</p>",
             "page": ""
           }
         },
@@ -186,7 +187,7 @@
           "settings": {
             "is_open": false,
             "title": "Do you ship {{ collection.title }} items across India?",
-            "text": "<p>Absolutely. We offer fast and reliable shipping across all major Indian cities. Once your order is placed, we dispatch your {{ collection.title }} products quickly so you receive them without delays.</p>",
+            "text": "<p>Absolutely. We offer fast and tracked Pan-India courier shipping across major Indian cities, with Instant Ship available on select in-stock items.</p>",
             "page": ""
           }
         },
@@ -195,7 +196,7 @@
           "settings": {
             "is_open": false,
             "title": "Are there any customs or extra international charges on {{ collection.title }}?",
-            "text": "<p>No, there are <em>zero hidden customs charges</em>. Everything in the {{ collection.title }} collection is already imported and stocked in India, so you pay only the final checkout amount.</p>",
+            "text": "<p>No, there are <em>zero hidden customs charges</em>. Everything in the {{ collection.title }} collection is imported and stocked in India, so you pay only the final checkout amount in INR.</p>",
             "page": ""
           }
         },
@@ -203,8 +204,8 @@
           "type": "topic",
           "settings": {
             "is_open": false,
-            "title": "How do I choose the right size for items in the {{ collection.title }} collection?",
-            "text": "<p>Most brands in the {{ collection.title }} category follow international sizing. We recommend checking the size guide on each product page or contacting us for personalized fit advice.</p>",
+            "title": "How do I choose the right option or size in the {{ collection.title }} collection?",
+            "text": "<p>Check each product page for exact size guides, pack sizes, or flavor options, or message us on WhatsApp at +91 77100 96203 for quick assistance.</p>",
             "page": ""
           }
         },
@@ -213,7 +214,7 @@
           "settings": {
             "is_open": false,
             "title": "When do you restock the {{ collection.title }} collection?",
-            "text": "<p>Restocks depend on global availability. Popular styles sell out quickly, but we frequently update our {{ collection.title }} collection with new arrivals and fresh drops. You can follow us on Instagram or sign up for restock alerts.</p>",
+            "text": "<p>Restocks depend on global availability. Popular items sell out quickly, and we regularly refresh our {{ collection.title }} collection with new arrivals and Instant Ship drops.</p>",
             "page": ""
           }
         },
@@ -221,8 +222,8 @@
           "type": "topic",
           "settings": {
             "is_open": false,
-            "title": "Are {{ collection.title }} items suitable for workouts, daily wear or streetwear fits?",
-            "text": "<p>Definitely. The {{ collection.title }} collection includes options for training, athleisure, and everyday streetwear. Each product is chosen to deliver comfort, performance, and style depending on your needs.</p>",
+            "title": "Why order {{ collection.title }} in India from Unmatched Supply instead of overseas websites?",
+            "text": "<p>Unmatched Supply stocks authentic international brands in India with transparent INR pricing, Mumbai batch verification, faster domestic delivery, and zero surprise customs paperwork.</p>",
             "page": ""
           }
         }
@@ -238,6 +239,7 @@
       "name": "t:sections.accordions.name",
       "settings": {
         "heading": "FAQ – {{ collection.title }}",
+        "enable_faq_schema": true,
         "heading_size": "h3",
         "section_width": "max-w-fluid",
         "color_scheme": "",

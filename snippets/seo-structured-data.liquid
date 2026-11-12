@@ -1,0 +1,528 @@
+{%- comment -%}
+  Unified Schema.org JSON-LD (@graph) for Unmatched Supply brand entity,
+  WebSite search action, and page-type metadata (WebPage, AboutPage, ContactPage, CollectionPage).
+  Accepts optional `logo` image object from header section settings.
+{%- endcomment -%}
+
+{%- liquid
+  assign site_url = shop.url | default: request.origin
+  assign raw_shop_name = shop.name | strip
+  assign raw_shop_name_lc = raw_shop_name | downcase
+  if raw_shop_name == blank or raw_shop_name_lc contains 'unmatched kicks' or raw_shop_name_lc contains 'unamtched kicks' or raw_shop_name_lc == 'unmatchedsupply'
+    assign shop_name = 'Unmatched Supply'
+  else
+    assign shop_name = raw_shop_name
+  endif
+  assign page_canonical_url = canonical_url | default: site_url
+  assign brand_description = 'Unmatched Supply (formerly Unmatched Kicks) is an Indian streetwear, activewear, sneaker, and fitness supplement retailer founded in 2022 in Mumbai. It sources and inspects 100% authentic global brands including Gymshark, YoungLA, Alo Yoga, Fear of God Essentials, David Protein, Nike Air Jordans, and Yeezy for Pan-India delivery with zero customs fees.'
+
+  assign org_logo = logo | default: shop.brand.logo | default: settings.favicon
+  assign org_logo_url = ''
+  if org_logo != blank
+    if org_logo.width
+      assign org_logo_raw = org_logo | image_url: width: org_logo.width
+    else
+      assign org_logo_raw = org_logo | image_url
+    endif
+    if org_logo_raw contains 'http://' or org_logo_raw contains 'https://'
+      assign org_logo_url = org_logo_raw | replace: 'http://', 'https://'
+    else
+      assign org_logo_url = 'https:' | append: org_logo_raw
+    endif
+  endif
+
+  assign org_cover = shop.brand.cover_image
+  assign org_cover_url = ''
+  if org_cover != blank
+    if org_cover.width
+      assign org_cover_raw = org_cover | image_url: width: org_cover.width
+    else
+      assign org_cover_raw = org_cover | image_url
+    endif
+    if org_cover_raw contains 'http://' or org_cover_raw contains 'https://'
+      assign org_cover_url = org_cover_raw | replace: 'http://', 'https://'
+    else
+      assign org_cover_url = 'https:' | append: org_cover_raw
+    endif
+  endif
+
+  assign same_as_candidates = '||'
+  assign social_keys = 'instagram,facebook,twitter,x,youtube,tiktok,linkedin,pinterest,snapchat,vimeo' | split: ','
+  assign shop_social_links = shop.brand.metafields.social_links
+  for key in social_keys
+    assign setting_key = 'social_' | append: key | append: '_link'
+    assign candidate_url = settings[setting_key]
+    if candidate_url == blank and shop_social_links[key] != blank
+      assign candidate_url = shop_social_links[key].value
+    endif
+    if candidate_url != blank
+      assign candidate_url = candidate_url | strip | split: '?' | first | split: '#' | first
+      if key == 'instagram' and candidate_url.size > 0
+        assign len_minus_one = candidate_url.size | minus: 1
+        assign last_char = candidate_url | slice: len_minus_one, 1
+        if last_char == '/'
+          assign candidate_url = candidate_url | slice: 0, len_minus_one
+        endif
+      endif
+      if candidate_url != blank
+        assign delimited_candidate = '||' | append: candidate_url | append: '||'
+        unless same_as_candidates contains delimited_candidate
+          assign same_as_candidates = same_as_candidates | append: candidate_url | append: '||'
+        endunless
+      endif
+    endif
+  endfor
+
+  assign default_ig_url = 'https://www.instagram.com/unmatchedkicks.in'
+  assign delimited_default_ig = '||' | append: default_ig_url | append: '||'
+  unless same_as_candidates contains delimited_default_ig
+    assign same_as_candidates = delimited_default_ig | append: same_as_candidates | replace_first: '||||', '||'
+  endunless
+  assign same_as_list = same_as_candidates | split: '||'
+
+  assign potential_action_target = site_url | append: routes.search_url | append: '?q={search_term_string}'
+
+  assign shop_name_lc = shop_name | strip | downcase
+  assign supplement_handles = '|david-protein|david|ghost-supplements-india|quest-protein-bars|quest-protein-bars-1|barbell-protein-bar|prime-protein|ryse|dymatize|raw|dragon-pharma|panda-supplements|supplements-instant-ship|'
+
+  assign webpage_title = page_title | default: shop_name
+  if request.page_type == 'index'
+    assign norm_title = webpage_title | strip | downcase
+    if norm_title == blank or norm_title == shop_name_lc or norm_title == raw_shop_name_lc
+      assign webpage_title = 'Unmatched Supply — Streetwear, Activewear & Sneakers India'
+    endif
+  endif
+
+  assign shop_desc_clean = shop.description | strip_html | strip_newlines | replace: 'authentic.Instant', 'authentic. Instant' | strip
+  assign shop_desc_lc = shop_desc_clean | downcase
+  assign raw_page_desc = page_description | strip_html | strip_newlines | replace: 'authentic.Instant', 'authentic. Instant' | strip
+  assign raw_page_desc_lc = raw_page_desc | downcase
+
+  assign has_custom_page_desc = true
+  if raw_page_desc == blank or raw_page_desc_lc == raw_shop_name_lc or raw_page_desc_lc == shop_name_lc
+    assign has_custom_page_desc = false
+  elsif request.page_type != 'index' and shop_desc_lc != blank and raw_page_desc_lc == shop_desc_lc
+    assign has_custom_page_desc = false
+  endif
+
+  if request.page_type == 'collection' and collection != blank
+    assign collection_handle_token = '|' | append: collection.handle | append: '|'
+    if collection.handle == 'david-protein' or collection.handle == 'david'
+      assign david_title_lc = webpage_title | strip | downcase
+      unless david_title_lc contains 'protein' and david_title_lc contains 'india'
+        assign webpage_title = 'David Protein Bar India – Shop David Protein | Unmatched Supply'
+      endunless
+
+      if has_custom_page_desc and raw_page_desc_lc contains 'protein' and raw_page_desc_lc contains 'india' and raw_page_desc.size >= 110
+        assign webpage_description = raw_page_desc
+      else
+        assign webpage_description = 'Buy authentic David Protein bars in India at Unmatched Supply Mumbai. Shop Gold (28g) & Bronze (20g) 0g sugar 12-bar packs, Pan-India delivery & zero customs.'
+      endif
+    elsif has_custom_page_desc
+      assign webpage_description = raw_page_desc
+    elsif supplement_handles contains collection_handle_token
+      assign webpage_description = 'Shop 100% authentic ' | append: collection.title | append: ' in India at Unmatched Supply. Verified imported fitness supplements with fast Pan-India delivery & zero customs.'
+    else
+      assign webpage_description = 'Shop 100% authentic ' | append: collection.title | append: ' in India at Unmatched Supply. Verified global streetwear, activewear & lifestyle drops with Pan-India delivery & zero customs.'
+    endif
+  elsif request.page_type == 'product' and product != blank
+    assign product_title_lc = product.title | strip | downcase
+    assign product_vendor_lc = product.vendor | strip | downcase
+    assign is_david_product = false
+    if product_title_lc contains 'david protein' or product_vendor_lc contains 'david'
+      assign is_david_product = true
+    else
+      for pcol in product.collections
+        if pcol.handle == 'david-protein' or pcol.handle == 'david'
+          assign is_david_product = true
+          break
+        endif
+      endfor
+    endif
+
+    if is_david_product
+      assign current_wp_title_lc = webpage_title | strip | downcase
+      unless current_wp_title_lc contains 'india'
+        assign webpage_title = webpage_title | append: ' – India'
+      endunless
+
+      if has_custom_page_desc and raw_page_desc_lc contains 'india' and raw_page_desc.size >= 90
+        assign webpage_description = raw_page_desc
+      else
+        assign david_price = product.price | money_without_trailing_zeros | strip_html | strip
+        assign webpage_description = 'Buy authentic ' | append: product.title | append: ' in India for ' | append: david_price | append: ' at Unmatched Supply Mumbai. 0g sugar · Pan-India delivery & zero customs.'
+      endif
+    elsif has_custom_page_desc
+      assign webpage_description = raw_page_desc
+    else
+      assign webpage_description = 'Buy authentic ' | append: product.title | append: ' in India at Unmatched Supply. Verified genuine with fast Pan-India delivery and zero customs fees.'
+    endif
+  elsif has_custom_page_desc
+    assign webpage_description = raw_page_desc
+  elsif shop_desc_clean != blank and request.page_type == 'index'
+    assign webpage_description = shop_desc_clean
+  else
+    assign webpage_description = "Unmatched Supply (formerly Unmatched Kicks) is India's destination for 100% authentic Gymshark, YoungLA, Alo Yoga, Essentials, David Protein, sneakers & supplements."
+  endif
+
+  assign resolved_product_collection = collection
+  if request.page_type == 'product' and product != blank and resolved_product_collection == blank
+    assign fallback_david_collection = blank
+    assign fallback_primary_collection = blank
+    for pcol in product.collections
+      if pcol.handle == 'david-protein'
+        assign resolved_product_collection = pcol
+        break
+      elsif pcol.handle == 'david' and fallback_david_collection == blank
+        assign fallback_david_collection = pcol
+      endif
+      if fallback_primary_collection == blank
+        unless pcol.handle == 'all' or pcol.handle contains 'sale' or pcol.handle == 'popular-products' or pcol.handle == 'latest-drops-1' or pcol.handle == 'featured' or pcol.handle == 'tax-override'
+          assign fallback_primary_collection = pcol
+        endunless
+      endif
+    endfor
+    if resolved_product_collection == blank
+      assign resolved_product_collection = fallback_david_collection | default: fallback_primary_collection | default: product.collections.first
+    endif
+  endif
+
+  assign collection_crumb_name = ''
+  if collection != blank
+    assign col_title_lc = collection.title | strip | downcase
+    if collection.handle == 'david-protein' or collection.handle == 'david'
+      if col_title_lc == 'david'
+        assign collection_crumb_name = 'David Protein'
+      else
+        assign collection_crumb_name = collection.title
+      endif
+    else
+      assign collection_crumb_name = collection.title
+    endif
+  endif
+
+  assign resolved_collection_crumb_name = ''
+  if resolved_product_collection != blank
+    assign rcol_title_lc = resolved_product_collection.title | strip | downcase
+    if resolved_product_collection.handle == 'david-protein' or resolved_product_collection.handle == 'david'
+      if rcol_title_lc == 'david'
+        assign resolved_collection_crumb_name = 'David Protein'
+      else
+        assign resolved_collection_crumb_name = resolved_product_collection.title
+      endif
+    else
+      assign resolved_collection_crumb_name = resolved_product_collection.title
+    endif
+  endif
+
+  assign emit_webpage = false
+  assign webpage_type = 'WebPage'
+  if request.page_type == 'index'
+    assign emit_webpage = true
+    assign webpage_type = 'WebPage'
+  elsif request.page_type == 'collection' and collection != blank
+    assign emit_webpage = true
+    assign webpage_type = 'CollectionPage'
+  elsif request.page_type == 'page' and page != blank
+    assign emit_webpage = true
+    if page.handle contains 'about'
+      assign webpage_type = 'AboutPage'
+    elsif page.handle contains 'contact'
+      assign webpage_type = 'ContactPage'
+    else
+      assign webpage_type = 'WebPage'
+    endif
+  endif
+
+  assign emit_breadcrumb = false
+  if request.page_type == 'collection' and collection != blank
+    assign emit_breadcrumb = true
+  elsif request.page_type == 'product' and product != blank
+    assign emit_breadcrumb = true
+  elsif request.page_type == 'page' and page != blank
+    assign emit_breadcrumb = true
+  elsif request.page_type == 'blog' and blog != blank
+    assign emit_breadcrumb = true
+  elsif request.page_type == 'article' and article != blank
+    assign emit_breadcrumb = true
+  endif
+  assign breadcrumb_id = page_canonical_url | append: '#breadcrumb'
+-%}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["Organization", "OnlineStore"],
+        "@id": {{ site_url | append: '/#organization' | json }},
+        "name": {{ shop_name | json }},
+        "alternateName": [
+          "UNMATCHEDSUPPLY",
+          "Unmatched Kicks",
+          "Unmatched Kicks India"
+        ],
+        "url": {{ site_url | json }},
+        "description": {{ brand_description | json }},
+        "foundingDate": "2022",
+        "email": "unmatchedkicks@gmail.com",
+        "telephone": "+91-77100-96203",
+        "currenciesAccepted": "INR",
+        {%- if org_logo_url != blank -%}
+          "logo": {
+            "@type": "ImageObject",
+            "@id": {{ site_url | append: '/#logo' | json }},
+            "url": {{ org_logo_url | json }},
+            "contentUrl": {{ org_logo_url | json }},
+            {%- if org_logo.width -%}
+              "width": {{ org_logo.width }},
+            {%- endif -%}
+            {%- if org_logo.height -%}
+              "height": {{ org_logo.height }},
+            {%- endif -%}
+            "caption": {{ shop_name | json }}
+          },
+          {%- if org_cover_url != blank -%}
+            "image": {{ org_cover_url | json }},
+          {%- else -%}
+            "image": {
+              "@id": {{ site_url | append: '/#logo' | json }}
+            },
+          {%- endif -%}
+        {%- elsif org_cover_url != blank -%}
+          "image": {{ org_cover_url | json }},
+        {%- endif -%}
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road",
+          "addressLocality": "Mumbai",
+          "addressRegion": "MH",
+          "postalCode": "400052",
+          "addressCountry": "IN"
+        },
+        "areaServed": {
+          "@type": "Country",
+          "name": "India"
+        },
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "contactType": "customer support",
+            "email": "unmatchedkicks@gmail.com",
+            "telephone": "+91-77100-96203",
+            "areaServed": "IN",
+            "availableLanguage": ["en", "hi"]
+          }
+        ],
+        "knowsAbout": [
+          "Streetwear",
+          "Activewear",
+          "Athleisure",
+          "Sneakers",
+          "Fitness Supplements",
+          "Protein Bars",
+          "David Protein",
+          "David Protein Bars",
+          "Gymshark",
+          "YoungLA",
+          "Alo Yoga",
+          "Fear of God Essentials",
+          "Nike Air Jordan"
+        ],
+        "sameAs": [
+          {%- assign has_same_as = false -%}
+          {%- for s_url in same_as_list -%}
+            {%- assign clean_url = s_url | strip -%}
+            {%- if clean_url != blank -%}
+              {%- if has_same_as -%},{%- endif -%}
+              {{ clean_url | json }}
+              {%- assign has_same_as = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+        ]
+      }
+      {%- if request.page_type == 'index' -%}
+        ,{
+          "@type": "WebSite",
+          "@id": {{ site_url | append: '/#website' | json }},
+          "url": {{ site_url | json }},
+          "name": {{ shop_name | json }},
+          "description": {{ brand_description | json }},
+          "inLanguage": {{ request.locale.iso_code | default: 'en' | json }},
+          "publisher": {
+            "@id": {{ site_url | append: '/#organization' | json }}
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": {{ potential_action_target | json }}
+            },
+            "query-input": "required name=search_term_string"
+          }
+        }
+      {%- endif -%}
+      {%- if emit_webpage -%}
+        ,{
+          "@type": {{ webpage_type | json }},
+          "@id": {{ page_canonical_url | append: '/#webpage' | json }},
+          "url": {{ page_canonical_url | json }},
+          "name": {{ webpage_title | json }},
+          "description": {{ webpage_description | json }},
+          "inLanguage": {{ request.locale.iso_code | default: 'en' | json }},
+          "publisher": {
+            "@id": {{ site_url | append: '/#organization' | json }}
+          },
+          "isPartOf": {
+            "@id": {{ site_url | append: '/#website' | json }}
+          }
+          {%- if emit_breadcrumb -%}
+            ,"breadcrumb": {
+              "@id": {{ breadcrumb_id | json }}
+            }
+          {%- endif -%}
+          {%- if request.page_type == 'index' -%}
+            ,"about": {
+              "@id": {{ site_url | append: '/#organization' | json }}
+            },
+            "mainEntity": {
+              "@id": {{ site_url | append: '/#organization' | json }}
+            }
+          {%- elsif webpage_type == 'CollectionPage' and collection != blank -%}
+            {%- assign item_list_limit = 24 -%}
+            {%- if collection.handle == 'david-protein' or collection.handle == 'david' -%}
+              {%- assign item_list_limit = 48 -%}
+              ,"keywords": "David Protein Bar India, David Protein India, David Protein in India, David Protein Bar Mumbai, David Protein Gold 28g, David Protein Bronze 20g, David Protein 0g Sugar"
+              ,"spatialCoverage": [
+                {
+                  "@type": "Country",
+                  "name": "India"
+                },
+                {
+                  "@type": "City",
+                  "name": "Mumbai"
+                }
+              ]
+              ,"speakable": {
+                "@type": "SpeakableSpecification",
+                "cssSelector": [
+                  ".section-page-banner__text",
+                  ".david-geo-lead",
+                  ".david-geo-dl",
+                  ".david-geo-answers"
+                ]
+              }
+              ,"about": {
+                "@type": "Brand",
+                "name": "David Protein",
+                "alternateName": ["David", "David Protein Bar", "David Protein Bars India", "David Protein Gold", "David Protein Bronze"]
+              }
+            {%- endif -%}
+            ,"mainEntity": {
+              "@type": "ItemList",
+              "numberOfItems": {{ collection.products_count | default: collection.products.size }},
+              "itemListElement": [
+                {%- assign has_item = false -%}
+                {%- for item_product in collection.products limit: item_list_limit -%}
+                  {%- if has_item -%},{%- endif -%}
+                  {
+                    "@type": "ListItem",
+                    "position": {{ forloop.index }},
+                    "url": {{ site_url | append: item_product.url | json }},
+                    "name": {{ item_product.title | json }}
+                  }
+                  {%- assign has_item = true -%}
+                {%- endfor -%}
+              ]
+            }
+          {%- elsif webpage_type == 'AboutPage' or webpage_type == 'ContactPage' -%}
+            ,"about": {
+              "@id": {{ site_url | append: '/#organization' | json }}
+            },
+            "mainEntity": {
+              "@id": {{ site_url | append: '/#organization' | json }}
+            }
+          {%- endif -%}
+        }
+      {%- endif -%}
+      {%- if emit_breadcrumb -%}
+        ,{
+          "@type": "BreadcrumbList",
+          "@id": {{ breadcrumb_id | json }},
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": {{ site_url | json }}
+            }
+            {%- if request.page_type == 'collection' and collection != blank -%}
+              ,{
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ collection_crumb_name | json }},
+                "item": {{ page_canonical_url | json }}
+              }
+            {%- elsif request.page_type == 'product' and product != blank -%}
+              {%- if resolved_product_collection != blank -%}
+                ,{
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": {{ resolved_collection_crumb_name | json }},
+                  "item": {{ site_url | append: resolved_product_collection.url | json }}
+                },{
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": {{ product.title | json }},
+                  "item": {{ page_canonical_url | json }}
+                }
+              {%- else -%}
+                ,{
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": {{ product.title | json }},
+                  "item": {{ page_canonical_url | json }}
+                }
+              {%- endif -%}
+            {%- elsif request.page_type == 'page' and page != blank -%}
+              ,{
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ page.title | json }},
+                "item": {{ page_canonical_url | json }}
+              }
+            {%- elsif request.page_type == 'blog' and blog != blank -%}
+              ,{
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ blog.title | json }},
+                "item": {{ page_canonical_url | json }}
+              }
+            {%- elsif request.page_type == 'article' and article != blank -%}
+              {%- if blog != blank -%}
+                ,{
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": {{ blog.title | json }},
+                  "item": {{ site_url | append: blog.url | json }}
+                },{
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": {{ article.title | json }},
+                  "item": {{ page_canonical_url | json }}
+                }
+              {%- else -%}
+                ,{
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": {{ article.title | json }},
+                  "item": {{ page_canonical_url | json }}
+                }
+              {%- endif -%}
+            {%- endif -%}
+          ]
+        }
+      {%- endif -%}
+    ]
+  }
+</script>
