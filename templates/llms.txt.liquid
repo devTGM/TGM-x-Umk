@@ -140,6 +140,65 @@ Unmatched Supply stocks 100% authentic imported **GHOST® Lifestyle Supplements 
 {% for gp in ghost_llm_collection.products limit: 50 %}{% unless forloop.first %}
 {% endunless %}{% assign gp_instant = false %}{% if gp.metafields.custom.instant_ship.value == true or gp.metafields.custom.instant_ship == true or gp.metafields.custom.instant_ship.value == 'true' or gp.metafields.custom.instant_ship == 'true' %}{% assign gp_instant = true %}{% endif %}- [{{ gp.title }}]({{ llms_site_url }}{{ gp.url }}): {{ gp.price | money_without_trailing_zeros | strip_html | strip }}{% if gp.available %} — In Stock{% if gp_instant %} (Instant Ship){% endif %}{% else %} — Out of Stock{% endif %}{% endfor %}{% endif %}
 
+## Young LA (YoungLA) in India
+
+Unmatched Supply stocks 100% authentic imported **Young LA (YoungLA / YLA) gym wear and streetwear in India** at {{ llms_site_url }}/collections/young-la. Founded in 2014 in Chatsworth, Los Angeles, California by Gurmer and Robby Chopra, YoungLA is the world's leading fitness lifestyle brand tailored for athletic bodybuilding physiques. Every piece — including Spartan oversized tees, compression tops, W405 cargo joggers, Saint French Terry hoodies, and licensed One Piece / anime collaborations — is sourced through verified North American supply channels, inspected at our Khar West, Mumbai facility (Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai 400052), priced transparently in INR, and shipped Pan-India via tracked courier with **zero extra customs fees** at delivery. Orders above ₹14,999 qualify for free India shipping, and select SKUs carry Instant Ship dispatch.
+
+- Collection URL: {{ llms_site_url }}/collections/young-la
+- Related activewear collections: {{ llms_site_url }}/collections/youngla-instant-ship, {{ llms_site_url }}/collections/gymshark, {{ llms_site_url }}/collections/alo, {{ llms_site_url }}/collections/essentials
+
+### YoungLA Product Lineup & Sizing Specifications (India)
+
+| Category | Signature Silhouette | Fabric & Weight | Recommended Chest / Waist |
+| --- | --- | --- | --- |
+| Spartan & Immortal Oversized Tees | Dropped shoulders, relaxed chest, vintage wash | 100% Heavyweight Cotton (240–280 GSM) | S: 36–38" · M: 39–41" · L: 42–44" · XL: 45–47" |
+| Compression Tops & Longsleeves | Second-skin athletic fit, muscle-hugging raglan | Poly-Spandex high-stretch moisture wicking | True to size for maximum muscle definition |
+| W405 Cargo Joggers & Sweats | Tapered athletic leg, tactical zip pockets, ankle cuffs | Heavyweight French Terry / Cotton Blend | S: 28–30" · M: 31–33" · L: 34–36" · XL: 37–39" |
+| Saint Hoodies & Pullovers | Boxy cut, double-lined hood, heavy ribbed hem | 400+ GSM Heavyweight French Terry Cotton | True to size (oversized) or size down for tailored fit |
+| Licensed Anime Drops (One Piece, Naruto) | Custom anime artwork, high-density puff & screen prints | 100% Combed Heavy Cotton | Collector drops; standard YoungLA oversized fit |
+
+### Quick Q&A for Young LA Buyers in India
+
+- **Where to buy authentic YoungLA in India?** Directly online at Unmatched Supply ({{ llms_site_url }}/collections/young-la).
+- **Does YoungLA have an official store in India?** No. YoungLA is based in Chatsworth, California, USA without direct stores in India; Unmatched Supply is India's premier independent retailer stocking genuine pieces locally.
+- **Are extra customs duties charged upon delivery?** No. Inventory is stocked domestically in Mumbai with final checkout pricing in INR; zero surprise customs invoices at your doorstep.
+- **How does YoungLA sizing fit?** YoungLA features an oversized bodybuilding cut with dropped shoulders. Order true to size for a classic pump cover look, or size down by one size for a closer athletic fit.
+- **How is authenticity verified?** Every piece undergoes physical inspection for original YoungLA barcoded hangtags, woven/heat-pressed neck labels, rubberized 3D logos, and fabric GSM weight at our Mumbai facility.
+- **Who can I contact about restocks or drop notifications?** WhatsApp +91 77100 96203 or email unmatchedkicks@gmail.com.{% assign yla_llm_collection = collections['young-la'] %}{% if yla_llm_collection == blank or yla_llm_collection.products.size == 0 %}{% if collections['youngla'] != blank and collections['youngla'].products.size > 0 %}{% assign yla_llm_collection = collections['youngla'] %}{% endif %}{% endif %}{% if yla_llm_collection != blank and yla_llm_collection.products.size > 0 %}{% liquid
+  assign yp_min = 0
+  assign yp_max = 0
+  assign yp_avail = 0
+  for yp in yla_llm_collection.products limit: 50
+    if yp.available
+      assign yp_avail = yp_avail | plus: 1
+    endif
+    if yp.price != blank and yp.price > 0
+      if yp_min == 0 or yp.price < yp_min
+        assign yp_min = yp.price
+      endif
+      if yp.price > yp_max
+        assign yp_max = yp.price
+      endif
+    endif
+  endfor
+  assign yp_range = ''
+  if yp_min > 0
+    assign yp_min_s = yp_min | money_without_trailing_zeros | strip_html | strip
+    assign yp_max_s = yp_max | money_without_trailing_zeros | strip_html | strip
+    if yp_min < yp_max
+      assign yp_range = yp_min_s | append: ' – ' | append: yp_max_s
+    else
+      assign yp_range = yp_min_s
+    endif
+  endif
+%}
+
+### Live Young LA Inventory ({{ yla_llm_collection.products_count | default: yla_llm_collection.products.size }} Products{% if yp_range != blank %}, {{ yp_range }} INR{% endif %})
+
+- Currently in stock: {{ yp_avail }} of {{ yla_llm_collection.products.size }} listed SKUs
+{% for yp in yla_llm_collection.products limit: 50 %}{% unless forloop.first %}
+{% endunless %}{% assign yp_instant = false %}{% if yp.metafields.custom.instant_ship.value == true or yp.metafields.custom.instant_ship == true or yp.metafields.custom.instant_ship.value == 'true' or yp.metafields.custom.instant_ship == 'true' %}{% assign yp_instant = true %}{% endif %}- [{{ yp.title }}]({{ llms_site_url }}{{ yp.url }}): {{ yp.price | money_without_trailing_zeros | strip_html | strip }}{% if yp.available %} — In Stock{% if yp_instant %} (Instant Ship){% endif %}{% else %} — Out of Stock{% endif %}{% endfor %}{% endif %}
+
 ## Collections
 - [David Protein Bars India](https://www.unmatchedsupply.com/collections/david-protein)
 - [Supplements Instant Ship](https://www.unmatchedsupply.com/collections/supplements-instant-ship)
@@ -170,7 +229,7 @@ Unmatched Supply stocks 100% authentic imported **GHOST® Lifestyle Supplements 
 - [COACH](https://www.unmatchedsupply.com/collections/coach)
 - [Labubu](https://www.unmatchedsupply.com/collections/labubu)
 - [On Cloud](https://www.unmatchedsupply.com/collections/on-cloud)
-- [YOUNG LA](https://www.unmatchedsupply.com/collections/young-la)
+- [Young LA India](https://www.unmatchedsupply.com/collections/young-la)
 - [SKIMS](https://www.unmatchedsupply.com/collections/skims)
 - [Gymshark Womens](https://www.unmatchedsupply.com/collections/gymshark-womens)
 - [ALO](https://www.unmatchedsupply.com/collections/alo)

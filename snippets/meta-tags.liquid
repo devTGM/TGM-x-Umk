@@ -57,6 +57,17 @@
       else
         assign meta_description = 'Buy authentic Ghost Lifestyle supplements in India at Unmatched Supply Mumbai. Shop Ghost Legend Pre-Workout, Ghost Whey, Burn, Pump & collabs with Pan-India delivery & zero customs.'
       endif
+    elsif collection.handle == 'young-la' or collection.handle == 'youngla'
+      assign youngla_title_lc = meta_title | strip | downcase
+      unless youngla_title_lc contains 'young' and youngla_title_lc contains 'india'
+        assign meta_title = 'Young LA India – Buy Authentic YoungLA Gym & Streetwear | Unmatched Supply'
+      endunless
+
+      if has_custom_page_desc and raw_page_desc_lc contains 'young' and raw_page_desc_lc contains 'india' and raw_page_desc.size >= 110
+        assign meta_description = raw_page_desc
+      else
+        assign meta_description = 'Buy 100% authentic Young LA (YoungLA) gym wear in India at Unmatched Supply Mumbai. Shop Spartan tees, compression tops, joggers & hoodies with fast Pan-India delivery & zero customs.'
+      endif
     elsif has_custom_page_desc
       assign meta_description = raw_page_desc
     elsif supplement_handles contains collection_handle_token
@@ -91,6 +102,18 @@
       endfor
     endif
 
+    assign is_youngla_product = false
+    if product_title_lc contains 'youngla' or product_title_lc contains 'young la' or product_title_lc contains 'yla ' or product_title_lc contains 'yla -' or product_vendor_lc contains 'youngla' or product_vendor_lc contains 'young la' or product_vendor_lc == 'yla'
+      assign is_youngla_product = true
+    else
+      for pcol in product.collections
+        if pcol.handle == 'young-la' or pcol.handle == 'youngla' or pcol.handle == 'youngla-instant-ship' or pcol.handle contains 'young-la' or pcol.handle contains 'youngla'
+          assign is_youngla_product = true
+          break
+        endif
+      endfor
+    endif
+
     if is_david_product
       assign current_meta_title_lc = meta_title | strip | downcase
       unless current_meta_title_lc contains 'india'
@@ -114,6 +137,18 @@
       else
         assign ghost_price = product.price | money_without_trailing_zeros | strip_html | strip
         assign meta_description = 'Buy authentic ' | append: product.title | append: ' in India for ' | append: ghost_price | append: ' at Unmatched Supply Mumbai. 100% genuine GHOST Lifestyle · Pan-India delivery & zero customs.'
+      endif
+    elsif is_youngla_product
+      assign current_meta_title_lc = meta_title | strip | downcase
+      unless current_meta_title_lc contains 'india'
+        assign meta_title = meta_title | append: ' – YoungLA India'
+      endunless
+
+      if has_custom_page_desc and raw_page_desc_lc contains 'india' and raw_page_desc.size >= 90
+        assign meta_description = raw_page_desc
+      else
+        assign youngla_price = product.price | money_without_trailing_zeros | strip_html | strip
+        assign meta_description = 'Buy authentic ' | append: product.title | append: ' in India for ' | append: youngla_price | append: ' at Unmatched Supply Mumbai. 100% genuine YoungLA gym wear · Pan-India delivery & zero customs.'
       endif
     elsif has_custom_page_desc
       assign meta_description = raw_page_desc

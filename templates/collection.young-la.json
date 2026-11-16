@@ -1,0 +1,229 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "page_banner_youngla": {
+      "type": "page-banner",
+      "settings": {
+        "enable_transparent_header": false,
+        "heading": "Young LA India",
+        "heading_size": "h3",
+        "text": "<p>Shop 100% authentic <strong>Young LA (YoungLA) gym clothes and streetwear in India</strong> at Unmatched Supply (Khar West, Mumbai). Explore Spartan oversized tees, compression tops, W405 cargo joggers, Saint heavyweight hoodies, and limited-edition anime drops for tracked Pan-India delivery with transparent INR pricing and zero customs fees.</p>",
+        "show_default_description": false,
+        "show_on_description": "both",
+        "content_position": "center",
+        "content_alignment": "start",
+        "media_position": "background",
+        "page_menu": "",
+        "enable_breadcrumbs": true,
+        "section_height": "auto",
+        "content_width": "100%",
+        "video_external": "",
+        "show_controls_on_video": false,
+        "section_height_mobile": "auto",
+        "video_external_mobile": "",
+        "show_controls_on_video_mobile": false,
+        "section_width": "max-w-page",
+        "color_scheme": "scheme-1",
+        "color_scheme_for_media": "scheme-6",
+        "spacing_top": "2",
+        "spacing_bottom": "1"
+      }
+    },
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "show_top_border_for_utilities_bar": true,
+        "enable_products_count": true,
+        "enable_sorting": true,
+        "enable_opened_accordions": true,
+        "filters": "drawer",
+        "products_per_row": "4",
+        "products_per_row_mobile": "2",
+        "products_per_page": 24,
+        "pagination_style": "load_more",
+        "enable_infinity_scroll": true,
+        "section_width": "max-w-page",
+        "color_scheme": "scheme-1",
+        "spacing_top": "1",
+        "spacing_bottom": "1"
+      }
+    },
+    "youngla_ai_summary": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{% render 'youngla-collection-data-tables' %}",
+        "section_width": "max-w-fluid",
+        "color_scheme": "scheme-1",
+        "spacing_top": "2",
+        "spacing_bottom": "2"
+      }
+    },
+    "seo_content_youngla": {
+      "type": "seo-content",
+      "settings": {
+        "section_layout": "normal",
+        "heading": "Buy Authentic Young LA (YoungLA) in India — Gym Clothes, Compression Tees & Joggers Guide",
+        "heading_tag": "h2",
+        "heading_size": "h4",
+        "text": "<p>Looking to buy authentic <strong>Young LA (YoungLA) gym clothes and streetwear in India</strong> without exorbitant international courier fees, weeks of cargo clearance delays, or surprise customs tax bills at your doorstep? At <strong>Unmatched Supply</strong> (formerly Unmatched Kicks), we make shopping genuine <strong>YoungLA in India</strong> transparent, reliable, and straightforward: every piece is imported from vetted North American channels, inspected at our Khar West, Mumbai facility, billed in final Indian Rupees (INR), and dispatched Pan-India with zero hidden customs charges.</p><h3>The Rise of YoungLA: The Ultimate Bodybuilding &amp; Lifestyle Brand</h3><p>Founded in 2014 in Chatsworth, Los Angeles, California by brothers Gurmer and Robby Chopra, <strong>YoungLA</strong> has grown into the undisputed global leader in modern fitness apparel and gym streetwear. Designed specifically for athletes, bodybuilders, and fitness creators, YoungLA broke away from generic athletic wear by combining heavyweight vintage-wash cotton, exaggerated dropped-shoulder silhouettes, and tailored athletic tapers that showcase muscular physiques while providing maximum comfort during grueling workouts.</p><h3>Iconic YoungLA Collections Stocked Across India Drops</h3><ul><li><strong>Spartan Oversized Tees (YLA x Axel):</strong> The defining pump cover of modern gym culture. Built from 240+ GSM heavyweight combed cotton with a washed vintage finish, dropped shoulders, and bold graphic branding that hangs perfectly over broad shoulders and lats.</li><li><strong>Saint Heavyweight Hoodies &amp; Sweats:</strong> Crafted from ultra-dense 400+ GSM French Terry cotton, featuring a boxy, double-lined hood and sturdy ribbed cuffs that hold their shape through countless training cycles and washes.</li><li><strong>YoungLA Compression Tops &amp; Longsleeves:</strong> Engineered with high-recovery polyester-spandex stretch fabrics that hug the chest, arms, and torso for maximum muscle warmth, vascularity definition, and zero gym chafing.</li><li><strong>W405 Cargo Joggers &amp; Sweats:</strong> Featuring deep tactical zip pockets, reinforced knee stitching, and tapered ankle cuffs designed to sit cleanly above high-top sneakers and lifting shoes.</li><li><strong>Anime &amp; Pop Culture Collabs (One Piece &amp; Naruto):</strong> Officially licensed limited-edition drops featuring custom anime artwork, high-density puff prints, and collector details celebrated worldwide.</li></ul><h3>How to Choose Your YoungLA Size for an Athletic Fit</h3><ul><li><strong>For the Classic \"Pump Cover\" Oversized Look:</strong> Order true to size or size up by one size. YoungLA tees already feature dropped shoulders and an extended chest profile; sizing up delivers that exaggerated aesthetic seen across fitness creator channels.</li><li><strong>For a Fitted, Athletic Streetwear Look:</strong> If you have an athletic build and prefer a standard fit that outlines your biceps and shoulders, consider sizing down one size.</li><li><strong>Joggers &amp; Sweats Sizing:</strong> YoungLA joggers feature elasticated waistbands with durable drawstrings. Match your standard waist measurement in inches (S: 28–30, M: 31–33, L: 34–36, XL: 37–39).</li></ul><h3>Mumbai Authenticity Inspection &amp; Pan-India Courier Delivery</h3><ul><li><strong>Zero Surprise Customs Invoices:</strong> Unlike ordering from youngla.com USA where Indian customers face 42%–77% import duty plus customs broker clearance charges at delivery, Unmatched Supply stocks inventory domestically in India. The checkout price in INR is completely final.</li><li><strong>Verified at Khar West, Mumbai:</strong> Our team inspects every incoming piece for manufacturer hangtag barcodes, rubberized logo sharpness, fabric GSM, and seam stitching at Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai 400052 before packing.</li><li><strong>Fast Dispatch Across India:</strong> We deliver Pan-India through tracked courier partners with Instant Ship options on ready inventory, and free shipping applies on orders above ₹14,999. Contact our team anytime via WhatsApp at <strong>+91 77100 96203</strong> or <a href=\"mailto:unmatchedkicks@gmail.com\">unmatchedkicks@gmail.com</a>.</li></ul><p>Explore more authentic imported activewear, streetwear, and fitness nutrition: <a href=\"/collections/youngla-instant-ship\">YoungLA Instant Ship</a>, <a href=\"/collections/gymshark\">Gymshark India</a>, <a href=\"/collections/alo-yoga\">Alo Yoga</a>, <a href=\"/collections/essentials\">Fear of God Essentials</a>, <a href=\"/collections/ghost-supplements-india\">Ghost Supplements India</a>, <a href=\"/collections/david-protein\">David Protein Bars India</a>, and <a href=\"/pages/about-us\">About Unmatched Supply</a>.</p>",
+        "content_alignment": "start",
+        "section_width": "max-w-fluid",
+        "color_scheme": "scheme-5",
+        "spacing_inner": "2",
+        "spacing_top": "4",
+        "spacing_bottom": "4"
+      }
+    },
+    "accordions_youngla": {
+      "type": "accordions",
+      "blocks": {
+        "youngla_faq_1": {
+          "type": "topic",
+          "settings": {
+            "is_open": true,
+            "title": "Where can I buy authentic YoungLA gym clothes and streetwear in India?",
+            "text": "<p>You can buy 100% authentic YoungLA gym clothes and streetwear in India directly online at Unmatched Supply (unmatchedsupply.com/collections/young-la). We stock genuine US drops in Mumbai with transparent INR pricing, fast Pan-India tracked delivery, and zero extra customs fees at delivery.</p>",
+            "page": ""
+          }
+        },
+        "youngla_faq_2": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Does YoungLA have an official store or direct subsidiary in India?",
+            "text": "<p>No. YoungLA is headquartered in Chatsworth, Los Angeles, California, USA and does not operate direct retail stores or official brand subsidiaries in India. Unmatched Supply acts as India’s leading independent retailer, importing, verifying, and stocking genuine YoungLA pieces locally.</p>",
+            "page": ""
+          }
+        },
+        "youngla_faq_3": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "What is the price of YoungLA t-shirts, hoodies, and joggers in India?",
+            "text": "<p>Authentic imported YoungLA apparel at Unmatched Supply typically ranges from ₹5,499 for skullies/accessories, ₹6,999 for Spartan and graphic tees, to ₹9,499 – ₹10,499 for heavy hoodies and joggers. All prices are listed in final INR with zero hidden customs charges or international transaction fees.</p>",
+            "page": ""
+          }
+        },
+        "youngla_faq_4": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Are extra customs duties or courier taxes charged upon delivery in India?",
+            "text": "<p>No. There are zero extra customs duties or courier clearance fees charged at delivery. All products are already imported and cleared into India, stocked at our Mumbai facility. The amount shown at checkout is 100% final.</p>",
+            "page": ""
+          }
+        },
+        "youngla_faq_5": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How does YoungLA sizing fit Indian athletes (sizing guide)?",
+            "text": "<p>YoungLA features a specialized athletic bodybuilding cut with dropped shoulders, roomy chest dimensions, and a tapered waist. For the classic oversized \"pump cover\" aesthetic, order true to size or one size up. For a closer athletic fit that hugs arms and chest, size down one size. For joggers, order based on your standard waist size in inches (S: 28–30, M: 31–33, L: 34–36, XL: 37–39).</p>",
+            "page": ""
+          }
+        },
+        "youngla_faq_6": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "What are YoungLA’s most popular product lines (Spartan, Immortal, Compression, Cargo Joggers)?",
+            "text": "<p>YoungLA’s most celebrated collections include Spartan Oversized Tees (YLA x Axel), Immortal Tees, Saint French Terry Hoodies, W405 Cargo Joggers, Superhero and Core Compression Tops, and Graphic Sweatpants. Each line features heavyweight fabrics (240–400+ GSM) built for gym performance and everyday streetwear.</p>",
+            "page": ""
+          }
+        },
+        "youngla_faq_7": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How does Unmatched Supply verify YoungLA authenticity in Mumbai?",
+            "text": "<p>Every batch undergoes a 5-step authenticity protocol at our Khar West, Mumbai facility. We verify official YoungLA barcoded SKU hangtags, woven and heat-pressed neck labels, rubberized 3D YLA logos, fabric GSM weights, and heavy-duty double stitching before approving each piece for customer dispatch.</p>",
+            "page": ""
+          }
+        },
+        "youngla_faq_8": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Can I buy YoungLA One Piece, Naruto, and Superhero collaboration drops in India?",
+            "text": "<p>Yes. Unmatched Supply actively stocks limited-edition YoungLA licensed collaborations, including One Piece graphic sweats, Naruto Shippuden drops, and superhero-themed compression wear. Because collab drops sell out rapidly worldwide, we recommend following our store alerts and WhatsApp community.</p>",
+            "page": ""
+          }
+        },
+        "youngla_faq_9": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How long does shipping take for YoungLA orders across Indian cities?",
+            "text": "<p>Orders are dispatched from Mumbai via premium express air and surface couriers. Major metros (Mumbai, Delhi NCR, Bangalore, Hyderabad, Pune, Chennai) receive orders in 2–4 business days, while other Indian cities take 3–5 days. Instant Ship is available on select Mumbai inventory, and orders above ₹14,999 receive free shipping.</p>",
+            "page": ""
+          }
+        },
+        "youngla_faq_10": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "What is the difference between ordering from youngla.com USA vs. Unmatched Supply India?",
+            "text": "<p>Ordering from youngla.com directly to India results in $35–$45 USD international shipping costs, mandatory 42%–77% import duty and IGST collected at Indian customs, KYC documentation delays at air cargo ports, and 3–5 week delivery timelines. Unmatched Supply stocks pieces in India with zero customs paperwork, fast 2–5 day delivery, transparent INR checkout, and local Mumbai customer care.</p>",
+            "page": ""
+          }
+        },
+        "youngla_faq_11": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How should YoungLA gym apparel be washed and cared for?",
+            "text": "<p>To protect YoungLA’s vintage fabric washes, graphic prints, and rubberized logos, machine wash cold (under 30°C) inside out with mild detergent. Hang dry or tumble dry on low heat. Avoid high-heat drying, fabric softeners on compression wear, and direct ironing over prints.</p>",
+            "page": ""
+          }
+        },
+        "youngla_faq_12": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How do I contact customer support for YoungLA restocks or size advice?",
+            "text": "<p>Reach our Mumbai team directly on WhatsApp at +91 77100 96203 or email unmatchedkicks@gmail.com. We provide instant personalized sizing recommendations based on your height, weight, and build, as well as real-time updates on incoming YoungLA shipments.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "youngla_faq_1",
+        "youngla_faq_2",
+        "youngla_faq_3",
+        "youngla_faq_4",
+        "youngla_faq_5",
+        "youngla_faq_6",
+        "youngla_faq_7",
+        "youngla_faq_8",
+        "youngla_faq_9",
+        "youngla_faq_10",
+        "youngla_faq_11",
+        "youngla_faq_12"
+      ],
+      "settings": {
+        "heading": "Frequently Asked Questions — Young LA (YoungLA) India",
+        "enable_faq_schema": true,
+        "heading_size": "h3",
+        "section_width": "max-w-fluid",
+        "color_scheme": "",
+        "spacing_top": "2",
+        "spacing_bottom": "2"
+      }
+    }
+  },
+  "order": [
+    "page_banner_youngla",
+    "main",
+    "youngla_ai_summary",
+    "seo_content_youngla",
+    "accordions_youngla"
+  ]
+}

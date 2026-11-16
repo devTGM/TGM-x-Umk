@@ -30,6 +30,12 @@
       else
         assign active_collection_title = active_collection.title
       endif
+    elsif active_collection.handle == 'young-la' or active_collection.handle == 'youngla'
+      if active_collection_lc == 'young la' or active_collection_lc == 'youngla' or active_collection_lc == 'yla'
+        assign active_collection_title = 'Young LA'
+      else
+        assign active_collection_title = active_collection.title
+      endif
     else
       assign active_collection_title = active_collection.title
     endif

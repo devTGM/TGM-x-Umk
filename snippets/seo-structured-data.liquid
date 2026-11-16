@@ -129,6 +129,17 @@
       else
         assign webpage_description = 'Buy authentic Ghost Lifestyle supplements in India at Unmatched Supply Mumbai. Shop Ghost Legend Pre-Workout, Ghost Whey, Burn, Pump & collabs with Pan-India delivery & zero customs.'
       endif
+    elsif collection.handle == 'young-la' or collection.handle == 'youngla'
+      assign youngla_title_lc = webpage_title | strip | downcase
+      unless youngla_title_lc contains 'young' and youngla_title_lc contains 'india'
+        assign webpage_title = 'Young LA India – Buy Authentic YoungLA Gym & Streetwear | Unmatched Supply'
+      endunless
+
+      if has_custom_page_desc and raw_page_desc_lc contains 'young' and raw_page_desc_lc contains 'india' and raw_page_desc.size >= 110
+        assign webpage_description = raw_page_desc
+      else
+        assign webpage_description = 'Buy 100% authentic Young LA (YoungLA) gym wear in India at Unmatched Supply Mumbai. Shop Spartan tees, compression tops, joggers & hoodies with fast Pan-India delivery & zero customs.'
+      endif
     elsif has_custom_page_desc
       assign webpage_description = raw_page_desc
     elsif supplement_handles contains collection_handle_token
@@ -163,6 +174,18 @@
       endfor
     endif
 
+    assign is_youngla_product = false
+    if product_title_lc contains 'youngla' or product_title_lc contains 'young la' or product_title_lc contains 'yla ' or product_title_lc contains 'yla -' or product_vendor_lc contains 'youngla' or product_vendor_lc contains 'young la' or product_vendor_lc == 'yla'
+      assign is_youngla_product = true
+    else
+      for pcol in product.collections
+        if pcol.handle == 'young-la' or pcol.handle == 'youngla' or pcol.handle == 'youngla-instant-ship' or pcol.handle contains 'young-la' or pcol.handle contains 'youngla'
+          assign is_youngla_product = true
+          break
+        endif
+      endfor
+    endif
+
     if is_david_product
       assign current_wp_title_lc = webpage_title | strip | downcase
       unless current_wp_title_lc contains 'india'
@@ -187,6 +210,18 @@
         assign ghost_price = product.price | money_without_trailing_zeros | strip_html | strip
         assign webpage_description = 'Buy authentic ' | append: product.title | append: ' in India for ' | append: ghost_price | append: ' at Unmatched Supply Mumbai. 100% genuine GHOST Lifestyle · Pan-India delivery & zero customs.'
       endif
+    elsif is_youngla_product
+      assign current_wp_title_lc = webpage_title | strip | downcase
+      unless current_wp_title_lc contains 'india'
+        assign webpage_title = webpage_title | append: ' – YoungLA India'
+      endunless
+
+      if has_custom_page_desc and raw_page_desc_lc contains 'india' and raw_page_desc.size >= 90
+        assign webpage_description = raw_page_desc
+      else
+        assign youngla_price = product.price | money_without_trailing_zeros | strip_html | strip
+        assign webpage_description = 'Buy authentic ' | append: product.title | append: ' in India for ' | append: youngla_price | append: ' at Unmatched Supply Mumbai. 100% genuine YoungLA gym wear · Pan-India delivery & zero customs.'
+      endif
     elsif has_custom_page_desc
       assign webpage_description = raw_page_desc
     else
@@ -204,6 +239,7 @@
   if request.page_type == 'product' and product != blank and resolved_product_collection == blank
     assign fallback_david_collection = blank
     assign fallback_ghost_collection = blank
+    assign fallback_youngla_collection = blank
     assign fallback_primary_collection = blank
     for pcol in product.collections
       if pcol.handle == 'david-protein'
@@ -212,10 +248,15 @@
       elsif pcol.handle == 'ghost-supplements-india'
         assign resolved_product_collection = pcol
         break
+      elsif pcol.handle == 'young-la'
+        assign resolved_product_collection = pcol
+        break
       elsif pcol.handle == 'david' and fallback_david_collection == blank
         assign fallback_david_collection = pcol
       elsif pcol.handle == 'ghost' and fallback_ghost_collection == blank
         assign fallback_ghost_collection = pcol
+      elsif pcol.handle == 'youngla' and fallback_youngla_collection == blank
+        assign fallback_youngla_collection = pcol
       endif
       if fallback_primary_collection == blank
         unless pcol.handle == 'all' or pcol.handle contains 'sale' or pcol.handle == 'popular-products' or pcol.handle == 'latest-drops-1' or pcol.handle == 'featured' or pcol.handle == 'tax-override'
@@ -224,7 +265,7 @@
       endif
     endfor
     if resolved_product_collection == blank
-      assign resolved_product_collection = fallback_david_collection | default: fallback_ghost_collection | default: fallback_primary_collection | default: product.collections.first
+      assign resolved_product_collection = fallback_david_collection | default: fallback_ghost_collection | default: fallback_youngla_collection | default: fallback_primary_collection | default: product.collections.first
     endif
   endif
 
@@ -240,6 +281,12 @@
     elsif collection.handle == 'ghost-supplements-india' or collection.handle == 'ghost'
       if col_title_lc == 'ghost'
         assign collection_crumb_name = 'Ghost Supplements'
+      else
+        assign collection_crumb_name = collection.title
+      endif
+    elsif collection.handle == 'young-la' or collection.handle == 'youngla'
+      if col_title_lc == 'young la' or col_title_lc == 'youngla' or col_title_lc == 'yla'
+        assign collection_crumb_name = 'Young LA'
       else
         assign collection_crumb_name = collection.title
       endif
@@ -260,6 +307,12 @@
     elsif resolved_product_collection.handle == 'ghost-supplements-india' or resolved_product_collection.handle == 'ghost'
       if rcol_title_lc == 'ghost'
         assign resolved_collection_crumb_name = 'Ghost Supplements'
+      else
+        assign resolved_collection_crumb_name = resolved_product_collection.title
+      endif
+    elsif resolved_product_collection.handle == 'young-la' or resolved_product_collection.handle == 'youngla'
+      if rcol_title_lc == 'young la' or rcol_title_lc == 'youngla' or rcol_title_lc == 'yla'
+        assign resolved_collection_crumb_name = 'Young LA'
       else
         assign resolved_collection_crumb_name = resolved_product_collection.title
       endif
@@ -382,6 +435,8 @@
           "GHOST Whey",
           "Gymshark",
           "YoungLA",
+          "Young LA",
+          "YLA",
           "Alo Yoga",
           "Fear of God Essentials",
           "Nike Air Jordan"
@@ -500,6 +555,33 @@
                 "@type": "Brand",
                 "name": "GHOST Lifestyle",
                 "alternateName": ["GHOST", "GHOST Supplements", "GHOST Legend", "GHOST Whey", "GHOST Lifestyle India"]
+              }
+            {%- elsif collection.handle == 'young-la' or collection.handle == 'youngla' -%}
+              {%- assign item_list_limit = 48 -%}
+              ,"keywords": "Young LA India, YoungLA India, Buy Young LA India, Young LA Clothing India, YoungLA Gym Wear India, Young LA Compression Shirt India, Young LA Joggers India, Young LA T Shirt India, YLA India, Young LA Mumbai"
+              ,"spatialCoverage": [
+                {
+                  "@type": "Country",
+                  "name": "India"
+                },
+                {
+                  "@type": "City",
+                  "name": "Mumbai"
+                }
+              ]
+              ,"speakable": {
+                "@type": "SpeakableSpecification",
+                "cssSelector": [
+                  ".section-page-banner__text",
+                  ".youngla-geo-lead",
+                  ".youngla-geo-dl",
+                  ".youngla-geo-answers"
+                ]
+              }
+              ,"about": {
+                "@type": "Brand",
+                "name": "YoungLA",
+                "alternateName": ["Young LA", "YLA", "YoungLA Clothing", "Young LA India", "YoungLA For Her"]
               }
             {%- endif -%}
             ,"mainEntity": {

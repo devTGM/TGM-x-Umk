@@ -985,4 +985,88 @@
       </details>
     </accordion-default>
   {%- endif -%}
+
+  {%- liquid
+    assign youngla_pdp_match = false
+    assign youngla_pdp_col_url = ''
+    if product != blank and is_gift_card != true
+      assign youngla_pdp_title_lc = product.title | strip | downcase
+      assign youngla_pdp_vendor_lc = product.vendor | strip | downcase
+      if youngla_pdp_title_lc contains 'youngla' or youngla_pdp_title_lc contains 'young la' or youngla_pdp_title_lc contains 'yla ' or youngla_pdp_title_lc contains 'yla -' or youngla_pdp_vendor_lc contains 'youngla' or youngla_pdp_vendor_lc contains 'young la' or youngla_pdp_vendor_lc == 'yla'
+        assign youngla_pdp_match = true
+      endif
+      for pcol in product.collections
+        if pcol.handle == 'young-la'
+          assign youngla_pdp_match = true
+          if pcol.url != blank
+            assign youngla_pdp_col_url = pcol.url
+          endif
+          break
+        elsif pcol.handle == 'youngla'
+          assign youngla_pdp_match = true
+          if youngla_pdp_col_url == blank and pcol.url != blank
+            assign youngla_pdp_col_url = pcol.url
+          endif
+        endif
+      endfor
+      if youngla_pdp_col_url == blank
+        if collections['young-la'] != blank
+          assign youngla_pdp_col_url = collections['young-la'].url | default: '/collections/young-la'
+        elsif collections['youngla'] != blank
+          assign youngla_pdp_col_url = collections['youngla'].url | default: '/collections/youngla'
+        else
+          assign youngla_pdp_col_url = '/collections/young-la'
+        endif
+      endif
+    endif
+  -%}
+  {%- if youngla_pdp_match -%}
+    {{- 'section-accordions.aio.min.css' | asset_url | stylesheet_tag -}}
+    {%- liquid
+      assign youngla_pdp_box_price = ''
+      if product.price != blank and product.price > 0
+        assign youngla_pdp_box_price = product.price | money_without_trailing_zeros | strip_html | strip
+      endif
+    -%}
+    <accordion-default class="accordion product__accordion product__block product__block--gap-1" data-hide-multiple>
+      <details class="accordion__section" id="Details-youngla-india-guide">
+        <summary class="accordion__button h5 js-btn" id="Details-Summary-youngla-india-guide">
+          <span>
+            {% render 'icon', icon_name: 'theme-package-check' %}
+            <span>Young LA (YoungLA) India — Authenticity &amp; Sizing Guide</span>
+          </span>
+          <div class="accordion__icon">
+            {%- render 'icon', icon_name: 'theme-minus' -%}
+            {%- render 'icon', icon_name: 'theme-minus' -%}
+          </div>
+        </summary>
+        <div class="accordion__body" id="Details-Content-youngla-india-guide">
+          <div class="accordion__body-inner">
+            <div class="rte">
+              {%- if youngla_pdp_title_lc contains 'tee' or youngla_pdp_title_lc contains 't-shirt' -%}
+                <p><strong>YoungLA Oversized Bodybuilding Tee:</strong> Engineered from 240+ GSM heavyweight vintage-wash combed cotton with dropped shoulders, a relaxed chest, and an athletic drape that hangs perfectly over lifters' frames.</p>
+              {%- elsif youngla_pdp_title_lc contains 'sweat' or youngla_pdp_title_lc contains 'jogger' -%}
+                <p><strong>YoungLA Athletic Joggers &amp; Sweats:</strong> Features a tapered athletic fit with deep zippered pockets, reinforced knee panels, and a ribbed waistband designed for gym training and everyday athleisure.</p>
+              {%- elsif youngla_pdp_title_lc contains 'hoodie' -%}
+                <p><strong>YoungLA Heavyweight French Terry Hoodie:</strong> Built from 400+ GSM dense cotton with a boxy double-lined hood and sturdy ribbed cuffs for high-durability training and urban styling.</p>
+              {%- elsif youngla_pdp_title_lc contains 'compression' -%}
+                <p><strong>YoungLA Performance Compression Top:</strong> Delivers second-skin high-stretch recovery to enhance muscular warmth, outline vascularity, and eliminate chafing during intense lifting sessions.</p>
+              {%- else -%}
+                <p><strong>YoungLA Gym &amp; Streetwear:</strong> 100% authentic US-designed fitness apparel from Chatsworth, California, built specifically for athletic bodybuilding physiques.</p>
+              {%- endif -%}
+              <ul>
+                {%- if youngla_pdp_box_price != blank -%}
+                  <li><strong>INR Pricing:</strong> {{ youngla_pdp_box_price }} final checkout price with zero extra customs duties at delivery.</li>
+                {%- endif -%}
+                <li><strong>Sizing Recommendation:</strong> Fits true to size for a classic oversized pump cover look. Size down one size if you prefer a closer athletic fit outlining arms and chest.</li>
+                <li><strong>Mumbai Batch Inspection:</strong> Verified for official barcoded SKU hangtags, woven labels, rubberized 3D logos, and double stitching at Unmatched Supply, Khar West, Plot No 27, 3rd Road, Mumbai 400052.</li>
+                <li><strong>Fast Pan-India Delivery:</strong> Tracked courier dispatch with Instant Ship availability on ready stock and free India shipping on orders above ₹14,999.</li>
+              </ul>
+              <p><a href="{{ youngla_pdp_col_url }}#youngla-india-quick-facts">View YoungLA Size Chart &amp; Categories in India</a> · <a href="/collections/youngla-instant-ship">YoungLA Instant Ship</a></p>
+            </div>
+          </div>
+        </div>
+      </details>
+    </accordion-default>
+  {%- endif -%}
 </section>

@@ -45,7 +45,22 @@
     assign is_ghost_default_fallback = true
   endif
 
-  if is_david_default_fallback == false and is_ghost_default_fallback == false and collection != blank
+  assign is_youngla_default_fallback = false
+  assign is_youngla_handle = false
+  if collection != blank
+    if collection.handle == 'young-la' or collection.handle == 'youngla'
+      assign is_youngla_handle = true
+    endif
+  endif
+  assign is_youngla_suffix = false
+  if template.suffix == 'young-la' or template.suffix == 'youngla'
+    assign is_youngla_suffix = true
+  endif
+  if template.name == 'collection' and is_youngla_handle and is_youngla_suffix == false and section.settings.heading contains '{{ collection.title }}'
+    assign is_youngla_default_fallback = true
+  endif
+
+  if is_david_default_fallback == false and is_ghost_default_fallback == false and is_youngla_default_fallback == false and collection != blank
     assign rendered_heading = rendered_heading | replace: '{{ collection.title }}', collection.title | replace: '{{collection.title}}', collection.title
     assign rendered_text = rendered_text | replace: '{{ collection.title }}', collection.title | replace: '{{collection.title}}', collection.title
   endif
@@ -60,6 +75,8 @@
           {%- render 'david-collection-seo-content', heading_size: section.settings.heading_size -%}
         {%- elsif is_ghost_default_fallback -%}
           {%- render 'ghost-collection-seo-content', heading_size: section.settings.heading_size -%}
+        {%- elsif is_youngla_default_fallback -%}
+          {%- render 'youngla-collection-seo-content', heading_size: section.settings.heading_size -%}
         {%- else -%}
           {%- if rendered_heading != blank -%}
             <{{ seo_heading_tag }} class="section__heading {{ section.settings.heading_size }}">
