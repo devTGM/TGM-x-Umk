@@ -24,6 +24,12 @@
       else
         assign active_collection_title = active_collection.title
       endif
+    elsif active_collection.handle == 'ghost-supplements-india' or active_collection.handle == 'ghost'
+      if active_collection_lc == 'ghost'
+        assign active_collection_title = 'Ghost Supplements'
+      else
+        assign active_collection_title = active_collection.title
+      endif
     else
       assign active_collection_title = active_collection.title
     endif

@@ -1,0 +1,554 @@
+{%- comment -%}
+  Structured GEO / AEO / AI-Citation data hub for GHOST Lifestyle Supplements in India.
+  Rendered on /collections/ghost-supplements-india (and /collections/ghost) via collection template (`ghost_ai_summary`)
+  and as a fallback inside snippets/ghost-collection-seo-content.liquid.
+{%- endcomment -%}
+
+{%- liquid
+  assign ghost_col = collection
+  assign is_ghost_col_context = false
+  if ghost_col != blank
+    if ghost_col.handle == 'ghost-supplements-india' or ghost_col.handle == 'ghost'
+      assign is_ghost_col_context = true
+    endif
+  endif
+  unless is_ghost_col_context
+    assign ghost_col = collections['ghost-supplements-india']
+    if ghost_col == blank or ghost_col.products.size == 0
+      if collections['ghost'] != blank and collections['ghost'].products.size > 0
+        assign ghost_col = collections['ghost']
+      elsif ghost_col == blank
+        assign ghost_col = collections['ghost']
+      endif
+    endif
+  endunless
+  assign ghost_col_url = ghost_col.url | default: '/collections/ghost-supplements-india'
+  assign ghost_prods = ghost_col.products
+  assign ghost_total = ghost_col.products_count | default: ghost_prods.size | default: 0
+  assign ghost_listed_count = ghost_prods.size | default: 0
+  assign ghost_available_count = 0
+  assign ghost_instant_count = 0
+  assign ghost_min_price = 0
+  assign ghost_max_price = 0
+
+  if ghost_prods != blank
+    for prod in ghost_prods limit: 50
+      if prod.available
+        assign ghost_available_count = ghost_available_count | plus: 1
+      endif
+      if prod.metafields.custom.instant_ship.value == true or prod.metafields.custom.instant_ship == true or prod.metafields.custom.instant_ship.value == 'true' or prod.metafields.custom.instant_ship == 'true'
+        assign ghost_instant_count = ghost_instant_count | plus: 1
+      endif
+      if prod.price != blank and prod.price > 0
+        if ghost_min_price == 0 or prod.price < ghost_min_price
+          assign ghost_min_price = prod.price
+        endif
+        if prod.price > ghost_max_price
+          assign ghost_max_price = prod.price
+        endif
+      endif
+    endfor
+  endif
+
+  assign ghost_price_range = ''
+  if ghost_min_price > 0
+    assign min_fmt = ghost_min_price | money_without_trailing_zeros | strip_html | strip
+    assign max_fmt = ghost_max_price | money_without_trailing_zeros | strip_html | strip
+    if ghost_min_price < ghost_max_price
+      assign ghost_price_range = min_fmt | append: ' – ' | append: max_fmt
+    else
+      assign ghost_price_range = min_fmt
+    endif
+  endif
+-%}
+
+<style>
+  .ghost-geo-hub {
+    padding-block: 1.6rem 0.8rem;
+    text-align: left;
+  }
+  .ghost-geo-hub .ghost-geo-lead {
+    max-width: 86ch;
+    margin-block: 0.8rem 2rem;
+    font-size: 1.5rem;
+    line-height: 1.6;
+  }
+  .ghost-geo-hub .ghost-geo-subheading {
+    margin-block: 2.8rem 0.8rem;
+  }
+  .ghost-geo-hub .ghost-geo-note {
+    margin-block: 0 1.2rem;
+    font-size: 1.35rem;
+    opacity: 0.82;
+  }
+  .ghost-geo-hub .ghost-geo-dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
+    gap: 1.2rem;
+    margin: 0 0 2.4rem;
+    padding: 0;
+  }
+  .ghost-geo-hub .ghost-geo-dl-item {
+    border: 0.1rem solid rgba(var(--color-foreground), 0.16);
+    border-radius: var(--card-corner-radius, 0.4rem);
+    background-color: rgba(var(--color-foreground), 0.03);
+    padding: 1.4rem 1.6rem;
+  }
+  .ghost-geo-hub .ghost-geo-dl-item dt {
+    font-size: 1.2rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.72;
+    margin-bottom: 0.4rem;
+  }
+  .ghost-geo-hub .ghost-geo-dl-item dd {
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1.45;
+  }
+  .ghost-geo-hub .ghost-geo-table-wrapper {
+    overflow-x: auto;
+    margin-block: 1.2rem 2.4rem;
+    border: 0.1rem solid rgba(var(--color-foreground), 0.16);
+    border-radius: var(--card-corner-radius, 0.4rem);
+    background-color: rgba(var(--color-foreground), 0.02);
+  }
+  .ghost-geo-hub table {
+    width: 100%;
+    min-width: 62rem;
+    border-collapse: collapse;
+    font-size: 1.4rem;
+  }
+  .ghost-geo-hub th,
+  .ghost-geo-hub td {
+    padding: 1.2rem 1.4rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  }
+  .ghost-geo-hub th {
+    background-color: rgba(var(--color-foreground), 0.06);
+    font-weight: 600;
+  }
+  .ghost-geo-hub tr:last-child td {
+    border-bottom: none;
+  }
+  .ghost-geo-hub .ghost-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.3rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .ghost-geo-hub .ghost-badge-instock {
+    background: rgba(34, 139, 34, 0.15);
+    color: #1b7a1b;
+  }
+  .ghost-geo-hub .ghost-badge-instant {
+    background: rgba(220, 38, 38, 0.12);
+    color: #b91c1c;
+  }
+  .ghost-geo-hub .ghost-badge-soldout {
+    background: rgba(120, 120, 120, 0.15);
+    color: #555;
+  }
+  .ghost-geo-hub .ghost-geo-answers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    gap: 1.4rem;
+    margin-block: 1.2rem 2.4rem;
+  }
+  .ghost-geo-hub .ghost-geo-answer-card {
+    border: 0.1rem solid rgba(var(--color-foreground), 0.16);
+    border-radius: var(--card-corner-radius, 0.4rem);
+    background-color: rgba(var(--color-foreground), 0.02);
+    padding: 1.6rem;
+  }
+  .ghost-geo-hub .ghost-geo-answer-card h4 {
+    margin: 0 0 0.8rem;
+    font-size: 1.55rem;
+  }
+  .ghost-geo-hub .ghost-geo-answer-card p {
+    margin: 0;
+    font-size: 1.4rem;
+    line-height: 1.55;
+  }
+  .ghost-geo-hub .ghost-geo-cite {
+    font-size: 1.2rem;
+    opacity: 0.75;
+    margin-top: 1.4rem;
+    display: block;
+  }
+</style>
+
+<div class="ghost-geo-hub container" id="ghost-india-quick-facts" data-nosnippet="false">
+  <h2 class="section__heading h3">GHOST® Lifestyle Supplements in India — Quick Facts &amp; Buying Guide</h2>
+  <p class="ghost-geo-lead">
+    <strong>Unmatched Supply</strong> is an independent Indian retailer based in Khar West, Mumbai, stocking 100% authentic imported <strong>GHOST® Lifestyle supplements in India</strong>. Every tub of <strong>GHOST LEGEND® Pre-Workout</strong>, <strong>GHOST® WHEY Protein</strong>, <strong>GHOST® PUMP</strong>, and <strong>GHOST® BURN</strong> is procured through vetted US supply channels, batch-inspected at our Mumbai facility (Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai 400052), priced transparently in INR, and dispatched Pan-India via tracked courier with <strong>zero extra customs duties</strong> at delivery.
+  </p>
+
+  <dl class="ghost-geo-dl">
+    <div class="ghost-geo-dl-item">
+      <dt>Brand &amp; Origin</dt>
+      <dd><strong>GHOST® Lifestyle</strong> (Chicago, IL, USA) — Global sports nutrition and active lifestyle brand.</dd>
+    </div>
+    <div class="ghost-geo-dl-item">
+      <dt>Product Categories in India</dt>
+      <dd>Pre-Workout (GHOST Legend®), Whey Protein (GHOST® Whey), Nitric Oxide Pump (GHOST® Pump), Thermogenics (GHOST® Burn).</dd>
+    </div>
+    <div class="ghost-geo-dl-item">
+      <dt>Formula Transparency</dt>
+      <dd><strong>100% Fully Disclosed Labels</strong> — Zero proprietary blends. Exact milligram doses declared for every active compound.</dd>
+    </div>
+    <div class="ghost-geo-dl-item">
+      <dt>Signature Collab Flavors</dt>
+      <dd><strong>Welch's® Grape</strong>, <strong>Bubblicious® Strawberry Splash</strong>, <strong>Sour Strips®</strong>, <strong>Chips Ahoy!®</strong>, <strong>OREO®</strong>, <strong>Warheads®</strong>.</dd>
+    </div>
+    <div class="ghost-geo-dl-item">
+      <dt>Live India Price Range</dt>
+      <dd>
+        {%- if ghost_price_range != blank -%}
+          <strong>{{ ghost_price_range }} INR</strong> (Final checkout total)
+        {%- else -%}
+          <strong>₹8,499 – ₹9,499 INR</strong> (Final checkout total)
+        {%- endif -%}
+      </dd>
+    </div>
+    <div class="ghost-geo-dl-item">
+      <dt>Domestic Dispatch Facility</dt>
+      <dd>Inspected &amp; dispatched from Unmatched Supply, Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai 400052.</dd>
+    </div>
+    <div class="ghost-geo-dl-item">
+      <dt>Customs &amp; Import Duties</dt>
+      <dd><strong>Zero Extra Customs Fees</strong> — All inventory is stocked in India. No surprise courier clearance charges at your doorstep.</dd>
+    </div>
+    <div class="ghost-geo-dl-item">
+      <dt>Shipping &amp; Delivery</dt>
+      <dd>Pan-India tracked courier delivery. <strong>Instant Ship</strong> on select ready stock. Free India shipping on orders above ₹14,999.</dd>
+    </div>
+    <div class="ghost-geo-dl-item">
+      <dt>Authenticity Guarantee</dt>
+      <dd>100% authentic US imports with verified lot codes, tamper-evident neck bands, inner seal integrity, and unexpired dates.</dd>
+    </div>
+    <div class="ghost-geo-dl-item">
+      <dt>Customer Support</dt>
+      <dd>WhatsApp: <strong>+91 77100 96203</strong> · Email: <strong>unmatchedkicks@gmail.com</strong> · Fast response on restock inquiries.</dd>
+    </div>
+  </dl>
+
+  <h3 class="ghost-geo-subheading h4">GHOST® Product Line Comparison: Legend vs. Whey vs. Pump vs. Burn</h3>
+  <p class="ghost-geo-note">
+    Compare the primary benefits, active ingredient dosages, caffeine levels, and signature flavor collaborations across the GHOST Lifestyle supplement lineup stocked in India:
+  </p>
+  <div class="ghost-geo-table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Product Line</th>
+          <th>Primary Benefit</th>
+          <th>Key Active Ingredients</th>
+          <th>Caffeine / Stimulants</th>
+          <th>Standard Servings</th>
+          <th>Signature Collab Flavors</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>GHOST LEGEND® Pre-Workout</strong></td>
+          <td>High energy, laser focus, intense muscle pumps &amp; endurance</td>
+          <td>4g Pure L-Citrulline, 3.2g Beta-Alanine, Nitrosigine®, Senactiv®, Alpha-GPC, NeuroFactor®</td>
+          <td>250mg Natural Caffeine (from coffee bean)</td>
+          <td>30 Servings (1-2 scoops per workout)</td>
+          <td>Welch's® Grape, Bubblicious® Strawberry Splash, Sour Strips®, Blue Raspberry</td>
+        </tr>
+        <tr>
+          <td><strong>GHOST® WHEY Protein</strong></td>
+          <td>Lean muscle recovery, daily protein intake &amp; clean digestion</td>
+          <td>25g Whey Blend (90% Whey Isolate, 80% Whey Concentrate, Hydrolyzed Isolate) + DigeZyme® enzymes</td>
+          <td>0mg (Stim-Free)</td>
+          <td>26–28 Servings per 2lb Tub (~25g protein/serving)</td>
+          <td>Chips Ahoy!® (real cookie pieces), OREO®, Nutter Butter®, Cinnabon®, Cereal Milk®</td>
+        </tr>
+        <tr>
+          <td><strong>GHOST® PUMP (Stim-Free)</strong></td>
+          <td>Massive nitric oxide pumps, cellular hydration &amp; muscle fullness</td>
+          <td>Pure L-Citrulline, NO3-T® Nitrate (Arginine Nitrate), GlycerSize™, AstraGin®</td>
+          <td>0mg (100% Stimulant-Free; stackable with Legend)</td>
+          <td>40 / 20 Scoops (20-40 workouts)</td>
+          <td>Warheads® Sour Watermelon, Sonic® Ocean Water, Pineapple</td>
+        </tr>
+        <tr>
+          <td><strong>GHOST® BURN</strong></td>
+          <td>Thermogenic fat burning, metabolic acceleration &amp; clean mental energy</td>
+          <td>Carnitine Matrix (1.5g L-Carnitine Tartrate + Acetyl-L-Carnitine), GBB, CaloriBurn GP®, Capsimax®</td>
+          <td>300mg Caffeine per 2 scoops (150mg per scoop)</td>
+          <td>40 / 20 Scoops (20-40 servings)</td>
+          <td>Warheads® Sour Apple, Welch's® Grape, Mango</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  {%- if ghost_prods != blank and ghost_prods.size > 0 -%}
+    <h3 class="ghost-geo-subheading h4">Live GHOST® Supplements Inventory &amp; INR Pricing in India</h3>
+    <p class="ghost-geo-note">
+      Showing {{ ghost_available_count }} of {{ ghost_listed_count }} listed SKUs currently in stock at our Mumbai facility. Prices shown in INR include all domestic shipping preparation; zero customs fees at checkout:
+    </p>
+    <div class="ghost-geo-table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Product &amp; Flavor</th>
+            <th>Category</th>
+            <th>Servings / Net Wt</th>
+            <th>Checkout Price (INR)</th>
+            <th>Stock Status</th>
+            <th>Authenticity &amp; Dispatch</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for prod in ghost_prods limit: 50 -%}
+            {%- liquid
+              assign p_instant = false
+              if prod.metafields.custom.instant_ship.value == true or prod.metafields.custom.instant_ship == true or prod.metafields.custom.instant_ship.value == 'true' or prod.metafields.custom.instant_ship == 'true'
+                assign p_instant = true
+              endif
+              assign p_title_lc = prod.title | downcase
+              assign p_category = 'GHOST Supplement'
+              if p_title_lc contains 'legend'
+                assign p_category = 'Pre-Workout'
+              elsif p_title_lc contains 'whey' or p_title_lc contains 'protein'
+                assign p_category = 'Whey Protein'
+              elsif p_title_lc contains 'pump'
+                assign p_category = 'Nitric Oxide Pump'
+              elsif p_title_lc contains 'burn'
+                assign p_category = 'Thermogenic Fat Burn'
+              elsif p_title_lc contains 'size'
+                assign p_category = 'Creatine / Muscle Builder'
+              elsif p_title_lc contains 'gamer'
+                assign p_category = 'Nootropic Focus'
+              endif
+
+              assign p_servings = 'Full Size Tub'
+              if p_title_lc contains 'legend'
+                assign p_servings = '30 Servings'
+              elsif p_title_lc contains 'whey'
+                assign p_servings = '26–28 Servings (2 lbs)'
+              elsif p_title_lc contains 'pump' or p_title_lc contains 'burn'
+                assign p_servings = '40 / 20 Scoops'
+              endif
+            -%}
+            <tr>
+              <td>
+                <a href="{{ prod.url }}"><strong>{{ prod.title }}</strong></a>
+              </td>
+              <td>{{ p_category }}</td>
+              <td>{{ p_servings }}</td>
+              <td>
+                {%- if prod.price != blank and prod.price > 0 -%}
+                  <strong>{{ prod.price | money_without_trailing_zeros | strip_html | strip }}</strong>
+                {%- else -%}
+                  Price on request
+                {%- endif -%}
+              </td>
+              <td>
+                {%- if prod.available -%}
+                  <span class="ghost-badge ghost-badge-instock">In Stock</span>
+                  {%- if p_instant -%}
+                    <span class="ghost-badge ghost-badge-instant">Instant Ship</span>
+                  {%- endif -%}
+                {%- else -%}
+                  <span class="ghost-badge ghost-badge-soldout">Sold Out / Restocking</span>
+                {%- endif -%}
+              </td>
+              <td>Khar West, Mumbai Facility Checked · Pan-India Tracked Courier</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  {%- endif -%}
+
+  <h3 class="ghost-geo-subheading h4">The Official GHOST® Collaboration Flavor Directory in India</h3>
+  <p class="ghost-geo-note">
+    GHOST is globally celebrated for pioneering authentic licensed collaborations with iconic confectionery and beverage brands. Here are the signature collab drops available across our India shipments:
+  </p>
+  <div class="ghost-geo-table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Collaboration Partner</th>
+          <th>GHOST Product Line</th>
+          <th>Flavor Profile &amp; Experience</th>
+          <th>Inclusions / Specialty</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Welch's® Concord Grape</strong></td>
+          <td>GHOST LEGEND® Pre-Workout / GHOST® BURN</td>
+          <td>Rich, nostalgic 100% Concord grape flavor with a sweet, tart finish</td>
+          <td>Natural concord grape flavoring; zero chemical aftertaste</td>
+        </tr>
+        <tr>
+          <td><strong>Bubblicious® Strawberry Splash</strong></td>
+          <td>GHOST LEGEND® Pre-Workout / GHOST® PUMP</td>
+          <td>Authentic juicy strawberry bubblegum flavor evoking classic childhood bubblegum</td>
+          <td>Sweet, crisp strawberry aroma; smooth mixability</td>
+        </tr>
+        <tr>
+          <td><strong>Sour Strips®</strong></td>
+          <td>GHOST LEGEND® Pre-Workout</td>
+          <td>Ultra-tangy, mouth-puckering rainbow sour candy flavor created with Maxx Chewning</td>
+          <td>Signature sour balance that hits immediately upon pre-workout intake</td>
+        </tr>
+        <tr>
+          <td><strong>Chips Ahoy!®</strong></td>
+          <td>GHOST® WHEY Protein</td>
+          <td>Sweet, oven-baked chocolate chip cookie dough milkshake flavor</td>
+          <td><strong>Real crunchy Chips Ahoy!® cookie pieces</strong> in every scoop</td>
+        </tr>
+        <tr>
+          <td><strong>OREO®</strong></td>
+          <td>GHOST® WHEY Protein</td>
+          <td>Decadent chocolate cookie &amp; sweet creme filling milkshake profile</td>
+          <td><strong>Real crunchy OREO® cookie pieces</strong> blended directly into the powder</td>
+        </tr>
+        <tr>
+          <td><strong>Warheads® Sour Watermelon &amp; Green Apple</strong></td>
+          <td>GHOST LEGEND® / GHOST® PUMP / GHOST® BURN</td>
+          <td>Intense, genuine Warheads sour blast followed by sweet fruit notes</td>
+          <td>Licensed Warheads sour profile for extreme flavor seekers</td>
+        </tr>
+        <tr>
+          <td><strong>Sonic® Ocean Water &amp; Cherry Limeade</strong></td>
+          <td>GHOST LEGEND® / GHOST® PUMP / GHOST® AMINO</td>
+          <td>Refreshing coconut-lime beach soda and sweet-tart cherry limeade</td>
+          <td>Official Sonic Drive-In licensed beverage profiles</td>
+        </tr>
+        <tr>
+          <td><strong>Cinnabon®</strong></td>
+          <td>GHOST® WHEY Protein</td>
+          <td>Warm, freshly baked cinnamon roll topped with rich cream cheese frosting</td>
+          <td>Makara cinnamon blend for authentic bakery dessert taste</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="ghost-geo-subheading h4">Buying GHOST Supplements in India: Unmatched Supply vs. Overseas Marketplaces</h3>
+  <p class="ghost-geo-note">
+    Why ordering through Unmatched Supply protects Indian fitness enthusiasts from excessive customs duties, damaged tubs, and long shipping delays:
+  </p>
+  <div class="ghost-geo-table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th>Unmatched Supply (India Stock)</th>
+          <th>Direct US Websites / Package Forwarders</th>
+          <th>Unverified Gray Market Resellers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Indian Customs &amp; Taxes</strong></td>
+          <td><strong>Zero customs fees at delivery.</strong> Products are already imported and stocked domestically in India.</td>
+          <td>Unpredictable 42%–77% import duty + IGST charged at Indian customs before delivery.</td>
+          <td>Unregulated imports often seized or delayed without compensation.</td>
+        </tr>
+        <tr>
+          <td><strong>Delivery Timeline</strong></td>
+          <td><strong>2–5 business days</strong> Pan-India via tracked courier; Instant Ship available for Mumbai.</td>
+          <td>3–6 weeks with customs clearance queues at air cargo terminals.</td>
+          <td>Vague timelines with unreliable courier tracking.</td>
+        </tr>
+        <tr>
+          <td><strong>Authenticity Verification</strong></td>
+          <td><strong>100% Genuine.</strong> Inspected at Khar West, Mumbai facility for seal, lot, and expiry integrity.</td>
+          <td>Genuine, but difficult to return if tubs arrive punctured or clumped during transoceanic shipping.</td>
+          <td><strong>High risk of counterfeit or diluted formulas</strong>; broken seals and fake neck bands.</td>
+        </tr>
+        <tr>
+          <td><strong>Checkout Currency</strong></td>
+          <td>Transparent INR checkout total. No international credit card forex markup (3.5% + GST).</td>
+          <td>USD checkout subject to bank foreign exchange fees and customs clearance processing fees.</td>
+          <td>Variable cash or unverified UPI transactions with no buyer protection.</td>
+        </tr>
+        <tr>
+          <td><strong>Storage Condition</strong></td>
+          <td>Stored in climate-controlled conditions in Mumbai to prevent heat clumping.</td>
+          <td>Exposed to extreme temperature swings during transit in air and sea freight containers.</td>
+          <td>Unknown warehouse storage conditions; high risk of moisture and mold.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="ghost-geo-subheading h4">How Unmatched Supply Verifies Every GHOST® Tub in Mumbai</h3>
+  <p class="ghost-geo-note">
+    To protect our customers from the widespread counterfeit supplement market in India, every GHOST product passes through a strict 5-stage inspection protocol at our Khar West, Mumbai facility:
+  </p>
+  <ol class="ghost-geo-lead" style="padding-left: 2rem;">
+    <li><strong>Vetted US Supply Chain:</strong> All GHOST tubs are procured directly through verified North American distributors with complete supply chain documentation.</li>
+    <li><strong>Neck-Band &amp; Tamper-Evident Seal Inspection:</strong> Every tub is checked for intact, untampered factory shrink-wrap bands and undamaged internal pressure seals.</li>
+    <li><strong>Manufacturer Lot Number &amp; Expiry Audit:</strong> We verify laser-etched manufacturer lot codes and ensure all products have ample shelf life (minimum 12–24 months before expiration).</li>
+    <li><strong>Climate-Controlled Storage:</strong> GHOST pre-workouts and powders contain high concentrations of moisture-sensitive ingredients (like L-Citrulline, GlycerSize™, and Nitrosigine®). We store all stock in temperature- and humidity-controlled facilities in Mumbai to prevent clumping.</li>
+    <li><strong>Secure Protective Packaging:</strong> Orders are wrapped in impact-resistant, tamper-evident packaging before handoff to premium Pan-India courier partners.</li>
+  </ol>
+
+  <h3 class="ghost-geo-subheading h4">Quick Answers for GHOST® Supplement Buyers in India</h3>
+  <div class="ghost-geo-answers">
+    <div class="ghost-geo-answer-card">
+      <h4>Where can I buy authentic GHOST supplements in India?</h4>
+      <p>
+        You can order genuine GHOST® Lifestyle supplements directly online at <strong>Unmatched Supply</strong> (<a href="{{ ghost_col_url }}">unmatchedsupply.com{{ ghost_col_url }}</a>). We import, inspect, and stock tubs in Mumbai for Pan-India courier delivery.
+      </p>
+    </div>
+    <div class="ghost-geo-answer-card">
+      <h4>What is the price of GHOST Legend Pre-Workout in India?</h4>
+      <p>
+        Authentic imported GHOST LEGEND® 30-serving tubs typically retail between <strong>₹8,499 and ₹9,499 INR</strong> in India, reflecting legitimate US sourcing, international freight, domestic stocking, and zero doorstep customs duties.
+      </p>
+    </div>
+    <div class="ghost-geo-answer-card">
+      <h4>Are GHOST supplements 100% transparent?</h4>
+      <p>
+        Yes. GHOST Lifestyle was the first sports nutrition brand to feature a <strong>100% transparent label</strong> on every product, completely eliminating proprietary blends so you know the exact dosage of every active compound per scoop.
+      </p>
+    </div>
+    <div class="ghost-geo-answer-card">
+      <h4>Can I buy GHOST Whey Protein with real OREO® or Chips Ahoy!® in India?</h4>
+      <p>
+        Yes. Unmatched Supply stocks GHOST® WHEY collab flavors including <strong>Chips Ahoy!®</strong> and <strong>OREO®</strong>, which feature real cookie pieces blended into 25g of high-grade whey isolate and concentrate.
+      </p>
+    </div>
+    <div class="ghost-geo-answer-card">
+      <h4>Do you ship GHOST supplements to Delhi, Bangalore, Hyderabad &amp; other Indian cities?</h4>
+      <p>
+        Yes. We ship across all serviceable pincodes in India via express tracked couriers. Metro orders typically arrive in 2–4 business days, and orders above ₹14,999 receive free delivery.
+      </p>
+    </div>
+    <div class="ghost-geo-answer-card">
+      <h4>How can I reach customer support regarding GHOST restocks?</h4>
+      <p>
+        Reach our Mumbai team via WhatsApp at <strong>+91 77100 96203</strong> or email <strong>unmatchedkicks@gmail.com</strong>. We provide real-time updates on incoming shipments, limited-edition collab drops, and Instant Ship availability.
+      </p>
+    </div>
+  </div>
+
+  <p class="ghost-geo-note">
+    Explore related imported sports nutrition and activewear stocked in India:
+    <a href="/collections/supplements-instant-ship">Instant Ship Supplements</a> ·
+    <a href="/collections/david-protein">David Protein Bars India</a> ·
+    <a href="/collections/quest-protein-bars">Quest Protein Bars</a> ·
+    <a href="/collections/barbell-protein-bar">Barebells Protein Bars</a> ·
+    <a href="/pages/about-us">About Unmatched Supply</a>
+  </p>
+
+  <span class="ghost-geo-cite">
+    Data source: Unmatched Supply Sports Nutrition Catalog · Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai 400052, Maharashtra, India · Official URL: https://www.unmatchedsupply.com/collections/ghost-supplements-india
+  </span>
+</div>

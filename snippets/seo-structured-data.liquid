@@ -118,6 +118,17 @@
       else
         assign webpage_description = 'Buy authentic David Protein bars in India at Unmatched Supply Mumbai. Shop Gold (28g) & Bronze (20g) 0g sugar 12-bar packs, Pan-India delivery & zero customs.'
       endif
+    elsif collection.handle == 'ghost-supplements-india' or collection.handle == 'ghost'
+      assign ghost_title_lc = webpage_title | strip | downcase
+      unless ghost_title_lc contains 'ghost' and ghost_title_lc contains 'india'
+        assign webpage_title = 'Ghost Supplements India – Buy Ghost Legend & Whey | Unmatched Supply'
+      endunless
+
+      if has_custom_page_desc and raw_page_desc_lc contains 'ghost' and raw_page_desc_lc contains 'india' and raw_page_desc.size >= 110
+        assign webpage_description = raw_page_desc
+      else
+        assign webpage_description = 'Buy authentic Ghost Lifestyle supplements in India at Unmatched Supply Mumbai. Shop Ghost Legend Pre-Workout, Ghost Whey, Burn, Pump & collabs with Pan-India delivery & zero customs.'
+      endif
     elsif has_custom_page_desc
       assign webpage_description = raw_page_desc
     elsif supplement_handles contains collection_handle_token
@@ -140,6 +151,18 @@
       endfor
     endif
 
+    assign is_ghost_product = false
+    if product_title_lc contains 'ghost' or product_vendor_lc contains 'ghost'
+      assign is_ghost_product = true
+    else
+      for pcol in product.collections
+        if pcol.handle == 'ghost-supplements-india' or pcol.handle == 'ghost'
+          assign is_ghost_product = true
+          break
+        endif
+      endfor
+    endif
+
     if is_david_product
       assign current_wp_title_lc = webpage_title | strip | downcase
       unless current_wp_title_lc contains 'india'
@@ -151,6 +174,18 @@
       else
         assign david_price = product.price | money_without_trailing_zeros | strip_html | strip
         assign webpage_description = 'Buy authentic ' | append: product.title | append: ' in India for ' | append: david_price | append: ' at Unmatched Supply Mumbai. 0g sugar · Pan-India delivery & zero customs.'
+      endif
+    elsif is_ghost_product
+      assign current_wp_title_lc = webpage_title | strip | downcase
+      unless current_wp_title_lc contains 'india'
+        assign webpage_title = webpage_title | append: ' – India'
+      endunless
+
+      if has_custom_page_desc and raw_page_desc_lc contains 'india' and raw_page_desc.size >= 90
+        assign webpage_description = raw_page_desc
+      else
+        assign ghost_price = product.price | money_without_trailing_zeros | strip_html | strip
+        assign webpage_description = 'Buy authentic ' | append: product.title | append: ' in India for ' | append: ghost_price | append: ' at Unmatched Supply Mumbai. 100% genuine GHOST Lifestyle · Pan-India delivery & zero customs.'
       endif
     elsif has_custom_page_desc
       assign webpage_description = raw_page_desc
@@ -168,13 +203,19 @@
   assign resolved_product_collection = collection
   if request.page_type == 'product' and product != blank and resolved_product_collection == blank
     assign fallback_david_collection = blank
+    assign fallback_ghost_collection = blank
     assign fallback_primary_collection = blank
     for pcol in product.collections
       if pcol.handle == 'david-protein'
         assign resolved_product_collection = pcol
         break
+      elsif pcol.handle == 'ghost-supplements-india'
+        assign resolved_product_collection = pcol
+        break
       elsif pcol.handle == 'david' and fallback_david_collection == blank
         assign fallback_david_collection = pcol
+      elsif pcol.handle == 'ghost' and fallback_ghost_collection == blank
+        assign fallback_ghost_collection = pcol
       endif
       if fallback_primary_collection == blank
         unless pcol.handle == 'all' or pcol.handle contains 'sale' or pcol.handle == 'popular-products' or pcol.handle == 'latest-drops-1' or pcol.handle == 'featured' or pcol.handle == 'tax-override'
@@ -183,7 +224,7 @@
       endif
     endfor
     if resolved_product_collection == blank
-      assign resolved_product_collection = fallback_david_collection | default: fallback_primary_collection | default: product.collections.first
+      assign resolved_product_collection = fallback_david_collection | default: fallback_ghost_collection | default: fallback_primary_collection | default: product.collections.first
     endif
   endif
 
@@ -193,6 +234,12 @@
     if collection.handle == 'david-protein' or collection.handle == 'david'
       if col_title_lc == 'david'
         assign collection_crumb_name = 'David Protein'
+      else
+        assign collection_crumb_name = collection.title
+      endif
+    elsif collection.handle == 'ghost-supplements-india' or collection.handle == 'ghost'
+      if col_title_lc == 'ghost'
+        assign collection_crumb_name = 'Ghost Supplements'
       else
         assign collection_crumb_name = collection.title
       endif
@@ -207,6 +254,12 @@
     if resolved_product_collection.handle == 'david-protein' or resolved_product_collection.handle == 'david'
       if rcol_title_lc == 'david'
         assign resolved_collection_crumb_name = 'David Protein'
+      else
+        assign resolved_collection_crumb_name = resolved_product_collection.title
+      endif
+    elsif resolved_product_collection.handle == 'ghost-supplements-india' or resolved_product_collection.handle == 'ghost'
+      if rcol_title_lc == 'ghost'
+        assign resolved_collection_crumb_name = 'Ghost Supplements'
       else
         assign resolved_collection_crumb_name = resolved_product_collection.title
       endif
@@ -323,6 +376,10 @@
           "Protein Bars",
           "David Protein",
           "David Protein Bars",
+          "GHOST Lifestyle",
+          "GHOST Supplements",
+          "GHOST Legend",
+          "GHOST Whey",
           "Gymshark",
           "YoungLA",
           "Alo Yoga",
@@ -416,6 +473,33 @@
                 "@type": "Brand",
                 "name": "David Protein",
                 "alternateName": ["David", "David Protein Bar", "David Protein Bars India", "David Protein Gold", "David Protein Bronze"]
+              }
+            {%- elsif collection.handle == 'ghost-supplements-india' or collection.handle == 'ghost' -%}
+              {%- assign item_list_limit = 48 -%}
+              ,"keywords": "Ghost Supplements India, Ghost Lifestyle India, Ghost Legend India, Ghost Legend Pre Workout India, Ghost Whey Protein India, Ghost Legend Bubblicious India, Ghost Legend Welch's India, Ghost Legend Sour Strips India, Buy Ghost Supplements India, Ghost Pre Workout Mumbai"
+              ,"spatialCoverage": [
+                {
+                  "@type": "Country",
+                  "name": "India"
+                },
+                {
+                  "@type": "City",
+                  "name": "Mumbai"
+                }
+              ]
+              ,"speakable": {
+                "@type": "SpeakableSpecification",
+                "cssSelector": [
+                  ".section-page-banner__text",
+                  ".ghost-geo-lead",
+                  ".ghost-geo-dl",
+                  ".ghost-geo-answers"
+                ]
+              }
+              ,"about": {
+                "@type": "Brand",
+                "name": "GHOST Lifestyle",
+                "alternateName": ["GHOST", "GHOST Supplements", "GHOST Legend", "GHOST Whey", "GHOST Lifestyle India"]
               }
             {%- endif -%}
             ,"mainEntity": {

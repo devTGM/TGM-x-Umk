@@ -901,4 +901,88 @@
       </details>
     </accordion-default>
   {%- endif -%}
+
+  {%- liquid
+    assign ghost_pdp_match = false
+    assign ghost_pdp_col_url = ''
+    if product != blank and is_gift_card != true
+      assign ghost_pdp_title_lc = product.title | strip | downcase
+      assign ghost_pdp_vendor_lc = product.vendor | strip | downcase
+      if ghost_pdp_title_lc contains 'ghost' or ghost_pdp_vendor_lc contains 'ghost'
+        assign ghost_pdp_match = true
+      endif
+      for pcol in product.collections
+        if pcol.handle == 'ghost-supplements-india'
+          assign ghost_pdp_match = true
+          if pcol.url != blank
+            assign ghost_pdp_col_url = pcol.url
+          endif
+          break
+        elsif pcol.handle == 'ghost'
+          assign ghost_pdp_match = true
+          if ghost_pdp_col_url == blank and pcol.url != blank
+            assign ghost_pdp_col_url = pcol.url
+          endif
+        endif
+      endfor
+      if ghost_pdp_col_url == blank
+        if collections['ghost-supplements-india'] != blank
+          assign ghost_pdp_col_url = collections['ghost-supplements-india'].url | default: '/collections/ghost-supplements-india'
+        elsif collections['ghost'] != blank
+          assign ghost_pdp_col_url = collections['ghost'].url | default: '/collections/ghost'
+        else
+          assign ghost_pdp_col_url = '/collections/ghost-supplements-india'
+        endif
+      endif
+    endif
+  -%}
+  {%- if ghost_pdp_match -%}
+    {{- 'section-accordions.aio.min.css' | asset_url | stylesheet_tag -}}
+    {%- liquid
+      assign ghost_pdp_box_price = ''
+      if product.price != blank and product.price > 0
+        assign ghost_pdp_box_price = product.price | money_without_trailing_zeros | strip_html | strip
+      endif
+    -%}
+    <accordion-default class="accordion product__accordion product__block product__block--gap-1" data-hide-multiple>
+      <details class="accordion__section" id="Details-ghost-india-guide">
+        <summary class="accordion__button h5 js-btn" id="Details-Summary-ghost-india-guide">
+          <span>
+            {% render 'icon', icon_name: 'theme-package-check' %}
+            <span>GHOST® Lifestyle India — Authenticity &amp; Buying Guide</span>
+          </span>
+          <div class="accordion__icon">
+            {%- render 'icon', icon_name: 'theme-minus' -%}
+            {%- render 'icon', icon_name: 'theme-minus' -%}
+          </div>
+        </summary>
+        <div class="accordion__body" id="Details-Content-ghost-india-guide">
+          <div class="accordion__body-inner">
+            <div class="rte">
+              {%- if ghost_pdp_title_lc contains 'legend' -%}
+                <p><strong>GHOST LEGEND® Pre-Workout:</strong> Features a <strong>100% transparent label</strong> delivering 4g pure L-Citrulline, 3.2g Beta-Alanine, 1.5g Nitrosigine®, Senactiv®, Alpha-GPC, NeuroFactor®, and 250mg natural caffeine per serving for explosive workouts with zero proprietary blends.</p>
+              {%- elsif ghost_pdp_title_lc contains 'whey' -%}
+                <p><strong>GHOST® WHEY Protein:</strong> Delivers <strong>25g pure whey protein</strong> per scoop across a premium tri-blend of 90% Whey Protein Isolate, 80% Whey Protein Concentrate, and Hydrolyzed Whey Isolate, enhanced with DigeZyme® digestive enzymes and authentic dessert inclusions.</p>
+              {%- elsif ghost_pdp_title_lc contains 'pump' -%}
+                <p><strong>GHOST® PUMP:</strong> A <strong>100% stimulant-free nitric oxide pre-workout</strong> packed with NO3-T® Arginine Nitrate, pure L-Citrulline, GlycerSize™, and AstraGin® for skin-splitting muscle fullness and cellular hydration without caffeine.</p>
+              {%- elsif ghost_pdp_title_lc contains 'burn' -%}
+                <p><strong>GHOST® BURN:</strong> An advanced <strong>thermogenic metabolic formula</strong> loaded with 1.5g L-Carnitine Tartrate, 500mg Acetyl-L-Carnitine, CaloriBurn GP®, GBB, and clean smooth energy for intense cutting sessions.</p>
+              {%- else -%}
+                <p><strong>GHOST® Lifestyle Supplement:</strong> 100% transparent sports nutrition imported from the USA. Full clinical dosing with zero hidden blends or artificial fillers.</p>
+              {%- endif -%}
+              <ul>
+                {%- if ghost_pdp_box_price != blank -%}
+                  <li><strong>INR Pricing:</strong> {{ ghost_pdp_box_price }} final checkout price with zero extra customs duties at delivery.</li>
+                {%- endif -%}
+                <li><strong>Mumbai Batch Inspection:</strong> Verified for neck-band seals, inner induction seals, lot numbers, and expiration dates at Unmatched Supply, Khar West, Plot No 27, 3rd Road, Mumbai 400052.</li>
+                <li><strong>Climate-Controlled Storage:</strong> Protected against Mumbai humidity to prevent powder clumping and ingredient degradation.</li>
+                <li><strong>Fast Pan-India Delivery:</strong> Tracked courier dispatch with Instant Ship availability on ready stock and free India shipping on orders above ₹14,999.</li>
+              </ul>
+              <p><a href="{{ ghost_pdp_col_url }}#ghost-india-quick-facts">Compare GHOST Legend, Whey, Pump &amp; Burn flavors in India</a> · <a href="/collections/supplements-instant-ship">Instant Ship Supplements</a></p>
+            </div>
+          </div>
+        </div>
+      </details>
+    </accordion-default>
+  {%- endif -%}
 </section>

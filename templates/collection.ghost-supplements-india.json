@@ -1,0 +1,230 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "page_banner_ghost": {
+      "type": "page-banner",
+      "settings": {
+        "enable_transparent_header": false,
+        "heading": "Ghost Supplements India",
+        "heading_size": "h3",
+        "text": "<p>Shop 100% authentic <strong>GHOST® Lifestyle supplements in India</strong> at Unmatched Supply (Khar West, Mumbai). Explore GHOST Legend Pre-Workout, GHOST Whey, Burn, Pump, and licensed collabs (Welch's®, Bubblicious®, Chips Ahoy!®, OREO®) for tracked Pan-India delivery with transparent INR pricing and zero customs fees.</p>",
+        "show_default_description": false,
+        "show_on_description": "both",
+        "content_position": "center",
+        "content_alignment": "start",
+        "media_position": "background",
+        "page_menu": "",
+        "enable_breadcrumbs": true,
+        "section_height": "auto",
+        "content_width": "100%",
+        "video_external": "",
+        "show_controls_on_video": false,
+        "section_height_mobile": "auto",
+        "video_external_mobile": "",
+        "show_controls_on_video_mobile": false,
+        "section_width": "max-w-page",
+        "color_scheme": "scheme-1",
+        "color_scheme_for_media": "scheme-6",
+        "spacing_top": "2",
+        "spacing_bottom": "1"
+      }
+    },
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "show_top_border_for_utilities_bar": true,
+        "enable_products_count": true,
+        "enable_sorting": true,
+        "enable_opened_accordions": true,
+        "filters": "drawer",
+        "products_per_row": "4",
+        "products_per_row_mobile": "2",
+        "products_per_page": 24,
+        "pagination_style": "load_more",
+        "enable_infinity_scroll": true,
+        "section_width": "max-w-page",
+        "color_scheme": "scheme-1",
+        "spacing_top": "1",
+        "spacing_bottom": "1"
+      }
+    },
+    "ghost_ai_summary": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{% render 'ghost-collection-data-tables' %}",
+        "section_width": "max-w-fluid",
+        "color_scheme": "scheme-1",
+        "spacing_top": "2",
+        "spacing_bottom": "2"
+      }
+    },
+    "seo_content_ghost": {
+      "type": "seo-content",
+      "settings": {
+        "section_layout": "normal",
+        "heading": "Buy GHOST® Lifestyle Supplements in India — Legend, Whey, Pump & Burn Complete Guide",
+        "heading_tag": "h2",
+        "heading_size": "h4",
+        "text": "<p>Looking to buy authentic <strong>GHOST® Lifestyle supplements in India</strong> without exorbitant overseas shipping rates, courier delays, or surprise customs duties at your doorstep? At <strong>Unmatched Supply</strong> (formerly Unmatched Kicks), we make ordering <strong>GHOST supplements in India</strong> transparent, reliable, and accessible: every tub is sourced from vetted US distributors, physically inspected at our Khar West, Mumbai facility, billed in final INR, and dispatched Pan-India with zero hidden customs charges.</p><h3>What Sets GHOST® Lifestyle Apart in Sports Nutrition?</h3><p>Founded in Chicago, USA, GHOST® Lifestyle revolutionized the fitness industry by becoming the first brand to introduce <strong>100% label transparency</strong> across all products. Unlike legacy supplement companies that hide doses behind proprietary blends, GHOST declares the exact milligram quantity of every single active ingredient right on the tub. From premium clinical dosages of pure L-Citrulline, Beta-Alanine, and Nitrosigine® in their pre-workouts to high-percentage whey isolate blends and licensed flavor collaborations with <strong>Welch's®</strong>, <strong>Bubblicious®</strong>, <strong>Sour Strips®</strong>, <strong>Chips Ahoy!®</strong>, and <strong>OREO®</strong>, GHOST sets the gold standard for taste, mixability, and workout performance.</p><h3>GHOST® Product Lineup Stocked Across India Drops</h3><ul><li><strong>GHOST LEGEND® Pre-Workout (30 Servings):</strong> The flagship energy, focus, and pump formula. Packed with 4g pure L-Citrulline, 3.2g Beta-Alanine, 1.5g Nitrosigine®, Senactiv®, Alpha-GPC, NeuroFactor®, and 250mg natural caffeine. Available in iconic collabs including <strong>Welch's® Concord Grape</strong>, <strong>Bubblicious® Strawberry Splash</strong>, <strong>Sour Strips®</strong>, and <strong>Blue Raspberry</strong>.</li><li><strong>GHOST® WHEY Protein (2 lb Tub / ~26–28 Servings):</strong> A 100% disclosed tri-blend featuring 12.5g Whey Protein Isolate 90%, 10g Whey Protein Concentrate 80%, and 2.5g Hydrolyzed Whey Isolate per scoop (25g total protein), fortified with DigeZyme® digestive enzymes. Legendary flavor drops include <strong>Chips Ahoy!®</strong> (with real crunchy chocolate chip cookie pieces), <strong>OREO®</strong>, <strong>Nutter Butter®</strong>, <strong>Cinnabon®</strong>, and <strong>Cereal Milk®</strong>.</li><li><strong>GHOST® PUMP (Nitric Oxide / Stim-Free Pre-Workout):</strong> Formulated with NO3-T® Arginine Nitrate, pure L-Citrulline, GlycerSize™, and AstraGin® for skin-splitting muscle fullness, vascularity, and endurance without any caffeine. Perfect for evening workouts or stacking with GHOST Legend.</li><li><strong>GHOST® BURN (Thermogenic Metabolic Matrix):</strong> Advanced fat-loss accelerator featuring 1.5g L-Carnitine Tartrate + 500mg Acetyl-L-Carnitine, CaloriBurn GP® (Grains of Paradise), GBB, Capsimax®, and clean smooth energy. Available in flavors like <strong>Warheads® Sour Apple</strong> and <strong>Welch's® Grape</strong>.</li></ul><h3>How to Choose the Right GHOST® Supplement for Your Fitness Goals</h3><ul><li><strong>For Maximum Workout Energy &amp; Focus:</strong> Choose <strong>GHOST LEGEND®</strong>. Take 1 to 2 scoops 20–30 minutes before training to unlock sustained energy, laser focus, and heavy muscle pumps without harsh jitters or post-workout crashes.</li><li><strong>For Lean Muscle Growth &amp; Protein Intake:</strong> Choose <strong>GHOST® WHEY</strong>. Take 1 scoop post-workout or between meals for 25g of high-bioavailability protein with authentic dessert-milkshake taste and easy digestion.</li><li><strong>For Caffeine-Free Pumps or Late-Night Training:</strong> Choose <strong>GHOST® PUMP</strong>. Experience full nitric oxide blood flow and vascularity without stimulants, keeping your sleep cycle intact.</li><li><strong>For Cutting &amp; Caloric Deficits:</strong> Choose <strong>GHOST® BURN</strong> to support thermogenesis, sweat production, and mental clarity during calorie-restricted phases.</li></ul><h3>Mumbai Authenticity Inspection &amp; Pan-India Courier Delivery</h3><ul><li><strong>Zero Surprise Customs Invoices:</strong> Unlike cross-border websites where Indian buyers face 42%–77% import duty plus customs broker clearance charges at delivery, Unmatched Supply stocks inventory domestically in India. The checkout price in INR is completely final.</li><li><strong>Verified at Khar West, Mumbai:</strong> Our team inspects every incoming tub for manufacturer shrink-wrap seal integrity, lot numbers, best-by dates, and climate-controlled storage conditions at Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai 400052 before packing.</li><li><strong>Fast Dispatch Across India:</strong> We deliver Pan-India through tracked courier partners with Instant Ship options on ready inventory, and free shipping applies on orders above ₹14,999. Contact our team anytime via WhatsApp at <strong>+91 77100 96203</strong> or <a href=\"mailto:unmatchedkicks@gmail.com\">unmatchedkicks@gmail.com</a>.</li></ul><p>Explore more authentic imported nutrition and activewear: <a href=\"/collections/supplements-instant-ship\">Instant Ship Supplements</a>, <a href=\"/collections/david-protein\">David Protein Bars India</a>, <a href=\"/collections/quest-protein-bars\">Quest Protein Bars</a>, <a href=\"/collections/barbell-protein-bar\">Barbell Protein Bars</a>, and <a href=\"/pages/about-us\">About Unmatched Supply</a>.</p>",
+        "content_alignment": "start",
+        "section_width": "max-w-fluid",
+        "color_scheme": "scheme-5",
+        "spacing_inner": "2",
+        "spacing_top": "4",
+        "spacing_bottom": "4"
+      }
+    },
+    "accordions_ghost": {
+      "type": "accordions",
+      "blocks": {
+        "ghost_faq_1": {
+          "type": "topic",
+          "settings": {
+            "is_open": true,
+            "title": "Where can I buy authentic GHOST supplements in India?",
+            "text": "<p>You can buy 100% authentic GHOST® Lifestyle supplements in India directly online at Unmatched Supply (unmatchedsupply.com/collections/ghost-supplements-india). We import genuine US stock, inspect every tub at our Khar West, Mumbai facility, and ship Pan-India in INR with zero customs fees.</p>",
+            "page": ""
+          }
+        },
+        "ghost_faq_2": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "What is GHOST LEGEND® Pre-Workout, and what are its key active ingredients?",
+            "text": "<p>GHOST LEGEND® is a clinically dosed, 100% transparent pre-workout designed to deliver clean energy, focus, and muscle pumps. Key ingredients per serving include 4g pure L-Citrulline, 3.2g Beta-Alanine, 1.5g Nitrosigine®, Senactiv®, Alpha-GPC, NeuroFactor®, and 250mg natural caffeine, with zero proprietary blends.</p>",
+            "page": ""
+          }
+        },
+        "ghost_faq_3": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "What is the price of GHOST supplements in India?",
+            "text": "<p>Authentic imported GHOST supplements at Unmatched Supply typically range from ₹8,499 to ₹9,499 INR per tub depending on the product line and licensed collaboration. The checkout price in INR is completely final, with no hidden customs duties or surprise courier fees at delivery.</p>",
+            "page": ""
+          }
+        },
+        "ghost_faq_4": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How does Unmatched Supply verify GHOST supplement authenticity in Mumbai?",
+            "text": "<p>Every batch is procured through verified US channels and undergoes a 5-step quality inspection at our Khar West, Mumbai facility before dispatch. We audit factory shrink bands, inner induction seals, manufacturer lot codes, and expiration dates to guarantee 100% genuine sports nutrition.</p>",
+            "page": ""
+          }
+        },
+        "ghost_faq_5": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Which GHOST® collaboration flavors are available in India?",
+            "text": "<p>Depending on incoming drop inventory, our India selection features world-famous licensed collabs including Welch's® Concord Grape, Bubblicious® Strawberry Splash, Sour Strips®, Chips Ahoy!® (with real cookie pieces), OREO®, Warheads® Sour Watermelon &amp; Apple, and Sonic® Cherry Limeade.</p>",
+            "page": ""
+          }
+        },
+        "ghost_faq_6": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "What is the difference between GHOST LEGEND® and GHOST® PUMP?",
+            "text": "<p>GHOST LEGEND® is a high-stimulant pre-workout containing 250mg natural caffeine, Beta-Alanine, and nootropics for energy and focus. GHOST® PUMP is 100% stimulant-free and caffeine-free, powered by NO3-T® nitrates, pure L-Citrulline, and GlycerSize™ for cellular swelling, pumps, and vascularity. They can be taken separately or stacked together.</p>",
+            "page": ""
+          }
+        },
+        "ghost_faq_7": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "What protein sources are used in GHOST® WHEY Protein?",
+            "text": "<p>GHOST® WHEY uses a fully disclosed tri-whey protein blend providing 25g of protein per scoop: 12.5g Whey Protein Isolate 90%, 10g Whey Protein Concentrate 80%, and 2.5g Hydrolyzed Whey Isolate, fortified with DigeZyme® digestive enzymes for optimal absorption and gut comfort.</p>",
+            "page": ""
+          }
+        },
+        "ghost_faq_8": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Are there extra customs fees or import taxes when buying GHOST supplements in India?",
+            "text": "<p>No. Unlike ordering from US platforms or international package forwarders where Indian customs levies 42%–77% import duty upon arrival, Unmatched Supply stocks inventory domestically in India, so you pay zero additional customs charges at delivery.</p>",
+            "page": ""
+          }
+        },
+        "ghost_faq_9": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How fast does Unmatched Supply ship GHOST supplements across India?",
+            "text": "<p>We dispatch orders Pan-India from Mumbai using tracked courier partners. Metro orders typically arrive in 2–4 business days. Ready-to-ship stock carries the Instant Ship badge for priority dispatch, and orders above ₹14,999 qualify for free shipping.</p>",
+            "page": ""
+          }
+        },
+        "ghost_faq_10": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Where in Mumbai does Unmatched Supply store and dispatch GHOST supplements from?",
+            "text": "<p>All GHOST tubs are stored in climate-controlled conditions and dispatched from Unmatched Supply, Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai, Maharashtra 400052, preventing heat degradation and powder clumping in Indian humidity.</p>",
+            "page": ""
+          }
+        },
+        "ghost_faq_11": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How can I check when sold-out GHOST pre-workout or whey flavors restock in India?",
+            "text": "<p>Inventory is refreshed regularly with US shipments. For restock ETAs on specific flavors like Bubblicious®, Welch's®, or Chips Ahoy!®, message our Mumbai team on WhatsApp at +91 77100 96203 or email unmatchedkicks@gmail.com.</p>",
+            "page": ""
+          }
+        },
+        "ghost_faq_12": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Is GHOST® BURN good for fat loss and cutting phases?",
+            "text": "<p>Yes. GHOST® BURN is an advanced thermogenic formula containing 1.5g L-Carnitine Tartrate, 500mg Acetyl-L-Carnitine, CaloriBurn GP® (Grains of Paradise), GBB, Capsimax®, and clean caffeine to accelerate calorie burning, sweat production, and mental focus during workouts.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "ghost_faq_1",
+        "ghost_faq_2",
+        "ghost_faq_3",
+        "ghost_faq_4",
+        "ghost_faq_5",
+        "ghost_faq_6",
+        "ghost_faq_7",
+        "ghost_faq_8",
+        "ghost_faq_9",
+        "ghost_faq_10",
+        "ghost_faq_11",
+        "ghost_faq_12"
+      ],
+      "name": "t:sections.accordions.name",
+      "settings": {
+        "heading": "FAQ – GHOST® Lifestyle Supplements in India",
+        "enable_faq_schema": true,
+        "heading_size": "h3",
+        "section_width": "max-w-fluid",
+        "color_scheme": "",
+        "spacing_top": "2",
+        "spacing_bottom": "4"
+      }
+    }
+  },
+  "order": [
+    "page_banner_ghost",
+    "main",
+    "ghost_ai_summary",
+    "seo_content_ghost",
+    "accordions_ghost"
+  ]
+}

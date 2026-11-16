@@ -9,6 +9,7 @@
 {% for rule in group.rules %}{{ rule }}
 {% endfor %}{% if group.user_agent.value == '*' %}Allow: /collections/david-protein
 Allow: /collections/david
+Allow: /collections/ghost-supplements-india
 Allow: /llms.txt
 Allow: /llms-full.txt
 {% endif %}{% if group.sitemap != blank %}{{ group.sitemap }}
@@ -20,6 +21,7 @@ Allow: /llms-full.txt
 Allow: /
 Allow: /collections/david-protein
 Allow: /collections/david
+Allow: /collections/ghost-supplements-india
 Allow: /llms.txt
 Allow: /llms-full.txt
 Disallow: /admin

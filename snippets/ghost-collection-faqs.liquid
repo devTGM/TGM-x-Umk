@@ -1,0 +1,272 @@
+{%- comment -%}
+  GHOST Supplements India FAQ fallback (HTML accordion + FAQPage JSON-LD)
+  used when /collections/ghost-supplements-india (or /collections/ghost) renders on the default collection template.
+{%- endcomment -%}
+{%- liquid
+  assign q1 = 'Where can I buy authentic GHOST supplements in India?'
+  assign a1 = 'You can buy 100% authentic GHOST® Lifestyle supplements in India directly online at Unmatched Supply (unmatchedsupply.com/collections/ghost-supplements-india). We import genuine US stock, inspect every tub at our Khar West, Mumbai facility, and ship Pan-India in INR with zero customs fees.'
+
+  assign q2 = 'What is GHOST LEGEND® Pre-Workout, and what are its key active ingredients?'
+  assign a2 = 'GHOST LEGEND® is a clinically dosed, 100% transparent pre-workout designed to deliver clean energy, focus, and muscle pumps. Key ingredients per serving include 4g pure L-Citrulline, 3.2g Beta-Alanine, 1.5g Nitrosigine®, Senactiv®, Alpha-GPC, NeuroFactor®, and 250mg natural caffeine, with zero proprietary blends.'
+
+  assign q3 = 'What is the price of GHOST supplements in India?'
+  assign a3 = 'Authentic imported GHOST supplements at Unmatched Supply typically range from ₹8,499 to ₹9,499 INR per tub depending on the product line and licensed collaboration. The checkout price in INR is completely final, with no hidden customs duties or surprise courier fees at delivery.'
+
+  assign q4 = 'How does Unmatched Supply verify GHOST supplement authenticity in Mumbai?'
+  assign a4 = 'Every batch is procured through verified US channels and undergoes a 5-step quality inspection at our Khar West, Mumbai facility before dispatch. We audit factory shrink bands, inner induction seals, manufacturer lot codes, and expiration dates to guarantee 100% genuine sports nutrition.'
+
+  assign q5 = 'Which GHOST® collaboration flavors are available in India?'
+  assign a5 = "Depending on incoming drop inventory, our India selection features world-famous licensed collabs including Welch's® Concord Grape, Bubblicious® Strawberry Splash, Sour Strips®, Chips Ahoy!® (with real cookie pieces), OREO®, Warheads® Sour Watermelon & Apple, and Sonic® Cherry Limeade."
+
+  assign q6 = 'What is the difference between GHOST LEGEND® and GHOST® PUMP?'
+  assign a6 = 'GHOST LEGEND® is a high-stimulant pre-workout containing 250mg natural caffeine, Beta-Alanine, and nootropics for energy and focus. GHOST® PUMP is 100% stimulant-free and caffeine-free, powered by NO3-T® nitrates, pure L-Citrulline, and GlycerSize™ for cellular swelling, pumps, and vascularity. They can be taken separately or stacked together.'
+
+  assign q7 = 'What protein sources are used in GHOST® WHEY Protein?'
+  assign a7 = 'GHOST® WHEY uses a fully disclosed tri-whey protein blend providing 25g of protein per scoop: 12.5g Whey Protein Isolate 90%, 10g Whey Protein Concentrate 80%, and 2.5g Hydrolyzed Whey Isolate, fortified with DigeZyme® digestive enzymes for optimal absorption and gut comfort.'
+
+  assign q8 = 'Are there extra customs fees or import taxes when buying GHOST supplements in India?'
+  assign a8 = 'No. Unlike ordering from US platforms or international package forwarders where Indian customs levies 42%–77% import duty upon arrival, Unmatched Supply stocks inventory domestically in India, so you pay zero additional customs charges at delivery.'
+
+  assign q9 = 'How fast does Unmatched Supply ship GHOST supplements across India?'
+  assign a9 = 'We dispatch orders Pan-India from Mumbai using tracked courier partners. Metro orders typically arrive in 2–4 business days. Ready-to-ship stock carries the Instant Ship badge for priority dispatch, and orders above ₹14,999 qualify for free shipping.'
+
+  assign q10 = 'Where in Mumbai does Unmatched Supply store and dispatch GHOST supplements from?'
+  assign a10 = 'All GHOST tubs are stored in climate-controlled conditions and dispatched from Unmatched Supply, Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai, Maharashtra 400052, preventing heat degradation and powder clumping in Indian humidity.'
+
+  assign q11 = 'How can I check when sold-out GHOST pre-workout or whey flavors restock in India?'
+  assign a11 = "Inventory is refreshed regularly with US shipments. For restock ETAs on specific flavors like Bubblicious®, Welch's®, or Chips Ahoy!®, message our Mumbai team on WhatsApp at +91 77100 96203 or email unmatchedkicks@gmail.com."
+
+  assign q12 = 'Is GHOST® BURN good for fat loss and cutting phases?'
+  assign a12 = 'Yes. GHOST® BURN is an advanced thermogenic formula containing 1.5g L-Carnitine Tartrate, 500mg Acetyl-L-Carnitine, CaloriBurn GP® (Grains of Paradise), GBB, Capsimax®, and clean caffeine to accelerate calorie burning, sweat production, and mental focus during workouts.'
+-%}
+
+<h2 class="section__heading {{ heading_size | default: 'h3' }}">
+  FAQ – GHOST® Lifestyle Supplements in India
+</h2>
+
+<accordion-default class="accordion" data-hide-multiple>
+  <details class="accordion__section is-active default-active" id="Details-ghost-faq-1" open>
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-ghost-faq-1">
+      <div class="accordion__button-text">{{ q1 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-ghost-faq-1">
+      <div class="accordion__body-inner"><p>{{ a1 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-ghost-faq-2">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-ghost-faq-2">
+      <div class="accordion__button-text">{{ q2 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-ghost-faq-2">
+      <div class="accordion__body-inner"><p>{{ a2 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-ghost-faq-3">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-ghost-faq-3">
+      <div class="accordion__button-text">{{ q3 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-ghost-faq-3">
+      <div class="accordion__body-inner"><p>{{ a3 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-ghost-faq-4">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-ghost-faq-4">
+      <div class="accordion__button-text">{{ q4 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-ghost-faq-4">
+      <div class="accordion__body-inner"><p>{{ a4 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-ghost-faq-5">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-ghost-faq-5">
+      <div class="accordion__button-text">{{ q5 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-ghost-faq-5">
+      <div class="accordion__body-inner"><p>{{ a5 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-ghost-faq-6">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-ghost-faq-6">
+      <div class="accordion__button-text">{{ q6 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-ghost-faq-6">
+      <div class="accordion__body-inner"><p>{{ a6 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-ghost-faq-7">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-ghost-faq-7">
+      <div class="accordion__button-text">{{ q7 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-ghost-faq-7">
+      <div class="accordion__body-inner"><p>{{ a7 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-ghost-faq-8">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-ghost-faq-8">
+      <div class="accordion__button-text">{{ q8 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-ghost-faq-8">
+      <div class="accordion__body-inner"><p>{{ a8 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-ghost-faq-9">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-ghost-faq-9">
+      <div class="accordion__button-text">{{ q9 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-ghost-faq-9">
+      <div class="accordion__body-inner"><p>{{ a9 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-ghost-faq-10">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-ghost-faq-10">
+      <div class="accordion__button-text">{{ q10 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-ghost-faq-10">
+      <div class="accordion__body-inner"><p>{{ a10 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-ghost-faq-11">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-ghost-faq-11">
+      <div class="accordion__button-text">{{ q11 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-ghost-faq-11">
+      <div class="accordion__body-inner"><p>{{ a11 }}</p></div>
+    </div>
+  </details>
+
+  <details class="accordion__section" id="Details-ghost-faq-12">
+    <summary class="accordion__button h6 js-btn" id="Details-Summary-ghost-faq-12">
+      <div class="accordion__button-text">{{ q12 | escape }}</div>
+      <div class="accordion__icon">{% render 'icon', icon_name: 'theme-chevron-down' %}</div>
+    </summary>
+    <div class="accordion__body" id="Details-Content-ghost-faq-12">
+      <div class="accordion__body-inner"><p>{{ a12 }}</p></div>
+    </div>
+  </details>
+</accordion-default>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": {{ q1 | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ a1 | json }}
+        }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q2 | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ a2 | json }}
+        }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q3 | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ a3 | json }}
+        }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q4 | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ a4 | json }}
+        }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q5 | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ a5 | json }}
+        }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q6 | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ a6 | json }}
+        }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q7 | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ a7 | json }}
+        }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q8 | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ a8 | json }}
+        }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q9 | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ a9 | json }}
+        }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q10 | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ a10 | json }}
+        }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q11 | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ a11 | json }}
+        }
+      },
+      {
+        "@type": "Question",
+        "name": {{ q12 | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ a12 | json }}
+        }
+      }
+    ]
+  }
+</script>
