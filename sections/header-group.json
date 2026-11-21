@@ -98,7 +98,7 @@
         "text_block_behaviour": "slider",
         "slider_autoplay_interval": 5,
         "font_weight": "700",
-        "section_width": "max-w-fluid",
+        "section_width": "max-w-full",
         "color_scheme": "scheme-6"
       }
     },
