@@ -140,6 +140,17 @@
       else
         assign webpage_description = 'Buy 100% authentic Young LA (YoungLA) gym wear in India at Unmatched Supply Mumbai. Shop Spartan tees, compression tops, joggers & hoodies with fast Pan-India delivery & zero customs.'
       endif
+    elsif collection.handle == 'gymshark' or collection.handle == 'gymshark-womens' or collection.handle == 'gymshark-onyx' or collection.handle == 'gymshark-instant-ship'
+      assign gymshark_title_lc = webpage_title | strip | downcase
+      unless gymshark_title_lc contains 'gymshark' and gymshark_title_lc contains 'india'
+        assign webpage_title = 'Gymshark India – Buy Authentic Gymshark Gym Clothes | Unmatched Supply'
+      endunless
+
+      if has_custom_page_desc and raw_page_desc_lc contains 'gymshark' and raw_page_desc_lc contains 'india' and raw_page_desc.size >= 110
+        assign webpage_description = raw_page_desc
+      else
+        assign webpage_description = 'Buy 100% authentic Gymshark gym clothes in India at Unmatched Supply Mumbai. Shop Sam Sulek drops, Onyx tees, hoodies & seamless leggings with zero customs & fast dispatch.'
+      endif
     elsif has_custom_page_desc
       assign webpage_description = raw_page_desc
     elsif supplement_handles contains collection_handle_token
@@ -186,6 +197,18 @@
       endfor
     endif
 
+    assign is_gymshark_product = false
+    if product_title_lc contains 'gymshark' or product_vendor_lc contains 'gymshark'
+      assign is_gymshark_product = true
+    else
+      for pcol in product.collections
+        if pcol.handle == 'gymshark' or pcol.handle == 'gymshark-womens' or pcol.handle == 'gymshark-onyx' or pcol.handle == 'gymshark-instant-ship' or pcol.handle contains 'gymshark'
+          assign is_gymshark_product = true
+          break
+        endif
+      endfor
+    endif
+
     if is_david_product
       assign current_wp_title_lc = webpage_title | strip | downcase
       unless current_wp_title_lc contains 'india'
@@ -222,6 +245,18 @@
         assign youngla_price = product.price | money_without_trailing_zeros | strip_html | strip
         assign webpage_description = 'Buy authentic ' | append: product.title | append: ' in India for ' | append: youngla_price | append: ' at Unmatched Supply Mumbai. 100% genuine YoungLA gym wear · Pan-India delivery & zero customs.'
       endif
+    elsif is_gymshark_product
+      assign current_wp_title_lc = webpage_title | strip | downcase
+      unless current_wp_title_lc contains 'india'
+        assign webpage_title = webpage_title | append: ' – Gymshark India'
+      endunless
+
+      if has_custom_page_desc and raw_page_desc_lc contains 'india' and raw_page_desc.size >= 90
+        assign webpage_description = raw_page_desc
+      else
+        assign gymshark_price = product.price | money_without_trailing_zeros | strip_html | strip
+        assign webpage_description = 'Buy authentic ' | append: product.title | append: ' in India for ' | append: gymshark_price | append: ' at Unmatched Supply Mumbai. 100% genuine Gymshark gym wear · Pan-India delivery & zero customs.'
+      endif
     elsif has_custom_page_desc
       assign webpage_description = raw_page_desc
     else
@@ -240,6 +275,7 @@
     assign fallback_david_collection = blank
     assign fallback_ghost_collection = blank
     assign fallback_youngla_collection = blank
+    assign fallback_gymshark_collection = blank
     assign fallback_primary_collection = blank
     for pcol in product.collections
       if pcol.handle == 'david-protein'
@@ -251,12 +287,17 @@
       elsif pcol.handle == 'young-la'
         assign resolved_product_collection = pcol
         break
+      elsif pcol.handle == 'gymshark'
+        assign resolved_product_collection = pcol
+        break
       elsif pcol.handle == 'david' and fallback_david_collection == blank
         assign fallback_david_collection = pcol
       elsif pcol.handle == 'ghost' and fallback_ghost_collection == blank
         assign fallback_ghost_collection = pcol
       elsif pcol.handle == 'youngla' and fallback_youngla_collection == blank
         assign fallback_youngla_collection = pcol
+      elsif (pcol.handle == 'gymshark-womens' or pcol.handle == 'gymshark-onyx' or pcol.handle == 'gymshark-instant-ship') and fallback_gymshark_collection == blank
+        assign fallback_gymshark_collection = pcol
       endif
       if fallback_primary_collection == blank
         unless pcol.handle == 'all' or pcol.handle contains 'sale' or pcol.handle == 'popular-products' or pcol.handle == 'latest-drops-1' or pcol.handle == 'featured' or pcol.handle == 'tax-override'
@@ -265,7 +306,7 @@
       endif
     endfor
     if resolved_product_collection == blank
-      assign resolved_product_collection = fallback_david_collection | default: fallback_ghost_collection | default: fallback_youngla_collection | default: fallback_primary_collection | default: product.collections.first
+      assign resolved_product_collection = fallback_david_collection | default: fallback_ghost_collection | default: fallback_youngla_collection | default: fallback_gymshark_collection | default: fallback_primary_collection | default: product.collections.first
     endif
   endif
 
@@ -287,6 +328,12 @@
     elsif collection.handle == 'young-la' or collection.handle == 'youngla'
       if col_title_lc == 'young la' or col_title_lc == 'youngla' or col_title_lc == 'yla'
         assign collection_crumb_name = 'Young LA'
+      else
+        assign collection_crumb_name = collection.title
+      endif
+    elsif collection.handle == 'gymshark' or collection.handle == 'gymshark-womens' or collection.handle == 'gymshark-onyx'
+      if col_title_lc == 'gymshark'
+        assign collection_crumb_name = 'Gymshark'
       else
         assign collection_crumb_name = collection.title
       endif
@@ -313,6 +360,12 @@
     elsif resolved_product_collection.handle == 'young-la' or resolved_product_collection.handle == 'youngla'
       if rcol_title_lc == 'young la' or rcol_title_lc == 'youngla' or rcol_title_lc == 'yla'
         assign resolved_collection_crumb_name = 'Young LA'
+      else
+        assign resolved_collection_crumb_name = resolved_product_collection.title
+      endif
+    elsif resolved_product_collection.handle == 'gymshark' or resolved_product_collection.handle == 'gymshark-womens' or resolved_product_collection.handle == 'gymshark-onyx'
+      if rcol_title_lc == 'gymshark'
+        assign resolved_collection_crumb_name = 'Gymshark'
       else
         assign resolved_collection_crumb_name = resolved_product_collection.title
       endif
@@ -434,6 +487,7 @@
           "GHOST Legend",
           "GHOST Whey",
           "Gymshark",
+          "Gymshark India",
           "YoungLA",
           "Young LA",
           "YLA",
@@ -582,6 +636,33 @@
                 "@type": "Brand",
                 "name": "YoungLA",
                 "alternateName": ["Young LA", "YLA", "YoungLA Clothing", "Young LA India", "YoungLA For Her"]
+              }
+            {%- elsif collection.handle == 'gymshark' or collection.handle == 'gymshark-womens' or collection.handle == 'gymshark-onyx' -%}
+              {%- assign item_list_limit = 48 -%}
+              ,"keywords": "Gymshark India, Buy Gymshark India, Gymshark Sam Sulek India, Gymshark Leggings India, Gymshark Onyx India, Gymshark Mens India, Gymshark Mumbai"
+              ,"spatialCoverage": [
+                {
+                  "@type": "Country",
+                  "name": "India"
+                },
+                {
+                  "@type": "City",
+                  "name": "Mumbai"
+                }
+              ]
+              ,"speakable": {
+                "@type": "SpeakableSpecification",
+                "cssSelector": [
+                  ".section-page-banner__text",
+                  ".gymshark-geo-lead",
+                  ".gymshark-geo-dl",
+                  ".gymshark-geo-answers"
+                ]
+              }
+              ,"about": {
+                "@type": "Brand",
+                "name": "Gymshark",
+                "alternateName": ["Gymshark UK", "Gymshark Activewear", "Gymshark India", "Gymshark Onyx"]
               }
             {%- endif -%}
             ,"mainEntity": {

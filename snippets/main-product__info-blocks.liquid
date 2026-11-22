@@ -1069,4 +1069,88 @@
       </details>
     </accordion-default>
   {%- endif -%}
+
+  {%- liquid
+    assign gymshark_pdp_match = false
+    assign gymshark_pdp_col_url = ''
+    if product != blank and is_gift_card != true
+      assign gymshark_pdp_title_lc = product.title | strip | downcase
+      assign gymshark_pdp_vendor_lc = product.vendor | strip | downcase
+      if gymshark_pdp_title_lc contains 'gymshark' or gymshark_pdp_vendor_lc contains 'gymshark'
+        assign gymshark_pdp_match = true
+      endif
+      for pcol in product.collections
+        if pcol.handle == 'gymshark'
+          assign gymshark_pdp_match = true
+          if pcol.url != blank
+            assign gymshark_pdp_col_url = pcol.url
+          endif
+          break
+        elsif pcol.handle == 'gymshark-womens' or pcol.handle == 'gymshark-onyx' or pcol.handle == 'gymshark-instant-ship' or pcol.handle contains 'gymshark'
+          assign gymshark_pdp_match = true
+          if gymshark_pdp_col_url == blank and pcol.url != blank
+            assign gymshark_pdp_col_url = pcol.url
+          endif
+        endif
+      endfor
+      if gymshark_pdp_col_url == blank
+        if collections['gymshark'] != blank
+          assign gymshark_pdp_col_url = collections['gymshark'].url | default: '/collections/gymshark'
+        elsif collections['gymshark-womens'] != blank
+          assign gymshark_pdp_col_url = collections['gymshark-womens'].url | default: '/collections/gymshark-womens'
+        else
+          assign gymshark_pdp_col_url = '/collections/gymshark'
+        endif
+      endif
+    endif
+  -%}
+  {%- if gymshark_pdp_match -%}
+    {{- 'section-accordions.aio.min.css' | asset_url | stylesheet_tag -}}
+    {%- liquid
+      assign gymshark_pdp_box_price = ''
+      if product.price != blank and product.price > 0
+        assign gymshark_pdp_box_price = product.price | money_without_trailing_zeros | strip_html | strip
+      endif
+    -%}
+    <accordion-default class="accordion product__accordion product__block product__block--gap-1" data-hide-multiple>
+      <details class="accordion__section" id="Details-gymshark-india-guide">
+        <summary class="accordion__button h5 js-btn" id="Details-Summary-gymshark-india-guide">
+          <span>
+            {% render 'icon', icon_name: 'theme-package-check' %}
+            <span>Gymshark India — Authenticity &amp; Sizing Guide</span>
+          </span>
+          <div class="accordion__icon">
+            {%- render 'icon', icon_name: 'theme-minus' -%}
+            {%- render 'icon', icon_name: 'theme-minus' -%}
+          </div>
+        </summary>
+        <div class="accordion__body" id="Details-Content-gymshark-india-guide">
+          <div class="accordion__body-inner">
+            <div class="rte">
+              {%- if gymshark_pdp_title_lc contains 'sam sulek' -%}
+                <p><strong>Gymshark x Sam Sulek Official Drop:</strong> Authentic collaborative heavyweight lifter silhouette featuring custom boxy dropped shoulders, ribbed collars, and heavyweight vintage washed cotton tailored specifically for bodybuilders and pump covers.</p>
+              {%- elsif gymshark_pdp_title_lc contains 'onyx' -%}
+                <p><strong>Gymshark Onyx Collection:</strong> The legendary high-compression physique-sculpting powerlifting range with reinforced ribbed panels and contoured aesthetic lines.</p>
+              {%- elsif gymshark_pdp_title_lc contains 'seamless' or gymshark_pdp_title_lc contains 'vital' or gymshark_pdp_title_lc contains 'adapt' -%}
+                <p><strong>Gymshark Seamless Activewear:</strong> Engineered circular knit yarn offering sweat-wicking 4-way stretch, squat-proof opacity, and compressive high-waisted support for gym workouts.</p>
+              {%- elsif gymshark_pdp_title_lc contains 'arrival' or gymshark_pdp_title_lc contains 'short' -%}
+                <p><strong>Gymshark Performance Training Apparel:</strong> Lightweight moisture-wicking synthetic blend with freedom-of-movement gussets engineered for high-intensity lifting and cardio sessions.</p>
+              {%- else -%}
+                <p><strong>Gymshark Activewear &amp; Gym Clothes:</strong> 100% authentic UK-designed fitness activewear from Solihull, England, built for lifters and conditioning athletes.</p>
+              {%- endif -%}
+              <ul>
+                {%- if gymshark_pdp_box_price != blank -%}
+                  <li><strong>INR Pricing:</strong> {{ gymshark_pdp_box_price }} final checkout price with zero extra customs duties at delivery.</li>
+                {%- endif -%}
+                <li><strong>Sizing Recommendation:</strong> Oversized pump covers and Sam Sulek drops fit intentionally loose; order true to size for pump cover fit, or size down for an athletic fit. Slim-fit tops and Onyx run true to size with athletic taper. Seamless leggings fit true to size with compressive support.</li>
+                <li><strong>Mumbai Batch Inspection:</strong> Verified for official Gymshark barcoded hangtags, heat-sealed shark head logos, washcare codes, and seam tensile integrity at Unmatched Supply, Khar West, Plot No 27, 3rd Road, Mumbai 400052.</li>
+                <li><strong>Fast Pan-India Delivery:</strong> Tracked domestic courier dispatch with Instant Ship availability on ready stock and free India shipping on orders above ₹14,999.</li>
+              </ul>
+              <p><a href="{{ gymshark_pdp_col_url }}#gymshark-india-quick-facts">View Gymshark Size Guide &amp; Collections in India</a> · <a href="/collections/gymshark-instant-ship">Gymshark Instant Ship</a></p>
+            </div>
+          </div>
+        </div>
+      </details>
+    </accordion-default>
+  {%- endif -%}
 </section>

@@ -36,6 +36,12 @@
       else
         assign active_collection_title = active_collection.title
       endif
+    elsif active_collection.handle == 'gymshark' or active_collection.handle == 'gymshark-womens' or active_collection.handle == 'gymshark-onyx'
+      if active_collection_lc == 'gymshark'
+        assign active_collection_title = 'Gymshark'
+      else
+        assign active_collection_title = active_collection.title
+      endif
     else
       assign active_collection_title = active_collection.title
     endif

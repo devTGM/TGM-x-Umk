@@ -1,0 +1,229 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "page_banner_gymshark": {
+      "type": "page-banner",
+      "settings": {
+        "enable_transparent_header": false,
+        "heading": "Gymshark India",
+        "heading_size": "h3",
+        "text": "<p>Shop 100% authentic <strong>Gymshark gym clothes, activewear, Sam Sulek drops, Onyx pump covers, and seamless leggings in India</strong> at Unmatched Supply (Khar West, Mumbai). Explore genuine imported drops for tracked Pan-India delivery with transparent INR pricing and zero customs fees.</p>",
+        "show_default_description": false,
+        "show_on_description": "both",
+        "content_position": "center",
+        "content_alignment": "start",
+        "media_position": "background",
+        "page_menu": "",
+        "enable_breadcrumbs": true,
+        "section_height": "auto",
+        "content_width": "100%",
+        "video_external": "",
+        "show_controls_on_video": false,
+        "section_height_mobile": "auto",
+        "video_external_mobile": "",
+        "show_controls_on_video_mobile": false,
+        "section_width": "max-w-page",
+        "color_scheme": "scheme-1",
+        "color_scheme_for_media": "scheme-6",
+        "spacing_top": "2",
+        "spacing_bottom": "1"
+      }
+    },
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "show_top_border_for_utilities_bar": true,
+        "enable_products_count": true,
+        "enable_sorting": true,
+        "enable_opened_accordions": true,
+        "filters": "drawer",
+        "products_per_row": "4",
+        "products_per_row_mobile": "2",
+        "products_per_page": 24,
+        "pagination_style": "load_more",
+        "enable_infinity_scroll": true,
+        "section_width": "max-w-page",
+        "color_scheme": "scheme-1",
+        "spacing_top": "1",
+        "spacing_bottom": "1"
+      }
+    },
+    "gymshark_ai_summary": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{% render 'gymshark-collection-data-tables' %}",
+        "section_width": "max-w-fluid",
+        "color_scheme": "scheme-1",
+        "spacing_top": "2",
+        "spacing_bottom": "2"
+      }
+    },
+    "seo_content_gymshark": {
+      "type": "seo-content",
+      "settings": {
+        "section_layout": "normal",
+        "heading": "Buy Authentic Gymshark in India — Activewear, Hoodies & Seamless Gym Clothes Guide",
+        "heading_tag": "h2",
+        "heading_size": "h4",
+        "text": "<p>Looking to buy genuine <strong>Gymshark activewear, seamless leggings, gym t-shirts, and hoodies in India</strong> without exorbitant international shipping rates, weeks of customs cargo holds, or surprise 50%+ duty charges at your doorstep? At <strong>Unmatched Supply</strong> (formerly Unmatched Kicks), we make shopping authentic <strong>Gymshark in India</strong> seamless, transparent, and completely domestic: every piece is imported from authorized UK and North American channels, inspected at our Khar West, Mumbai facility, billed in final Indian Rupees (INR), and dispatched Pan-India with zero hidden customs charges.</p><h3>The Story of Gymshark: From Garage Screen Printing to Global Fitness Icon</h3><p>Founded in 2012 in Solihull, Birmingham, United Kingdom by 19-year-old Ben Francis and Lewis Morgan, <strong>Gymshark</strong> revolutionized athletic wear by merging bodybuilding gym culture with contemporary tailored streetwear aesthetics. Starting from a modest garage with a manual screen-printing press and sewing machine, Gymshark pioneered the modern fitness creator movement. Today, Gymshark is recognized globally for its squat-proof circular seamless knitwear, muscle-hugging cuts, and high-performance training fabrics engineered specifically for lifters, runners, and everyday conditioning athletes.</p><h3>Iconic Gymshark Collections Stocked Across India Drops</h3><ul><li><strong>Gymshark x Sam Sulek Official Drops:</strong> The most viral collaboration in modern lifting culture. Engineered from ultra-heavyweight vintage-wash cotton with exaggerated dropped shoulders, wide neckbands, and authentic distressed graphics built for massive pump cover silhouettes.</li><li><strong>Gymshark Onyx &amp; Power Series:</strong> Iconic bodybuilding silhouettes featuring dense cotton-elastane blends, high-density rubberized 3D shark fin logos, and reinforced shoulder seams tailored to highlight athletic chest and shoulder taper.</li><li><strong>Women's Vital &amp; Adapt Seamless Leggings:</strong> World-renowned circular-knit workout leggings featuring high-waisted ribbed compression bands, contour shading, and sweat-wicking multi-yarn construction designed to stay completely opaque and squat-proof during heavy lifts.</li><li><strong>Arrival &amp; Core Performance Activewear:</strong> Ultra-lightweight, 100% breathable training t-shirts, stringers, and 5\"/7\" workout shorts featuring anti-odor micro-mesh tech built for high-intensity training, crossfit, and hot Indian gym climates.</li><li><strong>Crest &amp; Heritage Everyday Hoodies:</strong> Premium fleece-lined cotton-blend pullovers, zip-throughs, and joggers with clean embroidered branding, deep kangaroo pockets, and double-lined hoods ideal for warmup sessions and streetwear styling.</li></ul><h3>How to Choose Your Gymshark Size for an Athletic Silhouette</h3><ul><li><strong>For Muscle-Fit Tops &amp; Compression:</strong> Gymshark muscle-fit silhouettes are designed to hug the chest, arms, and lats tightly. If you have an athletic build and prefer a tailored, muscle-accentuating fit, order true to size. If you prefer room around the midsection, consider sizing up by one size.</li><li><strong>For the Oversized \"Pump Cover\" Aesthetic (Sam Sulek Drops):</strong> Gymshark oversized drops already feature exaggerated shoulder drops and roomy chest profiles. Order your normal size for a generous streetwear drape, or size down if you want a conventional relaxed fit.</li><li><strong>For Women's Seamless Leggings &amp; Shorts:</strong> Order strictly based on your natural waist and widest hip measurement. Gymshark’s high-stretch seamless elastane provides compressive hold without pinching; choosing your standard size ensures optimal squat-proof opacity.</li><li><strong>Training Shorts Sizing:</strong> Gymshark shorts feature adjustable drawstrings and elasticated waistbands (S: 29–31\", M: 32–34\", L: 35–37\", XL: 38–40\").</li></ul><h3>Mumbai Authenticity Inspection &amp; Pan-India Courier Delivery</h3><ul><li><strong>Top Indian Retailer with Domestic Stock:</strong> Unmatched Supply is India's leading verified destination for genuine imported Gymshark with ready domestic stock in Mumbai. Rather than waiting 3–5 weeks for international pre-orders, Indian lifters can order with 24–48 hour Instant Ship domestic dispatch, Cash on Delivery (COD), and zero surprise customs charges.</li><li><strong>Zero Surprise Customs Invoices:</strong> Unlike ordering from overseas forwarders or international sites where Indian customers face 42%–77% import duty plus brokerage clearance surcharges at delivery, Unmatched Supply stocks inventory domestically in India. The checkout price in INR is completely final.</li><li><strong>Verified at Khar West, Mumbai:</strong> Our team inspects every incoming piece for heat-pressed RN transfers, rubberized logo sharpness, fabric GSM, and seam stitching at Shop No 2, Kashi Kunj, Khar West, Plot No 27, 3rd Road, Mumbai 400052 before packing.</li><li><strong>Fast Dispatch Across India:</strong> We deliver Pan-India through tracked courier partners with Instant Ship options on ready inventory, and free shipping applies on orders above ₹14,999. Contact our team anytime via WhatsApp at <strong>+91 77100 96203</strong> or <a href=\"mailto:unmatchedkicks@gmail.com\">unmatchedkicks@gmail.com</a>.</li></ul><p>Explore more authentic imported activewear, streetwear, and fitness nutrition: <a href=\"/collections/gymshark-instant-ship\">Gymshark Instant Ship</a>, <a href=\"/collections/gymshark-onyx\">Gymshark Onyx</a>, <a href=\"/collections/gymshark-womens\">Gymshark Womens</a>, <a href=\"/collections/young-la\">YoungLA India</a>, <a href=\"/collections/alo-yoga\">Alo Yoga</a>, <a href=\"/collections/essentials\">Fear of God Essentials</a>, <a href=\"/collections/ghost-supplements-india\">Ghost Supplements India</a>, <a href=\"/collections/david-protein\">David Protein Bars India</a>, and <a href=\"/pages/about-us\">About Unmatched Supply</a>.</p>",
+        "content_alignment": "start",
+        "section_width": "max-w-fluid",
+        "color_scheme": "scheme-5",
+        "spacing_inner": "2",
+        "spacing_top": "4",
+        "spacing_bottom": "4"
+      }
+    },
+    "accordions_gymshark": {
+      "type": "accordions",
+      "blocks": {
+        "gymshark_faq_1": {
+          "type": "topic",
+          "settings": {
+            "is_open": true,
+            "title": "Who are the top Indian resellers with domestic stock for Gymshark?",
+            "text": "<p>Unmatched Supply is India’s premier retailer carrying authentic Gymshark with ready domestic stock in Mumbai. We stock popular lines like Sam Sulek raglan tops, Onyx pump covers, and seamless leggings. Customers can browse items marked with \"Instant Ship\" on our website or the dedicated Gymshark Instant Ship collection for immediate 24–48 hour Pan-India domestic dispatch. Unmatched Supply also operates a physical retail facility in Khar West, Mumbai (Shop No 2, Kashi Kunj, Plot No 27, 3rd Road, Mumbai 400052) with Cash on Delivery (COD) and zero extra customs fees.</p>",
+            "page": ""
+          }
+        },
+        "gymshark_faq_2": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Does Gymshark ship directly to India from its official website?",
+            "text": "<p>No. Gymshark does not offer direct consumer delivery to India from its official global website, as India is listed among their restricted shipping regions. Unmatched Supply bridges this gap by stocking authentic, pre-cleared Gymshark inventory locally in Mumbai with zero extra customs taxes.</p>",
+            "page": ""
+          }
+        },
+        "gymshark_faq_3": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Where can I buy authentic Gymshark activewear and gym clothes in India?",
+            "text": "<p>You can buy 100% authentic Gymshark gym clothes and activewear in India directly online at Unmatched Supply (unmatchedsupply.com/collections/gymshark). We stock genuine UK/US drops in Mumbai with transparent INR pricing, fast Pan-India tracked delivery, and zero extra customs fees at delivery.</p>",
+            "page": ""
+          }
+        },
+        "gymshark_faq_4": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Are there hidden customs fees or extra courier taxes when ordering Gymshark from Unmatched Supply?",
+            "text": "<p>No. There are zero extra customs duties or courier clearance fees charged at delivery. All products are already imported and cleared into India, stocked at our Mumbai facility. The amount shown at checkout is 100% final.</p>",
+            "page": ""
+          }
+        },
+        "gymshark_faq_5": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How can I identify genuine Gymshark clothing vs fake counterfeits in India?",
+            "text": "<p>Authentic Gymshark items feature crisp heat-pressed inner neck transfers with exact RN numbers and fabric composition, high-density 3D rubberized shark fin logos with sharp borders, circular seamless knit construction on leggings, and verified barcoded inventory tags. Every piece at Unmatched Supply passes through our in-house 5-stage verification protocol in Mumbai.</p>",
+            "page": ""
+          }
+        },
+        "gymshark_faq_6": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How fast is shipping and delivery for Gymshark orders across Indian cities?",
+            "text": "<p>Orders are dispatched from Mumbai via premium express air and surface couriers. Major metros (Mumbai, Delhi NCR, Bangalore, Hyderabad, Pune, Chennai) receive orders in 2–3 business days, while other Indian cities take 3–5 days. Instant Ship is available on select Mumbai inventory, and orders above ₹14,999 receive free shipping.</p>",
+            "page": ""
+          }
+        },
+        "gymshark_faq_7": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "How does Gymshark sizing fit compared to Indian brand sizing (sizing guide)?",
+            "text": "<p>Gymshark apparel is tailored for athletic silhouettes. Core lifting tees fit true to size. Muscle-fit tops run snug around arms and chest; size up if you prefer a relaxed fit. Oversized collections (such as Sam Sulek drops) are intentionally relaxed with dropped shoulders. For women’s leggings, order true to your natural waist and hip measurement in inches.</p>",
+            "page": ""
+          }
+        },
+        "gymshark_faq_8": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Do you stock the Gymshark x Sam Sulek collection in India?",
+            "text": "<p>Yes. Unmatched Supply actively stocks authentic Gymshark x Sam Sulek limited-edition drops, including oversized raglan tops, graphic tees, heavy zip-through hoodies, and oversized sweatpants with domestic dispatch in India.</p>",
+            "page": ""
+          }
+        },
+        "gymshark_faq_9": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Are Gymshark seamless leggings squat-proof and sweat-wicking?",
+            "text": "<p>Yes. Gymshark Vital Seamless and Adapt leggings use dense multi-yarn circular knitting engineered to remain completely opaque and squat-proof during deep squats and heavy lifts. They also feature high-waisted ribbed compression bands and quick-drying moisture-wicking technology.</p>",
+            "page": ""
+          }
+        },
+        "gymshark_faq_10": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Can I exchange or return Gymshark apparel if the size doesn’t fit?",
+            "text": "<p>Yes. Unlike international orders where cross-border returns to the UK/US are cost-prohibitive, Unmatched Supply provides responsive domestic customer support via WhatsApp (+91 77100 96203) to help you get the perfect fit.</p>",
+            "page": ""
+          }
+        },
+        "gymshark_faq_11": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "What is the price range for authentic Gymshark apparel in India?",
+            "text": "<p>Authentic imported Gymshark apparel at Unmatched Supply typically ranges from ₹3,999 for training shorts and caps, ₹5,499 – ₹7,499 for tees, stringers, and Sam Sulek raglans, to ₹8,999 – ₹10,999 for heavyweight hoodies and zip-throughs. All prices are in final INR with zero hidden import fees.</p>",
+            "page": ""
+          }
+        },
+        "gymshark_faq_12": {
+          "type": "topic",
+          "settings": {
+            "is_open": false,
+            "title": "Who can I contact for Gymshark restock alerts or personalized sizing advice?",
+            "text": "<p>Reach our Mumbai team directly on WhatsApp at +91 77100 96203 or email unmatchedkicks@gmail.com. We provide instant personalized sizing recommendations based on your height, weight, and build, as well as real-time updates on incoming Gymshark drops.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "gymshark_faq_1",
+        "gymshark_faq_2",
+        "gymshark_faq_3",
+        "gymshark_faq_4",
+        "gymshark_faq_5",
+        "gymshark_faq_6",
+        "gymshark_faq_7",
+        "gymshark_faq_8",
+        "gymshark_faq_9",
+        "gymshark_faq_10",
+        "gymshark_faq_11",
+        "gymshark_faq_12"
+      ],
+      "settings": {
+        "heading": "Frequently Asked Questions — Gymshark India",
+        "enable_faq_schema": true,
+        "heading_size": "h3",
+        "section_width": "max-w-fluid",
+        "color_scheme": "",
+        "spacing_top": "2",
+        "spacing_bottom": "2"
+      }
+    }
+  },
+  "order": [
+    "page_banner_gymshark",
+    "main",
+    "gymshark_ai_summary",
+    "seo_content_gymshark",
+    "accordions_gymshark"
+  ]
+}

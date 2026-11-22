@@ -68,6 +68,17 @@
       else
         assign meta_description = 'Buy 100% authentic Young LA (YoungLA) gym wear in India at Unmatched Supply Mumbai. Shop Spartan tees, compression tops, joggers & hoodies with fast Pan-India delivery & zero customs.'
       endif
+    elsif collection.handle == 'gymshark' or collection.handle == 'gymshark-womens' or collection.handle == 'gymshark-onyx' or collection.handle == 'gymshark-instant-ship'
+      assign gymshark_title_lc = meta_title | strip | downcase
+      unless gymshark_title_lc contains 'gymshark' and gymshark_title_lc contains 'india'
+        assign meta_title = 'Gymshark India – Buy Authentic Gymshark Gym Clothes | Unmatched Supply'
+      endunless
+
+      if has_custom_page_desc and raw_page_desc_lc contains 'gymshark' and raw_page_desc_lc contains 'india' and raw_page_desc.size >= 110
+        assign meta_description = raw_page_desc
+      else
+        assign meta_description = 'Buy 100% authentic Gymshark gym clothes in India at Unmatched Supply Mumbai. Shop Sam Sulek drops, Onyx tees, hoodies & seamless leggings with zero customs & fast dispatch.'
+      endif
     elsif has_custom_page_desc
       assign meta_description = raw_page_desc
     elsif supplement_handles contains collection_handle_token
@@ -114,6 +125,18 @@
       endfor
     endif
 
+    assign is_gymshark_product = false
+    if product_title_lc contains 'gymshark' or product_vendor_lc contains 'gymshark'
+      assign is_gymshark_product = true
+    else
+      for pcol in product.collections
+        if pcol.handle == 'gymshark' or pcol.handle == 'gymshark-womens' or pcol.handle == 'gymshark-onyx' or pcol.handle == 'gymshark-instant-ship' or pcol.handle contains 'gymshark'
+          assign is_gymshark_product = true
+          break
+        endif
+      endfor
+    endif
+
     if is_david_product
       assign current_meta_title_lc = meta_title | strip | downcase
       unless current_meta_title_lc contains 'india'
@@ -149,6 +172,18 @@
       else
         assign youngla_price = product.price | money_without_trailing_zeros | strip_html | strip
         assign meta_description = 'Buy authentic ' | append: product.title | append: ' in India for ' | append: youngla_price | append: ' at Unmatched Supply Mumbai. 100% genuine YoungLA gym wear · Pan-India delivery & zero customs.'
+      endif
+    elsif is_gymshark_product
+      assign current_meta_title_lc = meta_title | strip | downcase
+      unless current_meta_title_lc contains 'india'
+        assign meta_title = meta_title | append: ' – Gymshark India'
+      endunless
+
+      if has_custom_page_desc and raw_page_desc_lc contains 'india' and raw_page_desc.size >= 90
+        assign meta_description = raw_page_desc
+      else
+        assign gymshark_price = product.price | money_without_trailing_zeros | strip_html | strip
+        assign meta_description = 'Buy authentic ' | append: product.title | append: ' in India for ' | append: gymshark_price | append: ' at Unmatched Supply Mumbai. 100% genuine Gymshark activewear · Pan-India delivery & zero customs.'
       endif
     elsif has_custom_page_desc
       assign meta_description = raw_page_desc
