@@ -1,0 +1,285 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding-block-start: calc(var(--section-spacing-unit-size) * {{ section.settings.spacing_top }});
+    padding-block-end: calc(var(--section-spacing-unit-size) * {{ section.settings.spacing_bottom }});
+    background-color: #0d0d0d;
+    color: #ffffff;
+  }
+  .why-unmatched {
+    width: 100%;
+  }
+  .why-unmatched__header {
+    text-align: center;
+    margin-bottom: 3.6rem;
+  }
+  .why-unmatched__tag {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #a31d1d;
+    background: rgba(163, 29, 29, 0.12);
+    border: 1px solid rgba(163, 29, 29, 0.3);
+    padding: 4px 14px;
+    border-radius: 50px;
+    margin-bottom: 1.2rem;
+  }
+  .why-unmatched__title {
+    font-size: 3.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0 0 0.8rem 0;
+  }
+  .why-unmatched__subtitle {
+    font-size: 1.4rem;
+    color: #a0a0a0;
+    max-width: 60ch;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  .why-unmatched__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+  .why-unmatched__card {
+    background: #161616;
+    border: 1px solid #262626;
+    border-radius: 12px;
+    padding: 2.4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+  .why-unmatched__card:hover {
+    transform: translateY(-4px);
+    border-color: #444444;
+  }
+  .why-unmatched__card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: #202020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.6rem;
+    color: #ffffff;
+  }
+  .why-unmatched__card-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  .why-unmatched__card-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0 0 0.8rem 0;
+    letter-spacing: 0.02em;
+  }
+  .why-unmatched__card-text {
+    font-size: 1.25rem;
+    color: #8c8c8c;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Quotes / Trust Strip (Mainstreet & Dawntown reference) */
+  .why-unmatched__quotes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    border-top: 1px solid #222222;
+    padding-top: 3.6rem;
+  }
+  .why-unmatched__quote-card {
+    background: #141414;
+    border-left: 3px solid #a31d1d;
+    padding: 2rem 2.2rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-unmatched__quote-text {
+    font-size: 1.35rem;
+    font-style: italic;
+    color: #e0e0e0;
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+  }
+  .why-unmatched__quote-author {
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888888;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 989px) {
+    .why-unmatched__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.4rem;
+    }
+    .why-unmatched__quotes {
+      grid-template-columns: 1fr;
+      gap: 1.4rem;
+    }
+  }
+  @media screen and (max-width: 575px) {
+    .why-unmatched__title {
+      font-size: 2.2rem;
+    }
+    .why-unmatched__grid {
+      grid-template-columns: 1fr;
+    }
+    .why-unmatched__card {
+      padding: 1.8rem 1.6rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="why-unmatched">
+  <div class="container {{ section.settings.section_width }}">
+    <div class="why-unmatched__header">
+      <span class="why-unmatched__tag">{{ section.settings.tag | default: 'THE UNMATCHED STANDARD' }}</span>
+      <h2 class="why-unmatched__title">{{ section.settings.heading | default: 'WHAT UNMATCHED SUPPLY BRINGS TO THE TABLE' }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="why-unmatched__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="why-unmatched__grid">
+      <div class="why-unmatched__card">
+        <div class="why-unmatched__card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <h3 class="why-unmatched__card-title">100% Authenticity Assured</h3>
+        <p class="why-unmatched__card-text">Every piece is verified through our rigorous physical multi-point inspection process in Mumbai. 100% genuine guaranteed or your money back.</p>
+      </div>
+
+      <div class="why-unmatched__card">
+        <div class="why-unmatched__card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <h3 class="why-unmatched__card-title">Global Drops & Zero Customs</h3>
+        <p class="why-unmatched__card-text">Access exclusive Gymshark, YoungLA, Alo Yoga, David Protein and hyped streetwear sourced globally with all import duties paid upfront.</p>
+      </div>
+
+      <div class="why-unmatched__card">
+        <div class="why-unmatched__card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13"/>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+            <circle cx="5.5" cy="18.5" r="2.5"/>
+            <circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        </div>
+        <h3 class="why-unmatched__card-title">Fast Pan-India Dispatch</h3>
+        <p class="why-unmatched__card-text">Instant Ship inventory dispatched within 24 hours from our Mumbai facility with live end-to-end tracking to your doorstep.</p>
+      </div>
+
+      <div class="why-unmatched__card">
+        <div class="why-unmatched__card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+            <line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+        </div>
+        <h3 class="why-unmatched__card-title">0% Interest EMI With Snapmint</h3>
+        <p class="why-unmatched__card-text">Split your purchase into 3 to 6 convenient installments via UPI and Cards with instant paperless approval powered by Snapmint.</p>
+      </div>
+    </div>
+
+    <div class="why-unmatched__quotes">
+      <div class="why-unmatched__quote-card">
+        <p class="why-unmatched__quote-text">&ldquo;Unmatched Supply has solved the hardest problem for Indian fitness athletes &mdash; getting genuine international drops without 50% surprise customs bills.&rdquo;</p>
+        <p class="why-unmatched__quote-author">&mdash; Verified Buyer, Mumbai</p>
+      </div>
+      <div class="why-unmatched__quote-card">
+        <p class="why-unmatched__quote-text">&ldquo;Super fast dispatch on Instant Ship items. YoungLA fit is 100% authentic, arrived within 48 hours in pristine condition.&rdquo;</p>
+        <p class="why-unmatched__quote-author">&mdash; Verified Sneakerhead, Delhi</p>
+      </div>
+      <div class="why-unmatched__quote-card">
+        <p class="why-unmatched__quote-text">&ldquo;The only place in India where David Protein Bars and Gymshark Onyx are actually stocked in-country with transparent INR pricing.&rdquo;</p>
+        <p class="why-unmatched__quote-author">&mdash; Strength Coach, Bengaluru</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Why Unmatched Supply",
+  "tag": "section",
+  "class": "section-why-unmatched",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "Small Tag",
+      "default": "THE UNMATCHED STANDARD"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WHAT UNMATCHED SUPPLY BRINGS TO THE TABLE"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "India's premier destination for verified authentic global activewear, streetwear & nutrition."
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "max-w-page", "label": "Normal" },
+        { "value": "max-w-fluid", "label": "Wide" }
+      ],
+      "default": "max-w-fluid"
+    },
+    {
+      "type": "select",
+      "id": "spacing_top",
+      "label": "Spacing Top",
+      "options": [
+        { "value": "2", "label": "Small" },
+        { "value": "4", "label": "Medium" },
+        { "value": "6", "label": "Large" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "spacing_bottom",
+      "label": "Spacing Bottom",
+      "options": [
+        { "value": "2", "label": "Small" },
+        { "value": "4", "label": "Medium" },
+        { "value": "6", "label": "Large" }
+      ],
+      "default": "4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Unmatched Supply"
+    }
+  ]
+}
+{% endschema %}

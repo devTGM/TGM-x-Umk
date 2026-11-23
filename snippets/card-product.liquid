@@ -203,39 +203,6 @@
 
     {% comment %} Render | Product Variants & Swatches {% endcomment %}
     <div class="product-card__variants">
-      {%- capture swatch_info_class -%}
-        {%- if variants_display_desktop == 'info' and variants_display_mobile != 'info'  -%}
-          small-hide
-        {%- elsif variants_display_mobile == 'info' and variants_display_desktop != 'info' -%}
-          small-up-hide
-        {%- endif -%}
-      {%- endcapture -%}
-      {%- if variants_display_desktop == 'info' or variants_display_mobile == 'info' -%}
-        <span class="product-card__variants--info {{ swatch_info_class }}">
-        {%- liquid
-          if product_ref.options_with_values.size > 1
-            assign options_count_and_name = ''
-            assign option_last_count_and_name = ''
-            for option_with_value in product_ref.options_with_values
-              if forloop.last == false
-                assign options_count_and_name = options_count_and_name | append: option_with_value.values.size | append: ' ' | append: option_with_value.name | append: ', '
-              else
-                assign option_last_count_and_name = option_with_value.values.size | append: ' ' | append: option_with_value.name
-              endif
-            endfor
-            assign options_count_and_name = options_count_and_name | replace_last: ', ', '' | downcase
-            assign option_last_count_and_name = option_last_count_and_name | downcase
-            echo 'product.variant_info_multiple_options' | t: options_count_and_name: options_count_and_name, option_last_count_and_name: option_last_count_and_name
-          else
-            for option_with_value in product_ref.options_with_values
-              assign option_count_and_name = option_with_value.values.size | append: ' ' | append: option_with_value.name
-              assign option_count_and_name = option_count_and_name | downcase
-              echo 'product.variant_info_one_option' | t: option_count_and_name: option_count_and_name
-            endfor
-          endif
-        -%}
-        </span>
-      {%- endif -%}
       <ul class="product-card__variants--list product-card__variants--list--{{ settings.product_card_product_options_position }}">
         {%- comment -%}digifist-note -- this part is a need max variant setting{%- endcomment -%}
         {%- for opts in (1..3) -%}
@@ -412,6 +379,13 @@
       <span class="product-card__price">
         {%- render 'price', product: product_ref -%}
       </span>
+      {%- if product_ref.price > 0 -%}
+        {%- assign card_emi_calc = product_ref.price | divided_by: 4 | money_without_trailing_zeros -%}
+        <div class="product-card__snapmint-emi">
+          <span class="product-card__snapmint-text">or <strong class="emi-val">{{ card_emi_calc }}</strong>/Month</span>
+          <span class="product-card__snapmint-btn">Buy on EMI &gt;</span>
+        </div>
+      {%- endif -%}
     </div>
     <div class="product-card__options product-card__options--{{ settings.product_card_product_options_position }}">
       {% if settings.show_product_groups_on_product_card %}

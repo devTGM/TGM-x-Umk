@@ -285,7 +285,7 @@
       {%- endif -%}
 
       {%- comment -%}CONTENT{%- endcomment -%}
-      {%- if block.settings.heading != blank or block.settings.text != blank or block.settings.button_label != blank and block.settings.button_link != blank -%}
+      {%- if block.settings.heading != blank or block.settings.subheading != blank or block.settings.text != blank or block.settings.button_label_1 != blank -%}
         <div class="hero__content {{ hero_inner_setting_classes | strip }} {% if settings.disable_animations_on_mobile %} hero__content__no-animation{% endif %}">
           {%- if block.settings.subheading != blank -%}
             <div class="hero__animation{% unless section.blocks.size == 1 %} in-delay{% endunless %}">

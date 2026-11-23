@@ -12,6 +12,18 @@
 -%}
 
 {%- style -%}
+  #shopify-section-{{ section.id }} .announcement-bar {
+    background-color: #8b1111 !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+  }
+  #shopify-section-{{ section.id }} .announcement-bar a,
+  #shopify-section-{{ section.id }} .announcement-bar p,
+  #shopify-section-{{ section.id }} .announcement-bar span,
+  #shopify-section-{{ section.id }} .announcement-bar strong,
+  #shopify-section-{{ section.id }} .announcement-bar .marquee__content {
+    color: #ffffff !important;
+  }
   #shopify-section-{{ section.id }} .text--label,
   #shopify-section-{{ section.id }} .text--link,
   #shopify-section-{{ section.id }} .text-label,

@@ -1537,3 +1537,98 @@ quick-cart-drawer .snapmint_emi_detail a {
 
 
 
+
+/* Slide 10: Mainstreet-style Suggested Products in Cart Drawer */
+.bestseller-slider-container {
+  margin: 16px 0 !important;
+  padding: 16px !important;
+  background: #ffffff !important;
+  border: 1px solid #f0f0f0 !important;
+  border-radius: 12px !important;
+}
+.bestseller-header h3 {
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  text-transform: capitalize !important;
+  color: #111111 !important;
+  letter-spacing: -0.01em !important;
+  margin: 0 0 12px 0 !important;
+}
+.bestseller-card {
+  position: relative !important;
+  background: #fdfdfd !important;
+  border: 1px solid #eeeeee !important;
+  border-radius: 10px !important;
+  padding: 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  min-height: 180px !important;
+}
+.bestseller-card .carousel-add-btn {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  color: #111111 !important;
+  border: 1px solid #d5d5d5 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06) !important;
+  transition: all 0.15s ease !important;
+  z-index: 2 !important;
+}
+.bestseller-card .carousel-add-btn:hover {
+  background: #111111 !important;
+  color: #ffffff !important;
+  border-color: #111111 !important;
+}
+.bestseller-image {
+  width: 100% !important;
+  height: 110px !important;
+  flex: none !important;
+  border-radius: 8px !important;
+  border: none !important;
+  background: #f7f7f7 !important;
+  margin-bottom: 8px !important;
+}
+.bestseller-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+.bestseller-card-top {
+  flex-direction: column !important;
+  gap: 8px !important;
+  margin-bottom: 0 !important;
+}
+.bestseller-info .title {
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  color: #111111 !important;
+  line-height: 1.3 !important;
+  max-height: 2.6em !important;
+  overflow: hidden !important;
+}
+.bestseller-info .price {
+  font-size: 1.3rem !important;
+  font-weight: 700 !important;
+  color: #111111 !important;
+  margin-top: 4px !important;
+}
+.bestseller-slide {
+  width: 160px !important;
+  flex: 0 0 160px !important;
+}
+.bestseller-slide:not(:last-child) {
+  border-right: none !important;
+  padding-right: 0 !important;
+  margin-right: 12px !important;
+}

@@ -161,7 +161,14 @@
         {%- assign product_block_class = 'product__price' | append: ' ' | append: product_block_class -%}
         <div id="price-{{- section.id -}}" role="status" {{ block.shopify_attributes }} class="{{ product_block_class }}">
           {%- unless is_gift_card -%}
-              {%- render 'price', product: product, use_variant: true -%}
+              <div class="product__price-row">
+                {%- render 'price', product: product, use_variant: true -%}
+                {%- if current_variant.compare_at_price > current_variant.price -%}
+                  {%- assign save_amount = current_variant.compare_at_price | minus: current_variant.price -%}
+                  {%- assign save_percent = save_amount | times: 100 | divided_by: current_variant.compare_at_price -%}
+                  <span class="product__price-save-badge">SAVE {{ save_amount | money }} ({{ save_percent }}% OFF)</span>
+                {%- endif -%}
+              </div>
               {% if block.settings.show_price_custom_info != blank or block.settings.show_price_tax_info or block.settings.show_price_shipping_info -%}
                 <span class="product__price--info">
                   {% liquid
@@ -197,15 +204,19 @@
                     const priceInfo = document.querySelector('.product__content .product__price--info');
                     const priceInfoTooltip = document.querySelector('.product__content .tooltip');
                     // clear styles and classes
+                    if (!priceInfo || !priceInfoTooltip) return;
                     priceInfo.style.width = '';
                     priceInfoTooltip.classList.add('hidden');
                     // get widths
-                    const productContentWidth = document.querySelector('.product__content').offsetWidth;
-                    const priceContainerWidth = document.querySelector('.product__content .product__price > .price').offsetWidth;
+                    const productContent = document.querySelector('.product__content');
+                    const priceContainer = document.querySelector('.product__content .product__price > .price');
+                    if (!productContent || !priceContainer) return;
+                    const productContentWidth = productContent.offsetWidth;
+                    const priceContainerWidth = priceContainer.offsetWidth;
                     // calculate max width for price info
                     const infoWidth = productContentWidth - priceContainerWidth - 36;
                     // check if info width is bigger than max width of the container
-                    const priceInfoWidth = document.querySelector('.product__price--info').offsetWidth;
+                    const priceInfoWidth = priceInfo.offsetWidth;
                     if (infoWidth > priceInfoWidth) { return; }
                     // update width and show tooltip
                     if (window.innerWidth < 750) {
@@ -216,6 +227,22 @@
                     priceInfoTooltip.classList.remove('hidden');
                   }
                 </script>
+              {%- endif -%}
+
+              {%- if current_variant.price > 0 -%}
+                {%- assign emi_amount = current_variant.price | divided_by: 4 | money_without_trailing_zeros | remove: 'Rs.' | remove: '₹' | strip -%}
+                <div class="product__snapmint-banner" data-snapmint-product-widget>
+                  <div class="product__snapmint-content">
+                    <div class="product__snapmint-line1">
+                      <span class="snapmint-tag">NEW</span>
+                      <span class="product__snapmint-main-text">OR <strong>₹{{ emi_amount }}</strong>/MONTH (4 MONTHS)</span>
+                    </div>
+                    <div class="product__snapmint-line2">
+                      <span>0% EMI ON <span class="snapmint-upi-logo">UPI</span> &bull; <strong>snapmint</strong></span>
+                    </div>
+                  </div>
+                  <button type="button" class="product__snapmint-btn js-snapmint-modal-trigger">BUY ON EMI</button>
+                </div>
               {%- endif -%}
           {%- else -%}
             {%- render 'price', product: product, use_variant: true -%}
