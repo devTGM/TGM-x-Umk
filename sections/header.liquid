@@ -23,6 +23,31 @@
     {%- endif -%}
     --megamenu-dropdown-column-width: {{ section.settings.megamenu_dropdown_column_width }}rem;
   }
+  #shopify-section-{{ section.id }} .header__inner {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+  @media screen and (min-width: 990px) {
+    #shopify-section-{{ section.id }} .header__inner {
+      padding-top: 1.2rem !important;
+      padding-bottom: 1.2rem !important;
+    }
+  }
+  #shopify-section-{{ section.id }} .header__logo {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  #shopify-section-{{ section.id }} .header__logo img {
+    height: auto !important;
+    max-height: 2.8rem !important;
+    object-fit: contain !important;
+  }
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .header__logo img {
+      max-height: 3.2rem !important;
+    }
+  }
   #shopify-section-{{ section.id }} > .header .text--link {
     font-size: var(--font-size-static-{{ section.settings.link_size }});
   }
@@ -431,16 +456,36 @@
                 assign logo_alt = logo_alt_raw | escape
               %}
 
-              {{ section.settings.logo
-                | image_url: width: section.settings.logo_width
-                | image_tag:
-                  class: 'header__logo-image new',
-                  width: section.settings.logo.width,
-                  height: section.settings.logo.height,
-                  srcset: logo_srcset,
-                  alt: logo_alt,
-                  preload: true
-              }}
+              {% liquid
+                assign is_ums_square_logo = false
+                assign logo_str = section.settings.logo | append: ''
+                if logo_str contains 'UMS_Logo' or logo_str contains 'Unmatched_Supply'
+                  assign is_ums_square_logo = true
+                endif
+              %}
+
+              {%- if is_ums_square_logo -%}
+                <img
+                  src="{{ 'unmatched-supply-logo-white.png' | asset_url }}"
+                  alt="{{ logo_alt }}"
+                  class="header__logo-image new"
+                  width="{{ section.settings.logo_width }}"
+                  height="28"
+                  loading="eager"
+                  fetchpriority="high"
+                >
+              {%- else -%}
+                {{ section.settings.logo
+                  | image_url: width: section.settings.logo_width
+                  | image_tag:
+                    class: 'header__logo-image new',
+                    width: section.settings.logo.width,
+                    height: section.settings.logo.height,
+                    srcset: logo_srcset,
+                    alt: logo_alt,
+                    preload: true
+                }}
+              {%- endif -%}
 
               {% liquid
                 assign logo_transparent_image_size_double = section.settings.logo_width | times: 2 | at_most: 5760
@@ -462,18 +507,36 @@
                   assign logo_transparent_alt_raw = canonical_brand_name
                 endif
                 assign logo_transparent_alt = logo_transparent_alt_raw | escape
+
+                assign is_trans_square_logo = false
+                assign logo_trans_str = logo_transparent_image | append: ''
+                if logo_trans_str contains 'UMS_Logo' or logo_trans_str contains 'Unmatched_Supply'
+                  assign is_trans_square_logo = true
+                endif
               %}
 
-              {{ logo_transparent_image
-                | image_url: width: section.settings.logo_width
-                | image_tag:
-                  class: 'header__logo-image-transparent new',
-                  width: section.settings.logo.width,
-                  height: section.settings.logo.height,
-                  srcset: logo_transparent_srcset,
-                  alt: logo_transparent_alt,
-                  preload: true
-              }}
+              {%- if is_trans_square_logo -%}
+                <img
+                  src="{{ 'unmatched-supply-logo-white.png' | asset_url }}"
+                  alt="{{ logo_transparent_alt }}"
+                  class="header__logo-image-transparent new"
+                  width="{{ section.settings.logo_width }}"
+                  height="28"
+                  loading="eager"
+                  fetchpriority="high"
+                >
+              {%- else -%}
+                {{ logo_transparent_image
+                  | image_url: width: section.settings.logo_width
+                  | image_tag:
+                    class: 'header__logo-image-transparent new',
+                    width: section.settings.logo.width,
+                    height: section.settings.logo.height,
+                    srcset: logo_transparent_srcset,
+                    alt: logo_transparent_alt,
+                    preload: true
+                }}
+              {%- endif -%}
 
             {%- else -%}
               <span class="h4">{{- canonical_brand_name | escape -}}</span>
