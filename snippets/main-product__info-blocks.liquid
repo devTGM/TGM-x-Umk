@@ -169,6 +169,7 @@
         {%- assign product_block_class = 'product__price' | append: ' ' | append: product_block_class -%}
         <div id="price-{{- section.id -}}" role="status" {{ block.shopify_attributes }} class="{{ product_block_class }}">
           {%- unless is_gift_card -%}
+              <!-- Line 1: Pricing Row (Sale Price + Compare Price + Discount Badge) -->
               <div class="product__price-row">
                 {%- render 'price', product: product, use_variant: true -%}
                 {%- if current_variant.compare_at_price > current_variant.price -%}
@@ -237,6 +238,7 @@
                 </script>
               {%- endif -%}
 
+              <!-- Line 2: Snapmint EMI Banner (Full Width) -->
               {%- if current_variant.price > 0 -%}
                 {%- assign emi_amount = current_variant.price | divided_by: 4 | money_without_trailing_zeros | remove: 'Rs.' | remove: '₹' | strip -%}
                 <div class="product__snapmint-banner" data-snapmint-product-widget>

@@ -152,7 +152,7 @@
                 </div>
                 <div class="product__sticky-cart--info-text">
                   <h5 class="product__title">{{- product.title -}}</h5>
-                  <div>
+                  <div class="product__sticky-cart--meta">
                     <span class="product__sticky-cart--price">
                       {%- render 'price', product: product_sticky -%}
                     </span>
@@ -202,6 +202,20 @@
                 window.addEventListener("scroll", updateStickyCart, { passive: true });
                 window.addEventListener("resize", updateStickyCart, { passive: true });
                 updateStickyCart();
+
+                // Live synchronization of sticky cart price with selected variant
+                const syncStickyCart = () => {
+                  const mainPrice = document.querySelector("#price-{{ section.id }} .price");
+                  const stickyPrice = stickyCart.querySelector(".product__sticky-cart--price");
+                  if (mainPrice && stickyPrice) {
+                    stickyPrice.innerHTML = mainPrice.innerHTML;
+                  }
+                };
+                if (typeof subscribe !== "undefined" && typeof PUB_SUB_EVENTS !== "undefined") {
+                  subscribe(PUB_SUB_EVENTS.optionValueSelectionChange, () => {
+                    setTimeout(syncStickyCart, 300);
+                  });
+                }
               }
 
               if (document.readyState === "loading") {
