@@ -235,10 +235,8 @@
 
               <!-- Line 2: Snapmint Pay Later Card (Full Width directly under Price) -->
               {%- if current_variant.price > 0 -%}
-                {%- assign emi_amount = current_variant.price | divided_by: 4 | money_without_trailing_zeros | remove: 'Rs.' | remove: '₹' | strip -%}
-                {%- assign emi_3_val = current_variant.price | divided_by: 3 | money_without_trailing_zeros -%}
-                {%- assign emi_4_val = current_variant.price | divided_by: 4 | money_without_trailing_zeros -%}
-                {%- assign emi_6_val = current_variant.price | divided_by: 6 | money_without_trailing_zeros -%}
+                {%- assign emi_3_val = current_variant.price | divided_by: 3 | money_without_trailing_zeros | remove: 'Rs.' | remove: '₹' | strip -%}
+                {%- assign current_price_num = current_variant.price | money_without_trailing_zeros | remove: 'Rs.' | remove: '₹' | strip -%}
                 {%- assign current_price_fmt = current_variant.price | money -%}
 
                 <div class="product__snapmint-card" data-snapmint-product-widget data-variant-price="{{ current_variant.price }}">
@@ -250,9 +248,9 @@
                     </div>
                     <div class="product__snapmint-card--content">
                       <div class="dt-line1">
-                        <strong class="dt-green-val">₹ {{ emi_amount }}/MONTH</strong>
+                        <strong class="dt-green-val">₹ {{ emi_3_val }}/MONTH</strong>
                         <span class="dt-sep">|</span>
-                        <span class="dt-rest">3/6 EMI AVAILABLE</span>
+                        <span class="dt-rest">3 MONTHS EMI AVAILABLE</span>
                       </div>
                       <div class="dt-line2">
                         <span>0% EMI ON <strong>UPI</strong> &bull; CARDS ACCEPTED &bull; <strong>snapmint</strong></span>
@@ -262,87 +260,65 @@
                   <button type="button" class="product__snapmint-card--btn js-snapmint-modal-trigger" onclick="window.openSnapmintModal(event)">BUY ON EMI</button>
                 </div>
 
-                <!-- Snapmint EMI Breakdown Modal -->
+                <!-- Dawntown-Style Pay Later Modal (1:1 Replica) -->
                 <div id="SnapmintEmiModal" class="snapmint-modal-overlay" role="dialog" aria-modal="true" aria-hidden="true" style="display:none !important;">
                   <div class="snapmint-modal-backdrop js-snapmint-modal-close" onclick="window.closeSnapmintModal(event)"></div>
                   <div class="snapmint-modal-container">
-                    <div class="snapmint-modal-header">
-                      <div class="snapmint-modal-header--title">
-                        <span class="snapmint-modal-badge">0% EMI</span>
-                        <h3>UNMATCHED PAY LATER</h3>
-                      </div>
-                      <button type="button" class="snapmint-modal-close js-snapmint-modal-close" onclick="window.closeSnapmintModal(event)" aria-label="Close modal">&times;</button>
-                    </div>
+                    <div class="dt-paylater-modal-body">
+                      <button type="button" class="dt-modal-close-btn js-snapmint-modal-close" onclick="window.closeSnapmintModal(event)" aria-label="Close modal">&times;</button>
 
-                    <div class="snapmint-modal-body">
-                      <div class="snapmint-modal-price-row">
-                        <span class="snapmint-modal-price-label">TOTAL ORDER VALUE</span>
-                        <strong class="snapmint-modal-total-price" data-snapmint-modal-total>{{ current_price_fmt }}</strong>
+                      <!-- Circular Logo Badge (Like Dawntown DT) -->
+                      <div class="dt-brand-badge">
+                        <span>UK</span>
                       </div>
 
-                      <div class="snapmint-modal-subheading">SELECT YOUR PREFERRED EMI PLAN:</div>
+                      <div class="dt-modal-title">UNMATCHED PAY LATER</div>
 
-                      <div class="snapmint-modal-plans">
-                        <div class="snapmint-modal-plan is-active" data-plan="4">
-                          <div class="snapmint-plan-badge">MOST POPULAR • 0% INTEREST</div>
-                          <div class="snapmint-plan-main">
-                            <span class="snapmint-plan-duration">4 MONTHS</span>
-                            <strong class="snapmint-plan-amount" data-snapmint-plan-4>{{ emi_4_val }}/mo</strong>
+                      <div class="dt-modal-headline">
+                        <span class="dt-headline-line1">PAY <strong>ONLY ₹<span data-snapmint-now-amount>{{ emi_3_val }}</span></strong> NOW</span>
+                        <span class="dt-headline-line2">& PAY THE REST LATER IN</span>
+                      </div>
+
+                      <!-- Grey Box with EMI Options -->
+                      <div class="dt-emi-box">
+                        <div class="dt-emi-box-title">EMI OPTIONS</div>
+
+                        <div class="dt-options-row">
+                          <div class="dt-option-wrapper">
+                            <div class="dt-option-label">OPTION 01</div>
+                            <div class="dt-option-card is-active">
+                              <div class="dt-card-amount">₹<span data-snapmint-calc-3>{{ emi_3_val }}</span></div>
+                              <div class="dt-card-divider"></div>
+                              <div class="dt-card-tenure">X 3 MONTHS</div>
+                            </div>
                           </div>
-                          <div class="snapmint-plan-desc">4 equal monthly payments via UPI or Card • No hidden charges</div>
                         </div>
 
-                        <div class="snapmint-modal-plan" data-plan="3">
-                          <div class="snapmint-plan-badge">0% INTEREST</div>
-                          <div class="snapmint-plan-main">
-                            <span class="snapmint-plan-duration">3 MONTHS</span>
-                            <strong class="snapmint-plan-amount" data-snapmint-plan-3>{{ emi_3_val }}/mo</strong>
-                          </div>
-                          <div class="snapmint-plan-desc">Pay 1/3rd today, remaining over 2 months • 0% Interest</div>
-                        </div>
-
-                        <div class="snapmint-modal-plan" data-plan="6">
-                          <div class="snapmint-plan-badge">LOW INTEREST</div>
-                          <div class="snapmint-plan-main">
-                            <span class="snapmint-plan-duration">6 MONTHS</span>
-                            <strong class="snapmint-plan-amount" data-snapmint-plan-6>{{ emi_6_val }}/mo</strong>
-                          </div>
-                          <div class="snapmint-plan-desc">Lowest monthly installment • Quick digital approval</div>
+                        <!-- Total Order Value Bar inside Grey Box -->
+                        <div class="dt-total-order-row">
+                          <span class="dt-total-label">TOTAL ORDER VALUE</span>
+                          <span class="dt-total-val" data-snapmint-modal-total>{{ current_price_fmt }}</span>
                         </div>
                       </div>
 
-                      <div class="snapmint-modal-steps">
-                        <div class="snapmint-step-item">
-                          <span class="snapmint-step-num">1</span>
-                          <div class="snapmint-step-text">
-                            <strong>No Credit Card Required</strong>
-                            <span>Instant approval via Mobile number & UPI ID in under 2 minutes.</span>
-                          </div>
+                      <!-- 2 Minutes Approval | UPI & Cards Accepted -->
+                      <div class="dt-features-row">
+                        <div class="dt-feature-item">
+                          <span>2 MINUTES</span>
+                          <span>APPROVAL</span>
                         </div>
-                        <div class="snapmint-step-item">
-                          <span class="snapmint-step-num">2</span>
-                          <div class="snapmint-step-text">
-                            <strong>Pay 1st Installment Now</strong>
-                            <span>Pay only the first monthly installment today securely using UPI or Card.</span>
-                          </div>
-                        </div>
-                        <div class="snapmint-step-item">
-                          <span class="snapmint-step-num">3</span>
-                          <div class="snapmint-step-text">
-                            <strong>Instant Dispatch</strong>
-                            <span>Your order is dispatched immediately. Remaining payments auto-debit monthly.</span>
-                          </div>
+                        <div class="dt-feature-divider"></div>
+                        <div class="dt-feature-item">
+                          <span>UPI & CARDS</span>
+                          <span>ACCEPTED</span>
                         </div>
                       </div>
                     </div>
 
-                    <div class="snapmint-modal-footer">
-                      <button type="button" class="snapmint-modal-action-btn js-snapmint-proceed">
-                        <span>PROCEED TO BUY ON EMI</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                      </button>
-                      <div class="snapmint-modal-footer-note">Powered by <strong>snapmint</strong> &bull; 100% RBI Regulated NBFC Partner</div>
-                    </div>
+                    <!-- Bottom Dark Action Bar -->
+                    <button type="button" class="dt-checkout-action-btn js-snapmint-proceed">
+                      SELECT UNMATCHED PAY LATER DURING CHECKOUT
+                    </button>
                   </div>
                 </div>
 
@@ -365,12 +341,12 @@
 
                         const num = parseFloat(rawText.replace(/[^0-9.]/g, ''));
                         if (!isNaN(num) && num > 0) {
-                          const p4 = modal.querySelector('[data-snapmint-plan-4]');
-                          const p3 = modal.querySelector('[data-snapmint-plan-3]');
-                          const p6 = modal.querySelector('[data-snapmint-plan-6]');
-                          if (p4) p4.textContent = '₹' + Math.round(num / 4).toLocaleString('en-IN') + '/mo';
-                          if (p3) p3.textContent = '₹' + Math.round(num / 3).toLocaleString('en-IN') + '/mo';
-                          if (p6) p6.textContent = '₹' + Math.round(num / 6).toLocaleString('en-IN') + '/mo';
+                          const emi3 = Math.round(num / 3);
+                          const formattedEmi = emi3.toLocaleString('en-IN');
+                          const nowEl = modal.querySelector('[data-snapmint-now-amount]');
+                          const calcEl = modal.querySelector('[data-snapmint-calc-3]');
+                          if (nowEl) nowEl.textContent = formattedEmi;
+                          if (calcEl) calcEl.textContent = formattedEmi;
                         }
                       }
 
@@ -401,35 +377,24 @@
                           return;
                         }
 
-                        const closeBtn = e.target.closest('.js-snapmint-modal-close');
+                        const closeBtn = e.target.closest('.js-snapmint-modal-close, .dt-modal-close-btn');
                         if (closeBtn) {
                           window.closeSnapmintModal(e);
                           return;
                         }
 
-                        // Select plan card
-                        const planCard = e.target.closest('.snapmint-modal-plan');
-                        if (planCard && planCard.closest('#SnapmintEmiModal')) {
-                          const modal = document.getElementById('SnapmintEmiModal');
-                          if (modal) {
-                            modal.querySelectorAll('.snapmint-modal-plan').forEach(p => p.classList.remove('is-active'));
-                            planCard.classList.add('is-active');
-                          }
-                          return;
-                        }
-
-                        const proceedBtn = e.target.closest('.js-snapmint-proceed');
+                        const proceedBtn = e.target.closest('.js-snapmint-proceed, .dt-checkout-action-btn');
                         if (proceedBtn) {
                           e.preventDefault();
                           proceedBtn.disabled = true;
-                          proceedBtn.innerHTML = '<span>Processing...</span>';
+                          proceedBtn.textContent = 'PROCEEDING TO CHECKOUT...';
 
                           // Trigger Shiprocket Fastrr checkout if available
                           if (typeof window.handleSrCheckout === 'function') {
                             window.closeSnapmintModal();
                             window.handleSrCheckout();
                             proceedBtn.disabled = false;
-                            proceedBtn.innerHTML = '<span>PROCEED TO BUY ON EMI</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+                            proceedBtn.textContent = 'SELECT UNMATCHED PAY LATER DURING CHECKOUT';
                             return;
                           }
 
