@@ -259,19 +259,19 @@
                       </div>
                     </div>
                   </div>
-                  <button type="button" class="product__snapmint-card--btn js-snapmint-modal-trigger">BUY ON EMI</button>
+                  <button type="button" class="product__snapmint-card--btn js-snapmint-modal-trigger" onclick="window.openSnapmintModal(event)">BUY ON EMI</button>
                 </div>
 
                 <!-- Snapmint EMI Breakdown Modal -->
-                <div id="SnapmintEmiModal" class="snapmint-modal-overlay" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;">
-                  <div class="snapmint-modal-backdrop js-snapmint-modal-close"></div>
+                <div id="SnapmintEmiModal" class="snapmint-modal-overlay" role="dialog" aria-modal="true" aria-hidden="true" style="display:none !important;">
+                  <div class="snapmint-modal-backdrop js-snapmint-modal-close" onclick="window.closeSnapmintModal(event)"></div>
                   <div class="snapmint-modal-container">
                     <div class="snapmint-modal-header">
                       <div class="snapmint-modal-header--title">
                         <span class="snapmint-modal-badge">0% EMI</span>
                         <h3>UNMATCHED PAY LATER</h3>
                       </div>
-                      <button type="button" class="snapmint-modal-close js-snapmint-modal-close" aria-label="Close modal">&times;</button>
+                      <button type="button" class="snapmint-modal-close js-snapmint-modal-close" onclick="window.closeSnapmintModal(event)" aria-label="Close modal">&times;</button>
                     </div>
 
                     <div class="snapmint-modal-body">
@@ -348,61 +348,73 @@
 
                 <script>
                   (function() {
-                    function initSnapmintModal() {
+                    window.openSnapmintModal = function(e) {
+                      if (e) {
+                        if (typeof e.preventDefault === 'function') e.preventDefault();
+                        if (typeof e.stopPropagation === 'function') e.stopPropagation();
+                      }
                       const modal = document.getElementById('SnapmintEmiModal');
-                      if (!modal || modal.__initialized) return;
-                      modal.__initialized = true;
+                      if (!modal) return;
 
-                      function openModal() {
-                        // Dynamically sync latest variant price if available on page
-                        const salePriceEl = document.querySelector('.product__price-row ins, .product__price-row .price-item--sale, .product__price-row .price__regular span');
-                        if (salePriceEl) {
-                          const totalEl = modal.querySelector('[data-snapmint-modal-total]');
-                          const rawText = salePriceEl.textContent.trim();
-                          if (totalEl && rawText) totalEl.textContent = rawText;
+                      // Dynamically sync latest variant price if available on page
+                      const salePriceEl = document.querySelector('.product__price-row ins, .product__price-row .price-item--sale, .product__price-row .price__regular span');
+                      if (salePriceEl) {
+                        const totalEl = modal.querySelector('[data-snapmint-modal-total]');
+                        const rawText = salePriceEl.textContent.trim();
+                        if (totalEl && rawText) totalEl.textContent = rawText;
 
-                          const num = parseFloat(rawText.replace(/[^0-9.]/g, ''));
-                          if (!isNaN(num) && num > 0) {
-                            const p4 = modal.querySelector('[data-snapmint-plan-4]');
-                            const p3 = modal.querySelector('[data-snapmint-plan-3]');
-                            const p6 = modal.querySelector('[data-snapmint-plan-6]');
-                            if (p4) p4.textContent = '₹' + Math.round(num / 4).toLocaleString('en-IN') + '/mo';
-                            if (p3) p3.textContent = '₹' + Math.round(num / 3).toLocaleString('en-IN') + '/mo';
-                            if (p6) p6.textContent = '₹' + Math.round(num / 6).toLocaleString('en-IN') + '/mo';
-                          }
+                        const num = parseFloat(rawText.replace(/[^0-9.]/g, ''));
+                        if (!isNaN(num) && num > 0) {
+                          const p4 = modal.querySelector('[data-snapmint-plan-4]');
+                          const p3 = modal.querySelector('[data-snapmint-plan-3]');
+                          const p6 = modal.querySelector('[data-snapmint-plan-6]');
+                          if (p4) p4.textContent = '₹' + Math.round(num / 4).toLocaleString('en-IN') + '/mo';
+                          if (p3) p3.textContent = '₹' + Math.round(num / 3).toLocaleString('en-IN') + '/mo';
+                          if (p6) p6.textContent = '₹' + Math.round(num / 6).toLocaleString('en-IN') + '/mo';
                         }
-                        modal.style.display = 'flex';
-                        modal.setAttribute('aria-hidden', 'false');
-                        document.body.style.overflow = 'hidden';
                       }
 
-                      function closeModal() {
-                        modal.style.display = 'none';
-                        modal.setAttribute('aria-hidden', 'true');
-                        document.body.style.overflow = '';
-                      }
+                      modal.classList.add('is-active', 'open');
+                      modal.style.setProperty('display', 'flex', 'important');
+                      modal.setAttribute('aria-hidden', 'false');
+                      document.body.style.overflow = 'hidden';
+                    };
 
+                    window.closeSnapmintModal = function(e) {
+                      if (e) {
+                        if (typeof e.preventDefault === 'function') e.preventDefault();
+                        if (typeof e.stopPropagation === 'function') e.stopPropagation();
+                      }
+                      const modal = document.getElementById('SnapmintEmiModal');
+                      if (!modal) return;
+                      modal.classList.remove('is-active', 'open');
+                      modal.style.setProperty('display', 'none', 'important');
+                      modal.setAttribute('aria-hidden', 'true');
+                      document.body.style.overflow = '';
+                    };
+
+                    function initSnapmintModal() {
                       document.addEventListener('click', function(e) {
                         const trigger = e.target.closest('.js-snapmint-modal-trigger, .snapmint-emi-btn, [data-snapmint-modal-trigger]');
                         if (trigger) {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          openModal();
+                          window.openSnapmintModal(e);
                           return;
                         }
 
                         const closeBtn = e.target.closest('.js-snapmint-modal-close');
                         if (closeBtn) {
-                          e.preventDefault();
-                          closeModal();
+                          window.closeSnapmintModal(e);
                           return;
                         }
 
                         // Select plan card
                         const planCard = e.target.closest('.snapmint-modal-plan');
                         if (planCard && planCard.closest('#SnapmintEmiModal')) {
-                          modal.querySelectorAll('.snapmint-modal-plan').forEach(p => p.classList.remove('is-active'));
-                          planCard.classList.add('is-active');
+                          const modal = document.getElementById('SnapmintEmiModal');
+                          if (modal) {
+                            modal.querySelectorAll('.snapmint-modal-plan').forEach(p => p.classList.remove('is-active'));
+                            planCard.classList.add('is-active');
+                          }
                           return;
                         }
 
@@ -414,7 +426,7 @@
 
                           // Trigger Shiprocket Fastrr checkout if available
                           if (typeof window.handleSrCheckout === 'function') {
-                            closeModal();
+                            window.closeSnapmintModal();
                             window.handleSrCheckout();
                             proceedBtn.disabled = false;
                             proceedBtn.innerHTML = '<span>PROCEED TO BUY ON EMI</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
@@ -440,8 +452,8 @@
                       });
 
                       document.addEventListener('keydown', function(e) {
-                        if (e.key === 'Escape' && modal.style.display === 'flex') {
-                          closeModal();
+                        if (e.key === 'Escape') {
+                          window.closeSnapmintModal(e);
                         }
                       });
                     }

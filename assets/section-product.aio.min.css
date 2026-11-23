@@ -362,10 +362,14 @@
   position: fixed !important;
   inset: 0 !important;
   z-index: 99999 !important;
-  display: flex !important;
+  display: none !important;
   align-items: center !important;
   justify-content: center !important;
   padding: 1.6rem !important;
+}
+.snapmint-modal-overlay.is-active,
+.snapmint-modal-overlay.open {
+  display: flex !important;
 }
 .snapmint-modal-backdrop {
   position: absolute !important;
