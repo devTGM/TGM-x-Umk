@@ -75,11 +75,6 @@
             {%- endif -%}
           </legend>
           {%- render 'main-product__variant-options', product: product, option: option, block: block, picker_type: picker_type -%}
-          <div class="product__delivery-subline">
-            <span class="delivery-label">Delivery for</span>
-            <span class="delivery-val" data-selected-delivery-val>{{ option.selected_value }}</span>:
-            <span class="delivery-timeline-text">Instant Dispatch &bull; Ships in 24 Hours</span>
-          </div>
         </fieldset>
       {%- else -%}
         {%- assign select_options_html = '' -%}
@@ -218,18 +213,5 @@
       %}
     </script>
     {% endcomment %}
-    <script type="text/javascript">
-      document.addEventListener('change', function(e) {
-        if (e.target && e.target.matches('.product-option__input')) {
-          const container = e.target.closest('.product-form__input');
-          if (container) {
-            const valSpan = container.querySelector('[data-selected-delivery-val]');
-            if (valSpan) {
-              valSpan.textContent = e.target.value;
-            }
-          }
-        }
-      });
-    </script>
   </product-variant-selects>
 {%- endunless -%}

@@ -435,28 +435,6 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
 }
 
-.product__delivery-subline {
-  font-size: 1.25rem !important;
-  color: #444444 !important;
-  margin-top: 1rem !important;
-  margin-bottom: 0.5rem !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-}
-.product__delivery-subline .delivery-label {
-  color: #666666 !important;
-}
-.product__delivery-subline .delivery-val {
-  font-weight: 800 !important;
-  color: #111111 !important;
-  text-transform: uppercase !important;
-}
-.product__delivery-subline .delivery-timeline-text {
-  color: #16a34a !important;
-  font-weight: 700 !important;
-}
-
 /* 9. Dawntown Signature Dual Action Buttons (Side-by-Side: Black Add to Cart + Emerald Green Buy Now) */
 .product-form__buttons {
   display: flex !important;

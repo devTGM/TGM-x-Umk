@@ -211,10 +211,10 @@
                   if (mainPrice && stickyPrice) {
                     stickyPrice.innerHTML = mainPrice.innerHTML;
                   }
-                  const sizeVal = document.querySelector('[data-selected-delivery-val]');
+                  const sizeOption = document.querySelector('.product-form__input--button input[type="radio"]:checked');
                   const sizeBadge = stickyCart.querySelector('.js-sticky-selected-size');
-                  if (sizeVal && sizeBadge) {
-                    sizeBadge.textContent = sizeVal.textContent;
+                  if (sizeOption && sizeBadge) {
+                    sizeBadge.textContent = sizeOption.value;
                   }
                 };
                 if (typeof subscribe !== "undefined" && typeof PUB_SUB_EVENTS !== "undefined") {
