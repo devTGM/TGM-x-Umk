@@ -106,7 +106,7 @@
       "type": "header",
       "settings": {
         "layout": "header--nav-centered",
-        "sticky": true,
+        "sticky": false,
         "nav_items_border": false,
         "drawer_layer": false,
         "logo": "shopify://shop_images/UMS_Logo.png",
