@@ -156,31 +156,32 @@
                     <span class="product__sticky-cart--price">
                       {%- render 'price', product: product_sticky -%}
                     </span>
-                    {%- if product_sticky.options.size > 0 -%}
-                      {%- for option in product_sticky.options -%}
-                        {% assign option_handle = option | handleize %}
-                        {% unless option_handle contains 'default' %}
-                          <span class="product__sticky-cart--separator"></span>
-                          <span class="product__sticky-cart--opt-label">{{- option -}}</span>
-                        {% endunless %}
-                      {%- endfor -%}
+                    {%- assign sticky_size_val = '' -%}
+                    {%- for option in product.options_with_values -%}
+                      {%- assign opt_down = option.name | downcase -%}
+                      {%- if opt_down contains 'size' -%}
+                        {%- assign sticky_size_val = option.selected_value -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- if sticky_size_val == blank and product_sticky.title != blank and product_sticky.title != 'Default Title' -%}
+                      {%- assign sticky_size_val = product_sticky.title -%}
+                    {%- endif -%}
+                    {%- if sticky_size_val != blank -%}
+                      <span class="product__sticky-cart--separator">&bull;</span>
+                      <span class="product__sticky-cart--size-badge js-sticky-selected-size">{{- sticky_size_val -}}</span>
                     {%- endif -%}
                   </div>
                 </div>
               </div>
               <div class="product__sticky-cart--action">
-                {%- assign button_attr = 'form="' | append: 'product-form-' | append: section.id | append: '"' -%}
-                {%- assign value = 'product.sold_out' | t -%}
-                {%- assign disabled = true -%}
-                {%- if product_sticky.available -%}
-                  {%- assign value = 'theme.actions.add_to_cart' | t -%}
-                  {%- assign disabled = false -%}
-                {%- endif -%}
-                {%- capture value -%}
+                {%- assign value = 'theme.actions.add_to_cart' | t -%}
+                {%- unless product_sticky.available -%}
+                  {%- assign value = 'product.sold_out' | t -%}
+                {%- endunless -%}
+                <button type="submit" name="add" form="product-form-{{ section.id }}" class="button product-bar__submit" {% unless product_sticky.available %}disabled{% endunless %}>
                   {% render 'icon', icon_name: 'theme-bag-add' %}
-                  <span>{{- value -}}</span>
-                {%- endcapture -%}
-                {%- render 'button', type: 'submit', name: 'add', style: 'solid', value: value, class: 'button product-bar__submit', disabled: disabled, attr: button_attr %}
+                  <span class="sticky-cart-btn-text">{{- value -}}</span>
+                </button>
               </div>
           </div>
           <script type="text/javascript">
@@ -210,12 +211,22 @@
                   if (mainPrice && stickyPrice) {
                     stickyPrice.innerHTML = mainPrice.innerHTML;
                   }
+                  const sizeVal = document.querySelector('[data-selected-delivery-val]');
+                  const sizeBadge = stickyCart.querySelector('.js-sticky-selected-size');
+                  if (sizeVal && sizeBadge) {
+                    sizeBadge.textContent = sizeVal.textContent;
+                  }
                 };
                 if (typeof subscribe !== "undefined" && typeof PUB_SUB_EVENTS !== "undefined") {
                   subscribe(PUB_SUB_EVENTS.optionValueSelectionChange, () => {
                     setTimeout(syncStickyCart, 300);
                   });
                 }
+                document.addEventListener('change', (e) => {
+                  if (e.target && e.target.matches('.product-option__input')) {
+                    setTimeout(syncStickyCart, 100);
+                  }
+                });
               }
 
               if (document.readyState === "loading") {

@@ -21,16 +21,16 @@
       {%- when 'title' -%}
         {%- if product.vendor != blank -%}
           <div class="product__vendor-line">
-            <a href="{{ product.vendor | url_for_vendor }}" class="product__vendor-badge">{{ product.vendor }}</a>
-            {%- if current_variant.sku != blank -%}
-              <span class="product__sku-tag">SKU: {{ current_variant.sku }}</span>
-            {%- endif -%}
+            <a href="{{ product.vendor | url_for_vendor }}" class="product__vendor-link">{{ product.vendor | upcase }}</a>
           </div>
         {%- endif -%}
         {%- assign product_block_class = 'product__title' | append: ' ' | append: product_block_class -%}
         <h1 class="{{ product_block_class }}" {{ block.shopify_attributes }}>
           {{- product.title | escape -}}
         </h1>
+        {%- if current_variant.sku != blank -%}
+          <div class="product__style-code">STYLE CODE: <span class="js-variant-sku">{{ current_variant.sku }}</span></div>
+        {%- endif -%}
       {%- when 'badge' -%}
         {%- assign product_block_class = 'product__badges' | append: ' ' | append: product_block_class -%}
         <div class="{{ product_block_class }}" {{ block.shopify_attributes }}>
@@ -238,21 +238,109 @@
                 </script>
               {%- endif -%}
 
-              <!-- Line 2: Snapmint EMI Banner (Full Width) -->
+              <!-- Line 2: Dawntown-Style Dual Payment Option Cards -->
               {%- if current_variant.price > 0 -%}
                 {%- assign emi_amount = current_variant.price | divided_by: 4 | money_without_trailing_zeros | remove: 'Rs.' | remove: '₹' | strip -%}
-                <div class="product__snapmint-banner" data-snapmint-product-widget>
-                  <div class="product__snapmint-content">
-                    <div class="product__snapmint-line1">
-                      <span class="snapmint-tag">NEW</span>
-                      <span class="product__snapmint-main-text">OR <strong>₹{{ emi_amount }}</strong>/MONTH (4 MONTHS)</span>
+                {%- assign cod_amount = current_variant.price | times: 30 | divided_by: 100 | money_without_trailing_zeros | remove: 'Rs.' | remove: '₹' | strip -%}
+                {%- assign rest_amount = current_variant.price | times: 70 | divided_by: 100 | money_without_trailing_zeros | remove: 'Rs.' | remove: '₹' | strip -%}
+
+                <div class="product__dawntown-cards">
+                  <!-- Card 1: Partial COD Card -->
+                  <div class="product__dt-card product__dt-card--cod">
+                    <div class="product__dt-card--left">
+                      <div class="product__dt-card--brand">
+                        <span class="dt-brand-title">UNMATCHED</span>
+                        <span class="dt-brand-sub">PARTIAL COD</span>
+                      </div>
+                      <div class="product__dt-card--content">
+                        <div class="dt-line1">
+                          <strong class="dt-green-val">₹ {{ cod_amount }} NOW</strong>
+                          <span class="dt-sep">|</span>
+                          <span class="dt-rest">REST ON DELIVERY</span>
+                        </div>
+                        <div class="dt-line2">PAY 30% NOW &bull; 70% CASH ON DELIVERY</div>
+                      </div>
                     </div>
-                    <div class="product__snapmint-line2">
-                      <span>0% EMI ON <span class="snapmint-upi-logo">UPI</span> &bull; <strong>snapmint</strong></span>
+                    <button type="button" class="product__dt-card--btn js-cod-breakup-open">VIEW BREAKUP</button>
+                  </div>
+
+                  <!-- Card 2: Pay Later / Snapmint Card -->
+                  <div class="product__dt-card product__dt-card--emi" data-snapmint-product-widget>
+                    <span class="dt-card-badge-new">NEW</span>
+                    <div class="product__dt-card--left">
+                      <div class="product__dt-card--brand">
+                        <span class="dt-brand-title">UNMATCHED</span>
+                        <span class="dt-brand-sub">PAY LATER</span>
+                      </div>
+                      <div class="product__dt-card--content">
+                        <div class="dt-line1">
+                          <strong class="dt-green-val">₹{{ emi_amount }}/MONTH</strong>
+                          <span class="dt-sep">|</span>
+                          <span class="dt-rest">3/6 EMI AVAILABLE</span>
+                        </div>
+                        <div class="dt-line2">
+                          <span>UPI &bull; CARDS ACCEPTED &bull; <strong>snapmint</strong></span>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="product__dt-card--btn js-snapmint-modal-trigger">BUY ON EMI</button>
+                  </div>
+                </div>
+
+                <!-- Partial COD Breakup Modal -->
+                <div id="CodBreakupModal-{{ section.id }}" class="dt-modal-overlay" style="display:none;" aria-hidden="true">
+                  <div class="dt-modal-card">
+                    <div class="dt-modal-header">
+                      <h3>Partial COD Details</h3>
+                      <button type="button" class="dt-modal-close js-cod-breakup-close" aria-label="Close">&times;</button>
+                    </div>
+                    <div class="dt-modal-body">
+                      <div class="dt-breakup-row">
+                        <span>Total Product Price:</span>
+                        <strong>₹ {{ current_variant.price | money_without_trailing_zeros | remove: 'Rs.' | remove: '₹' | strip }}</strong>
+                      </div>
+                      <div class="dt-breakup-row highlight">
+                        <span>Pay 30% Online Advance:</span>
+                        <strong class="dt-green-val">₹ {{ cod_amount }}</strong>
+                      </div>
+                      <div class="dt-breakup-row">
+                        <span>Pay 70% Cash On Delivery:</span>
+                        <strong>₹ {{ rest_amount }}</strong>
+                      </div>
+                      <p class="dt-breakup-note">
+                        Pay 30% advance now securely via UPI or Card to confirm your order. The remaining 70% can be paid in cash or via UPI when the courier delivers the package to your doorstep!
+                      </p>
                     </div>
                   </div>
-                  <button type="button" class="product__snapmint-btn js-snapmint-modal-trigger">BUY ON EMI</button>
                 </div>
+
+                <script type="text/javascript">
+                  (function() {
+                    const priceBlock = document.getElementById('price-{{ section.id }}');
+                    if (!priceBlock) return;
+                    const openBtn = priceBlock.querySelector('.js-cod-breakup-open');
+                    const modal = document.getElementById('CodBreakupModal-{{ section.id }}');
+                    if (!openBtn || !modal) return;
+                    const closeBtn = modal.querySelector('.js-cod-breakup-close');
+
+                    openBtn.addEventListener('click', () => {
+                      modal.style.display = 'flex';
+                      modal.setAttribute('aria-hidden', 'false');
+                    });
+                    if (closeBtn) {
+                      closeBtn.addEventListener('click', () => {
+                        modal.style.display = 'none';
+                        modal.setAttribute('aria-hidden', 'true');
+                      });
+                    }
+                    modal.addEventListener('click', (e) => {
+                      if (e.target === modal) {
+                        modal.style.display = 'none';
+                        modal.setAttribute('aria-hidden', 'true');
+                      }
+                    });
+                  })();
+                </script>
               {%- endif -%}
           {%- else -%}
             {%- render 'price', product: product, use_variant: true -%}
