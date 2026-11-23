@@ -1,4 +1,5 @@
 {{- 'section-product.aio.min.css' | asset_url | stylesheet_tag -}}
+{{- 'section-product.css' | asset_url | stylesheet_tag -}}
 
 <script src="{{- 'product-set-recently-viewed.js' | asset_url -}}" defer="defer"></script>
 
@@ -152,10 +153,10 @@
                 <div class="product__sticky-cart--info-text">
                   <h5 class="product__title">{{- product.title -}}</h5>
                   <div>
+                    <span class="product__sticky-cart--price">
+                      {%- render 'price', product: product_sticky -%}
+                    </span>
                     {%- if product_sticky.options.size > 0 -%}
-                      <span class="product__sticky-cart--price">
-                        {%- render 'price', product: product_sticky -%}
-                      </span>
                       {%- for option in product_sticky.options -%}
                         {% assign option_handle = option | handleize %}
                         {% unless option_handle contains 'default' %}
@@ -183,46 +184,36 @@
               </div>
           </div>
           <script type="text/javascript">
-            const observerTarget = document.querySelector(".product-form__buttons");
-            let lastScrollY = window.scrollY;
-            let isScrollingDown = true;
+            (function() {
+              function initStickyCart() {
+                const observerTarget = document.querySelector(".product-form__buttons");
+                const stickyCart = document.getElementById("ProductStickyCart-{{ section.id }}");
+                if (!observerTarget || !stickyCart) return;
 
-            let callback = (entries, observer) => {
-              entries.forEach((entry) => {
-                let currentScrollY = window.scrollY;
-                isScrollingDown = currentScrollY > lastScrollY;
-                lastScrollY = currentScrollY;
-
-                /* shopify design mode is causing the sticky cart to show when it shouldn't */
-                if (isScrollingDown) {
-                  if (!entry.isIntersecting && window.innerWidth >= 750 && !Shopify.designMode) {
-                    document.querySelector(".product__sticky-cart").classList.remove("is-hidden");
-                  } else if (!entry.isIntersecting && window.innerWidth < 750 && window.scrollY > window.innerHeight && !Shopify.designMode) {
-                    document.querySelector(".product__sticky-cart").classList.remove("is-hidden");
+                const updateStickyCart = () => {
+                  const rect = observerTarget.getBoundingClientRect();
+                  if (rect.bottom < 0) {
+                    stickyCart.classList.remove("is-hidden");
                   } else {
-                    document.querySelector(".product__sticky-cart").classList.add("is-hidden");
+                    stickyCart.classList.add("is-hidden");
                   }
-                } else { // Yukarı kaydırma
-                  if (entry.isIntersecting) {
-                    document.querySelector(".product__sticky-cart").classList.add("is-hidden");
-                  }
-                }
-              });
-            };
+                };
 
-            let observer = new IntersectionObserver(callback, { threshold: .8 });
+                window.addEventListener("scroll", updateStickyCart, { passive: true });
+                window.addEventListener("resize", updateStickyCart, { passive: true });
+                updateStickyCart();
+              }
 
-            document.addEventListener("DOMContentLoaded", initStickyCart);
-            if (Shopify.designMode) {
-              document.addEventListener("shopify:section:load", initStickyCart);
-              document.addEventListener("shopify:section:unload", () => {
-                observer.unobserve(observerTarget);
-              });
-            }
+              if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", initStickyCart);
+              } else {
+                initStickyCart();
+              }
 
-            function initStickyCart() {
-              observer.observe(observerTarget);
-            }
+              if (typeof Shopify !== "undefined" && Shopify.designMode) {
+                document.addEventListener("shopify:section:load", initStickyCart);
+              }
+            })();
           </script>
         </div>
       {% endif %}
