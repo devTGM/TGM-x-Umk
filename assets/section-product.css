@@ -426,15 +426,20 @@
 
 /* Circular Logo Badge */
 .dt-brand-badge {
-  width: 48px !important;
-  height: 48px !important;
-  border: 1.5px solid #111111 !important;
-  border-radius: 50% !important;
-  background: #ffffff !important;
+  width: 56px !important;
+  height: 56px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   margin-bottom: 0.8rem !important;
+  background: transparent !important;
+}
+.dt-brand-badge .dt-brand-logo-img {
+  width: 56px !important;
+  height: 56px !important;
+  display: block !important;
+  border-radius: 50% !important;
+  object-fit: contain !important;
 }
 .dt-brand-badge span {
   font-size: 1.6rem !important;

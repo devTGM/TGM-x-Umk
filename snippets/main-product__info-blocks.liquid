@@ -267,9 +267,16 @@
                     <div class="dt-paylater-modal-body">
                       <button type="button" class="dt-modal-close-btn js-snapmint-modal-close" onclick="window.closeSnapmintModal(event)" aria-label="Close modal">&times;</button>
 
-                      <!-- Circular Logo Badge (Like Dawntown DT) -->
+                      <!-- Circular Logo Badge (Official Unmatched Supply Logo) -->
                       <div class="dt-brand-badge">
-                        <span>UK</span>
+                        <img 
+                          src="{{ 'unmatched-supply-badge.png' | asset_url }}" 
+                          alt="{{ shop.name | default: 'Unmatched Supply' | escape }}" 
+                          class="dt-brand-logo-img" 
+                          width="56" 
+                          height="56" 
+                          loading="eager"
+                        >
                       </div>
 
                       <div class="dt-modal-title">UNMATCHED PAY LATER</div>
