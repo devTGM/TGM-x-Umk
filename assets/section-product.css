@@ -49,28 +49,7 @@
   }
 }
 
-/* 2. Vendor Link Above Title */
-.product__vendor-line {
-  display: flex !important;
-  align-items: center !important;
-  gap: 1.2rem !important;
-  margin-bottom: 0.6rem !important;
-}
-.product__vendor-link {
-  font-size: 1.25rem !important;
-  font-weight: 800 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.08em !important;
-  color: #111111 !important;
-  text-decoration: underline !important;
-  text-underline-offset: 4px !important;
-  transition: opacity 0.2s ease !important;
-}
-.product__vendor-link:hover {
-  opacity: 0.7 !important;
-}
-
-/* 3. Product Title */
+/* 2. Product Title */
 .product__content .product__title,
 .product-grid__item--content h1.product__title {
   font-family: inherit !important;
