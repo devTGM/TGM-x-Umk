@@ -19,6 +19,14 @@
         {%- assign product_block_class = 'product__divider' | append: ' ' | append: product_block_class -%}
         <hr class="{{ product_block_class }}" {{ block.shopify_attributes }}>
       {%- when 'title' -%}
+        {%- if product.vendor != blank -%}
+          <div class="product__vendor-line">
+            <a href="{{ product.vendor | url_for_vendor }}" class="product__vendor-badge">{{ product.vendor }}</a>
+            {%- if current_variant.sku != blank -%}
+              <span class="product__sku-tag">SKU: {{ current_variant.sku }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
         {%- assign product_block_class = 'product__title' | append: ' ' | append: product_block_class -%}
         <h1 class="{{ product_block_class }}" {{ block.shopify_attributes }}>
           {{- product.title | escape -}}

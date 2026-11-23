@@ -29,7 +29,7 @@
         "1e0c79e9-7de0-4eee-b9c5-f27132635fb8": {
           "type": "title",
           "settings": {
-            "heading_size": "h6",
+            "heading_size": "h3",
             "spacing_bottom": "1"
           }
         },
@@ -37,7 +37,7 @@
           "type": "price",
           "settings": {
             "spacing_bottom": "1",
-            "show_price_tax_info": true,
+            "show_price_tax_info": false,
             "show_price_shipping_info": false,
             "show_price_custom_info": ""
           }
@@ -235,7 +235,8 @@
         },
         "selleasy_lb_upsell_widget_bac_bdy8FF": {
           "type": "shopify://apps/selleasy/blocks/lb-upsell-widget-bac/790c1a03-a71f-4bc1-9869-00dad526d3c2",
-          "settings": {}
+          "settings": {},
+          "disabled": true
         },
         "content_tabs_product_info": {
           "type": "content_tabs",
