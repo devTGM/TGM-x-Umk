@@ -31,6 +31,50 @@
   #shopify-section-{{ section.id }} .countdown-timer__message {
     font-weight: {{ section.settings.font_weight }};
   }
+
+  /* Compact Mobile Announcement Bar Height & Layout */
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .announcement-bar {
+      padding: 0.5rem 1rem !important;
+      min-height: 32px !important;
+    }
+    #shopify-section-{{ section.id }} .announcement-bar__wrapper {
+      min-height: auto !important;
+      gap: 0 !important;
+    }
+    #shopify-section-{{ section.id }} .announcement-bar p,
+    #shopify-section-{{ section.id }} .announcement-bar ul,
+    #shopify-section-{{ section.id }} .announcement-bar ol,
+    #shopify-section-{{ section.id }} .announcement-bar li {
+      margin: 0 !important;
+      padding: 0 !important;
+      list-style: none !important;
+      display: inline !important;
+      line-height: 1.25 !important;
+    }
+    #shopify-section-{{ section.id }} .announcement-bar__text-content {
+      font-size: 1.1rem !important;
+      line-height: 1.25 !important;
+      letter-spacing: 0.03em !important;
+      text-align: center !important;
+      justify-content: center !important;
+      margin: 0 auto !important;
+    }
+    #shopify-section-{{ section.id }} .announcement-bar__slider {
+      width: 100% !important;
+      margin: 0 auto !important;
+    }
+    #shopify-section-{{ section.id }} .announcement-bar__slider .swiper-slide {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    #shopify-section-{{ section.id }} .announcement-bar .icon svg {
+      width: 1.3rem !important;
+      height: 1.3rem !important;
+      margin-inline-end: 0.4rem !important;
+    }
+  }
   {%- if section.settings.text_block_behaviour == 'marquee' -%}
     #shopify-section-{{ section.id }} > div {
       --marquee-duration: {{ marquee_duration | times: 1 }}s;
