@@ -226,33 +226,25 @@
   }
 }
 
-/* 7. Dawntown Dual Payment Cards (Line 2: Full Width directly beneath Line 1 Price) */
-.product__dawntown-cards {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 0.8rem !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  clear: both !important;
-}
-
-.product__dt-card {
+/* 7. Line 2: Snapmint Pay Later Card (Full Width directly beneath Line 1 Price) */
+.product__snapmint-card {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   width: 100% !important;
-  min-height: 48px !important;
+  max-width: 100% !important;
+  min-height: 50px !important;
   background: #ffffff !important;
   border: 1px solid #111111 !important;
   border-radius: 6px !important;
-  padding: 0.8rem 1.2rem !important;
+  padding: 0.8rem 1.4rem !important;
   position: relative !important;
   box-sizing: border-box !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  clear: both !important;
 }
 
-.product__dt-card--left {
+.product__snapmint-card--left {
   display: flex !important;
   align-items: center !important;
   gap: 1.2rem !important;
@@ -260,17 +252,17 @@
   overflow: hidden !important;
 }
 
-.product__dt-card--brand {
+.product__snapmint-card--brand {
   display: flex !important;
   flex-direction: column !important;
   line-height: 1 !important;
   border-right: 1px solid #e0e0e0 !important;
-  padding-right: 1rem !important;
+  padding-right: 1.2rem !important;
   flex-shrink: 0 !important;
 }
 
 .dt-brand-title {
-  font-size: 0.9rem !important;
+  font-size: 0.95rem !important;
   font-weight: 800 !important;
   letter-spacing: 0.06em !important;
   color: #111111 !important;
@@ -284,7 +276,7 @@
   margin-top: 2px !important;
 }
 
-.product__dt-card--content {
+.product__snapmint-card--content {
   display: flex !important;
   flex-direction: column !important;
   gap: 2px !important;
@@ -296,7 +288,7 @@
   display: flex !important;
   align-items: center !important;
   gap: 6px !important;
-  font-size: 1.2rem !important;
+  font-size: 1.25rem !important;
   font-weight: 700 !important;
   color: #111111 !important;
   white-space: nowrap !important;
@@ -319,28 +311,28 @@
 }
 
 .dt-line2 {
-  font-size: 1.05rem !important;
+  font-size: 1.1rem !important;
   color: #71717a !important;
   white-space: nowrap !important;
   line-height: 1.2 !important;
 }
 
-.product__dt-card--btn {
+.product__snapmint-card--btn {
   background: #111111 !important;
   color: #ffffff !important;
   border: none !important;
   border-radius: 4px !important;
-  font-size: 1.1rem !important;
+  font-size: 1.15rem !important;
   font-weight: 800 !important;
   letter-spacing: 0.05em !important;
-  padding: 0.6rem 1.2rem !important;
+  padding: 0.7rem 1.4rem !important;
   text-transform: uppercase !important;
   cursor: pointer !important;
   white-space: nowrap !important;
   flex-shrink: 0 !important;
   transition: background 0.2s ease, transform 0.15s ease !important;
 }
-.product__dt-card--btn:hover {
+.product__snapmint-card--btn:hover {
   background: #000000 !important;
   transform: translateY(-1px) !important;
 }
@@ -361,18 +353,17 @@
 }
 
 @media screen and (max-width: 480px) {
-  .product__dt-card {
+  .product__snapmint-card {
     padding: 0.7rem 0.9rem !important;
   }
-  .product__dt-card--brand {
-    padding-right: 0.6rem !important;
-    gap: 1px !important;
+  .product__snapmint-card--brand {
+    padding-right: 0.8rem !important;
   }
-  .product__dt-card--left {
+  .product__snapmint-card--left {
     gap: 0.8rem !important;
   }
   .dt-line1 {
-    font-size: 1.1rem !important;
+    font-size: 1.15rem !important;
     gap: 4px !important;
   }
   .dt-rest {
@@ -381,86 +372,13 @@
   .dt-line2 {
     font-size: 0.95rem !important;
   }
-  .product__dt-card--btn {
-    font-size: 0.95rem !important;
-    padding: 0.5rem 0.8rem !important;
+  .product__snapmint-card--btn {
+    font-size: 1rem !important;
+    padding: 0.55rem 0.9rem !important;
   }
 }
 
-/* 8. Partial COD Breakup Modal */
-.dt-modal-overlay {
-  position: fixed !important;
-  inset: 0 !important;
-  background: rgba(0, 0, 0, 0.6) !important;
-  backdrop-filter: blur(4px) !important;
-  z-index: 99999 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 1.6rem !important;
-}
-.dt-modal-card {
-  background: #ffffff !important;
-  border-radius: 12px !important;
-  max-width: 460px !important;
-  width: 100% !important;
-  padding: 2.4rem !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
-  position: relative !important;
-}
-.dt-modal-header {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  border-bottom: 1px solid #f0f0f0 !important;
-  padding-bottom: 1.2rem !important;
-  margin-bottom: 1.6rem !important;
-}
-.dt-modal-header h3 {
-  font-size: 1.8rem !important;
-  font-weight: 800 !important;
-  color: #111111 !important;
-  margin: 0 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.04em !important;
-}
-.dt-modal-close {
-  background: none !important;
-  border: none !important;
-  font-size: 2.8rem !important;
-  line-height: 1 !important;
-  cursor: pointer !important;
-  color: #888888 !important;
-  padding: 0 !important;
-}
-.dt-breakup-row {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  font-size: 1.4rem !important;
-  padding: 0.8rem 0 !important;
-  border-bottom: 1px dashed #f0f0f0 !important;
-  color: #333333 !important;
-}
-.dt-breakup-row.highlight {
-  background: rgba(22, 163, 74, 0.08) !important;
-  border-radius: 6px !important;
-  padding: 1rem !important;
-  border-bottom: none !important;
-  margin: 0.6rem 0 !important;
-}
-.dt-breakup-note {
-  font-size: 1.2rem !important;
-  color: #666666 !important;
-  line-height: 1.5 !important;
-  margin-top: 1.6rem !important;
-  margin-bottom: 0 !important;
-  background: #fafafa !important;
-  padding: 1.2rem !important;
-  border-radius: 6px !important;
-}
-
-/* 9. Size Selector & Delivery Subline (Dawntown Style) */
+/* 8. Size Selector & Delivery Subline (Dawntown Style) */
 .product-form__input .form__label,
 .product__variant-options legend.form__label {
   font-size: 1.3rem !important;
@@ -539,7 +457,7 @@
   font-weight: 700 !important;
 }
 
-/* 10. Dawntown Signature Dual Action Buttons (Side-by-Side: Black Add to Cart + Emerald Green Buy Now) */
+/* 9. Dawntown Signature Dual Action Buttons (Side-by-Side: Black Add to Cart + Emerald Green Buy Now) */
 .product-form__buttons {
   display: flex !important;
   flex-direction: row !important;
@@ -602,7 +520,7 @@
   transform: translateY(-1px) !important;
 }
 
-/* 11. Product Tabs (<product-tabs>) */
+/* 10. Product Tabs (<product-tabs>) */
 .product-tabs {
   border-top: 1px solid #e8e8e8 !important;
   padding-top: 2rem !important;
@@ -648,7 +566,7 @@
   color: #333333 !important;
 }
 
-/* 12. Trust Badges Grid (100% Authentic, Instant Ship, etc.) */
+/* 11. Trust Badges Grid (100% Authentic, Instant Ship, etc.) */
 .product__content-grid {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
@@ -685,7 +603,7 @@
   }
 }
 
-/* 13. Mobile Sticky Bottom Bar (Clean, Aesthetic, Luxurious) */
+/* 12. Mobile Sticky Bottom Bar (Clean, Aesthetic, Luxurious) */
 .product__sticky-cart {
   position: fixed !important;
   inset-block-start: auto !important;
