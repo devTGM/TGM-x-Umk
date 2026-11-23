@@ -157,14 +157,21 @@
 </script>
 
 <style>
-  .shiprocket-headless{
-    width:100% ;
+  .shiprocket-headless {
+    width: 100% !important;
   }
-  .shiprocket-headless[data-type="product"] {
-    width:115% !important;
+  .shiprocket-headless[data-type="product"],
+  [data-type="product"].shiprocket-headless {
+    width: 100% !important;
+    max-width: 100% !important;
   }
-  .product-form__buttons{
-   grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  .shiprocket-headless button,
+  .shiprocket-headless[data-type="product"] button,
+  #sr-buy-button,
+  .fastrr-btn {
+    border-radius: 6px !important;
+    height: 50px !important;
+    min-height: 50px !important;
   }
 </style>
 

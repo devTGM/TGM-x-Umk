@@ -414,67 +414,157 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* 9. Dawntown Signature Dual Action Buttons (Side-by-Side: Black Add to Cart + Emerald Green Buy Now) */
+/* 9. PDP Action Buttons & Quantity Selector */
 .product-form__buttons {
   display: flex !important;
   flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: stretch !important;
   gap: 1.2rem !important;
   margin-bottom: 2.8rem !important;
   width: 100% !important;
 }
-.product-form__buttons .product-selector__quantity {
-  display: none !important;
+
+/* Quantity Selector: Sleek Streetwear Box */
+.product-form__buttons .product-form__quantity {
+  display: block !important;
+  flex: 0 0 115px !important;
+  width: 115px !important;
+  max-width: 115px !important;
+  margin: 0 !important;
 }
+.product-form__buttons .product-selector__quantity {
+  display: block !important;
+  width: 100% !important;
+  height: 50px !important;
+}
+.product-form__buttons quantity-input-dawn,
+.product-form__buttons .quantity {
+  display: block !important;
+  width: 100% !important;
+  height: 50px !important;
+}
+.product-form__buttons .quantity__wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  height: 50px !important;
+  background: #f7f7f7 !important;
+  border: 1px solid #e2e2e2 !important;
+  border-radius: 6px !important;
+  padding: 0 4px !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.2s ease !important;
+}
+.product-form__buttons .quantity__wrapper:hover,
+.product-form__buttons .quantity__wrapper:focus-within {
+  border-color: #111111 !important;
+}
+.product-form__buttons .quantity__button {
+  width: 34px !important;
+  height: 42px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  color: #111111 !important;
+  padding: 0 !important;
+  transition: opacity 0.15s ease !important;
+}
+.product-form__buttons .quantity__button:hover {
+  opacity: 0.7 !important;
+}
+.product-form__buttons .quantity__button svg {
+  width: 13px !important;
+  height: 13px !important;
+  stroke: #111111 !important;
+  fill: #111111 !important;
+}
+.product-form__buttons .quantity__input {
+  flex: 1 !important;
+  width: 36px !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  text-align: center !important;
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  color: #111111 !important;
+  border: none !important;
+  background: transparent !important;
+  outline: none !important;
+  padding: 0 !important;
+  -moz-appearance: textfield !important;
+}
+.product-form__buttons .quantity__input::-webkit-outer-spin-button,
+.product-form__buttons .quantity__input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+/* ADD TO CART Button */
 .product-form__buttons .product-form__submit {
-  flex: 1 1 50% !important;
-  width: 50% !important;
+  flex: 1 1 0 !important;
+  min-width: 180px !important;
   min-height: 50px !important;
   height: 50px !important;
   background: #111111 !important;
   color: #ffffff !important;
-  border: none !important;
+  border: 1px solid #111111 !important;
   border-radius: 6px !important;
   font-size: 1.35rem !important;
   font-weight: 800 !important;
-  letter-spacing: 0.06em !important;
+  letter-spacing: 0.08em !important;
   text-transform: uppercase !important;
   cursor: pointer !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12) !important;
-  transition: background-color 0.2s ease, transform 0.15s ease !important;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease !important;
+  margin: 0 !important;
 }
 .product-form__buttons .product-form__submit:hover {
   background: #000000 !important;
   transform: translateY(-1px) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18) !important;
 }
-.shopify-payment-button {
-  flex: 1 1 50% !important;
-  width: 50% !important;
+
+/* BUY NOW / Shiprocket Button & Payment Button */
+.product-form__buttons .shopify-payment-button,
+.product-form__buttons .shiprocket-headless,
+.product-form__buttons .shiprocket-headless[data-type="product"],
+.product-form__buttons [data-type="product"].shiprocket-headless {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
   margin: 0 !important;
 }
-.shopify-payment-button button,
-.shopify-payment-button .shopify-payment-button__button--unbranded {
+.product-form__buttons .shopify-payment-button button,
+.product-form__buttons .shopify-payment-button .shopify-payment-button__button--unbranded,
+.product-form__buttons .shiprocket-headless button,
+.product-form__buttons .shiprocket-headless [data-type="product"] button,
+.product-form__buttons #shiprocket-headless button,
+.product-form__buttons .fastrr-btn,
+.product-form__buttons #sr-buy-button {
   width: 100% !important;
   min-height: 50px !important;
   height: 50px !important;
-  background: #16a34a !important;
-  color: #ffffff !important;
-  border: none !important;
   border-radius: 6px !important;
   font-size: 1.35rem !important;
   font-weight: 800 !important;
   letter-spacing: 0.06em !important;
   text-transform: uppercase !important;
   cursor: pointer !important;
-  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.25) !important;
-  transition: background-color 0.2s ease, transform 0.15s ease !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12) !important;
+  transition: transform 0.15s ease, opacity 0.2s ease !important;
 }
-.shopify-payment-button button:hover,
-.shopify-payment-button .shopify-payment-button__button--unbranded:hover {
-  background: #15803d !important;
+.product-form__buttons .shopify-payment-button button:hover,
+.product-form__buttons .shiprocket-headless button:hover {
   transform: translateY(-1px) !important;
+  opacity: 0.95 !important;
 }
 
 /* 10. Product Tabs (<product-tabs>) */
