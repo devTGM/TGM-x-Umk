@@ -158,15 +158,27 @@
   <div class="container {{ section.settings.section_width }}">
 
     <div class="header__inner">
-      {%- if linklists[section.settings.menu].links.size > 0 -%}
-        {% assign menu_mobile = linklists[section.settings.menu_mobile] | default: linklists[section.settings.menu] %}
-        {%- render 'navigation-drawer',
-          menu: menu_mobile,
-          submenu: linklists[section.settings.submenu],
-          section: section,
-          append_id: 'header'
-        -%}
+      <div class="header__left-controls{% unless section.settings.layout == 'header--nav-drawer' %} large-up-hide{% endunless %}">
+        {%- if linklists[section.settings.menu].links.size > 0 -%}
+          {% assign menu_mobile = linklists[section.settings.menu_mobile] | default: linklists[section.settings.menu] %}
+          {%- render 'navigation-drawer',
+            menu: menu_mobile,
+            submenu: linklists[section.settings.submenu],
+            section: section,
+            append_id: 'header'
+          -%}
+        {%- endif -%}
+        <button
+          type="button"
+          class="header__utils-link header__mobile-search-btn text-link{% if section.settings.layout == 'header--nav-drawer' %} large-up-hide{% endif %}"
+          aria-label="{{- 'search.heading' | t -}}"
+          onclick="var nb=document.querySelector('header-drawer details[open]')?document.getElementById('Navigation-drawer-button-header'):null;if(nb)nb.click();var sb=document.getElementById('Search-drawer-button-header');if(sb)sb.click();"
+        >
+          {%- render 'icon', icon_name: 'theme-search', class: 'header__utils-link--icon text-link--on-hover' -%}
+        </button>
+      </div>
 
+      {%- if linklists[section.settings.menu].links.size > 0 -%}
         {%- capture header_nav -%}
           <nav class="header__nav small-hide medium-hide js-nav">
             <ul class="header__nav-items list-unstyled js-mega-menu">
