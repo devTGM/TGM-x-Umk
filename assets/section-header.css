@@ -23,49 +23,30 @@
     justify-self: end !important;
     min-width: 0 !important;
   }
-  .header__mobile-search-btn {
+  .header__mobile-account-link {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background: transparent !important;
-    border: none !important;
     padding: 0 !important;
     margin: 0 !important;
     color: inherit !important;
-    cursor: pointer !important;
     width: 2.4rem !important;
     height: 2.4rem !important;
   }
-  .header__mobile-search-btn .icon,
-  .header__mobile-search-btn svg {
+  .header__mobile-account-link .icon,
+  .header__mobile-account-link svg {
     width: 2.4rem !important;
     height: 2.4rem !important;
     display: block !important;
   }
-  .header__utils-item--search {
-    min-width: 0 !important;
-    width: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    flex: 0 0 0 !important;
-  }
-  .header__utils-item--search > search-drawer > details > summary.drawer__button {
-    width: 0 !important;
-    height: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    position: static !important;
-  }
-  .header__utils-item--search > search-drawer > details > summary.drawer__button > * {
+  .header__utils-item--account {
     display: none !important;
   }
   .header__utils-items {
     margin-inline: 0 !important;
     gap: 0.6rem !important;
   }
-  .header__utils-item:not(.header__utils-item--search) {
+  .header__utils-item:not(.header__utils-item--account) {
     min-width: auto !important;
     padding: 0.2rem !important;
   }
@@ -81,9 +62,9 @@
     gap: 1rem !important;
   }
   .header__drawer > .drawer__container > .drawer__button,
-  .header__mobile-search-btn,
-  .header__mobile-search-btn .icon,
-  .header__mobile-search-btn svg,
+  .header__mobile-account-link,
+  .header__mobile-account-link .icon,
+  .header__mobile-account-link svg,
   .header__utils-link--icon svg {
     width: 2.1rem !important;
     height: 2.1rem !important;
